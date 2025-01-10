@@ -1,0 +1,154 @@
+.AddHotel {
+  .content {
+    form {
+      .Product {
+        .cancel {
+          max-width: 250px;
+          width: 100%;
+          padding: 5px;
+          margin-top: 5px;
+          margin-bottom: 15px;
+          border: 2px solid var(--main-color);
+          border-radius: 4px;
+          background-color: var(--main-color);
+          color: #fff;
+          &:active {
+            background-color: var(--active);
+          }
+        }
+        &_image {
+          width: 100%;
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 15px;
+          margin-bottom: 40px;
+          h2 {
+            color: var(--main-color);
+            font-size: clamp(24px, 3vw, 34px);
+            font-family: 'Playfair Display';
+            font-style: italic;
+          }
+          .images {
+            width: 100%;
+            height: 220px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 30px;
+            overflow-x: auto;
+            &_size {
+              min-width: 200px;
+              width: 200px;
+              height: 200px;
+              position: relative;
+              box-shadow: 0 5px 8px 0 #0000001a;
+              @media (any-hover) {
+                &:hover {
+                  .images__remove,
+                  .editInput {
+                    display: flex;
+                  }
+                }
+              }
+              img {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                object-fit: cover;
+              }
+            }
+            &__remove,
+            .editInput {
+              position: absolute;
+              display: none;
+
+              right: 0;
+
+              width: 28px;
+              height: 28px;
+              z-index: 2;
+
+              border: none;
+              outline: none;
+              background: transparent;
+              svg {
+                width: 24px;
+                height: 24px;
+                color: var(--main-color);
+              }
+              @media (any-hover) {
+                &:hover {
+                  svg {
+                    color: var(--active);
+                    fill: var(--active);
+                  }
+                }
+              }
+            }
+            &__remove {
+              top: 0;
+              margin-left: 5px;
+            }
+
+            input {
+              display: none;
+            }
+
+            .editInput {
+              top: 28px;
+              align-items: center;
+              justify-content: center;
+            }
+
+            &__block {
+              label {
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+                border: 1px solid var(--main-color);
+                border-radius: 4px;
+                padding: 10px 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                  width: 24px;
+                  height: 24px;
+                  transform: rotate(45deg);
+                  color: var(--active);
+                  fill: var(--active);
+                }
+              }
+            }
+          }
+        }
+        &_name {
+          display: grid;
+          grid-template-columns: 23% 23% 23% 23%;
+          align-items: flex-start;
+          gap: 25px;
+          width: 100%;
+          input {
+            width: 100%;
+            height: 45px;
+            outline: none;
+            padding: 10px;
+          }
+          textarea {
+            width: 100%;
+            height: 150px;
+            resize: none;
+            outline: none;
+            border: 1px solid var(--main-color);
+            padding: 10px;
+            margin-bottom: 25px;
+          }
+        }
+      }
+    }
+  }
+}

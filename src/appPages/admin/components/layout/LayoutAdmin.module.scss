@@ -1,0 +1,7 @@
+.LayoutPage {
+	display: grid;
+	grid-template-columns: 20% 75%;
+	justify-content: flex-start;
+	min-height: 100vh;
+	margin: 20px 0;
+}

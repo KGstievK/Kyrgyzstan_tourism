@@ -1,0 +1,14 @@
+.Header {
+  padding-block: 14px;
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+    }
+  }
+}
