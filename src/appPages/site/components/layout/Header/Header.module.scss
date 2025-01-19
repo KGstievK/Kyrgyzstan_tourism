@@ -2,7 +2,7 @@
   width: 100%;
   padding: 20px 0;
   z-index: 10;
-  // background: url('../../../images/Rectangle\ 18.jpg');
+  background: url('../../../../../assets/images/headerImages/header.jpg');
   background-color: #004A60;
   .container {
       display: flex;
@@ -68,24 +68,7 @@
               right: 42px;
           }
       }
-      select {
-          cursor: pointer;
-          appearance: none;
-          -webkit-appearance: none;
-          -moz-appearance: none;    
-          padding: 10px 60px 10px 40px;
-          border: 1px solid #004A60;
-          border-radius: 8px;
-          color: #004A60;
-          background: none;
-          font-family: "Frank Ruhl Libre";
-          font-size: 20px;
-          font-weight: 700;
-          line-height: 25.82px;
-          @media (max-width: 1034px) {
-              font-size: 18px;
-          }
-      }
+     
       button {
           font-family: "Frank Ruhl Libre";
           font-size: 20px;
@@ -140,8 +123,32 @@
           }
       }
   } 
+  select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;    
+    padding: 10px 60px 10px 40px;
+    border: 1px solid #004A60;
+    border-radius: 8px;
+    color: #004A60;
+    background: none;
+    font-family: "Frank Ruhl Libre";
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 25.82px;
+    @media (max-width: 1034px) {
+        font-size: 18px;
+    }
+
+    option {
+        width: 100%;
+    }
+}
 }
 
 .active {
   color: white !important;
 }
+
+

@@ -15,7 +15,6 @@ export const LanguageSelector = ({
       <select
         onChange={(e) => changeLanguage(e.target.value)}
         onClick={() => setIsRotate(!isRotate)}
-        name="lang"
         id={scss.Lang}
         value={lang}
       >
@@ -25,13 +24,13 @@ export const LanguageSelector = ({
           </option>
         ))}
       </select>
-      <img
+      {/* <img
         style={{
           transform: `rotate(${isRotate ? 180 : 0}deg)`,
           transition: "transform 0.1s ease-in-out",
         }}
         // src={down.src}
         alt="arrow down"
-      />
+      /> */}
     </div>
   );
