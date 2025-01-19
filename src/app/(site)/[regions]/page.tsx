@@ -1,9 +1,5 @@
-const page = () => {
-  return (
-    <div>
-      <h1>[Regions]</h1>
-    </div>
-  );
-};
+import Regions from "@/appPages/site/components/pages/regionSections/Region";
+
+const page = () => <Regions />;
 
 export default page;

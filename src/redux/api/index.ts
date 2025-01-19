@@ -1,3 +1,4 @@
+import { LanguageSelector } from './../../appPages/site/components/layout/Header/components/LanguageSelector';
 import {
 	BaseQueryFn,
 	createApi,
@@ -28,6 +29,6 @@ export const api = createApi({
 	baseQuery: baseQueryExtended,
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
-	tagTypes: ['auth'],
+	tagTypes: ['auth', "region", "places", "gallery", "place", "kitchens", 'hotels',"kitchenID"],
 	endpoints: () => ({})
 });

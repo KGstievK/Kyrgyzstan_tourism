@@ -1,14 +1,125 @@
-import scss from './Header.module.scss'
-const Header = () => {
-  return (
-    <header className={scss.Header}>
-      <div className="container">
-        <div className={scss.content}>
-          
-        </div>
-      </div>
-    </header>
-  )
+"use client";
+import Link from "next/link";
+import scss from "./Header.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useWindowSize } from "react-use";
+import { useEffect, useState } from "react";
+// import down from "@/images/down.png";
+import { usePathname } from "next/navigation";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
+import { DesktopNavigation } from "./components/DesktopNavigation";
+import { LanguageSelector } from "./components/LanguageSelector";
+
+// Types
+interface NavItem {
+  name: {
+    ru: string;
+    ar: string;
+    en: string;
+  };
+  path: string;
 }
 
-export default Header
+// Constants
+const REGIONS = [
+  { name: ["Чуй", "شوي", "Chui"], path: "/chui" },
+  { name: ["Ош", "أوش", "Osh"], path: "/osh" },
+  { name: ["Джалал-Абад", "جلال أباد", "Jalal-Abad"], path: "/jalal-abad" },
+  { name: ["Нарын", "نارين", "Naryn"], path: "/naryn" },
+  { name: ["Талас", "تالاس", "Talas"], path: "/talas" },
+  { name: ["Баткен", "باتكين", "Batken"], path: "/batken" },
+  { name: ["Иссык-Куль", "إيسيك كول", "Issyk-Kul"], path: "/issyk-kul" },
+];
+
+const NAV_ITEMS: NavItem[] = [
+  { name: { ru: "Главная", ar: "الرئيسية", en: "Home" }, path: "/" },
+  { name: { ru: "Регионы", ar: "المناطق", en: "Regions" }, path: "" },
+  { name: { ru: "Культура", ar: "الثقافة", en: "Culture" }, path: "/culture" },
+  { name: { ru: "Галерея", ar: "معرض", en: "Gallery" }, path: "/gallery" },
+  { name: { ru: "Маршруты", ar: "الطرق", en: "Routes" }, path: "/routes" },
+];
+
+// Components
+
+const Header = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { width } = useWindowSize();
+  const { t, changeLanguage } = useTranslate();
+  const lang = useSelector<RootState, string>((state) => state.translate.currentLang);
+  const pathname = usePathname();
+
+  const [isShow, setIsShow] = useState(false);
+  const [isRegion, setIsRegion] = useState(false);
+  const [isRegionName, setIsRegionName] = useState("");
+  const [isRotate, setIsRotate] = useState(false);
+
+  useEffect(() => {
+    setIsShow(false);
+    setIsRegion(false);
+  }, [pathname]);
+
+  const isActive = (path: string) => {
+    return path === "/" ? pathname === path : pathname.startsWith(path);
+  };
+
+  return (
+    <header id={scss.Header}>
+      <div className={`${scss.container} container`}>
+        <div className={scss.logo}>LOGO</div>
+        
+        {width > 834 ? (
+          <>
+            <DesktopNavigation
+              navItems={NAV_ITEMS}
+              regions={REGIONS}
+              isActive={isActive}
+              isRegion={isRegion}
+              setIsRegion={setIsRegion}
+              isRegionName={isRegionName}
+              setIsRegionName={setIsRegionName}
+              t={t}
+            />
+            <div className={scss.block}>
+              <LanguageSelector
+                lang={lang}
+                changeLanguage={changeLanguage}
+                isRotate={isRotate}
+                setIsRotate={setIsRotate}
+              />
+              <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={scss.block2}>
+              <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+              <img
+                onClick={() => setIsShow(!isShow)}
+                src="images/Vector.png"
+                alt="menu-burger"
+              />
+            </div>
+            {isShow && (
+              <div className={scss.modal}>
+                <nav>
+                  {NAV_ITEMS.map((item) => (
+                    <Link
+                      key={item.path}
+                      href={item.path}
+                      className={isActive(item.path) ? scss.active : ""}
+                    >
+                      {t(item.name.ru, item.name.ar, item.name.en)}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </header>
+  );
+};
+
+export default Header;

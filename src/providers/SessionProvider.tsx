@@ -21,7 +21,6 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
 					navigate('/');
 				}
 				break;
-			case '/':
 			case '/chats':
 			case '/notifications':
 			case '/settings':
