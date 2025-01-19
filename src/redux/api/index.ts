@@ -1,12 +1,17 @@
-import { LanguageSelector } from './../../appPages/site/components/layout/Header/components/LanguageSelector';
 import {
 	BaseQueryFn,
 	createApi,
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react';
 
+
+	
+const getLanguage = (): string => {
+	return localStorage.getItem('lang') || 'en';
+};
+
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${process.env.NEXT_PUBLIC_API_URL}`,
+	baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/${getLanguage()}`,
 	prepareHeaders: (headers) => {
 		let token = JSON.parse(String(localStorage.getItem('accessToken')));
 		if (!token) {

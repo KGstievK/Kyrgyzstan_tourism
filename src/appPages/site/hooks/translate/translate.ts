@@ -21,6 +21,7 @@ const useTranslate = () => {
     }
     const changeLanguage = (lang: string) => {
         dispatch(setLanguage(lang))
+        
     }
 
     return {t, changeLanguage}

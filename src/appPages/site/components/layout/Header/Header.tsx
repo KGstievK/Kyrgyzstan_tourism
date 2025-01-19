@@ -53,7 +53,7 @@ const Header = () => {
   const [isRegion, setIsRegion] = useState(false);
   const [isRegionName, setIsRegionName] = useState("");
   const [isRotate, setIsRotate] = useState(false);
-
+  // const {lang} = 
   useEffect(() => {
     setIsShow(false);
     setIsRegion(false);
