@@ -1,0 +1,441 @@
+#Hero {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding-bottom: 300px;
+  margin: 0 auto;
+  background: url("https://s3-alpha-sig.figma.com/img/c6a7/14c3/477eeeb0b11a5dff2a4107971b1d6d69?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kkVQOATtckxDtprwrymmWZbIOu7I7hM-NgGA50lNqqadLlLVquIK4i2bwvWm5NfDnupR86AAF7vAS9QosgsWE7~Ej0O~MdOZYuL29vjfv-VPELV5eV1CCA7-klzanIUheA81rWELywTE1Hc3dfzKjH~JxP~wS0fMKk6IEw9JPxOnnOdCcOz9JNLXEJKmSXhOUwqOlTmd3RPuxolv6czWpXsEGXFowYbwFBgY1Dq2boSGYfWO2nBexVCaekfmVc4Ck6YJrdDJbb6BJO6u30QLiveULtDw82kmrriuXmAq8BGnovwvYxbgz3ZumN~Q8lhLjf4UWWlJZfowdK6ugCIeaA__") no-repeat center;
+  background-size: cover;
+  @media (max-width: 576px) {
+    padding-bottom: 270px;
+    
+  }
+  @media (max-width: 420px) {
+    padding-bottom: 200px;
+    
+  }
+  .Hero {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .pages {
+    width: 100%;
+    max-width: 918px;
+    margin-top: 100px;
+    color: white;
+    font-size: 80px;
+    font-weight: 400;
+    text-align: center;
+    @media (max-width: 1034px) {
+      margin-top: 80px;
+    }
+    @media (max-width: 834px) {
+      margin-top: 60px;;
+    }
+    @media (max-width: 634px) {
+      margin-top: 40px;;
+    }
+
+  }
+
+  .input_container {
+    max-width: 688px;
+    width: 100%;
+    margin-left: 50px;
+    position: relative;
+    display: inline-block;
+    @media (max-width: 534px) {
+      margin-left: 30px;
+      
+    }
+  }
+
+  .homeinput {
+    width: 100%;
+    height: 56px;
+    border-radius: 30px;
+    font-size: 24px;
+    font-weight: 400;
+    color: grey;
+    border: none;
+    padding-left: 50px;
+
+  }
+
+  .input_container::before {
+    content: "";
+    background-image: url("../../../../../../assets/images/homeImages/lupa.svg");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+  }
+
+  .homebtn {
+    width: 55px;
+    height: 56px;
+    border-radius: 60px;
+    background: #004a60;
+    border: none;
+  }
+  .pageblock {
+    gap: 20px;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @media (max-width: 1034px) {
+      margin-top: 80px;
+    }
+    @media (max-width: 834px) {
+      margin-top: 60px;
+    }
+    @media (max-width: 634px) {
+      margin-top: 40px;
+    }
+    @media (max-width: 420px) {
+      margin-top: 20px;
+      
+    }
+  }
+  .hometext {
+    width: 621px;
+    height: 136px;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #ffffff;
+  }
+
+
+  .heroTwo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background: white;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.5);
+    padding: 30px 0;
+
+  }
+  .heroTwoContainer {
+    gap: 50px;
+    display: flex;
+    justify-content: space-around;
+    @media (max-width: 834px) {
+      flex-direction: column;
+      gap: 10px;
+      align-items: start;
+      
+    }
+  }
+  .twoText {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 64px;
+    font-weight: 400;
+    color: #ffffff;
+    @media (max-width: 1034px) {
+      font-size: 55px !important;
+      
+    }
+    @media (max-width: 768px) {
+      font-size: 45px !important;
+    }
+    @media (max-width: 576px) {
+      font-size: 35px !important;
+    }
+    @media (max-width: 420px) {
+      font-size: 25px !important;
+    }
+  }
+  .twoTitle {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 33, 6px;
+    color: #242424;
+  }
+
+  .container {
+    position: relative;
+  }
+
+  .icons1 {
+    position: absolute;
+    width: 35px;
+    top: 60px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ins {
+    margin-bottom: 8px;
+    width: 35px;
+    height: 35px;
+    color: purple;
+  }
+  .facebook {
+    width: 35px;
+    height: 35px;
+    color: blue;
+    margin-bottom: 8px;
+  }
+  .vk {
+    width: 35px;
+    height: 35px;
+    color: blue;
+    margin-bottom: 8px;
+  }
+  .mail {
+    width: 35px;
+    height: 35px;
+    color: white;
+  }
+  
+  @media (max-width: 1024px) {
+    .pages {
+      font-size: 70px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .pages {
+      font-size: 60px;
+      font-weight: 400;
+      text-align: center;
+    }
+    .homeinput {
+      height: 56px;
+      font-size: 22px;
+    }
+    .hometext {
+      font-size: 20px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .homebtn {
+      width: 50px;
+      height: 51px;
+    }
+    .pageblock {
+      position: relative;
+    }
+    .twoText {
+      font-size: 60px;
+    }
+    .twoTitle {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 834px) {
+    .icons1 {
+      display: none;
+    }
+  }
+  @media (max-width: 768px) {
+    .icons1 {
+      display: none;
+    }
+    .pages {
+      font-size: 50px;
+      text-align: center;
+      // width: 700px;
+    }
+
+    .input_container {
+      position: relative;
+    }
+
+    .homebtn {
+      width: 48px;
+      height: 49px;
+    }
+
+    .homeinput {
+      height: 45px;
+      font-size: 16px;
+    }
+
+    .hometext {
+      font-size: 17px;
+      width: 90%;
+      height: 40px;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .heroTwo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .twoText {
+      font-size: 55px;
+    }
+    .twoTitle {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .pages {
+      font-size: 40px;
+      text-align: center;
+    }
+    .hometext {
+      font-size: 14px;
+      width: 95%;
+    }
+    .icons {
+      flex-direction: row;
+      gap: 10px;
+      justify-content: center;
+    }
+    .input_container {
+      position: relative;
+    }
+
+    .homebtn {
+      width: 40px;
+      height: 40px;
+    }
+
+    .homeinput {
+      height: 40px;
+      font-size: 16px;
+    }
+    .homebtn img {
+      width: 12px;
+      height: 12px;
+    }
+    .pageblock {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ins {
+      width: 25px;
+      height: 25px;
+    }
+    .facebook {
+      width: 25px;
+      height: 25px;
+    }
+    .vk {
+      width: 25px;
+      height: 25px;
+    }
+    .mail {
+      width: 25px;
+      height: 25px;
+    }
+
+    .twoText {
+      font-size: 55px;
+    }
+    .twoTitle {
+      font-size: 13px;
+    }
+    .icons1 {
+      position: relative;
+      left: 0;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 420px) {
+    .pages {
+      font-size: 30px;
+      text-align: center;
+    }
+    .hometext {
+      font-size: 12px;
+      width: 90%;
+    }
+
+    .input_container {
+      position: relative;
+    }
+
+    .homebtn {
+      width: 37px;
+      height: 38px;
+    }
+
+    .homeinput {
+      width: 100%;
+      height: 37px;
+      font-size: 13px;
+    }
+    .input_container::before {
+      content: "";
+      background-image: url("../../../../../../assets/images/homeImages/lupa.svg");
+      background-size: 16px 16px;
+      background-repeat: no-repeat;
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+    }
+    .pageblock {
+      position: relative;
+    }
+    .twoText {
+      font-size: 45px;
+    }
+    .twoTitle {
+      font-size: 8px;
+    }
+  }
+  @media (max-width: 320px) {
+    .pages {
+      font-size: 25px;
+      text-align: center;
+    }
+    .input_container {
+      position: relative;
+    }
+
+    .homebtn {
+      width: 34px;
+      height: 38px;
+    }
+
+    .homeinput {
+      width: 200px;
+      height: 34px;
+      font-size: 13px;
+    }
+    .twoText {
+      font-size: 35px;
+    }
+    .twoTitle {
+      font-size: 8px;
+      width: 250px;
+    }
+  }
+}

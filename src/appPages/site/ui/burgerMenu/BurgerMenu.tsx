@@ -1,74 +1,94 @@
-import { FC } from 'react';
-import scss from './BurgerMenu.module.scss';
-import { Link } from 'react-router-dom';
-import { IconLogout } from '@tabler/icons-react';
-import { Avatar } from 'antd';
+"use client"
+import { FC, useState } from "react";
+import scss from "./BurgerMenu.module.scss";
+import { Link } from "react-router-dom";
+import { IconLogout } from "@tabler/icons-react";
+import { Avatar } from "antd";
+import { usePathname } from "next/navigation";
 
-interface LinksType {
-	name: string;
-	href: string;
-}
 
-interface BurgerMenuProps {
-	siteLinks: LinksType[];
-	isOpen: boolean;
-	setIsOpen: (isOpen: boolean) => void;
-	pathname: string;
-	user: User | null;
-	logout: () => void;
-}
 
-const BurgerMenu: FC<BurgerMenuProps> = ({
-	siteLinks,
-	isOpen,
-	setIsOpen,
-	pathname,
-	user,
-	logout
-}) => {
-	return (
-		<>
-			<div
-				className={
-					isOpen ? `${scss.BurgerMenu} ${scss.active}` : `${scss.BurgerMenu}`
-				}
-				onClick={(e) => e.stopPropagation()}
-			>
-				<div className={scss.content}>
-					<div className={scss.user_profile}>
-						<Avatar size={40} icon={<img src={user?.photo} alt="avatar" />} />
-						<div className={scss.user_data}>
-							<p className={scss.user_name}>{user?.userName}</p>
-							<p className={scss.user_email}>{user?.email}</p>
-						</div>
-					</div>
-					<nav className={scss.nav}>
-						<ul>
-							{siteLinks.map((item, index) => (
-								<li key={index}>
-									<Link
-										className={
-											pathname === item.href
-												? `${scss.link} ${scss.active}`
-												: `${scss.link}`
-										}
-										to={item.href}
-										onClick={() => setIsOpen(false)}
-									>
-										{item.name}
-									</Link>
-								</li>
-							))}
-						</ul>
-					</nav>
-					<div className={scss.auth}>
-						<button className={scss.logout} onClick={logout}>
-							<IconLogout stroke={2} /> Log Out
-						</button>
-					</div>
-				</div>
-			</div>
-		</>
-	);
+const BurgerMenu = ()  => {
+
+	const [openMenu, setOpenMenu] = useState<boolean>(false);
+	const pathname = usePathname();
+	const links = [
+	  {
+		link: "/",
+		name: "Главная",
+	  },
+	  {
+		link: "/new",
+		name: "Новинки",
+	  },
+	  {
+		link: "/catalog",
+		name: "Категории",
+	  },
+	  {
+		link: "/about",
+		name: "О нас",
+	  },
+	  {
+		link: "/contacts",
+		name: "Контакты",
+	  },
+	];
+  
+
+  return (
+    <>
+      <section className={scss.BurgeMenu}>
+        <button
+          onClick={() => {
+            setOpenMenu(!openMenu);
+          }}
+        >
+          <div
+            style={{
+              transform: openMenu
+                ? "rotate(45deg)"
+                : "rotate(0deg) translateX(0)",
+              top: openMenu ? "20px" : "",
+            }}
+          ></div>
+          <div
+            style={{
+              transform: openMenu ? "scale(0%)" : "scale(100%)",
+              top: openMenu ? "20px" : "",
+            }}
+          ></div>
+          <div
+            style={{
+              transform: openMenu
+                ? "rotate(-45deg)"
+                : "rotate(0deg) translateX(0)",
+              top: openMenu ? "20px" : "",
+            }}
+          ></div>
+        </button>
+        {openMenu && (
+          <div className="container">
+            <div className={scss.content}>
+              <div className={scss.nav}>
+                <ul>
+                  {links.map((item, idx) => (
+                    <li key={idx}>
+                      <Link
+                        href={item.link}
+                        className={pathname === item.link ? scss.active : ""}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    </>
+  );
 };
 export default BurgerMenu;

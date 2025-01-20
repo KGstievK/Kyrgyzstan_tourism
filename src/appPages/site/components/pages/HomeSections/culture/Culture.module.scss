@@ -1,0 +1,217 @@
+#Sliders {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    height: auto;
+    position: relative;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://s3-alpha-sig.figma.com/img/1d5b/aa63/75df1bca16d25aae090581014af4516d?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bACj9RW0DjDacBNowiycuBoRbc04gNVmynNigRLQxg3KhETYAc9DkKUAj2jAtBELaFNfK0ZIS3c3KxnQoFg8~f~UBXYc-23Yce5cEQTJq9ATpzlwiVsJ~o1sdhhp5ha4uhcSdyDTnVMJYj7KyqnRBSFGZDROKw27UkMDQJlyfzYWXAnckXPXWJ94wwfjEnAElYVLfUZwDOSPifj2C37omdtSJtJ6N1ahsVm6RQpHzGONbh8FHZHWV4hdwAe1BRhm69iFAMSFgk87hrl0WuRkzsWpBDv-tjKLUqdH3X7dBTCQCS8X7241hHcTVCuOAnRAo9DHdVj~qmNgDXk4L~uyNw__');
+      background-size: cover;
+      background-position: center;
+      filter: blur(10px);
+      z-index: -1;
+    }
+  
+    .slider {
+      display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 546px;
+  max-width: 100%; /* Ограничивает ширину слайдера */
+  overflow: hidden;
+  margin: 0 auto;
+  @media (max-width: 992px) {
+   flex-wrap: wrap;
+   width: auto;
+   height: auto;
+   margin: 0 auto;
+  }
+     
+     
+    }
+  
+    .slide {
+
+      flex: 2 1 60%; 
+      text-align: center;
+      margin: 20px;
+     
+    }
+  
+    .image {
+      width: 805px;
+      height: 546px;
+      object-fit: cover;
+      border-bottom: 1px solid #ccc;
+      margin: 15px;
+      max-width: 100%;
+    
+  
+      @media (max-width: 1200px) {
+        width: auto;
+        height: 540px;
+      }
+      @media (max-width: 992px) {
+        text-align: center;
+      }
+  
+      @media (max-width: 768px) {
+        margin: 10px 0;
+      }
+    }
+  
+    .content {
+      position: relative;
+      padding: 20px;
+      background: #ffffff;
+      width: 420px;
+      height: 546px;
+      margin: 10px;
+
+
+      flex: 1 1 40%; 
+      @media (max-width: 992px) {
+
+        text-align: center;
+      }
+
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #004A60;
+      line-height: 32px;
+    }
+
+    p {
+      color: #242424;
+      font-weight: 400;
+line-height: 20px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  
+      @media (max-width: 1200px) {
+        width: 410px;
+        height: 540px;
+        font-size: 14px;
+       
+      }
+      
+      @media (max-width: 992px) {
+        width: 400px;
+        height: 540px;
+        font-size: 12px;
+       
+      }
+    }
+  
+    .butt {
+      position: absolute;
+      left: 70%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      width: 143px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #3c5f63;
+      border-radius: 8px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      @media (max-width: 1300px) {
+       
+        left: 78%;
+        bottom:20px
+      }  
+      @media (max-width: 1200px) {
+       
+        left: 73%;
+        bottom:20px;
+        width: 137px;
+        height: 40px;
+      } 
+      @media (max-width: 992px) {
+        width: 127px;
+        height: 35px;
+      } 
+
+
+      @media (max-width: 768px) {
+        width: 103px;
+        height: 32px;
+        position: absolute;
+        left: 75%;
+        bottom:20px
+      }  
+      .butTitle {
+        margin: 10px;
+      }
+  
+      .arrow_right {
+        filter: invert(1);
+        width: 20px;
+        margin-left: 10px;
+      }
+  
+      @media (max-width: 768px) {
+        bottom: 10px;
+      }
+    }
+  
+    .arrowBlock {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+  
+    .arrowbtn {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 250px;
+      height: 40px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 5px;
+  
+      span {
+        margin: 20px;
+        color: #ccc;
+        font-size: 20px;
+      }
+    }
+  
+    .prev {
+      left: 16px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 25px;
+    }
+  
+    .next {
+      right: 16px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 25px;
+    }
+  }
+  

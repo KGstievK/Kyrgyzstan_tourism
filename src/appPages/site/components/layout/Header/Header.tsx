@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { DesktopNavigation } from "./components/DesktopNavigation";
 import { LanguageSelector } from "./components/LanguageSelector";
+import BurgerMenu from "@/appPages/site/ui/burgerMenu/BurgerMenu";
 
 // Types
 interface NavItem {
@@ -20,6 +21,7 @@ interface NavItem {
   };
   path: string;
 }
+
 
 // Constants
 const REGIONS = [
@@ -43,7 +45,6 @@ const NAV_ITEMS: NavItem[] = [
 // Components
 
 const Header = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const { width } = useWindowSize();
   const { t, changeLanguage } = useTranslate();
   const lang = useSelector<RootState, string>((state) => state.translate.currentLang);
@@ -53,7 +54,7 @@ const Header = () => {
   const [isRegion, setIsRegion] = useState(false);
   const [isRegionName, setIsRegionName] = useState("");
   const [isRotate, setIsRotate] = useState(false);
-  // const {lang} = 
+
   useEffect(() => {
     setIsShow(false);
     setIsRegion(false);
@@ -94,11 +95,17 @@ const Header = () => {
           <>
             <div className={scss.block2}>
               <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
-              <img
+              <div className={scss.burger}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <BurgerMenu />
+              {/* <img
                 onClick={() => setIsShow(!isShow)}
                 src="images/Vector.png"
                 alt="menu-burger"
-              />
+              /> */}
             </div>
             {isShow && (
               <div className={scss.modal}>

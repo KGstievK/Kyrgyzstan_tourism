@@ -6,10 +6,13 @@ import imgHeart from "@//assets/images/regions/Vector.png";
 import Link from "next/link";
 import { useGetPopularPlacesQuery } from "@/redux/api/regions";
 import Stars from "@/appPages/site/ui/stars/Stars";
+import { usePathname } from "next/navigation";
 const Places = () => {
   const { t } = useTranslate();
   const { data, isLoading, isError } = useGetPopularPlacesQuery();
-
+const pathName = usePathname();
+  const routeName = pathName.split("/")[1];
+  
   return (
     <>
       <section id={scss.Places}>
@@ -33,7 +36,7 @@ const Places = () => {
                 </div>
                 <img className={scss.heart} src={imgHeart.src} alt="like" />
                 <Link
-                  href={`/${data[0].region}/${place.id}`}
+                  href={`/${routeName}/${place.id}`}
                 >
                   <img className={scss.right} src={imgRight.src} alt="" />
                 </Link>

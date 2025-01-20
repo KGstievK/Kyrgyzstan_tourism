@@ -16,14 +16,14 @@ const RootLayoutClient: FC<RootLayoutClientProps> = ({ children }) => {
       <BrowserRouter>
         <ReduxProvider>
           <SessionProvider>
-            {/* <ProtectProvider> */}
-            {children}
-            {/* </ProtectProvider> */}
+              {/* <ProtectProvider> */}
+              {children}
+              {/* </ProtectProvider> */}
           </SessionProvider>
         </ReduxProvider>
       </BrowserRouter>
     </>
   );
 };
-  
+
 export default RootLayoutClient;

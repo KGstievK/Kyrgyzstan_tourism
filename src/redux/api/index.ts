@@ -4,11 +4,10 @@ import {
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react';
 
-
-	
 const getLanguage = (): string => {
 	return localStorage.getItem('lang') || 'en';
 };
+
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/${getLanguage()}`,
@@ -23,6 +22,7 @@ const baseQuery = fetchBaseQuery({
 		return headers;
 	}
 });
+
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
 	const result = await baseQuery(args, api, extraOptions);
