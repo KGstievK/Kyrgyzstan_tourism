@@ -17,34 +17,35 @@ const PlacesPopular = () => {
   const pathName = usePathname();
   const routeName = pathName.split("/")[1];
   const { data } = useGetRegionListQuery();
-  const filteredRegion = data?.find(
+  const findRegion = data?.find(
     (region) =>
       region.region_category.toLowerCase().replaceAll(" ", "") ===
       routeName.toLowerCase().replaceAll(" ", "")
-  );
+  );  
 
   const CARDS_PER_TAB = 3;
   const tabsData: TabsDataType = useMemo(() => {
-    if (!filteredRegion || !filteredRegion.popular_places) {
+    if (!findRegion || !findRegion.popular_places) {
       return {};
     }
 
     const result: TabsDataType = {};
     const totalTabs = Math.ceil(
-      filteredRegion.popular_places.length / CARDS_PER_TAB
+      findRegion.popular_places.length / CARDS_PER_TAB
     );
 
     for (let i = 0; i < totalTabs; i++) {
       const startIndex = i * CARDS_PER_TAB;
-      result[i + 1] = filteredRegion.popular_places.slice(
+      result[i + 1] = findRegion.popular_places.slice(
         startIndex,
         startIndex + CARDS_PER_TAB
       );
     }
 
     return result;
-  }, [filteredRegion]);
-
+  }, [findRegion]);
+  console.log(tabsData);
+  
   const totalTabs = Object.keys(tabsData).length;
 
   return (
@@ -53,7 +54,7 @@ const PlacesPopular = () => {
         <div className="container">
           <h2>{t("", "", "Popular places")}</h2>
           <div className={scss.list}>
-            {tabsData[activeTab].map((item, i) => (
+            {tabsData[activeTab]?.map((item, i) => (
               <div key={i} className={scss.item}>
                 <img src={item.popular_image} alt="" />
                 <div className={scss.block}>
@@ -68,9 +69,7 @@ const PlacesPopular = () => {
                 </div>
                 <img className={scss.heart} src={imgHeart.src} alt="" />
                 <Link
-                  href={`/${routeName}/${item.popular_name
-                    .replaceAll(" ", "")
-                    .toLowerCase()}`}
+                  href={`/${routeName}/${item.id}`}
                 >
                   <img className={scss.right} src={imgRight.src} alt="" />
                 </Link>

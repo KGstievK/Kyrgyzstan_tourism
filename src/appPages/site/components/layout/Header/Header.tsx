@@ -45,7 +45,6 @@ const NAV_ITEMS: NavItem[] = [
 // Components
 
 const Header = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const { width } = useWindowSize();
   const { t, changeLanguage } = useTranslate();
   const lang = useSelector<RootState, string>((state) => state.translate.currentLang);

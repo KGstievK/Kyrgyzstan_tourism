@@ -1,0 +1,117 @@
+#About {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 50px 0;
+  @media (max-width: 776px) {
+    margin: 30px 0;
+    
+  }
+  @media (max-width: 576px) {
+    margin: 20px 0;
+    
+  }
+  .About {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding: 40px 0;
+    gap: 50px;
+
+
+
+    @media (max-width: 762px) {
+      gap: 30px; 
+    }
+    @media (max-width: 600px) {
+      flex-direction: column;
+      gap: 20px;
+    }
+    @media (max-width: 576px) {
+      padding: 20px 0; 
+    }
+  }
+  .hidden {
+    display: none;
+    @media (max-width: 600px) {
+      display: block !important;
+    }
+  }
+  .herotitle {
+    color: #004a60;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 64px;
+    font-weight: 400;
+
+    @media (max-width: 1200px) {
+      font-size: 48px;
+    }
+   
+
+    @media (max-width: 768px) {
+      font-size: 36px;
+    }
+    @media (max-width: 600px) {
+      display: none;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 28px;
+    }
+  }
+
+  .herotext {
+    color: #242424;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.4; 
+    letter-spacing: 5%;
+
+    @media (max-width: 1200px) {
+      font-size: 20px;
+      text-align: justify;
+    }
+    @media (max-width: 992px) {
+      font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 14px; 
+      width: 100%; 
+    }
+  }
+
+  .heroimg {
+    width: 384px;
+    height: 304px;
+
+    @media (max-width: 1200px) {
+      width: 374px;
+      height: auto;
+    }
+    @media (max-width: 992px) {
+      width: 334px;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      width: 250px;
+      height: auto;
+    }
+    @media (max-width: 600px) {
+      object-fit: cover;
+      object-position: top;
+      width: 100%;
+      height: 170px;
+    }
+
+    @media (max-width: 390px) {
+      height: 144px;
+    }
+  }
+}

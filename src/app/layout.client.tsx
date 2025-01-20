@@ -1,6 +1,7 @@
 "use client";
 // import ProtectProvider from "@/providers/ProtectProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
+import { RegionProvider } from "@/providers/RegionProvider";
 import { SessionProvider } from "@/providers/SessionProvider";
 // import { Session } from "next-auth";
 import React, { FC, ReactNode } from "react";
@@ -17,7 +18,9 @@ const RootLayoutClient: FC<RootLayoutClientProps> = ({ children }) => {
         <ReduxProvider>
           <SessionProvider>
             {/* <ProtectProvider> */}
-            {children}
+              <RegionProvider>
+                {children}
+              </RegionProvider>
             {/* </ProtectProvider> */}
           </SessionProvider>
         </ReduxProvider>
@@ -25,5 +28,5 @@ const RootLayoutClient: FC<RootLayoutClientProps> = ({ children }) => {
     </>
   );
 };
-  
+
 export default RootLayoutClient;

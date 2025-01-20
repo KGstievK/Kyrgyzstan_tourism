@@ -11,6 +11,7 @@ const Try = () => {
   const [currentContent, setCurrentContent] = useState<number>(0);
   const pathName = usePathname();
   const routeName = pathName.split("/")[1];
+console.log(isError);
 
   const region = data?.find(
     (el) => el.region_category.toLocaleLowerCase() === routeName.toLowerCase()

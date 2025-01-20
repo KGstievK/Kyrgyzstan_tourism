@@ -1,5 +1,5 @@
 import scss from "../Header.module.scss"
-
+import down from "@/assets/images/headerImages/Vector.png"
 export const LanguageSelector = ({ 
     lang, 
     changeLanguage, 
@@ -24,13 +24,13 @@ export const LanguageSelector = ({
           </option>
         ))}
       </select>
-      {/* <img
+      <img
         style={{
           transform: `rotate(${isRotate ? 180 : 0}deg)`,
           transition: "transform 0.1s ease-in-out",
         }}
-        // src={down.src}
+        src={down.src}
         alt="arrow down"
-      /> */}
+      />
     </div>
   );
