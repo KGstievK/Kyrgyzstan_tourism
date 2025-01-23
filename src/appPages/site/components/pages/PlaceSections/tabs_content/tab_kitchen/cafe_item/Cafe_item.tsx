@@ -6,16 +6,16 @@ import icon5 from "@/assets/images/placeImages/Icon5.png"
 // import like from "@/images/like2.png"
 import { FC  } from 'react';
 import useTranslate from '@/appPages/site/hooks/translate/translate';
-import { Stars } from 'lucide-react';
 import { useGetKitchenIDQuery } from '@/redux/api/place';
+import Stars from '@/appPages/site/ui/stars/Stars';
 interface propsType {    
-    kitchens: PLACE.KitchenResponse;
+    kitchens: PLACE.KitchenResponse | undefined;
     isCurrent: number | null
 }
 const Cafe_item: FC<propsType> = ({kitchens,isCurrent}) => {
     const {t} = useTranslate()
     const stars = Array.from({ length: 5 }, (_, index) => index + 1);
-    const {data} = useGetKitchenIDQuery(isCurrent)
+    const {data, isLoading, isError} = useGetKitchenIDQuery(isCurrent)
 
     const dataStars = [
         {
@@ -40,6 +40,9 @@ const Cafe_item: FC<propsType> = ({kitchens,isCurrent}) => {
         }
     ]
 
+    if (isError) {
+        return null;
+    }
 
      return (
         <div className={scss.cafe_item}>
@@ -77,7 +80,7 @@ const Cafe_item: FC<propsType> = ({kitchens,isCurrent}) => {
 
 
                             <div className={scss.assess}>
-                                <p>№ 1 <span>{t("","",`of ${kitchens.length} Restaurants in `)}</span></p>
+                                <p>№ 1 <span>{t("","",`of ${kitchens?.length} Restaurants in `)}</span></p>
                                 <p> {t("","","ASSESSMENTS")}</p>
                             </div>
 

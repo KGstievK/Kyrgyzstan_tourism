@@ -4,22 +4,24 @@ import scss from "./Places.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
 import imgHeart from "@//assets/images/regions/Vector.png";
 import Link from "next/link";
-import { useGetPopularPlacesQuery } from "@/redux/api/regions";
-import Stars from "@/appPages/site/ui/stars/Stars";
+import { useGetRegionListQuery } from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
+import Stars from "@/appPages/site/ui/stars/Stars";
 const Places = () => {
   const { t } = useTranslate();
-  const { data, isLoading, isError } = useGetPopularPlacesQuery();
-const pathName = usePathname();
-  const routeName = pathName.split("/")[1];
-  
+  const { data, isLoading, isError } = useGetRegionListQuery();
+  const pathName = usePathname();
+  const routeName = pathName.split("/")[1];  
+  const popularPlacesInRegion = data?.find((place) => place.region_category.trim().toLocaleLowerCase() === routeName.trim().toLocaleLowerCase());
+
+
   return (
     <>
       <section id={scss.Places}>
         <div className="container">
           <h2>{t("Популярные места", "أماكن مشهورة", "Popular places")}</h2>
           <div className={scss.list}>
-            {data?.map((place, i) => (
+            {popularPlacesInRegion?.popular_places?.map((place, i) => (
               <div key={i} className={scss.item}>
                 <img src={place.popular_image} alt="popular place" />
                 <div className={scss.block}>

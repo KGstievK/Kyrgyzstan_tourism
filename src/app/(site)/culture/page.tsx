@@ -1,9 +1,5 @@
-const page = () => {
-  return (
-    <div>
-      <h1>culture</h1>
-    </div>
-  );
-};
+import MainCulture from "@/appPages/site/components/pages/CultureSections/MainCulture";
+
+const page = () => <MainCulture />;
 
 export default page;

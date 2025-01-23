@@ -8,9 +8,9 @@ import eventImg from "@/assets/images/placeImages/event.png"
 import attImg from "@/assets/images/placeImages/att.png"
 import Tab_place from './tab_place/Tab_place';
 import Tab_kitchen from './tab_kitchen/Tab_kitchen';
-// import Tab_hotel from './tab_hotel/Tab_hotel';
 import Tab_event from './tab_event/Tab_event';
 import Tab_attractions from './tab_attractions/Tab_attractions';
+import Tab_hotel from './tab_hotel/Tab_hotel';
 const Tabs_content = () => {
 
     const tabsButton = [
@@ -64,7 +64,7 @@ const Tabs_content = () => {
                 <div className={scss.content}>
                     {isTab === 0 && <Tab_place />}
                     {isTab === 1 && <Tab_kitchen />}
-                    {/* {isTab === 2 && <Tab_hotel />} */}
+                    {isTab === 2 && <Tab_hotel />}
                     {isTab === 3 && <Tab_event />}
                     {isTab === 4 && <Tab_attractions />}
                 </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import scss from "../Header.module.scss"
 // Types
 interface NavItem {
@@ -34,14 +34,13 @@ export const DesktopNavigation = ({
         {navItems.map((item) => (
           <li key={item.path}>
             {item.path ? (
-              <Link to={item.path} className={isActive(item.path) ? scss.active : ""}>
+              <Link href={item.path} className={isActive(item.path) ? scss.active : ""}>
                 {t(item.name.ru, item.name.ar, item.name.en)}
               </Link>
             ) : (
-              <div
+              <Link href="#"
                 className={isRegion ? scss.active : ""}
-                onMouseEnter={() => setIsRegion(true)}
-                onMouseLeave={() => setIsRegion(false)}
+                onClick={() => setIsRegion(!isRegion)}
               >
                 {t(item.name.ru, item.name.ar, item.name.en)}
                 {isRegion && (
@@ -52,14 +51,14 @@ export const DesktopNavigation = ({
                         onMouseEnter={() => setIsRegionName(region.name[0])}
                         onMouseLeave={() => setIsRegionName("")}
                       >
-                        <Link to={region.path}>
+                        <Link href={region.path}>
                           {t(region.name[0], region.name[1], region.name[2])}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 )}
-              </div>
+              </Link>
             )}
           </li>
         ))}

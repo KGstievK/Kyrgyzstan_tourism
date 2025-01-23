@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "../culture/Culture.module.scss";
+import Image from "next/image";
 
 interface Slide {
   id: number;
@@ -69,7 +70,7 @@ const Culture: React.FC = () => {
             aria-label={`Slide ${currentIndex + 1} of ${slides.length}`}
           >
             {currentSlide.image ? (
-              <img
+              <Image
                 className={styles.image}
                 src={currentSlide.image}
                 alt={currentSlide.title}

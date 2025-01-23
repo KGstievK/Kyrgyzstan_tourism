@@ -1,22 +1,44 @@
-import scss from "../hero/Hero.module.scss";
+import { FC } from 'react';
+import scss from "./Hero.module.scss";
+import imgFC from "@/assets/images/homeImages/fc.png";
+import imgMail from "@/assets/images/homeImages/mail.png";
+import imgVk from "@/assets/images/homeImages/vk.png";
+import imgInst from "@/assets/images/homeImages/inst.png";
+import imgVrc from "@/assets/images/homeImages/vec.svg";
+import Image from "next/image";
 
-export const Hero = () => {
+interface SocialIcon {
+  src: string;
+  alt: string;
+  className: string;
+}
+
+export const Hero: FC = () => {
+  const socialIcons: SocialIcon[] = [
+    { src: imgInst.src, alt: "Instagram", className: scss.ins },
+    { src: imgFC.src, alt: "Facebook", className: scss.facebook },
+    { src: imgVk.src, alt: "VKontakte", className: scss.vk },
+    { src: imgMail.src, alt: "Mail", className: scss.mail },
+  ];
+
   return (
-    <div id={scss.Hero}>
+    <section id={scss.Hero}>
       <div className={`container ${scss.container}`}>
         <div className={scss.Hero}>
           <div className={scss.iconsblock}>
             <h1 className={scss.pages}>Welcome to the amazing Kyrgyzstan!</h1>
 
             <div className={scss.icons1}>
-              <img
-                className={scss.ins}
-                src="/images/instagram-167-svgrepo-com.svg"
-                alt=""
-              />
-              <img className={scss.facebook} src="/images/faceb.svg" alt="" />
-              <img className={scss.vk} src="/images/vk..svg" alt="" />
-              <img className={scss.mail} src="/images/mail.svg" alt="" />
+              {socialIcons.map((icon, index) => (
+                <Image
+                  key={index}
+                  className={icon.className}
+                  src={icon.src}
+                  alt={icon.alt}
+                  width={24}
+                  height={24}
+                />
+              ))}
             </div>
           </div>
 
@@ -26,10 +48,16 @@ export const Hero = () => {
                 className={scss.homeinput}
                 type="text"
                 placeholder="Where to go?"
+                aria-label="Search destination"
               />
             </div>
-            <button className={scss.homebtn}>
-              <img src="/images/vec.svg" alt="" />
+            <button className={scss.homebtn} aria-label="Search">
+              <Image 
+                src={imgVrc.src} 
+                alt="Search icon"
+                width={20}
+                height={20}
+              />
             </button>
           </div>
 
@@ -53,6 +81,6 @@ export const Hero = () => {
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

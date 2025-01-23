@@ -1,13 +1,26 @@
 .hotel {
     width: 100%;
-    h4 {
-        font-family: Montserrat;
-        font-size: 32px;
-        font-weight: 700;
-        line-height: 39.01px;
-        color: #004A60;
-        margin-bottom: 30px;
-    }   
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h4 {
+            font-family: Montserrat;
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 39.01px;
+            color: #004A60;
+            margin-bottom: 30px;
+        }   
+        p {
+            font-family: Arial;
+            font-size: 21.84px;
+            font-weight: 400;
+            line-height: 34.31px;
+            color: #006699;
+
+        }
+    }
 
 
 
