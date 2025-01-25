@@ -1,4 +1,12 @@
 /* Reset CSS */
+:root {
+  --background: #ffffff;
+  --active: #407EC7;
+  --main-color: #004A60;
+  --footer: ;
+  --silver: #26262672;
+  --input: #27313882;
+}
 * {
   margin: 0;
   padding: 0;
@@ -24,6 +32,16 @@ ul, ol {
   list-style: none;
 }
 
+input {
+  padding: 14px 15px;
+  font-family: "Playfair Display", sans-serif;
+  font-size: 18px;
+  outline: none;
+  border-radius: 10px;
+  background-color: transparent;
+  border: 2px solid var(--input);
+}
+
 img, video {
   max-width: 100%;
   height: auto;
@@ -32,6 +50,14 @@ img, video {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+button {
+  background-color: var(--main-color);
+  border-radius: 10px;
+  border: 2px solid var(--main-color);
+  cursor: pointer;
+  color: var(--background);
 }
 
 // Global styles

@@ -22,7 +22,6 @@ interface NavItem {
   path: string;
 }
 
-
 // Constants
 const REGIONS = [
   { name: ["Чуй", "شوي", "Chui"], path: "/chui" },
@@ -47,7 +46,9 @@ const NAV_ITEMS: NavItem[] = [
 const Header = () => {
   const { width } = useWindowSize();
   const { t, changeLanguage } = useTranslate();
-  const lang = useSelector<RootState, string>((state) => state.translate.currentLang);
+  const lang = useSelector<RootState, string>(
+    (state) => state.translate.currentLang
+  );
   const pathname = usePathname();
 
   const [isShow, setIsShow] = useState(false);
@@ -68,7 +69,7 @@ const Header = () => {
     <header id={scss.Header}>
       <div className={`${scss.container} container`}>
         <div className={scss.logo}>LOGO</div>
-        
+
         {width > 834 ? (
           <>
             <DesktopNavigation
@@ -88,7 +89,9 @@ const Header = () => {
                 isRotate={isRotate}
                 setIsRotate={setIsRotate}
               />
-              <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+              <Link href="/auth/sign-up">
+                <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+              </Link>
             </div>
           </>
         ) : (

@@ -1,6 +1,23 @@
 .LayoutPage {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	background: url('../../../../assets/images/auth/background.svg') no-repeat center / cover;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	min-height: 100vh;
+	padding: 0 132px;
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		content: '';
+		width: 100%;
+		height: 100vh;
+		background-color: #24242480;
+	}
+	main {
+		z-index: 10;
+	}
 }
