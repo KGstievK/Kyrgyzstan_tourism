@@ -4,10 +4,15 @@ import {
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react';
 
-const getLanguage = (): string => {
-	return localStorage.getItem('lang') || 'en';
-};
-
+// const getLanguage = (): string => {
+// 	return localStorage.getItem('lang') || 'en';
+// };
+const getLanguage = () => {
+	if (typeof window !== 'undefined') {
+	  return localStorage.getItem('lang') || 'en';
+	}
+	return null;
+  }
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/${getLanguage()}`,
@@ -34,6 +39,6 @@ export const api = createApi({
 	baseQuery: baseQueryExtended,
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
-	tagTypes: ['auth', "region", "places", "gallery", "place", "kitchens", 'hotels',"kitchenID", "hotelID", "attractions", "attractionID"],
+	tagTypes: ['auth', "region", "places", "gallery", "place", "kitchens", 'hotels',"kitchenID", "hotelID", "attractions", "attractionID", "games"],
 	endpoints: () => ({})
 });

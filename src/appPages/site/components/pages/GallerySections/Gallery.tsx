@@ -33,7 +33,6 @@ const Gallery = () => {
                                             <span className={scss.metka}>
                                                 <img src={imgMetka.src} alt="" />
                                                 <span>{el.address}</span>
-                                                <span>{t("",""," Karakol 722360")}</span>
                                             </span>
                                         </div>
                                         <img className={scss.heart} src={imgHeart.src} alt="" />

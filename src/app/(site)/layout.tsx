@@ -6,6 +6,8 @@ interface LayoutType {
   children: ReactNode
 }
 
+
+
 const Layout:FC<LayoutType> = ({children}) => {
   return (
     <div>

@@ -117,7 +117,7 @@ namespace PLACE {
     id: number
     attraction_name: string
     main_image: string | null
-    image: Image[] | null
+    image: Image[] 
     description: string
     rating_count: number
   }
@@ -126,6 +126,6 @@ namespace PLACE {
   
   type Image = {
     id: number
-    image: string | null
+    image: string
   }
 }

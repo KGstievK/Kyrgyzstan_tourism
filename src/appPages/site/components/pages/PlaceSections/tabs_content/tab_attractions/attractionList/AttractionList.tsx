@@ -3,35 +3,35 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import scss from "./Cafes.module.scss";
+import scss from "./AttractionList.module.scss";
 import Stars from "@/appPages/site/ui/stars/Stars";
-import { useGetKitchensQuery } from "@/redux/api/place";
 import imgNone from "@/assets/images/universalImage/none.png";
+import { useGetAttractionsQuery } from "@/redux/api/home";
 
-interface CafeProps {
+interface AttractionsProps {
   isCurrent: number | null;
   setIsCurrent: (id: number | null) => void;
 }
 
 const ITEMS_PER_PAGE = 4;
 
-const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
+const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
   const { t } = useTranslate();
   const [isLimit, setIsLimit] = useState<number>(1);
   const [errorImg, setErrorImg] = useState(false);
-  const { data: cafes = [] } = useGetKitchensQuery();
+  const { data: attractions = [] } = useGetAttractionsQuery();
   const pathName = usePathname();
   const routeID: number = Number(pathName.split("/")[2]);
 
   // Filter cafes for current place
-  const cafesInPlace = cafes.filter((el) => el.popular_places === routeID);
+  const attractionsInPlace = attractions.filter((el) => el.popular_places === routeID);
 
   // Auto-select first cafe on load
   useEffect(() => {
-    if (cafesInPlace.length > 0) {
-      setIsCurrent(cafesInPlace[0].id);
+    if (attractionsInPlace.length > 0) {
+      setIsCurrent(attractionsInPlace[0].id);
     }
-  }, [cafesInPlace, setIsCurrent]);
+  }, [attractionsInPlace, setIsCurrent]);
 
   // No cafes scenario
   if (isCurrent === null) {
@@ -50,11 +50,11 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   };
 
   // Render individual cafe items
-  const renderCafeItem = cafesInPlace.map((el, i) => (
+  const renderCafeItem = attractionsInPlace.map((el, i) => (
     <div onClick={() => setIsCurrent(el.id)} key={i} className={scss.item}>
       <Image
         src={errorImg || !el.main_image ? imgNone : el.main_image}
-        alt={el.kitchen_name}
+        alt={el.attraction_name}
         width={486}
         height={543}
         unoptimized
@@ -65,13 +65,13 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
         onError={() => setErrorImg(true)}
       />
       <div className={scss.info}>
-        <h6 className={scss.title}>{el.kitchen_name}</h6>
+        <h6 className={scss.title}>{el.attraction_name}</h6>
         <div className={scss.stars_review}>
-          <Stars rating={el.average_rating} />
+          <Stars rating={el.avg_rating} />
           <p>Reviews: {el.rating_count}</p>
         </div>
         <div className={scss.prices}>
-          {`$${el.price} - $${el.price}, ${el.type_of_cafe.join(", ")}`}
+          {`$${'$$$'} - $$'$$$'}, ${"Russian, Canadian"}`}
         </div>
       </div>
     </div>
@@ -82,10 +82,10 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   const isAllItemsShown = isLimit >= dividedArray.length;
 
   return (
-    <div className={scss.cafes}>
-      <div className={scss.cafes_title}>
-        <h4>{t("", "", "The best restaurants with reasonable prices")}</h4>
-        {cafes.length > ITEMS_PER_PAGE && !isAllItemsShown && (
+    <div className={scss.attractions}>
+      <div className={scss.attractions_title}>
+        <h4>{t("Лучшие достопримечательности поблизости", "أفضل المعالم القريبة", "The best attractions nearby")}</h4>
+        {attractions.length > ITEMS_PER_PAGE && !isAllItemsShown && (
           <p onClick={() => setIsLimit(dividedArray.length)}>
             {t("Показать все", "عرض الكل", "Show all")}
           </p>
@@ -100,4 +100,4 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   );
 };
 
-export default Cafes;
+export default AttractionList;
