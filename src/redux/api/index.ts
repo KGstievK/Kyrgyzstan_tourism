@@ -39,6 +39,6 @@ export const api = createApi({
 	baseQuery: baseQueryExtended,
 	refetchOnReconnect: true,
 	refetchOnFocus: false,
-	tagTypes: ['auth', "region", "places", "gallery", "place", "kitchens", 'hotels',"kitchenID", "hotelID", "attractions", "attractionID", "games"],
+	tagTypes: ['auth', "region", "places", "gallery", "place", "kitchens", 'hotels',"kitchenID", "hotelID", "attractions", "attractionID", "games", "culture-kitchen", "culture-national-clothes"],
 	endpoints: () => ({})
 });

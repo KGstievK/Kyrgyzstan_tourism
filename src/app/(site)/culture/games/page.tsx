@@ -1,5 +1,5 @@
 "use client";
-import CultureGames from '@/appPages/site/components/pages/CultureSections/games/CultureGames';
+import CultureGames from '@/appPages/site/components/pages/CultureSections/Games/CultureGames';
 
 const page = () => <CultureGames />;
 
