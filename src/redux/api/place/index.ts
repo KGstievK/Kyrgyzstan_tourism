@@ -5,7 +5,7 @@ const api = index.injectEndpoints({
     endpoints: (builder) => ({
         getPlace: builder.query<PLACE.PlaceResponse, PLACE.PlaceRequest>({
             query: (_id) => ({
-                url: `/popular_place/${_id}`,
+                url: `/popular_places/${_id}`,
                 method: "GET",
             }),
             providesTags: ["place"]
@@ -24,14 +24,28 @@ const api = index.injectEndpoints({
             }),
             providesTags: ['kitchenID']
         }),
-        getHotels: builder.query<PLACE.KitchenResponse, PLACE.KitchenRequest> ({
+        getHotels: builder.query<PLACE.HotelsResponse, PLACE.HotelsRequest> ({
             query: () => ({
                 url: "/hotels",
                 method: "GET",
             }),
             providesTags: ['hotels']
+        }),
+        getHotelID: builder.query<PLACE.HotelIDResponse, PLACE.HotelIDRequest> ({
+            query: (id) => ({
+                url: `/hotels/${id}`,
+                method: "GET",
+            }),
+            providesTags: ['hotelID']
+        }),
+        getAttractionID: builder.query<PLACE.AttractionIDResponse, PLACE.AttractionIDRequest> ({
+            query: (id) => ({
+                url: `/attractions/${id}`,
+                method: "GET",
+            }),
+            providesTags: ['attractionID']
         })
     })
 })
 
-export const {useGetPlaceQuery, useGetHotelsQuery, useGetKitchensQuery, useGetKitchenIDQuery} = api
+export const {useGetPlaceQuery, useGetHotelsQuery, useGetKitchensQuery, useGetKitchenIDQuery, useGetHotelIDQuery, useGetAttractionIDQuery} = api

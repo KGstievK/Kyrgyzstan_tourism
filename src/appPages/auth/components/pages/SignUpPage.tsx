@@ -4,23 +4,11 @@ import { usePostRegistrationMutation } from "@/redux/api/auth";
 import { ConfigProvider } from "antd";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
 import { Switch } from "antd";
 import Link from "next/link";
 import Image from "next/image";
-// import logo from "@/assets/icons/logo.svg";
-// import google from "@/assets/icons/google.svg";
-// import { signIn } from "next-auth/react";
 
-interface SignUpProps {
-  email: string;
-  password: string;
-  confirm_password: string;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-  birth_date: string;
-}
+
 
 const SignUpPage: FC = () => {
   const [postRegisterMutation] = usePostRegistrationMutation();
@@ -30,7 +18,7 @@ const SignUpPage: FC = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
 
-  const onSubmit: SubmitHandler<SignUpProps> = async (userData) => {
+  const onSubmit: SubmitHandler<AUTH.PostRegistrationRequest> = async (userData) => {
     const userDataRest = {
       email: userData.email,
       password: userData.password,
@@ -43,9 +31,10 @@ const SignUpPage: FC = () => {
 
     try {
       const response = await postRegisterMutation(userDataRest);
+      console.log("🚀 ~ constonSubmit:SubmitHandler<AUTH.PostRegistrationRequest>= ~ response:", response)
       if (response.data?.access) {
         const storage = rememberMe ? localStorage : sessionStorage;
-        storage.setItem("accessToken", JSON.stringify(response.data.access));
+        storage.setItem("accessToken", JSON.stringify(response.data));
         // window.location.reload();
       }
     } catch (e) {
@@ -57,7 +46,6 @@ const SignUpPage: FC = () => {
     setRememberMe(checked);
   };
 
-  const password = watch("password");
   return (
     <section className={scss.RegistrationPage}>
       <h1 className={scss.authTitle}>Sign up</h1>
@@ -120,8 +108,8 @@ const SignUpPage: FC = () => {
         <ConfigProvider
           theme={{
             token: {
-              colorPrimary: "407EC7", // Основной цвет
-              colorBorder: "#000", // Цвет границы
+              colorPrimary: "407EC7",
+              colorBorder: "#000",
             },
           }}
         >
@@ -144,17 +132,3 @@ const SignUpPage: FC = () => {
 };
 export default SignUpPage;
 
-{
-  /* <div className={scss.orLine}>
-  <div className={scss.line}></div>
-  <p>или</p>
-  <div className={scss.line}></div>
-</div> */
-}
-{
-  /* <div className={scss.google}>
-  <button className={scss.Google_link} onClick={() => signIn("google")}>
-    <Image src={google} alt="Google" />
-  </button>
-</div> */
-}

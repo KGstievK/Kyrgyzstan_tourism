@@ -11,8 +11,9 @@ import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { DesktopNavigation } from "./components/DesktopNavigation";
 import { LanguageSelector } from "./components/LanguageSelector";
 import BurgerMenu from "@/appPages/site/ui/burgerMenu/BurgerMenu";
+import { useGetMeQuery } from "@/redux/api/auth";
+import Avatar from "./components/avatar/avatar";
 
-// Types
 interface NavItem {
   name: {
     ru: string;
@@ -44,6 +45,8 @@ const NAV_ITEMS: NavItem[] = [
 // Components
 
 const Header = () => {
+  const { data: userData, status } = useGetMeQuery();
+
   const { width } = useWindowSize();
   const { t, changeLanguage } = useTranslate();
   const lang = useSelector<RootState, string>(
@@ -67,66 +70,80 @@ const Header = () => {
 
   return (
     <header id={scss.Header}>
-      <div className={`${scss.container} container`}>
-        <div className={scss.logo}>LOGO</div>
+      <div className="container">
+        <div className={scss.content}>
+          <div className={scss.logo}>LOGO</div>
 
-        {width > 834 ? (
-          <>
-            <DesktopNavigation
-              navItems={NAV_ITEMS}
-              regions={REGIONS}
-              isActive={isActive}
-              isRegion={isRegion}
-              setIsRegion={setIsRegion}
-              isRegionName={isRegionName}
-              setIsRegionName={setIsRegionName}
-              t={t}
-            />
-            <div className={scss.block}>
-              <LanguageSelector
-                lang={lang}
-                changeLanguage={changeLanguage}
-                isRotate={isRotate}
-                setIsRotate={setIsRotate}
+          {width > 834 ? (
+            <>
+              <DesktopNavigation
+                navItems={NAV_ITEMS}
+                regions={REGIONS}
+                isActive={isActive}
+                isRegion={isRegion}
+                setIsRegion={setIsRegion}
+                isRegionName={isRegionName}
+                setIsRegionName={setIsRegionName}
+                t={t}
               />
-              <Link href="/auth/sign-up">
-                <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
-              </Link>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={scss.block2}>
-              <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
-              <div className={scss.burger}>
-                <span></span>
-                <span></span>
-                <span></span>
+              <div className={scss.block}>
+                <LanguageSelector
+                  lang={lang}
+                  changeLanguage={changeLanguage}
+                  isRotate={isRotate}
+                  setIsRotate={setIsRotate}
+                />
+                {status === "fulfilled" ? (
+                  <>
+                    <>
+                      <Avatar />
+                    </>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/auth/sign-up">
+                      <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                    </Link>
+                  </>
+                )}
               </div>
-              <BurgerMenu />
-              {/* <img
+            </>
+          ) : (
+            <>
+              <div className={scss.block2}>
+                <Link href="/auth/sign-up">
+                  <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                </Link>
+                <div className={scss.burger}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <BurgerMenu />
+                {/* <img
                 onClick={() => setIsShow(!isShow)}
                 src="images/Vector.png"
                 alt="menu-burger"
               /> */}
-            </div>
-            {isShow && (
-              <div className={scss.modal}>
-                <nav>
-                  {NAV_ITEMS.map((item) => (
-                    <Link
-                      key={item.path}
-                      href={item.path}
-                      className={isActive(item.path) ? scss.active : ""}
-                    >
-                      {t(item.name.ru, item.name.ar, item.name.en)}
-                    </Link>
-                  ))}
-                </nav>
               </div>
-            )}
-          </>
-        )}
+              {isShow && (
+                <div className={scss.modal}>
+                  <nav>
+                    {NAV_ITEMS.map((item) => (
+                      <Link
+                        key={item.path}
+                        href={item.path}
+                        className={isActive(item.path) ? scss.active : ""}
+                      >
+                        {t(item.name.ru, item.name.ar, item.name.en)}
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </header>
   );

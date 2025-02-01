@@ -1,6 +1,7 @@
 import { useGetRegionListQuery } from "@/redux/api/regions";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { FC, ReactNode, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface RegionProviderProps {
     children: ReactNode
@@ -8,10 +9,9 @@ interface RegionProviderProps {
 
 export const RegionProvider: FC<RegionProviderProps> = ({children}) => {
     const { data } = useGetRegionListQuery();
-    console.log(data);
     
     const pathName = usePathname();
-    const router = useRouter();
+    const router = useNavigate();
     const handelNavigate = () => {
       switch (pathName) {
         case "/talas":
@@ -22,12 +22,12 @@ export const RegionProvider: FC<RegionProviderProps> = ({children}) => {
         case "/osh":
         case "/batken":
           if (!data) {
-            router.push("/404");
+            router("/404");
           }
           break;
         case "/404":
           if (data) {
-              router.push('/talas')
+              router('/talas')
         }
 
       }

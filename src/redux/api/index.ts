@@ -11,15 +11,22 @@ const getLanguage = (): string => {
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/${getLanguage()}`,
   prepareHeaders: (headers) => {
-    let token = JSON.parse(String(localStorage.getItem("accessToken")));
-    if (!token) {
-      token = JSON.parse(String(sessionStorage.getItem("accessToken")));
-    }
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
+		let token = null;
+		const localStorageData = JSON.parse(localStorage.getItem('accessToken')!);
+		const SessionStorageData = JSON.parse(sessionStorage.getItem('accessToken')!);
+		if (localStorageData) {
+			const { access } = localStorageData;
+			token = access;
+		}
+		if (SessionStorageData) {
+			const { access } = SessionStorageData;
+			token = access;
+		}
+		if (token) {
+			headers.set('Authorization', `Bearer ${token}`);
+		}
+		return headers;
+	}
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
@@ -28,19 +35,10 @@ const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
 };
 
 export const api = createApi({
-  reducerPath: "api",
-  baseQuery: baseQueryExtended,
-  refetchOnReconnect: true,
-  refetchOnFocus: false,
-  tagTypes: [
-    "auth",
-    "region",
-    "places",
-    "gallery",
-    "place",
-    "kitchens",
-    "hotels",
-    "kitchenID",
-  ],
-  endpoints: () => ({}),
+	reducerPath: 'api',
+	baseQuery: baseQueryExtended,
+	refetchOnReconnect: true,
+	refetchOnFocus: false,
+	tagTypes: ['auth', "region", "places", "gallery", "place", "kitchens", 'hotels',"kitchenID", "hotelID", "attractions", "attractionID"],
+	endpoints: () => ({})
 });

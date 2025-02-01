@@ -1,15 +1,15 @@
-import useTranslate from '@/appPages/site/hooks/translate/translate';
-import scss from './Tab_attractions.module.scss';
-// import imgAtt from '@/images/cultural-evening.png'
-const Tab_attractions = () => {
+import { useState } from "react";
+import AttractionList from "./attractionList/AttractionInfo";
+import scss from "./Tab_attractions.module.scss";
 
-    const {t} = useTranslate()
+const Attractions = () => {
+  const [currentId, setCurrentId] = useState<number | null>(null);
 
-    return (
-        <div className={scss.attractions}>
-
-        </div>
-    );
+  return (
+    <section id={scss.Attractions}>
+      <AttractionList isCurrent={currentId} setIsCurrent={setCurrentId} />
+    </section>
+  );
 };
 
-export default Tab_attractions;
+export default Attractions;

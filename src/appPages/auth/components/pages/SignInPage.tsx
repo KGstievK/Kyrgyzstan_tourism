@@ -1,16 +1,11 @@
 "use client";
 import scss from "./SignInPage.module.scss";
 import { usePostLoginMutation } from "@/redux/api/auth";
-import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
-
 import { ConfigProvider, Switch } from "antd";
-import Image from "next/image";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import logo from "@/assets/icons/logo.svg";
-import google from "@/assets/icons/google.svg";
-// import { signIn } from "next-auth/react";
+
 
 interface signInProps {
   email: string;
@@ -36,10 +31,10 @@ const SignInPage: FC = () => {
       // const responseToken = await refreshaccess(userData)
       if (response.data?.access) {
         const storage = rememberMe ? localStorage : sessionStorage;
-        // storage.setItem(
-        //   "accessToken",
-        //   JSON.stringify(response.data.access)
-        // );
+        storage.setItem(
+          "accessToken",
+          JSON.stringify(response.data)
+        );
         storage.setItem("accessToken", JSON.stringify(response.data.access));
       }
 

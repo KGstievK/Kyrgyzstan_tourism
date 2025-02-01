@@ -4,10 +4,12 @@
   z-index: 10;
   background: url("../../../../../assets/images/headerImages/header.jpg");
   background-color: #004a60;
-  .container {
-    display: flex;
+  .content {
+    display: grid;
+    grid-template-columns: 8% 44% 26.5%;
     align-items: center;
     justify-content: space-between;
+    // justify-items: end;
   }
   .logo {
     width: 100%;
@@ -16,8 +18,41 @@
   .nav {
     display: flex;
     gap: 30px;
-    align-items: center;
+    align-items: flex-start;
+    max-width: 525px;
+    width: 100%;
+    > li {
+      max-width: 80px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      div {
+        cursor: pointer;
+      }
+      .regions {
+        position: absolute;
+        padding: 15px 30px;
+        width: 177px;
+        left: -50%;
+        backdrop-filter: blur(15px);
+        background: #ffffff99;
+        li {
+          width: 100%;
+          padding: 3px 0;
+        }
 
+        a {
+          width: 100%;
+          font-family: Frank Ruhl Libre;
+          font-size: 20px;
+          font-weight: 500;
+          line-height: 25.82px;
+          color: #004a60;
+        }
+      }
+    }
     > a,
     .link {
       font-family: "Frank Ruhl Libre";
@@ -68,15 +103,21 @@
         right: 42px;
       }
     }
+
     a {
+
       button {
         font-family: "Frank Ruhl Libre";
+        max-width: 170px;
+        width: 100%;
         font-size: 20px;
         font-weight: 700;
         line-height: 25.82px;
         border-radius: 8px;
         padding: 10px 25px;
         background: #004a60;
+        white-space: nowrap;
+  
         cursor: pointer;
         color: white;
         @media (max-width: 1034px) {

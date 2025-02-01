@@ -8,14 +8,15 @@ import groupPng from "@/assets/images/regions/Group.png";
 import scss from './Places.module.scss';
 
 const Places: FC = () => {
-    const { t } = useTranslate();
     const pathName = usePathname();
     const id: number = Number(pathName.split("/")[2]);
     const { data } = useGetPlaceQuery(id);
-
+    console.log(data);
+    
     const truncatedDescription = data?.description 
         ? `${data.description.slice(0, 470)}...` 
         : '';
+
 
     return (
         <section id={scss.Places}>

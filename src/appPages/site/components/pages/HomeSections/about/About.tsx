@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import scss from "../about/About.module.scss";
-
+import Image from "next/image";
+import imgNone from "@/assets/images/universalImage/none.png";
+import img from "@/assets/images/homeImages/bishkek.jpg";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 const About = () => {
+  const { t } = useTranslate();
+  const [error, setError] = useState(false);
+
   return (
     <div id={scss.About}>
       <div className="container">
         <div className={scss.About}>
-          <h1 className={`${scss.herotitle} ${scss.hidden}`}>Bishkek</h1>
-          <img
-            className={scss.heroimg}
-            src="https://s3-alpha-sig.figma.com/img/e21a/2f1b/57c2f97ad93d1513f9bc8ffc5c3ff37a?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TFKesmmRMPRFb~UFkxa1fM12YqvlXtke33dnsVeymhzZIy4388qC8XSmTpIF~0ICgBWtO5M5sBZu9OIbiEPdwNa6XPFiZN4egd8GAgpmMknyaDvpy0TZWZ8efUyESyvwxrTluUk0zriafqLjsM-NFB8sVk5TG-vgfeBWFKHYm5pK3yli4B5go4xn7Lhq2vyRb9Hr7K6bVZ5yLyuNr61kU4paWv4f8n6uHJ~h1Jw3PEOWMCsTkOqog9JO3P-B3V18HlcEfKuoZZRPHwGyFsdtDak7Cu2CdhmL2-N~zLCro24DRWKSPUxKPyo~KyrDwkZbvxASwASvhN7m3AuL4UoAYQ__"
-            alt=""
+          <h1 className={`${scss.herotitle} ${scss.hidden}`}>
+            {t("Bishkek", "", "")}
+          </h1>
+          <Image
+            src={error || !img ? imgNone : img}
+            alt={"Bishkek"}
+            width={400}
+            height={300}
+            style={{
+              objectFit: "cover",
+              backgroundColor: "#f0f0f0",
+              width: "100%",
+              height: "300px",
+            }}
+            onError={() => setError(true)}
           />
           <div>
             <h1 className={scss.herotitle}>Bishkek</h1>

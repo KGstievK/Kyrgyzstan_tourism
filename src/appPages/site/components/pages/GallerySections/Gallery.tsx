@@ -2,8 +2,8 @@
 "use client"
 import useTranslate from '@/appPages/site/hooks/translate/translate';
 import scss from './Gallery.module.scss';
-import imgHeart from "@/images/Vector.png"
-import imgMetka from "@/images/metka.png"
+import imgHeart from "@/assets/images/regions/Vector.png"
+import imgMetka from "@/assets/images/galleryImages/metka.png"
 import { useGetPopularPlacesQuery } from '@/redux/api/regions';
 import { useGetGalleryQuery } from '@/redux/api/gallery';
 import Stars from '@/appPages/site/ui/stars/Stars';
