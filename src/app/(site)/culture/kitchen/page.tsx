@@ -1,3 +1,4 @@
+"use client"
 import Kitchen from "@/appPages/site/components/pages/CultureSections/Kitchen/Kitchen";
 
 

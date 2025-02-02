@@ -5,10 +5,10 @@ import Arrow from "@/assets/images/regions/Arrow_alt_lright.png";
 import Background from "@/assets/images/cultureImages/main-culture.jpg";
 const cultureNav = [
   { name: "Games", href: "/culture/games" },
-  { name: "National clothes", href: "/culture/national-clothes" },
+  { name: "National clothes", href: "/culture/national_clothes" },
   { name: "Hand crafts", href: "/culture/hand-craftes" },
   { name: "Currency", href: "/culture/currency" },
-  { name: "National instruments", href: "/culture/national-instruments" },
+  { name: "National instruments", href: "/culture/national_instruments" },
   { name: "Kitchen", href: "/culture/kitchen" },
 ];
 const MainCulture = () => {

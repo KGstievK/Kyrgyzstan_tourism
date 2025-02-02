@@ -1,3 +1,4 @@
+"use client"
 import Hand_crafts from "@/appPages/site/components/pages/CultureSections/Hand_crafts/Hand_crafts";
 import React from "react";
 

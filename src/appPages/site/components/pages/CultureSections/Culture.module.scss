@@ -1,30 +1,18 @@
 .section {
   padding: 40px 0;
-  position: relative;
-  @media (max-width: 834px) {
-    padding-top: 240px;
-  }
   .top {
-    padding-block: 30px;
-    height: auto;
+    height: 250px;
     display: flex;
     align-items: center;
     gap: 80px;
     padding-inline: 50px;
-    background-image: url("../../../../../../assets/images/cultureImages/bg.jpg");
+    background-image: url("../../../../../assets/images/cultureImages/bg.jpg");
     background-position: center;
     backdrop-filter: blur(10px);
-    @media (max-width: 834px) {
-      position: absolute;
-      width: 100%;
-      top: 0;
-      left: 0;
-    }
     .muted-background {
       background-color: rgba(195, 185, 185, 0.639);
       backdrop-filter: blur(10px);
       position: absolute;
-      padding-block: 30px;
       top: 0;
       left: 0;
       width: 100%;
@@ -36,79 +24,15 @@
       font-family: Abril Fatface;
       font-size: clamp(28px, 5vw, 64px);
       font-weight: 400;
-      max-width: 150px;
+      max-width: 250px;
     }
     .top-paragraph {
       color: #000;
       font-family: Frank Ruhl Libre;
       font-size: clamp(12px, 5vw, 24px);
       font-weight: 500;
-      // line-height: 30.98px;
-      line-height: clamp(10.49px, 5vw, 30.98px);
+      line-height: 30.98px;
       width: 100%;
-    }
-  }
-  .kitchen {
-    margin-top: 30px;
-    display: grid;
-    grid-template-columns: .7fr 1fr;
-    gap: 30px;
-    @media (max-width: 834px) {
-      grid-template-columns: 1fr;
-      
-    }
-    .grid_layout {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      .object_cover {
-        object-fit: cover;
-      }
-      .image_wrapper {
-        position: relative;
-    
-        &:nth-child(1),
-        &:nth-child(4) {
-          grid-column: 1 / -1;
-          height: 324px;
-
-          @media (max-width: 1034px) {
-            height: 278px;
-            
-          }
-          @media (max-width: 834px) {
-            height: 324px;
-            
-          }
-          @media (max-width: 478px) {
-            height: 278px;
-            
-          }
-          @media (max-width: 478px) {
-            height: 243px;
-            
-          }
-        }
-    
-        &:nth-child(2),
-        &:nth-child(3) {
-          height: 178px;
-          @media (max-width: 1034px) {
-            height: 120px;
-            
-          }
-          @media (max-width: 834px) {
-            height: 178px;
-            
-          }
-          @media (max-width: 478px) {
-            height: 120px;
-            
-          }
-        }
-    
-
-      }
     }
   }
   .main {
@@ -124,7 +48,8 @@
     }
     .main-text {
       display: flex;
-      justify-content: space-between;
+      justify-content: start;
+      gap: 30px;
       align-items: flex-start;
       flex-direction: column;
       font-family: Montserrat;
