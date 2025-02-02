@@ -7,7 +7,7 @@ const api = index.injectEndpoints({
                 url: `/region`,
                 method: "GET",
             }),
-            providesTags: ["region" ],
+            providesTags: ["region"],
         }),
         getPopularPlaces: builder.query<REGION_LIST.PopularResponse, REGION_LIST.PopularRequest >({
             query: () => ({

@@ -1,6 +1,7 @@
 import { FC, ReactNode, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetMeQuery } from '../redux/api/auth';
+import { useLocation } from 'react-router-dom';
+import { useGetMeQuery, usePatchRefreshTokenMutation } from '../redux/api/auth';
+import { useRouter } from 'next/navigation';
 
 interface SessionProviderProps {
 	children: ReactNode;
@@ -10,7 +11,46 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
 	const { status } = useGetMeQuery();
 	console.log("🚀 ~ status:", status)
 	const { pathname } = useLocation();
-	const navigate = useNavigate();
+	const router = useRouter();
+  const [refreshTokenMutation] = usePatchRefreshTokenMutation();
+
+
+	const handleRefreshToken = async () => {
+    const localStorageData = JSON.parse(localStorage.getItem("accessToken")!);
+    const SessionStorageData = JSON.parse(sessionStorage.getItem("accessToken")!);
+
+    if (!localStorageData || !SessionStorageData) {
+      return;
+    }
+
+    const { access, refresh } = localStorageData || SessionStorageData;
+   
+    const isTokenExpired = (token: string): boolean => {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        const now = Math.floor(Date.now() / 1000);
+        return payload.exp < now;
+      } catch (error) {
+        console.error("Ошибка при проверке токена:", error);
+        return true;
+      }
+    };
+
+    if (isTokenExpired(access)) {
+      try {
+        const { data } = await refreshTokenMutation({ refresh });
+        if (data) {
+          localStorage.setItem("accessToken", JSON.stringify(data));
+          sessionStorage.setItem("accessToken", JSON.stringify(data));
+        }
+      } catch (error) {
+        console.error("Не удалось обновить токены:", error);
+        localStorage.removeItem("accessToken");
+        sessionStorage.removeItem("accessToken");
+        router.push("/auth/sign-in"); 
+      }
+    }
+  };
 
 	const handleNavigation = () => {
 		switch (pathname) {
@@ -19,16 +59,16 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
 			case '/auth/reset-password':
 			case '/auth/forgot':
 				if (status === 'fulfilled') {
-					navigate('/');
+					router.back();
 				}
 				break;
 			case '/chats':
 			case '/notifications':
 			case '/settings':
-			case '/my-profile':
+			case '/profile':
 			case '/my-public':
 				if (status === 'rejected') {
-					navigate('/auth/sign-in');
+					router.push('/auth/sign-in');
 				}
 				break;
 			default:
@@ -37,8 +77,12 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
 	};
 
 	useEffect(() => {
+		handleRefreshToken()
+	}, [pathname])
+
+	useEffect(() => {
 		handleNavigation();
-	}, [status, pathname, navigate]);
+	}, [status, pathname, router]);
 
 	return children;
 };

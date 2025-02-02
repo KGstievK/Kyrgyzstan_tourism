@@ -1,4 +1,4 @@
-#Try {
+.Attraction {
     width: 100%;
     h2 {
         font-family: Abril Fatface;
@@ -32,7 +32,7 @@
     }
     .content {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 20px;
         @media (max-width: 834px) {
             display: flex;

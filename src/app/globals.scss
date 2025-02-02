@@ -5,7 +5,7 @@
   --main-color: #004A60;
   --footer: ;
   --silver: #26262672;
-  --input: #27313882;
+  --input: #E5E4E9;
 }
 * {
   margin: 0;
@@ -69,10 +69,10 @@ button {
 }
 
 .container {
-  width: 100%;
-  max-width: 1230px;
+  width: 90%;
   margin: 0 auto;
   padding: 0 15px;
+  z-index: 1;
   @media (max-width: 1034px) {
     max-width: 930px;
   }

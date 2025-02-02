@@ -6,6 +6,8 @@ import imgHeart from "@/assets/images/placeImages/Vector.png";
 import imgRight from "@/assets/images/placeImages/Arrow_alt_lright.png";
 import scss from "../Tab_hotel.module.scss";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import imgNone from "@/assets/images/universalImage/none.png";
 
 interface HotelListProps {
   setIsCurrent: (id: number) => void;
@@ -27,8 +29,11 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
   const [isLimit, setIsLimit] = useState<number>(1);
   const { data: hotels = [] } = useGetHotelsQuery();
   const placeID = usePathname().split("/")[2];
+  const [errorImg, setErrorImg] = useState(false);
 
-  const hotelsInPlace = hotels.filter((el) => el.popular_places === Number(placeID));
+  const hotelsInPlace = hotels.filter(
+    (el) => el.popular_places === Number(placeID)
+  );
 
   useEffect(() => {
     if (hotelsInPlace.length > 0 && isCurrent === null) {
@@ -42,12 +47,25 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
 
   const renderHotelItem = (hotel: Hotel) => (
     <div key={hotel.id} className={scss.item}>
-      <img src={hotel.main_image} alt={hotel.name} />
+      <Image
+        src={errorImg || !hotel.main_image ? imgNone : hotel.main_image}
+        alt={hotel.name}
+        width={341}
+        height={270}
+        unoptimized
+        style={{
+          objectFit: "cover",
+          backgroundColor: "#f0f0f0",
+        }}
+        onError={() => setErrorImg(true)}
+      />{" "}
       <div className={scss.block}>
         <h6>{hotel.name}</h6>
         <div>
           <Stars rating={hotel.average_rating} />
-            <span className={scss.review}>{hotel.rating_count} {t("отзывов", "تقييمات", "reviews")}</span>
+          <span className={scss.review}>
+            {hotel.rating_count} {t("отзывов", "تقييمات", "reviews")}
+          </span>
         </div>
       </div>
       <img className={scss.heart} src={imgHeart.src} alt="favorite" />
@@ -70,7 +88,13 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
   return (
     <>
       <div className={scss.head}>
-        <h4>{t("Лучшие достопримечательности поблизости", "أفضل المعالم السياحية القريبة", "The best attractions nearby")}</h4>
+        <h4>
+          {t(
+            "Лучшие достопримечательности поблизости",
+            "أفضل المعالم السياحية القريبة",
+            "The best attractions nearby"
+          )}
+        </h4>
         {hotels.length > ITEMS_PER_PAGE && !isAllItemsShown && (
           <p onClick={() => setIsLimit(hotelGroups.length)}>
             {t("Показать все", "عرض الكل", "Show all")}

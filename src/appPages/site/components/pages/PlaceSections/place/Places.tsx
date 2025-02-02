@@ -29,6 +29,7 @@ const Places: FC = () => {
                                 alt={data.popular_name || 'Place image'}
                                 width={500}
                                 height={300}
+                                
                             />
                         )}
                         <div className={scss.temperature}>

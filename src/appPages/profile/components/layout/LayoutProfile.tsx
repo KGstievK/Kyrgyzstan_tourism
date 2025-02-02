@@ -35,16 +35,6 @@ const LayoutProfile: FC<LayoutProfileProps> = ({ children }) => {
 
   return (
     <div className={scss.LayoutProfile}>
-      <div className="container">
-        <p className={scss.deckstop}>
-          <Link href="/">Главная</Link>
-          <span>/</span>Профиль <span>/</span>
-          {tabs.map((iten) => (pathname === iten.path ? iten.label : ""))}
-        </p>
-        <p className={scss.mobile} >
-          <Link href="/">Главная</Link>
-          <span>/</span><Link href="/profile">Профиль</Link><span>/</span>{tabsMobile.map((iten) => (pathname === "/profile" ? '' : pathname === iten.path ? iten.label : null))}
-        </p>
         <div className={scss.content}>
           <div className={scss.headerMobile}
             style={{
@@ -77,7 +67,6 @@ const LayoutProfile: FC<LayoutProfileProps> = ({ children }) => {
             {children}
           </main>
         </div>
-      </div>
     </div>
   );
 };

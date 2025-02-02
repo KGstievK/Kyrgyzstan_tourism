@@ -12,7 +12,8 @@ import { DesktopNavigation } from "./components/DesktopNavigation";
 import { LanguageSelector } from "./components/LanguageSelector";
 import BurgerMenu from "@/appPages/site/ui/burgerMenu/BurgerMenu";
 import { useGetMeQuery } from "@/redux/api/auth";
-import Avatar from "./components/avatar/avatar";
+import { Avatar, Badge, Space } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 interface NavItem {
   name: {
@@ -95,9 +96,15 @@ const Header = () => {
                 />
                 {status === "fulfilled" ? (
                   <>
-                    <>
-                      <Avatar />
-                    </>
+                    <Link href='/profile'>
+                      <Space direction="vertical" size={10}>
+                        <Space wrap size={10}>
+                          <Badge count={1}>
+                            <Avatar size={47} icon={<UserOutlined />} />
+                          </Badge>
+                        </Space>
+                      </Space>
+                    </Link>
                   </>
                 ) : (
                   <>

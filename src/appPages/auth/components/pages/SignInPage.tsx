@@ -28,14 +28,9 @@ const SignInPage: FC = () => {
     };
     try {
       const response = await postLoginMutation(userData);
-      // const responseToken = await refreshaccess(userData)
       if (response.data?.access) {
         const storage = rememberMe ? localStorage : sessionStorage;
-        storage.setItem(
-          "accessToken",
-          JSON.stringify(response.data)
-        );
-        storage.setItem("accessToken", JSON.stringify(response.data.access));
+        storage.setItem("accessToken", JSON.stringify(response.data));
       }
 
       // window.location.reload();
@@ -46,7 +41,7 @@ const SignInPage: FC = () => {
   };
   return (
     <section className={scss.LoginPage}>
-      <h1 className={scss.authTitle}>Sign up</h1>
+      <h1 className={scss.authTitle}>Sign ip</h1>
       <h2>Создать аккаунт</h2>
       <form action="" onSubmit={handleSubmit(onSubmit)}>
         <input

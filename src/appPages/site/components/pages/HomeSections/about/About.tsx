@@ -13,7 +13,7 @@ const About = () => {
       <div className="container">
         <div className={scss.About}>
           <h1 className={`${scss.herotitle} ${scss.hidden}`}>
-            {t("Bishkek", "", "")}
+            {t("Бишкек", "عن بيشكيك", "Bishkek")}
           </h1>
           <Image
             src={error || !img ? imgNone : img}

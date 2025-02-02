@@ -48,7 +48,7 @@ const Cafe_item: FC<propsType> = ({kitchens,isCurrent}) => {
         <div className={scss.cafe_item}>
             <h4>{data?.kitchen_name}</h4>
             <div className={scss.imgs}>
-                {data?.kitchen_image.map(el => <img src={el.image} alt=''/>)}
+                {data?.kitchen_image.map((el, i) => <img key={i} src={el.image} alt=''/>)}
             </div>
             <div className={scss.info}>
                 <div>

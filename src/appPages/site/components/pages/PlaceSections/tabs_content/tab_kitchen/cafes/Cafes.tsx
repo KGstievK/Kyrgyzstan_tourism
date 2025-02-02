@@ -55,6 +55,9 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
       <Image
         src={errorImg || !el.main_image ? imgNone : el.main_image}
         alt={el.kitchen_name}
+        width={486}
+        height={543}
+        unoptimized
         style={{
           objectFit: "cover",
           backgroundColor: "#f0f0f0",

@@ -34,12 +34,12 @@ export const DesktopNavigation = ({
         {navItems.map((item) => (
           <li key={item.path}>
             {item.path ? (
-              <Link href={item.path} className={isActive(item.path) ? scss.active : ""}>
+              <Link href={item.path} className={isActive(item.path) ? `${scss.active} ${scss.link}` : scss.link}>
                 {t(item.name.ru, item.name.ar, item.name.en)}
               </Link>
             ) : (
               <Link href="#"
-                className={isRegion ? scss.active : ""}
+                className={isRegion ? `${scss.active} ${scss.link}` : scss.link}
                 onClick={() => setIsRegion(!isRegion)}
               >
                 {t(item.name.ru, item.name.ar, item.name.en)}

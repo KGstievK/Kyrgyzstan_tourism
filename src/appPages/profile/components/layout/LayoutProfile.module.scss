@@ -1,49 +1,29 @@
 .LayoutProfile {
+  position: relative;
+  top: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin-top: 50px;
-	position: relative;
 	width: 100%;
 	height: 100vh;
 	background: url('../../../../assets/images/auth/background.svg') no-repeat center / cover;
-  p.deckstop {
-    font-family: "inter", sans-serif;
-    font-size: 16px;
-    line-height: 15px;
-    font-weight: 500;
-    color: var(--main-color);
-    @media (max-width: 400px) {
-      display: none;
-    }
-    span {
-      color: #00000080;
-      margin: 0 15px;
-      font-weight: 700;
-      font-size: 20px;
-    }
-  }
-  p.mobile {
-    display: none;
-    font-family: "inter", sans-serif;
-    font-size: 16px;
-    line-height: 15px;
-    font-weight: 500;
-    color: var(--main-color);
-    @media (max-width: 400px) {
-      display: block;
-    }
-    span {
-      color: #00000080;
-      margin: 0 15px;
-      font-weight: 700;
-      font-size: 20px;
-    }
-  }
+  // &::before {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	content: '';
+	// 	width: 100%;
+	// 	height: 100vh;
+	// 	background-color: #24242480;
+	// }
+
+
+
   .content {
+    width: 100%;
     display: grid;
-    grid-template-columns: 20% 75%;
-    margin-top: 25px;
+    grid-template-columns: 20% 80%;
+    // z-index: 1;
     @media (max-width: 400px) {
       grid-template-columns: 100%;
     }

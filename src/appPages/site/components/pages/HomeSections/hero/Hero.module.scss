@@ -5,15 +5,14 @@
   height: auto;
   padding-bottom: 300px;
   margin: 0 auto;
-  background: url("../../../../../../assets/images/homeImages/bg.jpg") no-repeat center;
+  background: url("../../../../../../assets/images/homeImages/bg.jpg") no-repeat
+    center;
   background-size: cover;
   @media (max-width: 576px) {
     padding-bottom: 270px;
-    
   }
   @media (max-width: 420px) {
     padding-bottom: 200px;
-    
   }
   .Hero {
     display: flex;
@@ -32,12 +31,11 @@
       margin-top: 80px;
     }
     @media (max-width: 834px) {
-      margin-top: 60px;;
+      margin-top: 60px;
     }
     @media (max-width: 634px) {
-      margin-top: 40px;;
+      margin-top: 40px;
     }
-
   }
 
   .input_container {
@@ -48,7 +46,6 @@
     display: inline-block;
     @media (max-width: 534px) {
       margin-left: 30px;
-      
     }
   }
 
@@ -61,7 +58,6 @@
     color: grey;
     border: none;
     padding-left: 50px;
-
   }
 
   .input_container::before {
@@ -86,7 +82,7 @@
   }
   .pageblock {
     gap: 20px;
-    margin-top: 100px;
+    margin-top: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -102,35 +98,40 @@
     }
     @media (max-width: 420px) {
       margin-top: 20px;
-      
     }
   }
   .hometext {
     width: 621px;
     height: 136px;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
     font-size: 24px;
     font-weight: 500;
     color: #ffffff;
-  }
+    font-family: Frank Ruhl Libre;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 33.61px;
+    letter-spacing: 0.05em;
 
+  }
 
   .heroTwo {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 288px;
     background: white;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     background: rgba(255, 255, 255, 0.5);
     padding: 30px 0;
-
+    @media screen and (max-width: 834px) {
+      height: 400px;
+    }
   }
   .heroTwoContainer {
     gap: 50px;
@@ -140,17 +141,16 @@
       flex-direction: column;
       gap: 10px;
       align-items: start;
-      
     }
   }
   .twoText {
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-family: "Franklin Gothic Medium" sans-serif;
     font-size: 64px;
     font-weight: 400;
+    line-height: 56.4px;
     color: #ffffff;
     @media (max-width: 1034px) {
       font-size: 55px !important;
-      
     }
     @media (max-width: 768px) {
       font-size: 45px !important;
@@ -163,11 +163,11 @@
     }
   }
   .twoTitle {
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-    width: 100%;
+    font-family: Frank Ruhl Libre;
     font-size: 24px;
     font-weight: 500;
-    line-height: 33, 6px;
+    line-height: 33.6px;
+    letter-spacing: 0.05em;
     color: #242424;
   }
 
@@ -208,7 +208,7 @@
     height: 35px;
     color: white;
   }
-  
+
   @media (max-width: 1024px) {
     .pages {
       font-size: 70px;

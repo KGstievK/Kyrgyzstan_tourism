@@ -1,9 +1,10 @@
+"use client"
 import { usePathname } from "next/navigation";
 import scss from "./HeaderProfile.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import vector from "@/assets/icons/ProfileVector.svg";
-import vectorWite from "@/assets/icons/vectorWite.svg";
+import vectorWite from "@/assets/icons/ProfileVector.svg";
+import vector from "@/assets/icons/vectorWite.svg";
 import { usePostLogoutMutation } from "@/redux/api/auth";
 import { FC } from "react";
 
@@ -22,13 +23,13 @@ const HeaderProfile: FC = () => {
 
   const tabs = [
     { label: "Профиль", path: "/profile" },
-    { label: "Мои покупки", path: "/profile/history" },
+    { label: "Комментарии", path: "/profile/history" },
     { label: "Избранные", path: "/profile/favorite" },
     { label: "Выйти", path: "" },
   ];
   const tabsMobile = [
     { label: "Личный Кабинет", path: "/profile/my_office" },
-    { label: "Мои покупки", path: "/profile/history" },
+    { label: "Комментарии", path: "/profile/history" },
     { label: "Избранные", path: "/profile/favorite" },
     { label: "Выйти", path: "/profile/logout" },
   ];

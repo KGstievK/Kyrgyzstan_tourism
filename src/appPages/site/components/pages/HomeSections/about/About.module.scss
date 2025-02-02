@@ -19,7 +19,13 @@
     gap: 50px;
 
 
-
+    >div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: space-between;
+    }
     @media (max-width: 762px) {
       gap: 30px; 
     }
@@ -39,9 +45,11 @@
   }
   .herotitle {
     color: #004a60;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Abril Fatface;
     font-size: 64px;
     font-weight: 400;
+    line-height: 86.34px;
+
 
     @media (max-width: 1200px) {
       font-size: 48px;
@@ -62,11 +70,15 @@
 
   .herotext {
     color: #242424;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 24px;
     font-weight: 500;
     line-height: 1.4; 
-    letter-spacing: 5%;
+    font-family: Frank Ruhl Libre;
+    font-size: 24px;
+    font-weight: 500;
+    // line-height: 33.6px;
+    letter-spacing: 0.05em;
+
 
     @media (max-width: 1200px) {
       font-size: 20px;

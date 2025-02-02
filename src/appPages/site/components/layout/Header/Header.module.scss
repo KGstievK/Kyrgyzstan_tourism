@@ -6,7 +6,7 @@
   background-color: #004a60;
   .content {
     display: grid;
-    grid-template-columns: 8% 44% 26.5%;
+    grid-template-columns: 8% 50% 26.5%;
     align-items: center;
     justify-content: space-between;
     // justify-items: end;
@@ -19,7 +19,8 @@
     display: flex;
     gap: 30px;
     align-items: flex-start;
-    max-width: 525px;
+    justify-content: space-between;
+    // max-width: 525px;
     width: 100%;
     > li {
       max-width: 80px;

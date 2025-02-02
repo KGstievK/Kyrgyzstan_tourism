@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { api as index } from '..';
 
 const api = index.injectEndpoints({
@@ -8,6 +9,15 @@ const api = index.injectEndpoints({
 				method: 'GET'
 			}),
 			providesTags: ['auth'],
+		}),
+		patchMe: build.mutation<AUTH.PatchMeResponse, AUTH.PatchMeRequest>({
+			query: (data) => ({
+				url: '/user_profile_list/',
+				method: 'PATCH',
+				headers: 'Content-Type: multipart/form-data',
+				body: data
+			}),
+			invalidatesTags: ['auth'],
 		}),
 		postLogin: build.mutation<AUTH.PostLoginResponse, AUTH.PostLoginRequest>({
 			query: (data) => ({
@@ -42,7 +52,7 @@ const api = index.injectEndpoints({
 			AUTH.PatchRefreshRequest
 		>({
 			query: () => ({
-				url: '/auth/refresh',
+				url: '/api/token/refresh/',
 				method: 'PATCH'
 			}),
 			invalidatesTags: ['auth']
