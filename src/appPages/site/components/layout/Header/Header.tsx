@@ -11,8 +11,10 @@ import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { DesktopNavigation } from "./components/DesktopNavigation";
 import { LanguageSelector } from "./components/LanguageSelector";
 import BurgerMenu from "@/appPages/site/ui/burgerMenu/BurgerMenu";
+import { useGetMeQuery } from "@/redux/api/auth";
+import { Avatar, Badge, Space } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
-// Types
 interface NavItem {
   name: {
     ru: string;
@@ -44,6 +46,8 @@ const NAV_ITEMS: NavItem[] = [
 // Components
 
 const Header = () => {
+  const { data: userData, status } = useGetMeQuery();
+
   const { width } = useWindowSize();
   const { t, changeLanguage } = useTranslate();
   const lang = useSelector<RootState, string>(
@@ -90,13 +94,33 @@ const Header = () => {
                   isRotate={isRotate}
                   setIsRotate={setIsRotate}
                 />
-                <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                {status === "fulfilled" ? (
+                  <>
+                    <Link href='/profile'>
+                      <Space direction="vertical" size={10}>
+                        <Space wrap size={10}>
+                          <Badge count={1}>
+                            <Avatar size={47} icon={<UserOutlined />} />
+                          </Badge>
+                        </Space>
+                      </Space>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/auth/sign-up">
+                      <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                    </Link>
+                  </>
+                )}
               </div>
             </>
           ) : (
             <>
               <div className={scss.block2}>
-                <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                <Link href="/auth/sign-up">
+                  <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                </Link>
                 <div className={scss.burger}>
                   <span></span>
                   <span></span>

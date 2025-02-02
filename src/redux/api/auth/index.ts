@@ -1,17 +1,27 @@
+import { headers } from 'next/headers';
 import { api as index } from '..';
 
 const api = index.injectEndpoints({
 	endpoints: (build) => ({
 		getMe: build.query<AUTH.GetResponse, AUTH.GetRequest>({
 			query: () => ({
-				url: '/user',
+				url: '/user_profile_list/',
 				method: 'GET'
 			}),
 			providesTags: ['auth'],
 		}),
+		patchMe: build.mutation<AUTH.PatchMeResponse, AUTH.PatchMeRequest>({
+			query: (data) => ({
+				url: '/user_profile_list/',
+				method: 'PATCH',
+				headers: 'Content-Type: multipart/form-data',
+				body: data
+			}),
+			invalidatesTags: ['auth'],
+		}),
 		postLogin: build.mutation<AUTH.PostLoginResponse, AUTH.PostLoginRequest>({
 			query: (data) => ({
-				url: '/auth/sign-in',
+				url: '/login/',
 				method: 'POST',
 				body: data
 			}),
@@ -22,7 +32,7 @@ const api = index.injectEndpoints({
 			AUTH.PostRegistrationRequest
 		>({
 			query: (data) => ({
-				url: '/auth/sign-up',
+				url: '/register/',
 				method: 'POST',
 				body: data
 			}),
@@ -42,7 +52,7 @@ const api = index.injectEndpoints({
 			AUTH.PatchRefreshRequest
 		>({
 			query: () => ({
-				url: '/auth/refresh',
+				url: '/api/token/refresh/',
 				method: 'PATCH'
 			}),
 			invalidatesTags: ['auth']

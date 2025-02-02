@@ -105,23 +105,26 @@
       }
     }
 
-    button {
-      font-family: "Frank Ruhl Libre";
-      max-width: 170px;
-      width: 100%;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 25.82px;
-      border-radius: 8px;
-      padding: 10px 25px;
-      background: #004a60;
-      white-space: nowrap;
+    a {
 
-      cursor: pointer;
-      color: white;
-      @media (max-width: 1034px) {
-        font-size: 18px;
-        width: auto;
+      button {
+        font-family: "Frank Ruhl Libre";
+        max-width: 170px;
+        width: 100%;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 25.82px;
+        border-radius: 8px;
+        padding: 10px 25px;
+        background: #004a60;
+        white-space: nowrap;
+  
+        cursor: pointer;
+        color: white;
+        @media (max-width: 1034px) {
+          font-size: 18px;
+          width: auto;
+        }
       }
     }
   }
