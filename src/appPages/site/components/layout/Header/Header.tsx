@@ -109,7 +109,7 @@ const Header = () => {
                 ) : (
                   <>
                     <Link href="/auth/sign-up">
-                      <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                      <button>{t("Войти", "التسجيل", "Sign in")}</button>
                     </Link>
                   </>
                 )}
@@ -119,7 +119,7 @@ const Header = () => {
             <>
               <div className={scss.block2}>
                 <Link href="/auth/sign-up">
-                  <button>{t("Регистрация", "التسجيل", "Sign up")}</button>
+                  <button>{t("Войти", "التسجيل", "Sign in")}</button>
                 </Link>
                 <div className={scss.burger}>
                   <span></span>
