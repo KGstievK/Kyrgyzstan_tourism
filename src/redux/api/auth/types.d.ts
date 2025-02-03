@@ -5,32 +5,27 @@ namespace AUTH {
     last_name: string;
     email: string;
     phone_number: number;
-    user_picture: any;
+    user_picture: string | null;
     from_user: string;
-    cover_photo: any;
+    cover_photo: string | null;
     birth_date: string
   }[];
   type GetRequest = void;
 
   type PatchMeResponse = {
-    id: number
     first_name: string;
     last_name: string;
     email: string;
-    phone_number: number;
-    user_picture: any;
-    cover_photo: any;
+    phone_number: string;
     birth_date: string
   }
   type PatchMeRequest = {
-    id: number
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: number;
-    user_picture: any;
-    cover_photo: any;
-    birth_date: string
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone_number?: string;
+    from_user?: string
+    birth_date?: string
   }
 
   type PostLoginResponse = {

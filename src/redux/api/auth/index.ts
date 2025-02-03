@@ -12,7 +12,7 @@ const api = index.injectEndpoints({
 		}),
 		patchMe: build.mutation<AUTH.PatchMeResponse, AUTH.PatchMeRequest>({
 			query: (data) => ({
-				url: '/user_profile_list/',
+				url: '/user_profile_created/',
 				method: 'PATCH',
 				headers: 'Content-Type: multipart/form-data',
 				body: data
@@ -81,4 +81,4 @@ const api = index.injectEndpoints({
 		})
 	})
 });
-export const { useGetMeQuery, usePostLoginMutation, usePostRegistrationMutation, usePostLogoutMutation, usePatchRefreshTokenMutation, usePatchResetPasswordMutation, usePostForgotPasswordMutation } = api;
+export const { useGetMeQuery, usePatchMeMutation, usePostLoginMutation, usePostRegistrationMutation, usePostLogoutMutation, usePatchRefreshTokenMutation, usePatchResetPasswordMutation, usePostForgotPasswordMutation } = api;

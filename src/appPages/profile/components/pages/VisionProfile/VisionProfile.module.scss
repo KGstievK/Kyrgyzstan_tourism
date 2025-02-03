@@ -1,5 +1,59 @@
 .VisionProfile {
+  width: 100%;
+  height: 100%;
   .content {
-    
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .cover {
+      padding: 20px;
+      position: relative;
+      border-radius: 10px 10px 0 0;
+      width: 100%;
+      height: 80%;
+      background-color: gray;
+      button.EditCover {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--background);
+        color: var(--main-color);
+        border: none;
+        padding: 5px;
+        z-index: 5;
+      }
+    }
+    .EditImage {
+      position: absolute;
+      bottom: 25px;
+      left: 10px;
+      z-index: 5;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      .userName {
+        display: flex;
+        flex-direction: column;
+        h1 {
+          color: var(--background);
+        }
+        p {
+          color: var(--background);
+        }
+      }
+    }
+    button.EditFrom {
+      position: absolute;
+      border: none;
+      width: 30px;
+      height: 30px;
+      background-color: transparent;
+      bottom: 10px;
+      right: 10px;
+      img {
+        width: 25px;
+        height: 25px;
+      }
+    }
   }
 }

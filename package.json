@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.0",
+    "@react-google-maps/api": "^2.20.5",
     "@reduxjs/toolkit": "^2.5.0",
     "@tabler/icons-react": "^3.28.1",
     "antd": "^5.23.0",
