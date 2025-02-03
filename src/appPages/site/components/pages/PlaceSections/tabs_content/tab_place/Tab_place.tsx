@@ -1,5 +1,6 @@
 'use client'
 
+import Map from '@/appPages/site/ui/mapMarker/Map';
 import scss from './Tab_place.module.scss';
 import useTranslate from '@/appPages/site/hooks/translate/translate';
 
@@ -26,7 +27,7 @@ const Tab_place = () => {
             </form>
             
             <div className={scss.map}>
-                
+                <Map/>
             </div>
         </div>
     );

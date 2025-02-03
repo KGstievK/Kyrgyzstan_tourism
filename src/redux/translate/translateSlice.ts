@@ -3,9 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface InitialType {
     currentLang: string
 }
-
 const initialState: InitialType = {
-    currentLang: localStorage.getItem("lang") || "en"
+    currentLang: typeof window !== "undefined" ? localStorage.getItem("lang") || "en" : "en"
 }
 
 

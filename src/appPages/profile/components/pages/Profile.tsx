@@ -1,58 +1,35 @@
 "use client";
 import scss from "./Profile.module.scss";
-import { useGetMeQuery, usePostRegistrationMutation } from "@/redux/api/auth";
-import { ConfigProvider, Avatar } from "antd";
+import { useGetMeQuery, usePatchMeMutation } from "@/redux/api/auth";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import Image from "next/image";
+
 import SearchProfile from "./SearchProfile/SearchProfile";
 import User from "./User/User";
+import VisionProfile from "./VisionProfile/VisionProfile";
 ;
 
 
 const Profile: FC = () => {
   const [tab, setTab] = useState(false);
 
-  const [avatarImage, setAvatarImage] = useState([]);
-  const [coverImage, setCoverImage] = useState([]);
-  const [avatarSelect, setAvatarSelect] = useState<File | null>(null);
-  const [cover, setCover] = useState<File | null>(null);
-
-  const handlerAvatarChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    if (e.target.files) {
-     setAvatarSelect(e.target.files[0])
-    } else {
-      console.error("Is Not a File");
-    }
-  }
-  const handlerCoverChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    if (e.target.files) {
-     setCover(e.target.files[0])
-    } else {
-      console.error("Is Not a File");
-    }
-  }
+  
 
 
-  const [postRegisterMutation] = usePostRegistrationMutation();
+  const [PatchMeRequest] = usePatchMeMutation();
   const {data: user} = useGetMeQuery()
-  console.log("🚀 ~ user:", user?.map((el) => el.id))
+  // console.log("🚀 ~ user:", user?.map((el) => el.id))
   
 
   const { register, watch, handleSubmit } = useForm<AUTH.PatchMeRequest>();
 
   
   const onSubmit: SubmitHandler<AUTH.PatchMeRequest> = async (userData) => {
-    const formData = new FormData()
-    formData.append('avatar', avatarSelect)
+    // const formData = new FormData()
+    // formData.append('avatar', avatarSelect)
 
     const userDataRest = {
-      user_picture: formData,
       email: userData.email,
-      cover_photo: userData.cover_photo,
       first_name: userData.first_name,
       last_name: userData.last_name,
       phone_number: userData.phone_number,
@@ -60,9 +37,8 @@ const Profile: FC = () => {
     };
 
     try {
-      const response = await postRegisterMutation(userDataRest);
+      const response = await PatchMeRequest(userDataRest);
       if (response.data) {
-       
         // window.location.reload();
       }
     } catch (e) {
@@ -76,16 +52,10 @@ const Profile: FC = () => {
         <SearchProfile/>
         <User/>
       </div>
-
       <h2>Создать аккаунт</h2>
-      {
-        user?.map((el) => (
-          <div className={scss.ProfileCover}>
-            <Image src={el.cover_photo} alt="Cover" />
-
-          </div>
-        ))
-      }
+      <div className={scss.ProfileCover}>
+        <VisionProfile/>
+      </div>
       {!tab ? 
       <form>
       {user?.map((el) => (

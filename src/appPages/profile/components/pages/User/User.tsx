@@ -20,7 +20,6 @@ const User = () => {
           }
         </div>  
         <Space direction="vertical" size={16}>
-
           <Space wrap size={16}>
             <Badge count={1}>
               <Avatar size={47} icon={<UserOutlined />} />
