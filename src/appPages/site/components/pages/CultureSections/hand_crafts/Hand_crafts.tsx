@@ -1,11 +1,10 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import styles from "./CultureGames.module.scss";
-import { useGetGamesQuery } from "@/redux/api/culture";
-import { url } from "inspector";
+import styles from "../Culture.module.scss";
+import { useGetHandCraftsQuery } from "@/redux/api/culture";
 
 const Hand_crafts = () => {
   const { t } = useTranslate();
-  const { data, isError } = useGetGamesQuery();
+  const { data, isError } = useGetHandCraftsQuery();
 
   if (isError) return null;
 
@@ -27,10 +26,10 @@ const Hand_crafts = () => {
         </div>
         {data?.map((el, idx) => (
           <div key={idx} className={styles.main}>
-            <div className={styles.img} style={{background: `url(${el.games_image}) center/cover no-repeat`}}></div>
+            <div className={styles.img} style={{background: `url(${el.hand_image}) center/cover no-repeat`}}></div>
             <div className={styles["main-text"]}>
-              <h3 className={styles["main-heading"]}>{el.games_name}</h3>
-              <p className={styles["main-paragraph"]}>{el.games_description}</p>
+              <h3 className={styles["main-heading"]}>{el.hand_name}</h3>
+              <p className={styles["main-paragraph"]}>{el.hand_description}</p>
             </div>
           </div>
         ))}

@@ -1,3 +1,4 @@
+"use client"
 import Currency from "@/appPages/site/components/pages/CultureSections/Currency/Currency";
 
 

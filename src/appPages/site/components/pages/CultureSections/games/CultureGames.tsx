@@ -1,7 +1,6 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import styles from "./CultureGames.module.scss";
+import styles from "../Culture.module.scss";
 import { useGetGamesQuery } from "@/redux/api/culture";
-import { url } from "inspector";
 
 const CultureGames = () => {
   const { t } = useTranslate();

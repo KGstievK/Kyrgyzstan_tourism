@@ -33,7 +33,7 @@ const SignInPage: FC = () => {
         storage.setItem("accessToken", JSON.stringify(response.data));
       }
 
-      // window.location.reload();
+      window.location.reload();
       console.log(response.data);
     } catch (e) {
       console.error("An error occurred:", e);

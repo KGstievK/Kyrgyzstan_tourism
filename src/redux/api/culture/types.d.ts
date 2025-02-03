@@ -1,4 +1,4 @@
-namespace ATTRACTIONS {
+namespace CULTURE {
   type GamesResponse = {
     id: number;
     culture: {
@@ -21,21 +21,72 @@ namespace ATTRACTIONS {
     kitchen_description: string;
     kitchen_image: CultureKitchenImage[];
   }[];
- type CultureKitchenImage = {
-    id: number
-    image: string
-  }
+  type CultureKitchenImage = {
+    id: number;
+    image: string;
+  };
 
   type CultureKitchenRequest = void;
 
   type CultureNationalClothesResponse = {
-    id: number
-    culture: number
-    clothes_name: string
-    clothes_description: string
-    clothes_image: string
-  }[]
+    id: number;
+    culture: number;
+    clothes_name: string;
+    clothes_description: string;
+    clothes_image: string;
+  }[];
 
   type CultureNationalClothesRequest = void;
+
+  type CultureHand_craftsResponse = {
+    id: number;
+    culture: {
+      id: number;
+      culture_name: string;
+    };
+    hand_name: string;
+    hand_description: string;
+    hand_image: string;
+  }[];
+
+  type CultureHand_craftsRequest = void;
+
+  type CultureNationalInstrumentsResponse = {
+    id: number
+    culture: {
+      id: number
+      culture_name: string
+    }
+    hand_name: string
+    hand_description: string
+    hand_image: string
+  }[]
+  
+  type CultureNationalInstrumentsRequest = void
+
+  type CurrencyResponse = {
+    id: number
+    culture: Culture
+    currency_name: string
+    currency_description: CurrencyDescription[]
+    currency_image: CurrencyImage[]
+  }
+
+  type CurrencyRequest = void
+  
+  export interface Culture {
+    id: number
+    culture_name: string
+  }
+  
+  export interface CurrencyDescription {
+    description: string
+  }
+  
+  export interface CurrencyImage {
+    front_image: string
+    back_image: string
+  }
+  
 
 }
