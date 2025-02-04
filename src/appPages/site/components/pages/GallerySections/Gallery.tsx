@@ -11,8 +11,8 @@ import Stars from '@/appPages/site/ui/stars/Stars';
 
 const Gallery = () => {
     const {t} = useTranslate()
-    const {data} = useGetGalleryQuery()
-    console.log(data);
+    const {data, isError, status} = useGetGalleryQuery()
+    console.log(status);
     
     return (
             <section id={scss.Gallery}>

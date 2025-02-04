@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     gap: 80px;
+    margin-bottom: 50px;
     padding-inline: 50px;
     background-image: url("../../../../../../assets/images/cultureImages/bg.jpg");
     background-position: center;
@@ -37,20 +38,27 @@
   }
   .bottom {
     display: grid;
-    grid-template-columns: 50% 50%;
-    gap: 80px;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    @media (max-width:834px) {
+      
+      grid-template-columns: 1fr;
+    }
     .images {
+      width: 100%;
+      height: auto;
+      padding: 50px 10px;
       display: flex;
+      align-items: center;
       flex-direction: column;
+      gap: 30px;
+      backdrop-filter: blur(15px);
+      background: url("./../../../../../../assets/images/cultureImages/currency_back.jpg") no-repeat center;
+      background-size: cover;
       .image {
         display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        .img {
-          width: 199px;
-          height: 94px;
-
-        }
+        gap: 30px;
+        align-items: center;
       }
     }
   }
