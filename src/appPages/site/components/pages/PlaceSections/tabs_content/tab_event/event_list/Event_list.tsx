@@ -1,9 +1,9 @@
-import eventImg from "@/assets/images/placeImages/event copy.png";
-import ulukImg from "@/assets/images/placeImages/uluk.jpg";
+import eventImg from "@/assets/images/placeImages/eventicon.png";
 import scss from "./Event_list.module.scss";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { useState } from "react";
 import React from "react";
+import { useGetEventListQuery } from "@/redux/api/place";
 const Event_list = () => {
   const { t } = useTranslate();
   const [isDropDown, setIsDropDown] = useState(false);
@@ -17,6 +17,7 @@ const Event_list = () => {
     { ru: "Туризм", ar: "السياحة", en: "Tourism" },
   ];
 
+  const {data} = useGetEventListQuery()
   
   return (
     <>
@@ -80,17 +81,16 @@ const Event_list = () => {
         </div>
       </div>
       <div className={scss.list}>
-        {Array.from({ length: 12 }, (_, i) => (
+        {data?.map((el,i) => (
           <div key={i} className={scss.item}>
             <div className={scss.img}>
-              <img src={ulukImg.src} alt="" />
+              <img src={el.image} alt="" />
               <div className={scss.eventTabs}>
                 <div className="">
                   <img src={eventImg.src} alt="" />
                 </div>
-                <div className="">
-                  <img src={eventImg.src} alt="" />
-                  concert
+                <div key={el.category.id} className="">
+                  {el.category.category}
                 </div>
                 <div className="">
                   <img src={eventImg.src} alt="" />
@@ -98,9 +98,13 @@ const Event_list = () => {
               </div>
             </div>
             <div className={scss.info}>
-              <h6>Concert Ulukmanapo</h6>
+              <h6>{el.title}</h6>
               <p>
-                4 August at 22:00, White Club Republic(Hippodrome, Cholpon-Ata)
+                {el.date}
+                {el.time}
+              </p>
+              <p>
+                {el.address}
               </p>
             </div>
           </div>

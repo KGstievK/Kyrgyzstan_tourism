@@ -17,22 +17,24 @@ const getLanguage = () => {
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/${getLanguage()}`,
   prepareHeaders: (headers) => {
-		let token = null;
-		const localStorageData = JSON.parse(localStorage.getItem('accessToken')!);
-		const SessionStorageData = JSON.parse(sessionStorage.getItem('accessToken')!);
-		if (localStorageData) {
-			const { access } = localStorageData;
-			token = access;
-		}
-		if (SessionStorageData) {
-			const { access } = SessionStorageData;
-			token = access;
-		}
-		if (token) {
-			headers.set('Authorization', `Bearer ${token}`);
-		}
-		return headers;
-	}
+    let token = null;
+    const localStorageData = JSON.parse(localStorage.getItem("accessToken")!);
+    const SessionStorageData = JSON.parse(
+      sessionStorage.getItem("accessToken")!
+    );
+    if (localStorageData) {
+      const { access } = localStorageData;
+      token = access;
+    }
+    if (SessionStorageData) {
+      const { access } = SessionStorageData;
+      token = access;
+    }
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
 });
 
 const baseQueryExtended: BaseQueryFn = async (args, api, extraOptions) => {
@@ -60,9 +62,10 @@ export const api = createApi({
     "games",
     "culture-kitchen",
     "culture-national-clothes",
-	"national-instrument",
-	"hand-crafts",
-	"currency"
+    "national-instrument",
+    "hand-crafts",
+    "currency",
+    'EventList'
   ],
   endpoints: () => ({}),
 });

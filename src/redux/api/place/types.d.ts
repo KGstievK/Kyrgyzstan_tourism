@@ -128,4 +128,20 @@ namespace PLACE {
     id: number
     image: string
   }
+
+  type EventListResponse = {
+    id: number
+    title: string
+    image: any
+    category: {
+      id: number
+      category: string
+    }
+    date: string
+    time: string
+    address: string
+    price: number
+  }[]
+
+  type EventListRequest = void
 }

@@ -76,8 +76,9 @@ const Calendar: React.FC<CalendarProps> = ({
       }
       days.push(week);
     }
+    console.log(days.map((el) => el.filter(item => item !== null)));
     
-    return days;
+    return days.map((el) => el.filter(item => item !== null));
   };
 
   const prevMonth = (): void => {
