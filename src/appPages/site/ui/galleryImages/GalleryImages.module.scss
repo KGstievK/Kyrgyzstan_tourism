@@ -1,0 +1,73 @@
+.imageGrid {
+    position: relative;
+    display: flex;
+    gap: 16px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; // Firefox
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari, Edge
+    }
+  }
+  
+  .imageWrapper {
+    position: relative;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  
+    &.large {
+      width: 463.49px;
+      height: 329.12px;
+    }
+  }
+  
+  .smallGroup {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 8px;
+    width: 463.49px;
+    height: 329.12px;
+    flex-shrink: 0;
+  }
+  
+  .smallImageWrapper {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .showImages {
+    position: absolute;
+    bottom: 26px;
+    left: 26px;
+    border: 0;
+    background-color: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 15.58px;
+    line-height: 18.99px;
+    gap: 5px;
+    cursor: pointer;
+  }

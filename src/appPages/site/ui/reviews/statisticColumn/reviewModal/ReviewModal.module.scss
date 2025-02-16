@@ -1,0 +1,198 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modalContent {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 657px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // Выравниваем контент по левому краю
+
+  @media (max-width: 1280px) {
+    max-width: 90%;
+    height: auto;
+    min-height: 500px;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 24px;
+    min-height: 400px;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  z-index: 1;
+
+  &:hover {
+    color: #333;
+  }
+
+  @media (max-width: 768px) {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+.header {
+  text-align: left; // Выравниваем заголовок по левому краю
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 24px;
+  }
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #666;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+.ratingContainer {
+  display: flex;
+  gap: 24px;
+  justify-content: flex-start; // Выравниваем рейтинг по левому краю
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+}
+
+.ratingCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #004d5f;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+
+  &.active {
+    background-color: #004d5f;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.reviewInputContainer {
+  position: relative;
+  margin-bottom: 40px;
+  flex-grow: 1;
+  width: 100%; // Занимает всю ширину
+
+  @media (max-width: 768px) {
+    margin-bottom: 24px;
+  }
+}
+
+.pencilIcon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  color: #666;
+}
+
+.reviewInput {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  padding: 16px 16px 16px 48px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  resize: none;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #0099cc;
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+
+  @media (max-width: 768px) {
+    min-height: 120px;
+    font-size: 14px;
+  }
+}
+
+.sendButton {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0; // Убираем автоматический отступ по центру
+  padding: 16px;
+  background-color: #004d5f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #003847;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+}

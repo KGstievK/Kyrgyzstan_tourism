@@ -29,7 +29,7 @@ const Places = () => {
                   <div>
                     <span className={scss.grade}>{place.avg_rating}</span>
                     <div className={scss.stars}>
-                      <Stars rating={place.avg_rating} />
+                      <Stars rating={place.avg_rating} width={9} height={9} />
                     </div>
                     <span className={scss.review}>
                       {place.rating_count} {t("Отзывы", "مراجعات", "reviews")}

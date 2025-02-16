@@ -1,0 +1,239 @@
+// .modal {
+//   position: fixed;
+//   inset: 0;
+//   z-index: 50;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100vh;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: rgba(0, 0, 0, 0.8);
+
+//   &Content {
+//     position: relative;
+//     max-width: 100%;
+//     margin: 0 auto;
+//     padding: 1rem;
+//     width: 100%;
+//   }
+
+//   &Close {
+//     position: absolute;
+//     top: 1rem;
+//     right: 1rem;
+//     z-index: 10;
+//     padding: 0.5rem;
+//     border-radius: 9999px;
+//     background-color: rgba(255, 255, 255, 0.1);
+//     border: none;
+//     cursor: pointer;
+//     transition: background-color 0.2s ease;
+//     color: white;
+
+//     &:hover {
+//       background-color: rgba(255, 255, 255, 0.2);
+//     }
+//   }
+
+//   &MainImage {
+//     position: relative;
+//     border-radius: 0.5rem;
+//     overflow: hidden;
+//     width: 100%;
+//     margin-bottom: 1rem;
+//     aspect-ratio: 16/6;
+//     background-color: rgba(0, 0, 0, 0.3);
+//     height: 100%;
+//     img {
+//       width: 100%;
+//       height: 90%;
+//       object-fit: contain;
+//     }
+//     @media (max-width: 834px) {
+//       aspect-ratio: 16/9;
+//     }
+//   }
+
+//   &Navigation {
+//     position: absolute;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     width: 100%;
+//     display: flex;
+//     justify-content: space-between;
+//     padding: 0 1rem;
+//     pointer-events: none;
+
+//     button {
+//       pointer-events: auto;
+//       padding: 0.75rem;
+//       border-radius: 9999px;
+//       background-color: rgba(255, 255, 255, 0.1);
+//       border: none;
+//       cursor: pointer;
+//       transition: background-color 0.2s ease;
+//       color: white;
+
+//       &:hover {
+//         background-color: rgba(255, 255, 255, 0.2);
+//       }
+//     }
+//   }
+
+//   &Thumbnails {
+//     display: grid;
+//     grid-template-columns: repeat(6, 1fr);
+//     gap: 0.5rem;
+//     margin-top: 1rem;
+//     // position: absolute;
+//     bottom: 0;
+//     @media (max-width: 768px) {
+//       grid-template-columns: repeat(4, 1fr);
+//     }
+
+//     &Item {
+//       position: relative;
+//       border-radius: 0.5rem;
+//       overflow: hidden;
+//       cursor: pointer;
+//       transition: opacity 0.2s ease;
+//       aspect-ratio: 1;
+
+//       &.active {
+//         outline: 2px solid #3b82f6;
+//         outline-offset: 2px;
+//       }
+
+//       img {
+//         width: 100%;
+//         height: 100%;
+//         object-fit: cover;
+//       }
+
+//       &:hover {
+//         opacity: 0.8;
+//       }
+//     }
+//   }
+// }
+
+
+// ImageModal.module.scss
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: white;
+  z-index: 50;
+
+  &:hover {
+    color: #d1d5db;
+  }
+}
+
+.navButton {
+  position: absolute;
+  color: white;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #d1d5db;
+  }
+}
+
+.navButtonLeft {
+  left: 1rem;
+}
+
+.navButtonRight {
+  right: 1rem;
+}
+
+.mainImageContainer {
+  position: relative;
+  width: 100%;
+  max-width: 56rem;
+  max-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainImage {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.thumbnailsContainer {
+  width: 100%;
+  max-width: 56rem;
+  margin-top: 1rem;
+}
+
+.thumbnailsScroll {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+.thumbnailsList {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  justify-content: center;
+}
+
+.thumbnailItem {
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &.selected {
+    border: 2px solid white;
+    transform: scale(1.05);
+  }
+
+  &:not(.selected) {
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.thumbnailImage {
+  height: 4rem;
+  width: 6rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}

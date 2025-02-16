@@ -25,7 +25,7 @@ const Gallery = () => {
                                             <h6>{ el.gallery_name}</h6>
                                             <div>
                                                 <span className={scss.grade}>{el.avg_rating}</span>
-                                                <Stars rating={el.avg_rating}/>
+                                                <Stars rating={el.avg_rating} width={9} height={9}/>
                                                 <span className={scss.review}>
                                                     {el.rating_count} {t("Отзывы","مراجعات","reviews")}
                                                 </span>

@@ -1,5 +1,5 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import scss from "../Tab_hotel.module.scss";
+import scss from "./Hotel_info.module.scss";
 import { useGetHotelIDQuery } from "@/redux/api/place";
 import { FC } from "react";
 import imgLike from "@/assets/images/placeImages/like.png";
@@ -7,6 +7,7 @@ import imgShare from "@/assets/images/placeImages/share.png";
 import imgBed from "@/assets/images/placeImages/bed.png";
 import imgContact from "@/assets/images/placeImages/contact.png";
 import imgProper from "@/assets/images/placeImages/proper.png";
+import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
 
 interface propsType {
   isCurrent: number | null;
@@ -15,7 +16,7 @@ interface propsType {
 const Hotel_info: FC<propsType> = ({ isCurrent }) => {
   const { t } = useTranslate();
   const { data, isError } = useGetHotelIDQuery(isCurrent);
-
+  const images = data?.hotel_image ?? [];
   if (isError) {
     return null;
   }
@@ -23,11 +24,8 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
   return (
     <div className={scss.hotel_item}>
       <h4>{t("", "", data?.name || "")}</h4>
-      <div className={scss.imgs}>
-        {data?.hotel_image.map((img, i) => (
-          <img key={i} src={img} />
-        ))}
-      </div>
+      <GalleryImages images={images} />
+
       <div className={scss.info}>
         <div className={scss.left}>
           <div className={scss.titles}>

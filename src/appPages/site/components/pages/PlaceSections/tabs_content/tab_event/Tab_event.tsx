@@ -1,25 +1,21 @@
 import scss from './Tab_event.module.scss';
-import searchImg from '@/assets/images/placeImages/search.png'
 import Calendar from './calendar/Calendar';
 import Event_list from './event_list/Event_list';
 import useTranslate from '@/appPages/site/hooks/translate/translate';
+import { useState } from 'react';
+import Poster from './poster/Poster';
 const Tab_event = () => {
-    const {t} = useTranslate()
+    const [category, setCategory] = useState("");
+    const [search, setIsSearch] = useState("");
+    const [date, setIsDate] = useState("");
     return (
         <div className={scss.event}>
            <div className={scss.filter}>
-                <div className={scss.poster}>
-                    <h2>{t("","","Poster")}</h2>
-                    <div className={scss.search}>
-                        <img src={searchImg.src} alt="" />
-                        <input type="text" placeholder={t("Поиск","","Search")}/>
-                    </div>
-
-                </div>
-                <Calendar />
+                <Poster setIsSearch={setIsSearch}/>
+                <Calendar setIsDate={setIsDate}/>
 
             </div>
-            <Event_list />
+            <Event_list category={category} setCategory={setCategory} search={search} date={date}/>
         </div>
     );
 };

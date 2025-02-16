@@ -51,16 +51,24 @@ const api = index.injectEndpoints({
       }),
       providesTags: ["attractionID"],
     }),
-    getEventList: builder.query<
-      PLACE.EventListResponse,
-      PLACE.EventListRequest
-    >({
-      query: () => ({
-        url: "/event",
-        method: "GET",
-      }),
+    getEventList: builder.query<PLACE.EventListResponse, PLACE.EventListRequest>({
+      query: ({ category, date, search }) => {
+        const params = new URLSearchParams();
+    
+        if (category) params.append("category", category);
+        if (date) params.append("date", date);
+        if (search) params.append("search", search);
+    
+        const queryString = params.toString();
+        return {
+          url: queryString ? `/event?${queryString}` : "/event",
+          method: "GET",
+        };
+      },
       providesTags: ["EventList"],
     }),
+    
+    
   }),
 });
 

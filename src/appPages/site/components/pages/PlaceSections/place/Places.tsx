@@ -25,7 +25,7 @@ const Places: FC = () => {
                     <div className={scss.img}>
                         {data?.popular_image && (
                             <Image 
-                                src={data.popular_image}
+                                src={`${data.popular_image}?auto=format&fit=crop&w=500&q=80`}
                                 alt={data.popular_name || 'Place image'}
                                 width={500}
                                 height={300}

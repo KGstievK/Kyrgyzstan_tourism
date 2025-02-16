@@ -41,7 +41,7 @@ const Tabs_content = () => {
         }
     ]
 
-    const [isTab, setIsTab] = useState<number>(0);
+    const [isTab, setIsTab] = useState<number>(3);
 
     return (
         <section id={scss.Tabs_content}>

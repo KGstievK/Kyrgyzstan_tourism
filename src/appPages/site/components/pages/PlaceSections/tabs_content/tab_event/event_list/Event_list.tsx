@@ -1,12 +1,21 @@
 import eventImg from "@/assets/images/placeImages/eventicon.png";
 import scss from "./Event_list.module.scss";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import { useState } from "react";
+import { FC, useState } from "react";
 import React from "react";
 import { useGetEventListQuery } from "@/redux/api/place";
-const Event_list = () => {
+
+interface Props {
+  category: string;
+  search: string;
+  date: string;
+  setCategory: (category: string) => void;
+}
+
+const Event_list: FC<Props> = ({ category, search, date, setCategory }) => {
   const { t } = useTranslate();
   const [isDropDown, setIsDropDown] = useState(false);
+
   const filterList = [
     { ru: "Концерт", ar: "حفلة موسيقية", en: "Concert" },
     { ru: "Кино", ar: "سينما", en: "Cinema" },
@@ -17,12 +26,14 @@ const Event_list = () => {
     { ru: "Туризм", ar: "السياحة", en: "Tourism" },
   ];
 
-  const {data} = useGetEventListQuery()
+  const {data, isLoading, isError} = useGetEventListQuery({category, search, date})
   
+
+
   return (
     <>
       <div className={scss.filter}>
-        <div className={scss.item}>{t("Все", "الكل", "All")}</div>
+        <div onClick={() => setCategory("")} className={scss.item}>{t("Все", "الكل", "All")}</div>
 
         <div className={scss.item} onClick={() => setIsDropDown(!isDropDown)}>
           {t("Категории", "فئات", "Categories")}
@@ -69,7 +80,7 @@ const Event_list = () => {
               <span
                 key={index}
                 className={scss.dropDownItem}
-                onClick={() => {}}
+                onClick={() => setCategory(t(item.ru, item.ar, item.en))}
               >
                 {t(item.ru, item.ar, item.en)}
               </span>
@@ -80,6 +91,8 @@ const Event_list = () => {
           {t("Только билеты", "تذاكر فقط", "Only tickets")}
         </div>
       </div>
+      {isError && <div>error</div>}
+      {isLoading && <div>loading</div>}
       <div className={scss.list}>
         {data?.map((el,i) => (
           <div key={i} className={scss.item}>

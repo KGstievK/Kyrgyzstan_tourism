@@ -67,7 +67,7 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
       <div className={scss.info}>
         <h6 className={scss.title}>{el.kitchen_name}</h6>
         <div className={scss.stars_review}>
-          <Stars rating={el.average_rating} />
+          <Stars rating={el.average_rating} width={16} height={16} />
           <p>Reviews: {el.rating_count}</p>
         </div>
         <div className={scss.prices}>

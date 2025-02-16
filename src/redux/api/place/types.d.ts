@@ -143,5 +143,9 @@ namespace PLACE {
     price: number
   }[]
 
-  type EventListRequest = void
+  type EventListRequest = {
+    category: string,
+    search: string,
+    date: string
+  }
 }
