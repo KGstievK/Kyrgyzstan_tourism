@@ -18,12 +18,14 @@ import RootLayoutClient from "./layout.client";
 //   weight: "100 900",
 // });
 
+import { Frank_Ruhl_Libre, Inter, Abril_Fatface } from "next/font/google";
 
-import { Frank_Ruhl_Libre, Inter, Abril_Fatface } from 'next/font/google';
-
-const frankRuhlLibre = Frank_Ruhl_Libre({ subsets: ['latin'], weight: ['400', '700'] });
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
-const abrilFatface = Abril_Fatface({ subsets: ['latin'], weight: ['400'] });
+const frankRuhlLibre = Frank_Ruhl_Libre({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "700"] });
+const abrilFatface = Abril_Fatface({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-  children, 
+  children,
 }: Readonly<{
   children: React.ReactNode;
   // session: Session | null
@@ -39,7 +41,9 @@ export default async function RootLayout({
   // const session = await getServerSession(options)
   return (
     <html lang="en">
-      <body className={`${frankRuhlLibre.className} ${inter.className} ${abrilFatface.className}`}>
+      <body
+        className={`${frankRuhlLibre.className} ${inter.className} ${abrilFatface.className}`}
+      >
         <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>

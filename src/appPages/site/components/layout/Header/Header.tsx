@@ -96,7 +96,7 @@ const Header = () => {
                 />
                 {status === "fulfilled" ? (
                   <>
-                    <Link href='/profile'>
+                    <Link href="/profile">
                       <Space direction="vertical" size={10}>
                         <Space wrap size={10}>
                           <Badge count={1}>
