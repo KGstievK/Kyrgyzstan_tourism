@@ -3,7 +3,7 @@ import icon from "@/assets/images/placeImages/Icon.png";
 import icon2 from "@/assets/images/placeImages/Icon2.png";
 import icon4 from "@/assets/images/placeImages/Icon4.png";
 import icon5 from "@/assets/images/placeImages/Icon5.png";
-import { FC, } from "react";
+import { FC } from "react";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { useGetKitchenIDQuery } from "@/redux/api/place";
 import Stars from "@/appPages/site/ui/stars/Stars";
@@ -43,19 +43,14 @@ const Cafe_item: FC<propsType> = ({ kitchens, isCurrent }) => {
     },
   ];
 
-
   const images = data?.kitchen_image ?? [];
-
-
 
   if (isError) {
     return null;
   }
 
-
   return (
     <div className={scss.cafe_item}>
-
       <h4>{data?.kitchen_name}</h4>
       <GalleryImages images={images} />
       <div className={scss.info}>
@@ -72,8 +67,13 @@ const Cafe_item: FC<propsType> = ({ kitchens, isCurrent }) => {
             <div className={scss.stars_review}>
               <div className={scss.grades}>{data?.average_rating ?? 0}</div>
               <div className={scss.stars}>
-                {<Stars rating={data?.average_rating ?? 0} width={16} height={16} />}
-                
+                {
+                  <Stars
+                    rating={data?.average_rating ?? 0}
+                    width={16}
+                    height={16}
+                  />
+                }
               </div>
               <p>
                 {data?.rating_count ?? 0} {t("отзывы", "مراجعات", "reviews")}
@@ -146,15 +146,39 @@ const Cafe_item: FC<propsType> = ({ kitchens, isCurrent }) => {
             </div>
           </div>
         </div>
-        <div>
+        <div className={scss.container}>
           <div className={scss.right}>
-            <h5>
-              {t(
-                "Местоположение и контактные данные",
-                "تفاصيل الموقع ووسائل الاتصال",
-                "Location and contact details"
-              )}
-            </h5>
+            <h5>Location and contact details</h5>
+            <div className={scss.mapContainer}>
+              {/* Вставьте сюда iframe или компонент карты Google */}
+              <iframe
+                src="https://www.google.com/maps/embed?pb=..."
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+            <div className={scss.contactInfo}>
+              <p>107 Przhevalsky str., Karakol 722360, Kyrgyzstan</p>
+              <a
+                href="http://example.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>🌐</span> Website ↗
+              </a>
+              <a href="mailto:example@example.com">
+                <span>✉️</span> Email ↗
+              </a>
+              <p>
+                <span>📞</span> +996 555 400 270
+              </p>
+            </div>
+            <a href="/edit" className={scss.editLink}>
+              Edit this directory object
+            </a>
           </div>
         </div>
       </div>

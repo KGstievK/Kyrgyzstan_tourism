@@ -4,6 +4,7 @@ import scss from "./Try.module.scss";
 import { useEffect, useState } from "react";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const Try = () => {
   const { t } = useTranslate();
@@ -62,7 +63,8 @@ const Try = () => {
             disabled={currentContent === 0}
             onClick={() => setCurrentContent(currentContent - 1)}
           >
-            -
+            <LeftOutlined style={{fontSize: "12px", fontWeight: "bold"} }/>
+            
           </button>
           <div className={scss.index}>
             {region?.What_to_try.map((el, i) => (
@@ -84,11 +86,10 @@ const Try = () => {
             ))}
           </div>
           <button
-            // disabled={currentContent === data?.What_to_try.length - 1}
             disabled={currentContent === (region?.What_to_try ?? []).length - 1}
             onClick={() => setCurrentContent(currentContent + 1)}
           >
-            +
+            <RightOutlined style={{fontSize: "12px"}}/>
           </button>
         </div>
       </div>

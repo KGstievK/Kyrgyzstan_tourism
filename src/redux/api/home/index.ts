@@ -8,8 +8,15 @@ const api = index.injectEndpoints({
                 method: "GET",
             }),
             providesTags: ["attractions"]
+        }),
+        getCultureList: builder.query<HOME.CultureListResponse, HOME.CultureListRequest>({
+            query: () => ({
+                url: "/culture_list",
+                method: "GET",
+            }),
+            providesTags: ["cultureList"]
         })
     })
 })
 
-export const {useGetAttractionsQuery} = api
+export const {useGetAttractionsQuery, useGetCultureListQuery} = api

@@ -65,7 +65,8 @@ export const api = createApi({
     "national-instrument",
     "hand-crafts",
     "currency",
-    'EventList'
+    'EventList',
+    "cultureList",
   ],
   endpoints: () => ({}),
 });

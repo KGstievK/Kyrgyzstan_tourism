@@ -1,12 +1,17 @@
-import React from 'react';
-import Culture from '../culture/Culture'; 
-const Home: React.FC = () => {
+import React from "react";
+import Culture from "../culture/Culture";
+import scss from "./Culture.module.scss";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
+const HomeCulture: React.FC = () => {
+  const { t } = useTranslate();
   return (
-    <div>
-      
+    <section id={scss.Culture}>
+      <div className="container">
+        <h2>{t("Культура", "الثقافة", "Culture")}</h2>
+      </div>
       <Culture />
-    </div>
+    </section>
   );
 };
 
-export default Home;
+export default HomeCulture;

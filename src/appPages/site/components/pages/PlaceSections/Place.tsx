@@ -11,7 +11,7 @@ const Place = () => {
         <div id={scss.Place}>
             <Places />
             <Tabs_content />
-            <Reviews/>
+            {/* <Reviews/> */}
             <PlacesPopular/>
         </div>
     );

@@ -147,6 +147,7 @@ a {
     &:hover {
         .batken2, .osh2, .jalal2, .talas2, .naryn2, .chui2, .ysyk2 {
             opacity: 1;
+            pointer-events: none;
         }
     }
     .osh {

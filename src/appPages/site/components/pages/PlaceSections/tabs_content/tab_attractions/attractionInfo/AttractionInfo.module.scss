@@ -1,150 +1,109 @@
-.Attraction {
+.container {
+    padding: clamp(1rem, 2vw, 2rem);
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  
+  .title {
+    font-family: 'Abril Fatface', serif;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 4vw, 4rem);
+    line-height: 1.35;
+    color: #004A60;
+    margin-bottom: clamp(1rem, 3vw, 2rem);
+    
+
+  }
+  
+  .content {
+    display: flex;
+    gap: clamp(1rem, 2vw, 1.25rem);
+    
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  .imageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.625rem, 1.5vw, 1.25rem);
+    width: 486px; // Fixed width for desktop
+    
+    @media (max-width: 1024px) {
+      width: 100%;
+      max-width: 486px;
+    }
+  }
+  
+  .mainImage {
     width: 100%;
-    h2 {
-        font-family: Abril Fatface;
-        font-size: 64px;
-        font-weight: 400;
-        line-height: 86.34px;
-        color: #004A60;
-        margin-bottom: 50px;
-        @media (max-width: 1034px) {
-            font-size: 45px;
-            margin-bottom: 30px;
-            line-height: 60.34px;
-
-        }
-        @media (max-width: 834px) {
-            font-size: 35px;
-            margin-bottom: 20px;
-            line-height: 56.34px;
-        }
-        @media (max-width: 600px) {
-            display: none;
-            font-size: 30px;
-            line-height: 45.34px;
-
-        }
-        @media (max-width: 390px) {
-            font-size: 24px;
-            line-height: 45.34px;
-
-        }
+    height: 543px; // Fixed height for desktop
+    border-radius: clamp(0.375rem, 1vw, 0.5rem);
+    object-fit: cover;
+    
+    @media (max-width: 1024px) {
+      height: clamp(300px, 50vw, 543px);
     }
-    .content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        @media (max-width: 834px) {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        .imgs {
-            @media (max-width: 834px) {
-                width: 100%;
-            }
-            >img {
-                width: 100%;
-                height: 220px;
-            }
-            >div {
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-                gap: 5px;
-                img {
-                    width: 100%;
-                    height: 185px;
-                    object-fit: cover;
-                    @media (max-width: 834px) {
-                        height: 170px;
-                    }
-                }
-            }
-            .bg {
-                position: relative;
-                width: 100%;
-                height: 85px;
-                display: block;
-                div {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    background: #24242480;
-                }
-                img {
-                    width: 100%;
-                    object-fit: cover;
-                    height: 100%;
-                }
-            }
-        }
-        .item {
-            @media (max-width: 834px) {
-                width: 100%;
-            }
-            h4 {
-                font-family: Frank Ruhl Libre;
-                font-size: 24px;
-                font-weight: 700;
-                line-height: 30.98px;
-                color: #004A60;
-                margin-bottom: 20px;
-            }
-            p {
-                font-family: Frank Ruhl Libre;
-                font-size: 20px;
-                font-weight: 400;
-                line-height: 25.82px;
-                letter-spacing: 0.05em;
-                color: #242424;
-                @media (max-width: 1034px) {
-                    font-size: 18px;
-                    line-height: 22px;
-                }
-                @media (max-width: 490px) {
-                    font-size: 16px;
-                    line-height: 20px;
-                }
-            }
-        }
-
+  }
+  
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // Always 3 columns
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .thumbnail {
+    width: 100%;
+    height: 118px; // Height for desktop thumbnails
+    border-radius: clamp(0.25rem, 0.75vw, 0.5rem);
+    cursor: pointer;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+    
+    @media (max-width: 1024px) {
+      height: clamp(80px, 15vw, 118px);
     }
-    .tabs {
-        margin-top: 30px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        .index {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        button {
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: .3s ease;
-            background: none;
-            border: 0;
-            font-family: Inter;
-            font-size: 20px;
-            font-weight: 400;
-            line-height: 24.2px;
-            cursor: pointer;
-            @media (max-width: 490px) {
-                width: 35px;
-                height: 35px;
-                font-size: 18px;
-            }
-            &:hover {
-                background-color: #004A60;
-                color: white;
-                border-radius: 30px;
-            }
-        }
+    
+    &:hover {
+      transform: scale(1.05);
     }
-}
+  }
+  
+  .textContainer {
+    flex: 1;
+    min-width: 280px;
+    
+    @media (max-width: 1024px) {
+      width: 100%;
+      max-width: 800px;
+    }
+  }
+  
+  .description {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    line-height: 1.4;
+    color: #242424;
+    margin-bottom: clamp(1rem, 2vw, 2rem);
+  }
+  
+  .list {
+    font-family: 'Montserrat', sans-serif;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      font-size: clamp(1rem, 1.5vw, 1.5rem);
+      line-height: 1.4;
+      margin-bottom: clamp(0.5rem, 1vw, 1rem);
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }

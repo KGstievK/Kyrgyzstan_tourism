@@ -1,130 +1,151 @@
-#Sliders {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    height: auto;
-    position: relative;
-    margin-top: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://s3-alpha-sig.figma.com/img/1d5b/aa63/75df1bca16d25aae090581014af4516d?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bACj9RW0DjDacBNowiycuBoRbc04gNVmynNigRLQxg3KhETYAc9DkKUAj2jAtBELaFNfK0ZIS3c3KxnQoFg8~f~UBXYc-23Yce5cEQTJq9ATpzlwiVsJ~o1sdhhp5ha4uhcSdyDTnVMJYj7KyqnRBSFGZDROKw27UkMDQJlyfzYWXAnckXPXWJ94wwfjEnAElYVLfUZwDOSPifj2C37omdtSJtJ6N1ahsVm6RQpHzGONbh8FHZHWV4hdwAe1BRhm69iFAMSFgk87hrl0WuRkzsWpBDv-tjKLUqdH3X7dBTCQCS8X7241hHcTVCuOAnRAo9DHdVj~qmNgDXk4L~uyNw__');
-      background-size: cover;
-      background-position: center;
-      filter: blur(10px);
-      z-index: -1;
-    }
-  
-    .slider {
-      display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 546px;
-  max-width: 100%; /* Ограничивает ширину слайдера */
-  overflow: hidden;
-  margin: 0 auto;
-  @media (max-width: 992px) {
-   flex-wrap: wrap;
-   width: auto;
-   height: auto;
-   margin: 0 auto;
+#Culture {
+  margin-top: 100px;
+  h2 {
+    font-family: 'Abril Fatface', serif;
+    font-weight: 400;
+    font-size: clamp(24px, 5vw, 64px);
+    line-height: 86.34px;
+    color: #004a60;
   }
-     
-     
+}
+
+#Sliders {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 0; // Стандартный padding
+  @media (max-width: 390px) {
+    padding: 30px 0 10px; // Уменьшенный padding для экранов 390px
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../../../../../assets/images/homeImages/culture.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px); // Размытие фона
+    z-index: -1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FFFFFF99; // Полупрозрачный белый слой
+    z-index: -1; // Убедитесь, что он находится поверх размытого фона
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #FFFFFF99;
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    position: relative; // Чтобы контент был поверх псевдоэлементов
+    z-index: 1; // Поднимаем контент над псевдоэлементами
+  }
+
+  .slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+
+    @media (max-width: 992px) {
+      flex-direction: column;
+      align-items: center;
     }
-  
-    .slide {
+  }
 
-      flex: 2 1 60%; 
-      text-align: center;
-      margin: 20px;
-     
+  .slide {
+    width: 805px;
+    height: 546px;
+    text-align: center;
+    margin-right: 20px;
+    overflow: hidden;
+
+    @media (max-width: 992px) {
+      width: 100%;
+      height: auto;
+      margin-right: 0;
+      margin-bottom: 20px;
     }
-  
-    .image {
-      width: 805px;
-      height: 546px;
-      object-fit: cover;
-      border-bottom: 1px solid #ccc;
-      margin: 15px;
-      max-width: 100%;
-    
-  
-      @media (max-width: 1200px) {
-        width: auto;
-        height: 540px;
-      }
-      @media (max-width: 992px) {
-        text-align: center;
-      }
-  
-      @media (max-width: 768px) {
-        margin: 10px 0;
-      }
+  }
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 1px solid #ccc;
+
+    @media (max-width: 992px) {
+      height: auto;
     }
-  
-    .content {
-      position: relative;
-      padding: 20px;
-      background: #ffffff;
-      width: 420px;
-      height: 546px;
-      margin: 10px;
+  }
 
+  .content {
+    width: 373px;
+    height: 546px;
+    padding: 20px;
+    background: white; // Белый фон
+    border-radius: 5px; // Скругление углов
+    box-shadow: 0px 0px 15px 0px #00000026;
+    position: relative;
 
-      flex: 1 1 40%; 
-      @media (max-width: 992px) {
-
-        text-align: center;
-      }
-
+    @media (max-width: 992px) {
+      width: 100%;
+      height: auto;
+    }
 
     h2 {
       font-size: 24px;
       margin-bottom: 10px;
-      color: #004A60;
+      color: #004a60;
       line-height: 32px;
+      text-align: left;
+
+      @media (max-width: 768px) {
+        font-size: 20px;
+      }
     }
 
     p {
       color: #242424;
       font-weight: 400;
-line-height: 20px;
+      line-height: 20px;
       font-size: 16px;
       margin-bottom: 20px;
-    }
-  
-      @media (max-width: 1200px) {
-        width: 410px;
-        height: 540px;
+      text-align: left;
+
+      @media (max-width: 768px) {
         font-size: 14px;
-       
-      }
-      
-      @media (max-width: 992px) {
-        width: 400px;
-        height: 540px;
-        font-size: 12px;
-       
       }
     }
-  
+
     .butt {
       position: absolute;
-      left: 70%;
+      right: 20px;
       bottom: 20px;
-      transform: translateX(-50%);
-      width: 143px;
+      width: 153px;
       height: 42px;
+      gap: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -133,85 +154,75 @@ line-height: 20px;
       color: white;
       border: none;
       cursor: pointer;
-      @media (max-width: 1300px) {
-       
-        left: 78%;
-        bottom:20px
-      }  
-      @media (max-width: 1200px) {
-       
-        left: 73%;
-        bottom:20px;
-        width: 137px;
-        height: 40px;
-      } 
-      @media (max-width: 992px) {
-        width: 127px;
-        height: 35px;
-      } 
-
-
-      @media (max-width: 768px) {
-        width: 103px;
-        height: 32px;
-        position: absolute;
-        left: 75%;
-        bottom:20px
-      }  
-      .butTitle {
-        margin: 10px;
-      }
-  
+    
       .arrow_right {
         filter: invert(1);
         width: 20px;
         margin-left: 10px;
       }
-  
-      @media (max-width: 768px) {
-        bottom: 10px;
+    
+      @media (max-width: 992px) {
+        position: relative; // Изменяем на относительное позиционирование
+        right: 0; // Сбрасываем right
+        bottom: 0; // Сбрасываем bottom
+        margin-top: 20px;
+        margin-left: auto; // Выравниваем кнопку вправо
+        text-align: right; // Текст выравниваем по правому краю
       }
-    }
-  
-    .arrowBlock {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
-  
-    .arrowbtn {
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 250px;
-      height: 40px;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 5px;
-  
-      span {
-        margin: 20px;
-        color: #ccc;
-        font-size: 20px;
-      }
-    }
-  
-    .prev {
-      left: 16px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 25px;
-    }
-  
-    .next {
-      right: 16px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 25px;
     }
   }
-  
+
+  .arrowBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 250px;
+    height: 40px;
+    margin: 40px auto 0; // Центрирование по горизонтали и отступ сверху
+    position: relative; // Для корректного позиционирования
+
+    @media (max-width: 992px) {
+      margin-top: 20px;
+    }
+  }
+
+  .arrowbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+
+    span {
+      margin: 10px;
+      color: #ccc;
+      font-size: 16px;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .prev, .next {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+  }
+
+  .prev {
+    left: 16px;
+  }
+
+  .next {
+    right: 16px;
+  }
+}

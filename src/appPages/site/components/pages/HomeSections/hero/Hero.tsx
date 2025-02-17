@@ -70,7 +70,7 @@ export const Hero: FC = () => {
       </div>
       <div className={scss.heroTwo}>
         <div className={`container ${scss.heroTwoContainer}`}>
-          <h1 className={scss.twoText}>Kyrgyzstan</h1>
+          <h3 className={scss.twoText}>Kyrgyzstan</h3>
           <p className={scss.twoTitle}>
             Kyrgyz Republic is a landlocked country located in the heart of
             Central Asia. The capital is Bishkek. The mountainous region of the

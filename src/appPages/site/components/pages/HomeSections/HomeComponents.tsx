@@ -4,13 +4,14 @@ import About from './about/About';
 import Culture from './culture/Culture';
 import Map from './map/Map';
 import Attractions from './attractions/Attractions';
+import HomeCulture from './culture/HomeCulture';
 const HomeSection = () => {
     return (
         <div>
             <Hero/>
             <About/>
             <Attractions/>
-            {/* <Culture/> */}
+            <HomeCulture/>
             <Map/>
         </div>
     );
