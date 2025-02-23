@@ -27,7 +27,7 @@ const ITEMS_PER_PAGE = 6;
 const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
   const { t } = useTranslate();
   const [isLimit, setIsLimit] = useState<number>(1);
-  const { data: hotels = [] } = useGetHotelsQuery();
+  const { data: hotels = [], isLoading } = useGetHotelsQuery();
   const placeID = usePathname().split("/")[2];
   const [errorImg, setErrorImg] = useState(false);
 
@@ -40,7 +40,9 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
       setIsCurrent(hotelsInPlace[0].id);
     }
   }, [hotelsInPlace, isCurrent, setIsCurrent]);
-
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
   if (isCurrent === null) {
     return <h1>{t("Нет отелей", "لا توجد فنادق", "No hotels")}</h1>;
   }
@@ -62,7 +64,7 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
       <div className={scss.block}>
         <h6>{hotel.name}</h6>
         <div>
-          <Stars rating={hotel.average_rating} width={21} height={21}/>
+          <Stars rating={hotel.average_rating} width={21} height={21} />
           <span className={scss.review}>
             {hotel.rating_count} {t("отзывов", "تقييمات", "reviews")}
           </span>
