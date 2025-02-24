@@ -11,7 +11,7 @@ const api = index.injectEndpoints({
         url: `/${entityType}_review_static`,
         method: "GET",
       }),
-      providesTags: (result, error, { entityType }) =>
+      providesTags: (result, error, { entityType}) =>
         result
           ? [
               ...result.map(({ id }) => ({
@@ -64,10 +64,7 @@ const api = index.injectEndpoints({
         return response.map((item) => ({
           id: item.id,
           entityId:
-            item.hotel ||
-            item.kitchen_region ||
-            item.attractions ||
-            "unknown",
+            item.hotel || item.kitchen_region || item.attractions || "unknown",
           client:
             item.client_hotel ||
             item.client_kitchen ||

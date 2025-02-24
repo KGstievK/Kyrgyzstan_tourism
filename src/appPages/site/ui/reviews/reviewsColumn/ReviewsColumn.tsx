@@ -9,9 +9,14 @@ import { useGetReviewsQuery } from "@/redux/api/reviews";
 interface ReviewsColumnProps {
   entityType: string;
   isCurrent: number | null;
+  reviewStatic?: REVIEWS.StaticReview;
 }
 
-const ReviewsColumn: FC<ReviewsColumnProps> = ({ entityType, isCurrent }) => {
+const ReviewsColumn: FC<ReviewsColumnProps> = ({
+  entityType,
+  isCurrent,
+  reviewStatic,
+}) => {
   const [isShow, setIsShow] = useState(false);
   const [dataReviews, setDataReviews] = useState<REVIEWS.Review[]>([]);
   const [ratingFilter, setRatingFilter] = useState<string | undefined>();
@@ -22,6 +27,8 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({ entityType, isCurrent }) => {
     rating: ratingFilter,
     month: monthFilter,
   });
+
+
 
   useEffect(() => {
     if (reviewsData) {
@@ -47,7 +54,11 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({ entityType, isCurrent }) => {
       <div className={`${styles.flex} ${styles.gap3} ${styles.mb6}`}>
         <div className={styles.searchContainer}>
           <Search className={styles.searchIcon} size={20} color="#5A5A5A" />
-          <input type="text" placeholder="Search" className={styles.searchInput} />
+          <input
+            type="text"
+            placeholder="Search"
+            className={styles.searchInput}
+          />
         </div>
         <button
           onClick={() => setIsShow(!isShow)}
@@ -58,6 +69,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({ entityType, isCurrent }) => {
       </div>
       {isShow && (
         <FilterModal
+          reviewStatic={reviewStatic}
           isShow={isShow}
           setIsShow={setIsShow}
           onApply={applyFilters} // Передаём функцию для фильтров
@@ -79,7 +91,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({ entityType, isCurrent }) => {
                     <div className={styles.authorName}>
                       {review.client.first_name} {review.client.last_name}
                     </div>
-                    <div className={styles.authorPlace}>{review.client.from_user}</div>
+                    <div className={styles.authorPlace}>
+                      {review.client.from_user}
+                    </div>
                   </div>
                 </div>
                 <div className={styles.likes}>

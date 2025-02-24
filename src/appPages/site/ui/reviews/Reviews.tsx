@@ -25,7 +25,7 @@ const Reviews: FC<ReviewsProps> = ({ isTab, isCurrent, reviewStatic }) => {
         <h1 className={styles.heading}>Reviews</h1>
         <div className={`${styles.flex} ${styles.column} ${styles.gap6}`}>
           <StatisticColumn reviewStatic={reviewStatic} />
-          <ReviewsColumn entityType={entityType} isCurrent={isCurrent} />
+          <ReviewsColumn reviewStatic={reviewStatic} entityType={entityType} isCurrent={isCurrent} />
         </div>
       </div>
   );
