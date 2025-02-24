@@ -5,16 +5,30 @@ import ReviewModal from "./reviewModal/ReviewModal";
 import PhotoUploadModal from "./photoUploadModal/PhotoUploadModal";
 
 interface StatisticColumnProps {
-  ratingStats: { label: string; percentage: number; count: number }[];
+  reviewStatic?: REVIEWS.StaticReview;
 }
 
-const StatisticColumn: FC<StatisticColumnProps> = ({ ratingStats }) => {
+const StatisticColumn: FC<StatisticColumnProps> = ({ reviewStatic }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
+
+  const ratingStats = [
+    { label: "Excellent", count: reviewStatic?.excellent || 0 },
+    { label: "Good", count: reviewStatic?.good || 0 },
+    { label: "Not Bad", count: reviewStatic?.notBad || 0 },
+    { label: "Bad", count: reviewStatic?.bad || 0 },
+    { label: "Terribly", count: reviewStatic?.terribly || 0 },
+  ];
+
+  const totalCount = reviewStatic?.ratingCount || 0;
+  const ratingStatsWithPercentage = ratingStats.map((stat) => ({
+    ...stat,
+    percentage: totalCount ? (stat.count / totalCount) * 100 : 0,
+  }));
+
   return (
     <div className={`${styles.w377} ${styles.shrink0}`}>
-      {/* Action Buttons */}
-      <div className={`${styles.flex} ${styles.gap2} ${styles.mb8}`}>
+      <div style={{ width: "100%" }} className={`${styles.flex} ${styles.gap2} ${styles.mb8}`}>
         <button
           onClick={() => setShowReviewModal(true)}
           className={styles.buttonPrimary}
@@ -41,26 +55,19 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ ratingStats }) => {
         )}
       </div>
 
-      {/* Statistics Content */}
       <div className={styles.statsContainer}>
-        <div
-          className={`${styles.flex} ${styles.itemsBaseline} ${styles.gap2}`}
-        >
-          <span className={styles.ratingValue}>4.8</span>
-          <Stars rating={4.8} width={16} height={16} />
-          <div className={styles.ratingCount}>3,764 reviews</div>
+        <div className={`${styles.flex} ${styles.itemsBaseline} ${styles.gap2}`}>
+          <span className={styles.ratingValue}>{reviewStatic?.avgRating || 0}</span>
+          <Stars rating={reviewStatic?.avgRating || 0} width={16} height={16} />
+          <div className={styles.ratingCount}>{totalCount} reviews</div>
         </div>
 
-        {/* Rating bars */}
         <div className={styles.ratingBarContainer}>
-          {ratingStats.map((stat) => (
+          {ratingStatsWithPercentage.map((stat) => (
             <div key={stat.label} className={styles.ratingBar}>
               <span className={styles.barLabel}>{stat.label}</span>
               <div className={styles.bar}>
-                <div
-                  className={styles.barFill}
-                  style={{ width: `${stat.percentage}%` }}
-                />
+                <div className={styles.barFill} style={{ width: `${stat.percentage}%` }} />
               </div>
               <span className={styles.barCount}>{stat.count}</span>
             </div>

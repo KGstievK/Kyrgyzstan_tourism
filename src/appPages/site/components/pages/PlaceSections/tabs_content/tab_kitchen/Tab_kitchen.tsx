@@ -1,22 +1,31 @@
-import scss from './Tab_kitchen.module.scss';
-import Cafes from './cafes/Cafes';
-import Cafe_item from './cafe_item/Cafe_item';
-import { useState } from 'react';
-import { useGetKitchensQuery } from '@/redux/api/place';
-import Cafe_map from './cafe_map/Cafe_map';
-export const Tab_kitchen = () => {
-    const [currentId, setCurrentId] = useState<number | null>(null);
-    const {data, isLoading} = useGetKitchensQuery()
-    return (
+// Tab_kitchen.tsx
+import React, { useState } from "react";
+import scss from "./Tab_kitchen.module.scss";
+import Cafes from "./cafes/Cafes";
+import Cafe_item from "./cafe_item/Cafe_item";
+import Cafe_map from "./cafe_map/Cafe_map";
+import Reviews from "@/appPages/site/ui/reviews/Reviews";
+import { useGetStaticReviewsQuery } from "@/redux/api/reviews";
+
+interface TabKitchenProps {
+  isTab: number;
+}
+
+const Tab_kitchen: React.FC<TabKitchenProps> = ({ isTab }) => {
+  const [currentId, setCurrentId] = useState<number | null>(null);
+  const { data } = useGetStaticReviewsQuery({ entityType: "kitchens" });
+  const kitchenStaticInfo = data?.find((kitchen) => kitchen.id === currentId);
+
+  return (
+    <>
       <div className={scss.kitchen}>
         <Cafe_map />
-        <Cafes
-          isCurrent={currentId}
-          setIsCurrent={setCurrentId}
-        />
-        <Cafe_item kitchens={data} isCurrent={currentId} />
+        <Cafes isCurrent={currentId} setIsCurrent={setCurrentId} />
+        <Cafe_item isCurrent={currentId} />
       </div>
-    );
-  };
+      <Reviews isTab={isTab} isCurrent={currentId} reviewStatic={kitchenStaticInfo} />
+    </>
+  );
+};
 
 export default Tab_kitchen;

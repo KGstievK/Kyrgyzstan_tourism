@@ -5,21 +5,21 @@ import icon4 from "@/assets/images/placeImages/Icon4.png";
 import icon5 from "@/assets/images/placeImages/Icon5.png";
 import { FC } from "react";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import { useGetKitchenIDQuery } from "@/redux/api/place";
+import { useGetKitchenIDQuery, useGetKitchensQuery } from "@/redux/api/place";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
+import { usePathname } from "next/navigation";
 interface iImage {
   id: number;
   image: string;
 }
 interface propsType {
-  kitchens: PLACE.KitchenResponse | undefined;
   isCurrent: number | null;
 }
-const Cafe_item: FC<propsType> = ({ kitchens, isCurrent }) => {
+const Cafe_item: FC<propsType> = ({ isCurrent }) => {
   const { t } = useTranslate();
   const { data, isLoading, isError } = useGetKitchenIDQuery(isCurrent);
-
+  const { data: cafes = [] } = useGetKitchensQuery();
   const dataStars = [
     {
       icon: icon.src,
@@ -42,7 +42,11 @@ const Cafe_item: FC<propsType> = ({ kitchens, isCurrent }) => {
       rating: data?.atmosphere_rating,
     },
   ];
+  const pathName = usePathname();
+  const routeID: number = Number(pathName.split("/")[2]);
 
+  // Filter cafes for current place
+  const kitchens = cafes.filter((el) => el.popular_places === routeID);
   const images = data?.kitchen_image ?? [];
 
   if (isError) {
@@ -156,7 +160,7 @@ const Cafe_item: FC<propsType> = ({ kitchens, isCurrent }) => {
                 width="100%"
                 height="300"
                 style={{ border: 0 }}
-                allowFullScreen=""
+                // allowFullScreen=""
                 loading="lazy"
               ></iframe>
             </div>

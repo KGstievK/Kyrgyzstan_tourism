@@ -17,6 +17,7 @@
 .flex {
   display: flex;
   justify-content: space-between;
+  
   >button {
     font-family: Montserrat;
     font-weight: 500;
@@ -52,6 +53,19 @@
   @media (max-width: 1034px) {
     max-width: 300px;
   }
+  @media (max-width:834px) {
+    max-width: 100%;
+    .flex {
+      justify-content: left;
+      gap: 30px;
+    }
+  }
+}
+
+.column {
+  @media (max-width: 834px) {
+    flex-direction: column;
+  }
 }
 
 .shrink-0 {
@@ -64,6 +78,9 @@
 
 .statsContainer {
   margin-top: 30px;
+  @media (max-width: 834px) {
+    display: none;
+  }
 }
 
 .ratingValue {

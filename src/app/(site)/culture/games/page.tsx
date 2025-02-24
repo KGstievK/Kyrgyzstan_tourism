@@ -1,6 +1,7 @@
 "use client";
-import CultureGames from '@/appPages/site/components/pages/CultureSections/Games/CultureGames';
+import GamesPage from '@/appPages/site/components/pages/CultureSections/Games/CultureGames';
+// import CultureGames from '@/appPages/site/components/pages/CultureSections/Games/CultureGames';
 
-const page = () => <CultureGames />;
+const page = () => <GamesPage />;
 
 export default page;
