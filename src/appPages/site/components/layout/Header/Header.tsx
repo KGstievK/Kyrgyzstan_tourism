@@ -47,6 +47,7 @@ const NAV_ITEMS: NavItem[] = [
 
 const Header = () => {
   const { data: userData, status } = useGetMeQuery();
+  const [userPreview, setUserPreview] = useState<string | null>(null);
 
   const { width } = useWindowSize();
   const { t, changeLanguage } = useTranslate();
@@ -96,11 +97,35 @@ const Header = () => {
                 />
                 {status === "fulfilled" ? (
                   <>
-                    <Link href='/profile'>
+                    <Link href="/profile">
                       <Space direction="vertical" size={10}>
                         <Space wrap size={10}>
                           <Badge count={1}>
-                            <Avatar size={47} icon={<UserOutlined />} />
+                            {userData?.map((el) => (
+                              <Avatar key={el.id}
+                                size={50 }
+                                icon={
+                                  userPreview ? (
+                                    <img src={userPreview} alt="avatar" />
+                                  ) : el.user_picture ? (
+                                    <img
+                                      src={el.user_picture}
+                                      alt="avatar"
+                                      width={100}
+                                      height={100}
+                                      style={{
+                                        objectFit: 'cover',
+                                        top: '0',
+                                        right: '0',
+                                        borderRadius: '50%'
+                                      }}
+                                    />
+                                  ) : (
+                                    <UserOutlined />
+                                  )
+                                }
+                              />
+                            ))}
                           </Badge>
                         </Space>
                       </Space>
