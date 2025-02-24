@@ -13,18 +13,25 @@ namespace AUTH {
   type GetRequest = void;
 
   type PatchMeResponse = {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    birth_date: string
-  }
-  type PatchMeRequest = {
+    id?: number
     first_name?: string;
     last_name?: string;
     email?: string;
     phone_number?: string;
-    from_user?: string
+    user_picture?: string | null;
+    from_user?: string;
+    cover_photo?: string | null;
+    birth_date?: string
+  }
+  type PatchMeRequest = {
+    id?: number
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone_number?: string;
+    user_picture?: string | null;
+    from_user?: string;
+    cover_photo?: string | null;
     birth_date?: string
   }
 

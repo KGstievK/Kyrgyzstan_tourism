@@ -12,9 +12,8 @@ const api = index.injectEndpoints({
 		}),
 		patchMe: build.mutation<AUTH.PatchMeResponse, AUTH.PatchMeRequest>({
 			query: (data) => ({
-				url: '/user_profile_created/',
+				url: '/user_profile_update/',
 				method: 'PATCH',
-				headers: 'Content-Type: multipart/form-data',
 				body: data
 			}),
 			invalidatesTags: ['auth'],
