@@ -23,7 +23,7 @@ const User = () => {
           <Space wrap size={20}>
             <Badge count={1}>
               {user?.map((el) => (
-                <Avatar
+                <Avatar key={el.id}
                   size={47}
                   icon={
                     userPreview ? (

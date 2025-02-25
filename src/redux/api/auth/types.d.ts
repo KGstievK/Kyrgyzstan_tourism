@@ -50,13 +50,13 @@ namespace AUTH {
     refresh: string;
   };
   type PostRegistrationRequest = {
-    email: string;
-    password: string;
-    confirm_password: string;
-    first_name: string;
-    last_name: string;
-    phone_number: string;
-    birth_date: string;
+    email: string
+    password: string
+    confirm_password: string
+    first_name: string
+    last_name: string
+    phone_number: string
+    birth_date: string
   };
 
   type PostLogoutResponse = {};

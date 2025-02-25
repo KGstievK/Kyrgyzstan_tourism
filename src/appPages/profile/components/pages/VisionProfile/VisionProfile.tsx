@@ -8,43 +8,37 @@ import { useGetMeQuery, usePatchMeMutation } from "@/redux/api/auth";
 import { useForm } from "react-hook-form";
 
 const VisionProfile = () => {
-  const [coverPreview, setCoverPreview] = useState<string | null>(null); // Для превью загруженного файла фона
-  const [userPreview, setUserPreview] = useState<string | null>(null); // Для превью загруженного файла аватарки
+  const [coverPreview, setCoverPreview] = useState<string | null>(null); 
+  const [userPreview, setUserPreview] = useState<string | null>(null); 
   const { data: user } = useGetMeQuery();
   const [PatchMeRequest] = usePatchMeMutation();
 
   const { register, watch } = useForm<AUTH.PatchMeRequest>();
 
-  // Отслеживаем изменения в поле загрузки файла фона
   const coverPhotoFile = watch("cover_photo");
-  // Отслеживаем изменения в поле загрузки файла аватарки
   const userPhotoFile = watch("user_picture");
 
-  // Эффект для автоматической отправки файла фона на сервер
   useEffect(() => {
     if (coverPhotoFile && coverPhotoFile[0]) {
-      const file = coverPhotoFile[0] as unknown as File; // Явное приведение типа к File
+      const file = coverPhotoFile[0] as unknown as File; 
 
-      // Проверяем, что file является объектом типа File
       if (file instanceof File) {
-        const previewUrl = URL.createObjectURL(file); // Создаем временный URL для превью
-        setCoverPreview(previewUrl); // Устанавливаем превью
+        const previewUrl = URL.createObjectURL(file); 
+        setCoverPreview(previewUrl); 
 
-        // Создаем FormData и отправляем файл на сервер
         const formData = new FormData();
-        formData.append("cover_photo", file); // Добавляем файл в FormData
+        formData.append("cover_photo", file);
 
         const sendFileToServer = async () => {
           try {
             const response = await PatchMeRequest(formData as unknown as AUTH.PatchMeRequest);
             if (response.data) {
               console.log("Фото фона успешно загружено!");
-              // Если сервер возвращает новый URL, можно обновить состояние
-              // setCoverPreview(response.data.cover_photo); // Пример, если сервер возвращает URL
+              // setCoverPreview(response.data.cover_photo); 
             }
           } catch (e) {
             console.error("Ошибка при загрузке фото фона:", e);
-            setCoverPreview(null); // Сбрасываем превью в случае ошибки
+            setCoverPreview(null); 
           }
         };
 
@@ -55,31 +49,28 @@ const VisionProfile = () => {
     }
   }, [coverPhotoFile, PatchMeRequest]);
 
-  // Эффект для автоматической отправки файла аватарки на сервер
+
   useEffect(() => {
     if (userPhotoFile && userPhotoFile[0]) {
-      const file = userPhotoFile[0] as unknown as File; // Явное приведение типа к File
+      const file = userPhotoFile[0] as unknown as File;
 
-      // Проверяем, что file является объектом типа File
       if (file instanceof File) {
-        const previewUrl = URL.createObjectURL(file); // Создаем временный URL для превью
-        setUserPreview(previewUrl); // Устанавливаем превью
+        const previewUrl = URL.createObjectURL(file);
+        setUserPreview(previewUrl); 
 
-        // Создаем FormData и отправляем файл на сервер
         const formData = new FormData();
-        formData.append("user_picture", file); // Добавляем файл в FormData
+        formData.append("user_picture", file); 
 
         const sendFileToServer = async () => {
           try {
             const response = await PatchMeRequest(formData as unknown as AUTH.PatchMeRequest);
             if (response.data) {
               console.log("Аватарка успешно загружена!");
-              // Если сервер возвращает новый URL, можно обновить состояние
-              // setUserPreview(response.data.user_picture); // Пример, если сервер возвращает URL
+              // setUserPreview(response.data.user_picture); 
             }
           } catch (e) {
             console.error("Ошибка при загрузке аватарки:", e);
-            setUserPreview(null); // Сбрасываем превью в случае ошибки
+            setUserPreview(null);
           }
         };
 
@@ -107,7 +98,6 @@ const VisionProfile = () => {
               backgroundPosition: "center",
             }}
           >
-            {/* Input для загрузки нового фона профиля */}
             <label className={scss.EditCover}>
               Edit Cover Photo
               <input
@@ -119,7 +109,6 @@ const VisionProfile = () => {
             </label>
           </div>
 
-          {/* Блок для аватарки и информации о пользователе */}
           <div className={scss.EditImage}>
             <Space direction="vertical" size={16}>
               <Space wrap size={16}>
@@ -154,7 +143,6 @@ const VisionProfile = () => {
             </div>
           </div>
 
-          {/* Кнопка для редактирования (если нужна) */}
           <button className={scss.EditFrom}>
             <Image src={edit} alt="edit" />
           </button>

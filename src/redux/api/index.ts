@@ -8,19 +8,18 @@ const getLanguage = () => {
   if (typeof window !== "undefined") {
     return localStorage.getItem("lang") || "en";
   }
-  return "en"; // Значение по умолчанию для серверного рендера
+  return "en";
 };
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/${getLanguage()}`,
   prepareHeaders: (headers) => {
     let token = null;
-    const localStorageData = JSON.parse(localStorage.getItem("accessToken") || "{}");
-    const sessionStorageData = JSON.parse(sessionStorage.getItem("accessToken") || "{}");
-    if (localStorageData?.access) {
-      token = localStorageData.access;
-    } else if (sessionStorageData?.access) {
-      token = sessionStorageData.access;
+    if (typeof window !== "undefined") {  // Убедимся, что код выполняется на клиенте
+      const localStorageData = JSON.parse(localStorage.getItem("accessToken") || "null");
+      const SessionStorageData = JSON.parse(sessionStorage.getItem("accessToken") || "null");
+
+      token = SessionStorageData?.access || localStorageData?.access || null;
     }
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
@@ -59,8 +58,8 @@ export const api = createApi({
     "currency",
     "EventList",
     "cultureList",
-    "Reviews", // Новый тег для отзывов
-    "StaticReviews", // Новый тег для статистики
+    "Reviews", 
+    "StaticReviews",
   ],
   endpoints: () => ({}),
 });
