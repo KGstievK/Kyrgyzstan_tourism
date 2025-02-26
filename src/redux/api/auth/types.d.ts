@@ -71,15 +71,19 @@ namespace AUTH {
     refresh: string
   };
 
-  type PostForgotPasswordResponse = {};
+  type PostForgotPasswordResponse = {
+    status: string;
+  };
   type PostForgotPasswordRequest = {
     email: string;
-    frontEndUrl: string;
   };
 
-  type PatchResetPasswordResponse = {};
-  type PatchResetPasswordRequest = {
-    token: string;
-    newPassword: string;
+  type PostResetPasswordResponse = {
+    message: string;
+  };
+  type PostResetPasswordRequest = {
+    email: string;
+    reset_code: string;
+    new_password: string;
   };
 }

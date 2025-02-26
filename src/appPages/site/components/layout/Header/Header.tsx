@@ -101,8 +101,8 @@ const Header = () => {
                       <Space direction="vertical" size={10}>
                         <Space wrap size={10}>
                           <Badge count={1}>
-                            {userData?.map((el) => (
-                              <Avatar key={el.id}
+                            {userData?.map((el, idx) => (
+                              <Avatar key={idx}
                                 size={50 }
                                 icon={
                                   userPreview ? (
