@@ -3,8 +3,8 @@ import Image from "next/image";
 import { BiLike } from "react-icons/bi";
 import { LuPhone } from "react-icons/lu";
 import scss from "./History.module.scss";
-import { CiSearch } from "react-icons/ci";
-import { MdArrowOutward } from "react-icons/md";
+// import { CiSearch } from "react-icons/ci";
+// import { MdArrowOutward } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoLaptopOutline } from "react-icons/io5";
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -18,26 +18,15 @@ import images1 from "../../../../../assets/images/History/Anna.png";
 import images2 from "../../../../../assets/images/History/img1.png";
 import images3 from "../../../../../assets/images/History/img2.png";
 import images4 from "../../../../../assets/images/History/img3.png";
+import SearchProfile from "../SearchProfile/SearchProfile";
+import User from "../User/User";
 
 const History: FC = () => {
   return (
     <section className={scss.History}>
-      <div className={scss.content}>
-        <div className={scss.Users_input}>
-          <div className={scss.inputs}>
-            <div className={scss.input_search}>
-              <input type="text" />
-              <CiSearch className={scss.search} />
-            </div>
-            <MdArrowOutward className={scss.arrow} />
-          </div>
-          <div className={scss.user}>
-            <div className={scss.user_text}>
-              <h3>Charles Deo</h3>
-              <h4>Moscow, Rossia</h4>
-            </div>
-            <Image src={images} alt="img" width={42} height={42} />
-          </div>
+        <div className={scss.headerUser}>
+          <SearchProfile />
+          <User />
         </div>
         <div className={scss.history_content}>
           <div className={scss.text}>
@@ -174,7 +163,6 @@ const History: FC = () => {
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 };
