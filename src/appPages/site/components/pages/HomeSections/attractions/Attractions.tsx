@@ -35,8 +35,8 @@ const Attractions = () => {
                   style={{
                     objectFit: "cover",
                     backgroundColor: "#f0f0f0",
-                    width: '100%',
-                    height: '300px'
+                    width: "100%",
+                    height: "300px",
                   }}
                   onError={() => setError(true)}
                 />
@@ -53,17 +53,17 @@ const Attractions = () => {
                   </div>
                   <p className={scss.descr}>{textSlice(place.description)}</p>
                 </div>
-                <Image 
-                  className={scss.heart} 
-                  src={imgHeart.src} 
+                <Image
+                  className={scss.heart}
+                  src={imgHeart.src}
                   alt="like"
                   width={24}
                   height={24}
                 />
                 <Link href={`/${place.region_category}/${place.id}`}>
-                  <Image 
-                    className={scss.right} 
-                    src={imgRight.src} 
+                  <Image
+                    className={scss.right}
+                    src={imgRight.src}
                     alt="arrow"
                     width={24}
                     height={24}

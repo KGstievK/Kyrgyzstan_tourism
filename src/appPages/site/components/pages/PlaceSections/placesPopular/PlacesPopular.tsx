@@ -8,7 +8,6 @@ import { useMemo, useState } from "react";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import Stars from "@/appPages/site/ui/stars/Stars";
-import { log } from "node:console";
 
 type TabsDataType = Record<number, REGION_LIST.PopularResponse>;
 
