@@ -1,52 +1,54 @@
-import Image from "next/image";
+// import Image from "next/image";
 import scss from "./ForgotPage.module.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePostForgotPasswordMutation } from "@/redux/api/auth";
-import { useState } from "react";
-import logo from "@/assets/icons/logo.svg";
+// import { useState } from "react";
+// import logo from "@/assets/icons/logo.svg";
 import Link from "next/link";
-
-interface RegisterType {
-  email: string;
-  frontEndUrl: string;
-}
+import { useRouter } from "next/navigation";
+// import { useRouter } from "next/router";
 
 const ForgotPage = () => {
-  const [PostForgotPasswordMutation] = usePostForgotPasswordMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AUTH.PostForgotPasswordRequest>();
+  const [postForgotPassword] = usePostForgotPasswordMutation();
+  const router = useRouter();
 
-  const { register, watch, handleSubmit } = useForm<RegisterType>();
-
-  const [rememberMe, setRememberMe] = useState(false);
-
-  const onSubmit: SubmitHandler<RegisterType> = async (userData) => {
-    const userDataRest = {
-      email: userData.email,
-      frontEndUrl: userData.frontEndUrl,
-    };
+  const onSubmit: SubmitHandler<AUTH.PostForgotPasswordRequest> = async (
+    data
+  ) => {
+    console.log(
+      "🚀 ~ constonSubmit:SubmitHandler<IFormForgotPassword>= ~ data:",
+      data
+    );
 
     try {
-      const response = await PostForgotPasswordMutation(userDataRest);
-      if (response.data) {
-        const storage = rememberMe ? localStorage : sessionStorage;
-        storage.setItem("accessToken", JSON.stringify(response.data));
-        // window.location.reload();
-      }
-    } catch (e) {
-      console.error("An error occurred:", e);
+      const response = await postForgotPassword(data).unwrap();
+      alert(response.status);
+      router.push("/auth/reset_password");
+    } catch (error: any) {
+      console.error("Ошибка запроса:", error);
+      alert(error?.data?.data?.email?.[0] || "Ошибка при отправке запроса.");
     }
   };
 
   return (
     <section className={scss.ForgotPage}>
-      <Image src={logo} alt="LOGO" />
+      {/* <Image src={logo} alt="LOGO" /> */}
       <h1>Забыли пароль?</h1>
-      <form action="">
+      <form onSubmit={handleSubmit(onSubmit)} className={scss.form}>
         <input
-          type="text"
-          {...register("email", { required: true })}
-          placeholder="Email"
+          type="email"
+          placeholder="Введите email"
+          {...register("email", {
+            required: "Введите email",
+          })}
         />
-        <button type="submit">Войти</button>
+        {errors.email && <p className={scss.error}>{errors.email.message}</p>}
+        <button type="submit">Отправить письмо сброса</button>
       </form>
       <div className={scss.links}>
         <p>У вас уже есть аккаунт?</p>

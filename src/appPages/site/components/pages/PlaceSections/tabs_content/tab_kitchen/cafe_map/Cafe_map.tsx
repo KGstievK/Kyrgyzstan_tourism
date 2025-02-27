@@ -10,7 +10,7 @@ const Cafe_map = () => {
           width="100%"
           height="400"
           style={{ border: 0 }}
-          allowFullScreen=""
+          // allowFullScreen=""
           loading="lazy"
           title="Google Map"
         ></iframe>

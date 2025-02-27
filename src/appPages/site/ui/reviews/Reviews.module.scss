@@ -17,6 +17,7 @@
 .flex {
   display: flex;
   justify-content: space-between;
+  
   >button {
     font-family: Montserrat;
     font-weight: 500;
@@ -52,6 +53,25 @@
   @media (max-width: 1034px) {
     max-width: 300px;
   }
+  @media (max-width:834px) {
+    max-width: 100%;
+    .flex {
+      justify-content: left;
+      gap: 30px;
+    }
+  }
+}
+.block {
+  width: 100%;
+  @media (max-width: 834px) {
+    display: none;
+    
+  }
+}
+.column {
+  @media (max-width: 834px) {
+    flex-direction: column;
+  }
 }
 
 .shrink-0 {
@@ -64,6 +84,7 @@
 
 .statsContainer {
   margin-top: 30px;
+
 }
 
 .ratingValue {
@@ -94,11 +115,15 @@
 
 .ratingBar {
   display: grid;
-  grid-template-columns: 90px 0.6fr 0.2fr;
+  grid-template-columns: 0.3fr 0.7fr;
   align-items: center;
   height: 2rem;
 }
-
+.barWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 .barLabel {
   font-family: Montserrat;
   font-weight: 400;

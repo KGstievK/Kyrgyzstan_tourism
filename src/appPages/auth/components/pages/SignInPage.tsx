@@ -23,11 +23,11 @@ const SignInPage: FC = () => {
 
   const onSubmit: SubmitHandler<signInProps> = async (userData) => {
     const datalogin = {
-      username: userData.email,
+      email: userData.email,
       password: userData.password,
     };
     try {
-      const response = await postLoginMutation(userData);
+      const response = await postLoginMutation(datalogin);
       if (response.data?.access) {
         const storage = rememberMe ? localStorage : sessionStorage;
         storage.setItem("accessToken", JSON.stringify(response.data));
@@ -43,7 +43,7 @@ const SignInPage: FC = () => {
     <section className={scss.LoginPage}>
       <h1 className={scss.authTitle}>Sign ip</h1>
       <h2>Создать аккаунт</h2>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
           placeholder="Email"

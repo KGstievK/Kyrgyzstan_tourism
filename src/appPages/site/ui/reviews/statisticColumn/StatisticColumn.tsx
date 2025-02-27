@@ -1,20 +1,23 @@
 import { FC, useState } from "react";
 import styles from "../Reviews.module.scss";
-import Stars from "../../stars/Stars";
 import ReviewModal from "./reviewModal/ReviewModal";
 import PhotoUploadModal from "./photoUploadModal/PhotoUploadModal";
+import StatisticBlock from "./statisticBlock/StatisticBlock";
 
 interface StatisticColumnProps {
-  ratingStats: { label: string; percentage: number; count: number }[];
+  reviewStatic?: REVIEWS.StaticReview;
 }
 
-const StatisticColumn: FC<StatisticColumnProps> = ({ ratingStats }) => {
+const StatisticColumn: FC<StatisticColumnProps> = ({ reviewStatic }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
+
   return (
     <div className={`${styles.w377} ${styles.shrink0}`}>
-      {/* Action Buttons */}
-      <div className={`${styles.flex} ${styles.gap2} ${styles.mb8}`}>
+      <div
+        style={{ width: "100%" }}
+        className={`${styles.flex} ${styles.gap2} ${styles.mb8}`}
+      >
         <button
           onClick={() => setShowReviewModal(true)}
           className={styles.buttonPrimary}
@@ -40,32 +43,8 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ ratingStats }) => {
           />
         )}
       </div>
-
-      {/* Statistics Content */}
-      <div className={styles.statsContainer}>
-        <div
-          className={`${styles.flex} ${styles.itemsBaseline} ${styles.gap2}`}
-        >
-          <span className={styles.ratingValue}>4.8</span>
-          <Stars rating={4.8} width={16} height={16} />
-          <div className={styles.ratingCount}>3,764 reviews</div>
-        </div>
-
-        {/* Rating bars */}
-        <div className={styles.ratingBarContainer}>
-          {ratingStats.map((stat) => (
-            <div key={stat.label} className={styles.ratingBar}>
-              <span className={styles.barLabel}>{stat.label}</span>
-              <div className={styles.bar}>
-                <div
-                  className={styles.barFill}
-                  style={{ width: `${stat.percentage}%` }}
-                />
-              </div>
-              <span className={styles.barCount}>{stat.count}</span>
-            </div>
-          ))}
-        </div>
+      <div className={styles.block}>
+        <StatisticBlock reviewStatic={reviewStatic} />
       </div>
     </div>
   );

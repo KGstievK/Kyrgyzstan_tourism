@@ -4,31 +4,22 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 
-// const getLanguage = (): string => {
-// 	return localStorage.getItem('lang') || 'en';
-// };
 const getLanguage = () => {
   if (typeof window !== "undefined") {
     return localStorage.getItem("lang") || "en";
   }
-  return null;
+  return "en";
 };
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/${getLanguage()}`,
   prepareHeaders: (headers) => {
     let token = null;
-    const localStorageData = JSON.parse(localStorage.getItem("accessToken")!);
-    const SessionStorageData = JSON.parse(
-      sessionStorage.getItem("accessToken")!
-    );
-    if (localStorageData) {
-      const { access } = localStorageData;
-      token = access;
-    }
-    if (SessionStorageData) {
-      const { access } = SessionStorageData;
-      token = access;
+    if (typeof window !== "undefined") {  // Убедимся, что код выполняется на клиенте
+      const localStorageData = JSON.parse(localStorage.getItem("accessToken") || "null");
+      const SessionStorageData = JSON.parse(sessionStorage.getItem("accessToken") || "null");
+
+      token = SessionStorageData?.access || localStorageData?.access || null;
     }
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
@@ -65,8 +56,10 @@ export const api = createApi({
     "national-instrument",
     "hand-crafts",
     "currency",
-    'EventList',
+    "EventList",
     "cultureList",
+    "Reviews", 
+    "StaticReviews",
   ],
   endpoints: () => ({}),
 });

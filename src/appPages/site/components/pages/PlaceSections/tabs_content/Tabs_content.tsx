@@ -21,13 +21,13 @@ const Tabs_content = () => {
         },
         {
             id: 1,
-            name: 'Kitchen',
-            img: kitchenImg
+            name: 'Hotel',
+            img: hotelImg
         },
         {
             id: 2,
-            name: 'Hotel',
-            img: hotelImg
+            name: 'Kitchen',
+            img: kitchenImg
         },
         {
             id: 3,
@@ -62,11 +62,11 @@ const Tabs_content = () => {
                 </div>
                 
                 <div className={scss.content}>
-                    {isTab === 0 && <Tab_place />}
-                    {isTab === 1 && <Tab_kitchen />}
-                    {isTab === 2 && <Tab_hotel />}
+                    {isTab === 0 && <Tab_place isTab={isTab} />}
+                    {isTab === 2 && <Tab_kitchen isTab={isTab}/>}
+                    {isTab === 1 && <Tab_hotel isTab={isTab}/>}
                     {isTab === 3 && <Tab_event />}
-                    {isTab === 4 && <Tab_attractions />}
+                    {isTab === 4 && <Tab_attractions isTab={isTab}/>}
                 </div>
             </div>
         </section>

@@ -1,4 +1,10 @@
 :root {
+  --background: #ffffff;
+  --active: #407EC7;
+  --main-color: #004A60;
+  --footer: ;
+  --silver: #26262672;
+  --input: #E5E4E9;
   --font-frank: "Frank Ruhl Libre", serif;
   --font-inter: "Inter", sans-serif;
   --font-abril: "Abril Fatface", cursive;
@@ -31,8 +37,13 @@ ol {
 }
 
 input {
+  padding: 14px 15px;
+  font-family: "Playfair Display", sans-serif;
+  font-size: 18px;
   outline: none;
+  border-radius: 10px;
   background-color: transparent;
+  border: 2px solid var(--input);
 }
 
 img,
@@ -47,9 +58,11 @@ table {
 }
 
 button {
+  background-color: var(--main-color);
   border-radius: 10px;
-  border: 0;
+  border: 2px solid var(--main-color);border-radius: 10px;
   cursor: pointer;
+  color: var(--background);
 }
 
 .container {

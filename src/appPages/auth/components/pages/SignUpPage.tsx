@@ -6,20 +6,18 @@ import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Switch } from "antd";
 import Link from "next/link";
-import Image from "next/image";
-
-
 
 const SignUpPage: FC = () => {
   const [postRegisterMutation] = usePostRegistrationMutation();
 
-  const { register, watch, handleSubmit } =
-    useForm<AUTH.PostRegistrationRequest>();
+  const { register, handleSubmit } = useForm<AUTH.PostRegistrationRequest>();
 
   const [rememberMe, setRememberMe] = useState(false);
 
-  const onSubmit: SubmitHandler<AUTH.PostRegistrationRequest> = async (userData) => {
-    const userDataRest = {
+  const onSubmit: SubmitHandler<AUTH.PostRegistrationRequest> = async (
+    userData
+  ) => {
+    const dataRegistr = {
       email: userData.email,
       password: userData.password,
       confirm_password: userData.confirm_password,
@@ -28,14 +26,13 @@ const SignUpPage: FC = () => {
       phone_number: userData.phone_number,
       birth_date: userData.birth_date,
     };
-
     try {
-      const response = await postRegisterMutation(userDataRest);
-      console.log("🚀 ~ constonSubmit:SubmitHandler<AUTH.PostRegistrationRequest>= ~ response:", response)
+      const response = await postRegisterMutation(dataRegistr);
       if (response.data?.access) {
         const storage = rememberMe ? localStorage : sessionStorage;
         storage.setItem("accessToken", JSON.stringify(response.data));
         // window.location.reload();
+        console.log(response.data);
       }
     } catch (e) {
       console.error("An error occurred:", e);
@@ -50,7 +47,7 @@ const SignUpPage: FC = () => {
     <section className={scss.RegistrationPage}>
       <h1 className={scss.authTitle}>Sign up</h1>
       <h2>Создать аккаунт</h2>
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
           {...register("email", { required: true })}
@@ -64,9 +61,7 @@ const SignUpPage: FC = () => {
         <input
           type="text"
           {...register("confirm_password", {
-            required: true,
-            validate: (value: string) =>
-              value === "password" || "Пароли не совпадают",
+            required: true
           })}
           placeholder="Повторите пароль"
         />
@@ -100,7 +95,7 @@ const SignUpPage: FC = () => {
             placeholder="Phone number"
           />
           <input
-            type="text"
+            type="date"
             {...register("birth_date", { required: true })}
             placeholder="Birth date"
           />
@@ -131,4 +126,3 @@ const SignUpPage: FC = () => {
   );
 };
 export default SignUpPage;
-

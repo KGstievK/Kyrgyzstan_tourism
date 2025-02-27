@@ -1,84 +1,93 @@
-import { headers } from 'next/headers';
-import { api as index } from '..';
+import { headers } from "next/headers";
+import { api as index } from "..";
 
 const api = index.injectEndpoints({
-	endpoints: (build) => ({
-		getMe: build.query<AUTH.GetResponse, AUTH.GetRequest>({
-			query: () => ({
-				url: '/user_profile_list/',
-				method: 'GET'
-			}),
-			providesTags: ['auth'],
-		}),
-		patchMe: build.mutation<AUTH.PatchMeResponse, AUTH.PatchMeRequest>({
-			query: (data) => ({
-				url: '/user_profile_created/',
-				method: 'PATCH',
-				headers: 'Content-Type: multipart/form-data',
-				body: data
-			}),
-			invalidatesTags: ['auth'],
-		}),
-		postLogin: build.mutation<AUTH.PostLoginResponse, AUTH.PostLoginRequest>({
-			query: (data) => ({
-				url: '/login/',
-				method: 'POST',
-				body: data
-			}),
-			invalidatesTags: ['auth']
-		}),
-		postRegistration: build.mutation<
-			AUTH.PostRegistrationResponse,
-			AUTH.PostRegistrationRequest
-		>({
-			query: (data) => ({
-				url: '/register/',
-				method: 'POST',
-				body: data
-			}),
-			invalidatesTags: ['auth']
-		}),
-		postLogout: build.mutation<AUTH.PostLogoutResponse, AUTH.PostLogoutRequest>(
-			{
-				query: () => ({
-					url: '/auth/logout',
-					method: 'POST'
-				}),
-				invalidatesTags: ['auth']
-			}
-		),
-		patchRefreshToken: build.mutation<
-			AUTH.PatchRefreshResponse,
-			AUTH.PatchRefreshRequest
-		>({
-			query: () => ({
-				url: '/api/token/refresh/',
-				method: 'PATCH'
-			}),
-			invalidatesTags: ['auth']
-		}),
-		postForgotPassword: build.mutation<
-			AUTH.PostForgotPasswordResponse,
-			AUTH.PostForgotPasswordRequest
-		>({
-			query: (data) => ({
-				url: '/auth/forgot',
-				method: 'POST',
-				body: data
-			}),
-			invalidatesTags: ['auth']
-		}),
-		patchResetPassword: build.mutation<
-			AUTH.PatchResetPasswordResponse,
-			AUTH.PatchResetPasswordRequest
-		>({
-			query: (data) => ({
-				url: '/auth/reset-password',
-				method: 'PATCH',
-				body: data
-			}),
-			invalidatesTags: ['auth']
-		})
-	})
+  endpoints: (build) => ({
+    getMe: build.query<AUTH.GetResponse, AUTH.GetRequest>({
+      query: () => ({
+        url: "/user_profile_list/",
+        method: "GET",
+      }),
+      providesTags: ["auth"],
+    }),
+    patchMe: build.mutation<AUTH.PatchMeResponse, AUTH.PatchMeRequest>({
+      query: (data) => ({
+        url: "/user_profile_update/",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    postLogin: build.mutation<AUTH.PostLoginResponse, AUTH.PostLoginRequest>({
+      query: (data) => ({
+        url: "/login/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    postRegistration: build.mutation<
+      AUTH.PostRegistrationResponse,
+      AUTH.PostRegistrationRequest
+    >({
+      query: (data) => ({
+        url: "/register/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    postLogout: build.mutation<AUTH.PostLogoutResponse, AUTH.PostLogoutRequest>(
+      {
+        query: () => ({
+          url: "/auth/logout",
+          method: "POST",
+        }),
+        invalidatesTags: ["auth"],
+      }
+    ),
+    patchRefreshToken: build.mutation<
+      AUTH.PatchRefreshResponse,
+      AUTH.PatchRefreshRequest
+    >({
+      query: (data) => ({
+        url: "/api/token/refresh/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    postForgotPassword: build.mutation<
+      AUTH.PostForgotPasswordResponse,
+      AUTH.PostForgotPasswordRequest
+    >({
+      query: (data) => ({
+        url: "password_reset/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    postResetPassword: build.mutation<
+      AUTH.PostResetPasswordResponse,
+      AUTH.PostResetPasswordRequest
+    >({
+      query: (data) => ({
+        url: "password_reset/verify_code/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+  }),
 });
-export const { useGetMeQuery, usePatchMeMutation, usePostLoginMutation, usePostRegistrationMutation, usePostLogoutMutation, usePatchRefreshTokenMutation, usePatchResetPasswordMutation, usePostForgotPasswordMutation } = api;
+export const {
+  useGetMeQuery,
+  usePatchMeMutation,
+  usePostLoginMutation,
+  usePostRegistrationMutation,
+  usePostLogoutMutation,
+  usePatchRefreshTokenMutation,
+  usePostResetPasswordMutation,
+  usePostForgotPasswordMutation,
+} = api;
