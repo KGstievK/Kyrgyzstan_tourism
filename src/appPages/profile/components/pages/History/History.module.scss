@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 90px;
+    gap: 90px;  
   }
 
   .history_content {
@@ -583,194 +583,168 @@
     background: rgb(245, 245, 245);
     width: 400px;
     height: auto;
-
-    .content {
-      .Users_input {
-        display: none;
-        .inputs {
-          .input_search {
-            input {
-              display: none;
-            }
-            .search {
-              display: none;
-            }
-          }
-          .arrow {
-          }
-        }
-        .user {
-          .user_text {
-            h3 {
-            }
-            h4 {
-            }
-          }
+    .history_content {
+      .text {
+        h1 {
+          letter-spacing: -0.06px;
+          margin-right: 100px;
         }
       }
-      .history_content {
-        .text {
-          h1 {
-            letter-spacing: -0.06px;
-            margin-right: 100px;
-          }
+    }
+    .Hotels {
+      .hotel {
+        width: 330px;
+        height: 184px;
+        h1 {
+          line-height: 19px;
+          margin-bottom: 5px;
         }
-      }
-      .Hotels {
-        .hotel {
-          width: 330px;
-          height: 184px;
-          h1 {
-            line-height: 19px;
-            margin-bottom: 5px;
+        .hotel_images {
+          .images_hotelss {
+            width: 150px;
+            height: 128px;
           }
-          .hotel_images {
-            .images_hotelss {
-              width: 150px;
-              height: 128px;
-            }
-            display: flex;
-            gap: 10px;
-            .addresses {
-              width: 130px;
-              height: 127.77px;
-              box-sizing: border-box;
-              border: 0.31px solid rgb(224, 224, 224);
-              border-radius: 0.62px;
-              background: rgb(255, 255, 255);
-              padding: 8px 8px 8px 8px;
+          display: flex;
+          gap: 10px;
+          .addresses {
+            width: 130px;
+            height: 127.77px;
+            box-sizing: border-box;
+            border: 0.31px solid rgb(224, 224, 224);
+            border-radius: 0.62px;
+            background: rgb(255, 255, 255);
+            padding: 8px 8px 8px 8px;
 
-              h5 {
-                font-size: 6px;
-                line-height: 6.85px;
+            h5 {
+              font-size: 6px;
+              line-height: 6.85px;
+            }
+            .address {
+              iframe {
+                width: 107px;
+                height: 42.39px;
               }
-              .address {
-                iframe {
-                  width: 107px;
-                  height: 42.39px;
+              .location {
+                width: 89px;
+                height: 12px;
+                margin-bottom: 7px;
+                .location_1 {
+                  width: 5.02px;
+                  height: 5.2px;
                 }
-                .location {
-                  width: 89px;
-                  height: 12px;
-                  margin-bottom: 7px;
-                  .location_1 {
-                    width: 5.02px;
-                    height: 5.2px;
-                  }
-                  p {
-                    font-size: 5px;
-                    line-height: 5.61px;
-                  }
-                }
-                .contact {
-                  margin-bottom: 7px;
-                  .leptops {
-                    .leptop {
-                      width: 6px;
-                      height: 6px;
-                    }
-                    font-size: 5px;
-                    line-height: 5.61px;
-                  }
-                  .email {
-                    font-size: 5px;
-                    line-height: 5.61px;
-                    .leptop {
-                      width: 6;
-                      height: 6px;
-                    }
-                  }
-                }
-                .phone {
+                p {
                   font-size: 5px;
                   line-height: 5.61px;
-                  margin-bottom: 7px;
+                }
+              }
+              .contact {
+                margin-bottom: 7px;
+                .leptops {
                   .leptop {
-                    width: 5.2px;
-                    height: 5.18px;
+                    width: 6px;
+                    height: 6px;
+                  }
+                  font-size: 5px;
+                  line-height: 5.61px;
+                }
+                .email {
+                  font-size: 5px;
+                  line-height: 5.61px;
+                  .leptop {
+                    width: 6;
+                    height: 6px;
                   }
                 }
               }
-              p {
+              .phone {
                 font-size: 5px;
                 line-height: 5.61px;
+                margin-bottom: 7px;
+                .leptop {
+                  width: 5.2px;
+                  height: 5.18px;
+                }
               }
             }
+            p {
+              font-size: 5px;
+              line-height: 5.61px;
+            }
           }
-        }
-        .hotel_2 {
-          display: none;
         }
       }
-      .comentary {
-        .people {
-          .person {
-            .person_image {
-              .person_imagess {
-                width: 18.24px;
-                height: 18.24px;
+      .hotel_2 {
+        display: none;
+      }
+    }
+    .comentary {
+      .people {
+        .person {
+          .person_image {
+            .person_imagess {
+              width: 18.24px;
+              height: 18.24px;
+            }
+            .person_text {
+              margin-right: 190px;
+              h3 {
+                font-size: 12px;
+                line-height: 15px;
+                width: 75px;
+                height: 15px;
               }
-              .person_text {
-                margin-right: 190px;
-                h3 {
-                  font-size: 12px;
-                  line-height: 15px;
-                  width: 75px;
-                  height: 15px;
-                }
-                p {
-                  font-size: 10px;
-                }
+              p {
+                font-size: 10px;
               }
-              .text {
-                p {
-                  font-size: 10px;
-                }
-                h5 {
-                  font-size: 12px;
-                }
-                span {
-                  width: 320px;
-                  height: 60px;
-                  font-size: 12px;
-                }
-                .imagess_1 {
-                  width: 99px;
-                  height: 82px;
-                }
+            }
+            .text {
+              p {
+                font-size: 10px;
+              }
+              h5 {
+                font-size: 12px;
+              }
+              span {
+                width: 320px;
+                height: 60px;
+                font-size: 12px;
+              }
+              .imagess_1 {
+                width: 99px;
+                height: 82px;
               }
             }
           }
-          .person_2 {
-            .person_image_2 {
-              .person_imagess_2 {
-                width: 18.24px;
-                height: 18.24px;
+        }
+        .person_2 {
+          .person_image_2 {
+            .person_imagess_2 {
+              width: 18.24px;
+              height: 18.24px;
+            }
+            .person_text_2 {
+              margin-right: 190px;
+              h3 {
+                font-size: 12px;
+                line-height: 15px;
+                width: 75px;
+                height: 15px;
               }
-              .person_text_2 {
-                margin-right: 190px;
-                h3 {
-                  font-size: 12px;
-                  line-height: 15px;
-                  width: 75px;
-                  height: 15px;
-                }
-                p {
-                  font-size: 10px;
-                }
+              p {
+                font-size: 10px;
               }
-              .text_2 {
-                p {
-                  font-size: 10px;
-                }
-                h5 {
-                  font-size: 12px;
-                }
-                span {
-                  width: 320px;
-                  height: 60px;
-                  font-size: 12px;
-                }
+            }
+            .text_2 {
+              p {
+                font-size: 10px;
+              }
+              h5 {
+                font-size: 12px;
+              }
+              span {
+                width: 320px;
+                height: 60px;
+                font-size: 12px;
               }
             }
           }
