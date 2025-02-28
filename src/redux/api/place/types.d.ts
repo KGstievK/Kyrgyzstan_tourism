@@ -32,6 +32,8 @@ namespace PLACE {
     email: string;
     phone_number: string;
     kitchen: string;
+    latitude: number;
+    longitude: number
   };
   type kitchenIdResponse = {
     id: number;

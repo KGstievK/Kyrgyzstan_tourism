@@ -13,7 +13,7 @@ interface TabKitchenProps {
 
 const Tab_kitchen: React.FC<TabKitchenProps> = ({ isTab }) => {
   const [currentId, setCurrentId] = useState<number | null>(null);
-  const { data } = useGetStaticReviewsQuery({ entityType: "kitchens" });
+  const { data } = useGetStaticReviewsQuery({ entityType: "kitchen" });
   const kitchenStaticInfo = data?.find((kitchen) => kitchen.id === currentId);
 
   return (
