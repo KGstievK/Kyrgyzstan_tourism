@@ -83,9 +83,8 @@ const VisionProfile = () => {
 
   return (
     <section className={scss.VisionProfile}>
-      {user?.map((el) => (
-        <div className={scss.content} key={el.id}>
-          {/* Блок для фона профиля */}
+      {user?.map((el, index) => (
+        <div className={scss.content} key={el.id || index}>
           <div
             className={scss.cover}
             style={{

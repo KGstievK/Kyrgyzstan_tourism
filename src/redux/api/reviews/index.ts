@@ -40,7 +40,8 @@ const api = index.injectEndpoints({
       },
     }),
 
-    // Отзывы с фильтрацией
+    
+
     getReviews: builder.query<
       REVIEWS.Review[],
       { entityType: string; rating?: string; month?: string }
@@ -82,6 +83,7 @@ const api = index.injectEndpoints({
         }));
       },
     }),
+
   }),
 });
 export const { useGetStaticReviewsQuery, useGetReviewsQuery } = api;

@@ -14,6 +14,12 @@ namespace REVIEWS {
     image: string;
   }
 
+  type RewiewHotelRquest = {
+    client_hotel: number
+    comment: string
+    hotel: number
+    rating: number
+  }
   // Универсальный отзыв
   export interface Review {
     id: number;
@@ -25,7 +31,7 @@ namespace REVIEWS {
     createdAt: string; // Унифицируем дату
   }
 
-  // Универсальная статистика
+
   export interface StaticReview {
     id: number;
     name: string; // kitchen_name, popular_name, name, attraction_name

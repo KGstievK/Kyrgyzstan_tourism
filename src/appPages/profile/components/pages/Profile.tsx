@@ -48,14 +48,14 @@ const Profile: FC = () => {
         <SearchProfile />
         <User />
       </div>
-      <h2>Создать аккаунт</h2>
+      <h2 className="title">Создать аккаунт</h2>
       <div className={scss.ProfileCover}>
         <VisionProfile />
       </div>
       {!tab ? (
         <>
-        {user?.map((el, idx) => (
-        <form key={el.id}>
+        {user?.map((el, index) => (
+        <form key={el.id || index}>
             <>
               <h3>{el?.email}</h3>
               <div className={scss.userName}>
