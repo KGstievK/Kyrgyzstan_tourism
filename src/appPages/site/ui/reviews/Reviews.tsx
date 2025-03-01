@@ -12,9 +12,8 @@ interface ReviewsProps {
 const entityMap: Record<number, string> = {
   0: "popular_places",
   1: "hotels",
-  2: "kitchens",
+  2: "kitchen",
   4: "attractions",
-  // 3 (events) пока не поддерживается, добавьте позже
 };
 
 const Reviews: FC<ReviewsProps> = ({ isTab, isCurrent, reviewStatic }) => {

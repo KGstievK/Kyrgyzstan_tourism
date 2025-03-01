@@ -10,7 +10,7 @@ import imgNone from "@/assets/images/universalImage/none.png";
 
 interface CafeProps {
   isCurrent: number | null;
-  setIsCurrent: (id: number | null) => void;
+  setIsCurrent: (id: number) => void;
 }
 
 const ITEMS_PER_PAGE = 4;
@@ -24,14 +24,16 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   const routeID: number = Number(pathName.split("/")[2]);
 
   // Filter cafes for current place
-  const cafesInPlace = cafes.filter((el) => el.popular_places === routeID);
+  const cafesInPlace = cafes.filter((el) => el.popular_places === +routeID);
 
   // Auto-select first cafe on load
   useEffect(() => {
-    if (cafesInPlace.length > 0) {
+    if (cafesInPlace.length > 0 && isCurrent === null) {
       setIsCurrent(cafesInPlace[0].id);
+      console.log(isCurrent);
+      
     }
-  }, [cafesInPlace, setIsCurrent]);
+  }, [cafesInPlace, setIsCurrent, isCurrent]);
 
   // No cafes scenario
   if (isCurrent === null) {
@@ -51,7 +53,7 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
 
   // Render individual cafe items
   const renderCafeItem = cafesInPlace.map((el, i) => (
-    <div onClick={() => setIsCurrent(el.id)} key={i} className={scss.item}>
+    <div onClick={() => setIsCurrent(el.id)} key={el.id} className={scss.item}>
       <Image
         src={errorImg || !el.main_image ? imgNone : el.main_image}
         alt={el.kitchen_name}

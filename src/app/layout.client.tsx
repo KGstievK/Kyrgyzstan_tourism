@@ -1,4 +1,5 @@
 "use client";
+import LoadScriptPrviders from "@/providers/LoadScriptPrviders";
 // import ProtectProvider from "@/providers/ProtectProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
 import { RegionProvider } from "@/providers/RegionProvider";
@@ -18,9 +19,9 @@ const RootLayoutClient: FC<RootLayoutClientProps> = ({ children }) => {
         <ReduxProvider>
           <SessionProvider>
             {/* <ProtectProvider> */}
-              <RegionProvider>
-                {children}
-              </RegionProvider>
+            <LoadScriptPrviders>
+              <RegionProvider>{children}</RegionProvider>
+            </LoadScriptPrviders>
             {/* </ProtectProvider> */}
           </SessionProvider>
         </ReduxProvider>

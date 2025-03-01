@@ -41,7 +41,7 @@ const Tabs_content = () => {
         }
     ]
 
-    const [isTab, setIsTab] = useState<number>(3);
+    const [isTab, setIsTab] = useState<number>(2);
 
     return (
         <section id={scss.Tabs_content}>
@@ -63,8 +63,8 @@ const Tabs_content = () => {
                 
                 <div className={scss.content}>
                     {isTab === 0 && <Tab_place isTab={isTab} />}
-                    {isTab === 2 && <Tab_kitchen isTab={isTab}/>}
                     {isTab === 1 && <Tab_hotel isTab={isTab}/>}
+                    {isTab === 2 && <Tab_kitchen isTab={isTab}/>}
                     {isTab === 3 && <Tab_event />}
                     {isTab === 4 && <Tab_attractions isTab={isTab}/>}
                 </div>

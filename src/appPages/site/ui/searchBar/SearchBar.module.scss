@@ -1,0 +1,91 @@
+.searchBar {
+    width: 90%;
+    max-width: 1200px;
+    padding: 2vh 0;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; // Выравнивание влево
+    gap: 2vh;
+  
+    .searchTitle {
+      font-family: Montserrat, sans-serif;
+      font-weight: 500;
+      font-size: clamp(16px, 2vw, 24px);
+      color: #242424;
+      margin: 0 0 0 1vw; // Отступ слева
+  
+      &::before {
+        content: "•";
+        margin-right: 0.5em;
+        color: #3c5f63;
+      }
+    }
+  
+    .searchContainer {
+      display: flex;
+      justify-content: flex-start; // Выравнивание влево
+      gap: 1vw;
+  
+      .input {
+        width: 286px;
+        height: 46px;
+        padding: 0 1vw;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 500;
+        font-size: clamp(14px, 1.5vw, 18px);
+        color: #242424;
+  
+        &::placeholder {
+          color: #5a5a5a;
+          font-size: clamp(12px, 1.4vw, 16px);
+        }
+  
+        &.inputFocused {
+          border: 2px solid #3c5f63;
+          outline: none;
+        }
+  
+        @media (max-width: 768px) {
+          width: clamp(150px, 25vw, 286px);
+          height: clamp(36px, 5vh, 46px);
+        }
+  
+        @media (max-width: 480px) {
+          width: clamp(120px, 20vw, 286px);
+          height: clamp(30px, 4vh, 46px);
+        }
+      }
+  
+      .btnGo {
+        width: 101px;
+        height: 46px;
+        border-radius: 8px;
+        background: #3c5f63;
+        border: none;
+        color: #e5e4e9;
+        font-family: Montserrat, sans-serif;
+        font-weight: 500;
+        font-size: clamp(14px, 1.5vw, 20px);
+        cursor: pointer;
+        transition: background 0.3s;
+  
+        &:hover {
+          background: #2a4a4d;
+        }
+  
+        @media (max-width: 768px) {
+          width: clamp(80px, 10vw, 101px);
+          height: clamp(36px, 5vh, 46px);
+        }
+  
+        @media (max-width: 480px) {
+          width: clamp(60px, 15vw, 101px);
+          height: clamp(30px, 4vh, 46px);
+        }
+      }
+    }
+  }

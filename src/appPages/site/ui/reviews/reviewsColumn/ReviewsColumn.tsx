@@ -2,9 +2,12 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import styles from "../Reviews.module.scss";
 import { FC, useEffect, useState } from "react";
 import Stars from "../../stars/Stars";
-import { LikeOutlined } from "@ant-design/icons";
+import { LikeOutlined, UserOutlined } from "@ant-design/icons";
 import { FilterModal } from "./filterModal/FilterModal";
 import { useGetReviewsQuery } from "@/redux/api/reviews";
+import { Avatar, Space } from "antd";
+import Image from "next/image";
+import { useGetMeQuery } from "@/redux/api/auth";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -21,14 +24,15 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   const [dataReviews, setDataReviews] = useState<REVIEWS.Review[]>([]);
   const [ratingFilter, setRatingFilter] = useState<string | undefined>();
   const [monthFilter, setMonthFilter] = useState<string | undefined>();
-
+  const { data: user } = useGetMeQuery();
+  const [userPreview, setUserPreview] = useState<string | null>(null);
   const { data: reviewsData } = useGetReviewsQuery({
     entityType,
     rating: ratingFilter,
     month: monthFilter,
   });
 
-
+  console.log(reviewsData);
 
   useEffect(() => {
     if (reviewsData) {
@@ -82,11 +86,43 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             <div className={`${styles.itemsCenter} ${styles.gap3}`}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatarBlock}>
-                  <img
-                    src={review.client.user_picture || "/default-avatar.png"}
-                    alt={review.client.first_name}
-                    className={styles.avatar}
-                  />
+                  <Space direction="vertical" size={20}>
+                    <Space wrap size={20}>
+                          <Avatar
+                            
+                            size={47}
+                            icon={
+                              userPreview ? (
+                                <img
+                                  src={userPreview}
+                                  alt="avatar"
+                                  style={{
+                                    objectFit: "cover",
+                                    top: "0",
+                                    right: "0",
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                              ) : review.client.user_picture ? (
+                                <img
+                                  src={review.client.user_picture}
+                                  alt="avatar"
+                                  width={100}
+                                  height={100}
+                                  style={{
+                                    objectFit: "cover",
+                                    top: "0",
+                                    right: "0",
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                              ) : (
+                                <UserOutlined />
+                              )
+                            }
+                          />
+                    </Space>
+                  </Space>
                   <div>
                     <div className={styles.authorName}>
                       {review.client.first_name} {review.client.last_name}
