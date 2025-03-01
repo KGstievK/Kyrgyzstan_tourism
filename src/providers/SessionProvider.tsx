@@ -3,7 +3,7 @@ import { useGetMeQuery, usePatchRefreshTokenMutation } from '../redux/api/auth';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface SessionProviderProps {
-	children: ReactNode;
+  children: ReactNode;
 }
 
 export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
@@ -61,37 +61,37 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
     }
   };
 
-	const handleNavigation = () => {
-		switch (pathname) {
-			case '/auth/sign-in':
-			case '/auth/sign-up':
-			case '/auth/reset-password':
-			case '/auth/forgot':
-				if (status === 'fulfilled') {
-					router.back();
-				}
-				break;
-			case '/chats':
-			case '/notifications':
-			case '/settings':
-			case '/profile':
-			case '/my-public':
-				if (status === 'rejected') {
-					router.push('/auth/sign-in');
-				}
-				break;
-			default:
-				break;
-		}
-	};
+  const handleNavigation = () => {
+    switch (pathname) {
+      case "/auth/sign-in":
+      case "/auth/sign-up":
+      case "/auth/reset-password":
+      case "/auth/forgot":
+        if (status === "fulfilled") {
+          router.back();
+        }
+        break;
+      case "/chats":
+      case "/notifications":
+      case "/settings":
+      case "/profile":
+      case "/my-public":
+        if (status === "rejected") {
+          router.push("/auth/sign-in");
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
-	useEffect(() => {
-		handleRefreshToken()
-	}, [pathname])
+  useEffect(() => {
+    handleRefreshToken();
+  }, [pathname]);
 
-	useEffect(() => {
-		handleNavigation();
-	}, [status, pathname, router]);
+  useEffect(() => {
+    handleNavigation();
+  }, [status, pathname, router]);
 
-	return children;
+  return children;
 };

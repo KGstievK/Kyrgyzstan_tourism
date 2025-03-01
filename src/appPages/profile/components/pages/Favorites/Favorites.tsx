@@ -257,6 +257,7 @@ const Favorites: FC = () => {
       </div>
     </section>
   );
+
 };
 
 export default Favorites;
