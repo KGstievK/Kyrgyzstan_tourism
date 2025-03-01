@@ -21,7 +21,7 @@ const SignInPage: FC = () => {
     setRememberMe(checked);
   };
 
-  const onSubmit: SubmitHandler<AUTH.PostLoginRequest> = async (userData) => {
+  const onSubmit: SubmitHandler<signInProps> = async (userData) => {
     const datalogin = {
       email: userData.email,
       password: userData.password,
