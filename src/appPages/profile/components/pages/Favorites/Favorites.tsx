@@ -227,18 +227,18 @@ const Favorites: FC = () => {
                 </div>
               </div>
             </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
+            <div className={scss.Favorite_images_block_2}>
+              <div className={scss.images_likes_2}>
+                <FcLike className={scss.like_2} />
               </div>
               <Image
                 src={Cholpon_Ata2}
                 alt="img"
-                className={scss.regions_images}
+                className={scss.regions_images_2}
               />
-              <div className={scss.info}>
+              <div className={scss.info_2}>
                 <h3>Cholpon-Ata</h3>
-                <div className={scss.reyting}>
+                <div className={scss.reyting_2}>
                   <p>4.5/5</p>
                   <IoEllipseSharp />
                   <IoEllipseSharp />
@@ -247,7 +247,7 @@ const Favorites: FC = () => {
                   <IoEllipseOutline />
                   <span>23 764 reviews</span>
                 </div>
-                <div className={scss.address}>
+                <div className={scss.address_2}>
                   <FaLocationDot /> <p>Cholpon-Ata, 107, Karakol 722360</p>
                 </div>
               </div>
