@@ -1,22 +1,22 @@
+"use client";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import styles from "./Currency.module.scss";
-import { useGetGamesQuery } from "@/redux/api/culture";
-import img1 from "@/assets/images/cultureImages/image 996.jpg";
-import img2 from "@/assets/images/cultureImages/image 997.jpg";
-import imgback from "@/assets/images/cultureImages/currency_back.jpg";
-
+import { useGetCurencyQuery } from "@/redux/api/culture";
 import Image from "next/image";
 import { useMeasure } from "react-use";
+
 const Currency = () => {
   const { t } = useTranslate();
-  const { data, isError } = useGetGamesQuery();
-  const [ref, { width, height }] = useMeasure<HTMLDivElement>();
-  const dataImages = Array.from({ length: 10 }, (_, i) => ({
-    front: img1,
-    back: img2,
-  }));
+  const [ref, { height }] = useMeasure<HTMLDivElement>();
+  const { data: currencyData, error, isLoading } = useGetCurencyQuery();
 
-  if (isError) return null;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading currency data</p>;
+
+  const currency = currencyData?.[0];
+
+  const images = currency?.currency_image || [];
+  const descriptions = currency?.currency_description || [];
 
   return (
     <section className={styles.section}>
@@ -34,48 +34,46 @@ const Currency = () => {
             )}
           </p>
         </div>
-        <div className={styles.bottom} style={{top: height}}>
+        <div className={styles.bottom} style={{ top: height }}>
           <div className={styles.images}>
-            {dataImages.map((el, idx) => (
-              <div key={idx} className={styles.image}>
-                <div className={styles.img}>
-                  <Image src={el.front} alt="currency" />
+            {images.length > 0 ? (
+              images.map((el, idx) => (
+                <div key={idx} className={styles.image}>
+                  {el.front_image && (
+                    <div className={styles.img}>
+                      <Image
+                        src={el.front_image}
+                        alt="currency"
+                        width={199}
+                        height={94}
+                      />
+                    </div>
+                  )}
+                  {el.back_image && (
+                    <div className={styles.img}>
+                      <Image
+                        src={el.back_image}
+                        alt="currency"
+                        width={199}
+                        height={94}
+                      />
+                    </div>
+                  )}
                 </div>
-                <div className={styles.img}>
-                  <Image src={el.back} width={199} height={94} alt="currency" />
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No currency images available</p>
+            )}
           </div>
           <div className={styles.descrs}>
-            <p>
-              The national currency of Kyrgyzstan is the som, its international
-              designation is KGS. The resolution on the introduction of the
-              national currency was adopted by the Parliament of Kyrgyzstan on May
-              10, 1993. Kyrgyzstan became the second CIS country after Russia to
-              adopt its own national currency after the collapse of the Soviet
-              Union.
-            </p>
-            <p>
-              The national currency of Kyrgyzstan is the som, its international
-              designation is KGS. The resolution on the introduction of the
-              national currency was adopted by the Parliament of Kyrgyzstan on May
-              10, 1993. Kyrgyzstan became the second CIS country after Russia to
-              adopt its own national currency after the collapse of the Soviet
-              Union.
-            </p>
-            <p>
-              The national currency of Kyrgyzstan is the som, its international
-              designation is KGS. The resolution on the introduction of the
-              national currency was adopted by the Parliament of Kyrgyzstan on May
-              10, 1993. Kyrgyzstan became the second CIS country after Russia to
-              adopt its own national currency after the collapse of the Soviet
-              Union.
-            </p>
+            {descriptions.length > 0 ? (
+              descriptions.map((des, idx) => <p key={idx}>{des.description}</p>)
+            ) : (
+              <p>No currency description available</p>
+            )}
           </div>
         </div>
       </div>
-      
     </section>
   );
 };

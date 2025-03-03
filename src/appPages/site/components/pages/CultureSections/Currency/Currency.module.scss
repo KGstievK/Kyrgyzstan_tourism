@@ -40,8 +40,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 50px;
-    @media (max-width:834px) {
-      
+    @media (max-width: 834px) {
       grid-template-columns: 1fr;
     }
     .images {
@@ -53,7 +52,8 @@
       flex-direction: column;
       gap: 30px;
       backdrop-filter: blur(15px);
-      background: url("./../../../../../../assets/images/cultureImages/currency_back.jpg") no-repeat center;
+      background: url("./../../../../../../assets/images/cultureImages/currency_back.jpg")
+        no-repeat center;
       background-size: cover;
       .image {
         display: flex;
