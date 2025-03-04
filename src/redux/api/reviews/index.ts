@@ -8,7 +8,7 @@ const api = index.injectEndpoints({
       { entityType: string }
     >({
       query: ({ entityType }) => ({
-        url: `/${entityType === "popular_places" ? entityType + "_static" : entityType + "_review_static"}`,
+        url: `/${entityType}_review_static`,
         method: "GET",
       }),
       providesTags: (result, error, { entityType}) =>
@@ -47,7 +47,7 @@ const api = index.injectEndpoints({
       { entityType: string; rating?: string; month?: string }
     >({
       query: ({ entityType, rating, month }) => ({
-        url: `/${entityType === "popular_places" ? entityType + "_review" : entityType + "_review_list"}`,
+        url: `/${entityType}_review_list`,
         method: "GET",
         params: { rating, month },
       }),
@@ -83,7 +83,14 @@ const api = index.injectEndpoints({
         }));
       },
     }),
-
+    postRewiewHotel: builder.mutation<REVIEWS.RewiewHotelResponse, REVIEWS.RewiewHotelRquest>({
+      query: (data) => ({
+        url: '/hotels_review_create/',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ["Reviews"]
+    })
   }),
 });
-export const { useGetStaticReviewsQuery, useGetReviewsQuery } = api;
+export const { useGetStaticReviewsQuery, useGetReviewsQuery, usePostRewiewHotelMutation } = api;

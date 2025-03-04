@@ -11,6 +11,13 @@ interface StatisticColumnProps {
 const StatisticColumn: FC<StatisticColumnProps> = ({ reviewStatic }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
+  const handlePhotoUpload = (files: File[]) => {
+    setUploadedFiles(files);
+    setShowPhotoModal(false);
+    setShowReviewModal(true);
+  };
 
   return (
     <div className={`${styles.w377} ${styles.shrink0}`}>
@@ -34,12 +41,13 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ reviewStatic }) => {
           <ReviewModal
             onClose={() => setShowReviewModal(false)}
             onSubmit={() => setShowReviewModal(false)}
+            uploadedFiles={uploadedFiles}
           />
         )}
         {showPhotoModal && (
           <PhotoUploadModal
             onClose={() => setShowPhotoModal(false)}
-            onSend={() => setShowPhotoModal(false)}
+            onSend={handlePhotoUpload}
           />
         )}
       </div>

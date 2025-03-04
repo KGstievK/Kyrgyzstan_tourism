@@ -9,15 +9,10 @@ import User from "./User/User";
 import VisionProfile from "./VisionProfile/VisionProfile";
 const Profile: FC = () => {
   const [tab, setTab] = useState(false);
-  const [inputValue, setInputValue] = useState(null);
-  const [userImage, setUserImage] = useState("");
 
   const [PatchMeRequest] = usePatchMeMutation();
   const { data: user } = useGetMeQuery();
-  console.log(
-    "🚀 ~ user:",
-    user?.map((el) => el)
-  );
+  console.log("🚀 ~ user:", user?.map((el) => el.id))
 
   const { register, watch, handleSubmit } = useForm<AUTH.PatchMeRequest>();
 
@@ -29,8 +24,6 @@ const Profile: FC = () => {
       phone_number: userData.phone_number,
       birth_date: userData.birth_date,
     };
-
-	
 
     try {
       const response = await PatchMeRequest(userDataRest);
@@ -54,68 +47,72 @@ const Profile: FC = () => {
       </div>
       {!tab ? (
         <>
-        {user?.map((el, index) => (
-        <form key={el.id || index}>
-            <>
-              <h3>{el?.email}</h3>
-              <div className={scss.userName}>
-                <p>Name</p>
-                <p>Surname</p>
-                <h3>{el?.first_name}</h3>
-                <h3>{el?.last_name}</h3>
-                <p>Phone number</p>
-                <p>Birth date</p>
-                <h3>{el?.phone_number}</h3>
-                <h3>{el?.birth_date}</h3>
-              </div>
-              <button onClick={() => setTab(!tab)}>Редактировать</button>
-            </>
-        </form>
+          {user?.map((el, index) => (
+            <form key={el.id || index}>
+              <>
+                <h3>{el?.email}</h3>
+                <div className={scss.userName}>
+                  <p>Name</p>
+                  <p>Surname</p>
+                  <h3>{el?.first_name}</h3>
+                  <h3>{el?.last_name}</h3>
+                  <p>Phone number</p>
+                  <p>Birth date</p>
+                  <h3>{el?.phone_number}</h3>
+                  <h3>{el?.birth_date}</h3>
+                </div>
+                <button onClick={() => setTab(!tab)}>Редактировать</button>
+              </>
+            </form>
           ))}
         </>
       ) : (
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <input
-            type="text"
-            {...register("email", { required: true })}
-            placeholder="Email"
-          />
-          <div className={scss.userName}>
-            <p>
-              Name <span>*</span>
-            </p>
-            <p>
-              Surname <span>*</span>
-            </p>
+        user?.map((el) => (
+          <form action="" onSubmit={handleSubmit(onSubmit)} key={el.id}>
             <input
               type="text"
-              {...register("first_name", { required: true })}
-              placeholder="Name"
+              {...register("email", { required: true })}
+              placeholder={`${el.email! ? el.email : "Email"}`}
             />
-            <input
-              type="text"
-              {...register("last_name", { required: true })}
-              placeholder="Surname"
-            />
-            <p>
-              Phone number <span>*</span>
-            </p>
-            <p>
-              Birth date <span>*</span>
-            </p>
-            <input
-              type="text"
-              {...register("phone_number", { required: true })}
-              placeholder="Phone number"
-            />
-            <input
-              type="date"
-              {...register("birth_date", { required: true })}
-              placeholder="Birth date"
-            />
-          </div>
-          <button type="submit">Сохранить</button>
-        </form>
+            <div className={scss.userName}>
+              <p>
+                Name <span>*</span>
+              </p>
+              <p>
+                Surname <span>*</span>
+              </p>
+              <input
+                type="text"
+                {...register("first_name", { required: true })}
+                placeholder={`${el.first_name! ? el.first_name : "Name"}`}
+              />
+              <input
+                type="text"
+                {...register("last_name", { required: true })}
+                placeholder={`${el.last_name! ? el.last_name : "Surname"}`}
+              />
+              <p>
+                Phone number <span>*</span>
+              </p>
+              <p>
+                Birth date <span>*</span>
+              </p>
+              <input
+                type="text"
+                {...register("phone_number", { required: true })}
+                placeholder={`${
+                  el.phone_number! ? el.phone_number : "Phone number"
+                }`}
+              />
+              <input
+                type="date"
+                {...register("birth_date", { required: true })}
+                placeholder={`${el.birth_date! ? el.birth_date : "Birth date"}`}
+              />
+            </div>
+            <button type="submit">Сохранить</button>
+          </form>
+        ))
       )}
     </section>
   );

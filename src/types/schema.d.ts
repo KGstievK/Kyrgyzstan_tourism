@@ -9,3 +9,11 @@ interface User {
   cover_photo: string | null;
   birth_date: string;
 }
+
+interface ClientHotel {
+  id: number
+  first_name: string
+  last_name: string
+  user_picture: string
+  from_user: string
+}

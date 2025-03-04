@@ -1,18 +1,57 @@
 import React, { useState } from 'react';
 import { X, Pencil } from 'lucide-react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from './ReviewModal.module.scss';
+import { usePostRewiewHotelMutation } from '@/redux/api/reviews';
+import { useGetMeQuery } from '@/redux/api/auth';
+import { useGetHotelIDQuery } from '@/redux/api/place';
 
 interface ReviewModalProps {
   onClose: () => void;
-  onSubmit: (rating: number, review: string) => void;
+  onSubmit: () => void;
+  uploadedFiles: File[];
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit }) => {
-  const [rating, setRating] = useState<number>(1);
-  const [review, setReview] = useState<string>('');
+const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit, uploadedFiles }) => {
+  const { register, handleSubmit } = useForm<REVIEWS.RewiewHotelRquest>();
+  const [postRewiewHotel] = usePostRewiewHotelMutation();
+  const { data: user } = useGetMeQuery();
+  const { data: hotels } = useGetHotelIDQuery(id);
+  const [rating, setRating] = useState(0);
 
-  const handleSubmit = () => {
-    onSubmit(rating, review);
+  const onSubmitForm: SubmitHandler<REVIEWS.RewiewHotelRquest> = async (data) => {
+    if (!user?.[0]?.id) return;
+
+    // Преобразуем файлы в base64
+    const images = await Promise.all(
+      uploadedFiles.map(file => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      })
+    );
+
+    const reviewData: REVIEWS.RewiewHotelRquest = {
+      client_hotel: user[0].id,
+      hotel: data.hotel,
+      comment: data.comment,
+      rating: rating,
+      images: images,
+    };
+
+    try {
+      await postRewiewHotel(reviewData).unwrap();
+      onSubmit();
+    } catch (error) {
+      console.error('Failed to submit review:', error);
+    }
+  };
+
+  const handleRatingChange = (value: number) => {
+    setRating(value);
   };
 
   return (
@@ -31,26 +70,27 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit }) => {
           {[1, 2, 3, 4, 5].map((value) => (
             <button
               key={value}
-              className={`${styles.ratingCircle} ${value <= rating ? styles.active : ''}`}
-              onClick={() => setRating(value)}
+              className={`${styles.ratingCircle} ${value === rating ? styles.active : ''}`}
+              onClick={() => handleRatingChange(value)}
               aria-label={`Rate ${value} stars`}
             />
           ))}
         </div>
 
-        <div className={styles.reviewInputContainer}>
-          <Pencil className={styles.pencilIcon} size={20} />
-          <textarea
-            className={styles.reviewInput}
-            placeholder="Tell us about your experience"
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-          />
-        </div>
+        <form onSubmit={handleSubmit(onSubmitForm)}>
+          <div className={styles.reviewInputContainer}>
+            <Pencil className={styles.pencilIcon} size={20} />
+            <textarea
+              className={styles.reviewInput}
+              placeholder="Tell us about your experience"
+              {...register('comment')}
+            />
+          </div>
 
-        <button className={styles.sendButton} onClick={handleSubmit}>
-          Send
-        </button>
+          <button type="submit" className={styles.sendButton}>
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );
