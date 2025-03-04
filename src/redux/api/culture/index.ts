@@ -65,5 +65,5 @@ export const {
   useGetCultureNationalClothesQuery,
   useGetNationalInstrumentQuery,
   useGetCurencyQuery,
-  useGetHandCraftsQuery
+  useGetHandCraftsQuery,
 } = api;
