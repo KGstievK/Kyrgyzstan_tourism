@@ -29,7 +29,7 @@ const api = index.injectEndpoints({
     }),
     getHotels: builder.query<PLACE.HotelsResponse, PLACE.HotelsRequest>({
       query: () => ({
-        url: "/hotels",
+        url: "/hotels/",
         method: "GET",
       }),
       providesTags: ["hotels"],

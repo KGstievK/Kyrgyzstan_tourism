@@ -26,7 +26,7 @@ namespace REVIEWS {
   type RewiewHotelRquest = {
     client_hotel: number;
     comment?: string;
-    hotel: number;
+    hotel: number | null;
     rating?: number;
     images?: string[];
   };

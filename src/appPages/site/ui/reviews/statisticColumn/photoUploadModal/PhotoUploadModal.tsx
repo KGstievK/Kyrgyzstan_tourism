@@ -4,7 +4,7 @@ import styles from './PhotoUploadModal.module.scss';
 
 interface PhotoUploadModalProps {
   onClose: () => void;
-  onSend: (files: File[]) => void; // Колбэк для передачи файлов
+  onSend: (files: File[]) => void;
 }
 
 interface UploadBlock {
@@ -47,11 +47,7 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({ onClose, onSend }) 
     const files = uploadBlocks
       .filter(block => block.file)
       .map(block => block.file) as File[];
-
-    // Передаем файлы в родительский компонент
     onSend(files);
-
-    // Закрываем модалку
     onClose();
   };
 

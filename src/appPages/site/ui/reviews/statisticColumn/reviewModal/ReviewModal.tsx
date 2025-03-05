@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { X, Pencil } from 'lucide-react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import styles from './ReviewModal.module.scss';
-import { usePostRewiewHotelMutation } from '@/redux/api/reviews';
-import { useGetMeQuery } from '@/redux/api/auth';
-import { useGetHotelIDQuery } from '@/redux/api/place';
+import React, { useState } from "react";
+import { X, Pencil } from "lucide-react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import styles from "./ReviewModal.module.scss";
+import { usePostRewiewHotelMutation } from "@/redux/api/reviews";
+import { useGetMeQuery } from "@/redux/api/auth";
+import { useGetHotelIDQuery } from "@/redux/api/place";
+import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 
 interface ReviewModalProps {
   onClose: () => void;
@@ -12,19 +14,29 @@ interface ReviewModalProps {
   uploadedFiles: File[];
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit, uploadedFiles }) => {
+const ReviewModal: React.FC<ReviewModalProps> = ({
+  onClose,
+  onSubmit,
+  uploadedFiles,
+}) => {
   const { register, handleSubmit } = useForm<REVIEWS.RewiewHotelRquest>();
   const [postRewiewHotel] = usePostRewiewHotelMutation();
+  const { id } = useParams()
+  console.log("🚀 ~ id:", id)
+  // const hotelId = id ? parseInt(id as string, 6) : undefined; // Преобразуем строку в число
   const { data: user } = useGetMeQuery();
-  const { data: hotels } = useGetHotelIDQuery(id);
+  const { data: hotels } = useGetHotelIDQuery(Number(id)); // Передаем число в запрос
   const [rating, setRating] = useState(0);
+  console.log("🚀 ~ hotels:", hotels?.id);
 
-  const onSubmitForm: SubmitHandler<REVIEWS.RewiewHotelRquest> = async (data) => {
-    if (!user?.[0]?.id) return;
+  const onSubmitForm: SubmitHandler<REVIEWS.RewiewHotelRquest> = async (
+    data
+  ) => {
+    if (!user?.[0]?.id || !hotels?.id) return;
 
     // Преобразуем файлы в base64
     const images = await Promise.all(
-      uploadedFiles.map(file => {
+      uploadedFiles.map((file) => {
         return new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result as string);
@@ -36,17 +48,20 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit, uploadedFi
 
     const reviewData: REVIEWS.RewiewHotelRquest = {
       client_hotel: user[0].id,
-      hotel: data.hotel,
+      hotel: hotels.id!, // Используем id отеля
       comment: data.comment,
       rating: rating,
       images: images,
     };
+    console.log(
+      "🚀 ~ constonSubmitForm:SubmitHandler<REVIEWS.RewiewHotelRquest>= ~ reviewData:",
+      reviewData
+    );
 
     try {
-      await postRewiewHotel(reviewData).unwrap();
-      onSubmit();
+      await postRewiewHotel(reviewData);
     } catch (error) {
-      console.error('Failed to submit review:', error);
+      console.error("Failed to submit review:", error);
     }
   };
 
@@ -70,7 +85,9 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit, uploadedFi
           {[1, 2, 3, 4, 5].map((value) => (
             <button
               key={value}
-              className={`${styles.ratingCircle} ${value === rating ? styles.active : ''}`}
+              className={`${styles.ratingCircle} ${
+                value === rating ? styles.active : ""
+              }`}
               onClick={() => handleRatingChange(value)}
               aria-label={`Rate ${value} stars`}
             />
@@ -83,7 +100,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit, uploadedFi
             <textarea
               className={styles.reviewInput}
               placeholder="Tell us about your experience"
-              {...register('comment')}
+              {...register("comment")}
             />
           </div>
 
