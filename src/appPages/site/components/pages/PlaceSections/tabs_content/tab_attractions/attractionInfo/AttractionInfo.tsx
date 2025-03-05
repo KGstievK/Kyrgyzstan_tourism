@@ -5,18 +5,24 @@ import { useGetAttractionIDQuery } from "@/redux/api/place";
 interface AttractionInfoProps {
   isCurrent: number | null;
 }
+
 const AttractionInfo: FC<AttractionInfoProps> = ({ isCurrent }) => {
-  const { data, isLoading, isError } = useGetAttractionIDQuery(isCurrent);
+  const { data, isLoading, isError } = useGetAttractionIDQuery(isCurrent, {
+    skip: isCurrent === null, // Пропускаем запрос, если isCurrent null
+  });
   const [mainImage, setMainImage] = useState(0);
-  
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError || !data) return <p>No attraction data available</p>;
+
   return (
     <>
-      <h1 className={styles.title}>{data?.attraction_name}</h1>
+      <h1 className={styles.title}>{data.attraction_name}</h1>
       <div className={styles.content}>
         <div className={styles.imageContainer}>
-          <img src={data?.image[mainImage].image} alt="Main" className={styles.mainImage} />
+          <img src={data.image[mainImage].image} alt="Main" className={styles.mainImage} />
           <div className={styles.gallery}>
-            {data?.image.map((img, index) => (
+            {data.image.map((img, index) => (
               <img
                 key={img.id}
                 src={img.image}
@@ -28,9 +34,7 @@ const AttractionInfo: FC<AttractionInfoProps> = ({ isCurrent }) => {
           </div>
         </div>
         <div className={styles.textContainer}>
-          <p className={styles.description}>
-            {data?.description}
-          </p>
+          <p className={styles.description}>{data.description}</p>
           <ul className={styles.list}>
             <li>139 reviews</li>
             <li>Administrative centers</li>

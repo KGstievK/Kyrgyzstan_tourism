@@ -53,11 +53,6 @@ const Culture: React.FC = () => {
               <button className={styles.butt}>
                 More{" "}
                 <ArrowRightIcon className={styles.icon} size={16} />
-                {/* <img
-                  className={styles.arrow_right}
-                  src="/images/arrow.svg"
-                  alt=""
-                /> */}
               </button>
             </div>
           </div>
@@ -72,6 +67,7 @@ const Culture: React.FC = () => {
               </button>
               {slides.map((el, index) => (
                 <span
+                style={currentIndex === index ? {background: "#3c5f63"} : {}}
                   key={el.id}
                   className={currentIndex === index ? styles.active : ""}
                   onClick={() => setCurrentIndex(index)}

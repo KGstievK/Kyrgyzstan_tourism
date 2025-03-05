@@ -60,7 +60,9 @@ const Attractions = () => {
                   width={24}
                   height={24}
                 />
-                <Link href={`/${place.region_category}/${place.id}`}>
+                <Link onClick={() => {
+                  sessionStorage.setItem("tab", "4");
+                }} href={`/${place.region_category}/${place.popular_places}`}>
                   <Image
                     className={scss.right}
                     src={imgRight.src}

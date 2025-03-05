@@ -6,18 +6,13 @@ import { useGetRegionListQuery } from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-const Try = () => {
+interface TryProps {
+  region: REGION_LIST.RegionResponse;
+}
+
+const Try: React.FC<TryProps> = ({ region }) => {
   const { t } = useTranslate();
-  const { data, isLoading, isError } = useGetRegionListQuery();
   const [currentContent, setCurrentContent] = useState<number>(0);
-  const pathName = usePathname();
-  const routeName = pathName.split("/")[1];
-
-  const region = data?.find(
-    (el) => el.region_category.toLocaleLowerCase() === routeName.toLowerCase()
-  );
-
-  if (!region) return null;
 
   return (
     <section id={scss.Try}>

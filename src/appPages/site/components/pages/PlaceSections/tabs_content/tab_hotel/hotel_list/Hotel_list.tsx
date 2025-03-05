@@ -18,7 +18,7 @@ interface Hotel {
   id: number;
   name: string;
   main_image: string;
-  average_rating: number;
+  avg_rating: number;
   rating_count: number;
 }
 
@@ -64,7 +64,7 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
       <div className={scss.block}>
         <h6>{hotel.name}</h6>
         <div>
-          <Stars rating={hotel.average_rating} width={21} height={21} />
+          <Stars rating={hotel.avg_rating} width={21} height={21} />
           <span className={scss.review}>
             {hotel.rating_count} {t("отзывов", "تقييمات", "reviews")}
           </span>
@@ -98,9 +98,9 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
           )}
         </h4>
         {hotels.length > ITEMS_PER_PAGE && !isAllItemsShown && (
-          <p onClick={() => setIsLimit(hotelGroups.length)}>
+          <button onClick={() => setIsLimit(hotelGroups.length)}>
             {t("Показать все", "عرض الكل", "Show all")}
-          </p>
+          </button>
         )}
       </div>
       {hotelGroups.slice(0, isLimit).map((group, groupIndex) => (

@@ -152,11 +152,6 @@ const Header = () => {
                   <span></span>
                 </div>
                 <BurgerMenu />
-                {/* <img
-                onClick={() => setIsShow(!isShow)}
-                src="images/Vector.png"
-                alt="menu-burger"
-              /> */}
               </div>
               {isShow && (
                 <div className={scss.modal}>

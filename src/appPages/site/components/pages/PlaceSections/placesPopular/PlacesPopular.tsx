@@ -60,7 +60,7 @@ const PlacesPopular = () => {
                   <h6>{item.popular_name}</h6>
                   <div>
                     <span className={scss.grade}>{item.avg_rating}</span>
-                    <Stars rating={item.avg_rating} />
+                    <Stars rating={item.avg_rating} width={9} height={9} />
                     <span className={scss.review}>
                       {item.rating_count} reviews
                     </span>
