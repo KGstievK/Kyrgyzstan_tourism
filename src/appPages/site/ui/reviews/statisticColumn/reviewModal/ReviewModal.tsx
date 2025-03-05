@@ -6,27 +6,33 @@ import { usePostRewiewHotelMutation } from "@/redux/api/reviews";
 import { useGetMeQuery } from "@/redux/api/auth";
 import { useGetHotelIDQuery } from "@/redux/api/place";
 import { useRouter } from "next/router";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 interface ReviewModalProps {
   onClose: () => void;
   onSubmit: () => void;
   uploadedFiles: File[];
+  isCurrent: number | null; // ID текущей сущности
+
 }
 
 const ReviewModal: React.FC<ReviewModalProps> = ({
   onClose,
   onSubmit,
   uploadedFiles,
+  isCurrent
 }) => {
   const { register, handleSubmit } = useForm<REVIEWS.RewiewHotelRquest>();
   const [postRewiewHotel] = usePostRewiewHotelMutation();
-  const { id } = useParams()
+  const id  = useParams();
+
   console.log("🚀 ~ id:", id)
+  console.log("🚀 ~ idcurrent:", isCurrent)
   // const hotelId = id ? parseInt(id as string, 6) : undefined; // Преобразуем строку в число
   const { data: user } = useGetMeQuery();
-  const { data: hotels } = useGetHotelIDQuery(Number(id)); // Передаем число в запрос
+  const { data: hotels } = useGetHotelIDQuery(Number(isCurrent)); // Передаем число в запрос
   const [rating, setRating] = useState(0);
+  console.log("🚀 ~ hotels:", hotels);
   console.log("🚀 ~ hotels:", hotels?.id);
 
   const onSubmitForm: SubmitHandler<REVIEWS.RewiewHotelRquest> = async (
