@@ -35,7 +35,7 @@ const Cafe_item: FC<propsType> = ({ isCurrent }) => {
       <GalleryImages images={images} />
       <div className={scss.info}>
         <div>
-          <Cafe_left data={data || {}} />
+          <Cafe_left data={data || null} />
         </div>
         <div>
           <Cafe_middle

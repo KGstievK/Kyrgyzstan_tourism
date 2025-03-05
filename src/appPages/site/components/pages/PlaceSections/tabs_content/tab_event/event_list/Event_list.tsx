@@ -6,13 +6,14 @@ import React from "react";
 import { useGetEventListQuery } from "@/redux/api/place";
 
 interface Props {
+  data: PLACE.EventListResponse | null;
   category: string;
   search: string;
   date: string;
   setCategory: (category: string) => void;
 }
 
-const Event_list: FC<Props> = ({ category, search, date, setCategory }) => {
+const Event_list: FC<Props> = ({ data, setCategory }) => {
   const { t } = useTranslate();
   const [isDropDown, setIsDropDown] = useState(false);
 
@@ -26,14 +27,12 @@ const Event_list: FC<Props> = ({ category, search, date, setCategory }) => {
     { ru: "Туризм", ar: "السياحة", en: "Tourism" },
   ];
 
-  const {data, isLoading, isError} = useGetEventListQuery({category, search, date})
-  
-
-
   return (
     <>
       <div className={scss.filter}>
-        <div onClick={() => setCategory("")} className={scss.item}>{t("Все", "الكل", "All")}</div>
+        <div onClick={() => setCategory("")} className={scss.item}>
+          {t("Все", "الكل", "All")}
+        </div>
 
         <div className={scss.item} onClick={() => setIsDropDown(!isDropDown)}>
           {t("Категории", "فئات", "Categories")}
@@ -43,11 +42,15 @@ const Event_list: FC<Props> = ({ category, search, date, setCategory }) => {
               transform: `rotate(${isDropDown ? 270 : 90}deg)`,
               transition: "transform 0.3s",
             }}
-          >›</span>
-          
+          >
+            ›
+          </span>
+
           <div
             className={scss.dropDown}
-            style={isDropDown ? undefined : { opacity: 0, pointerEvents: "none" }}
+            style={
+              isDropDown ? undefined : { opacity: 0, pointerEvents: "none" }
+            }
           >
             <svg
               className={scss.close}
@@ -91,37 +94,37 @@ const Event_list: FC<Props> = ({ category, search, date, setCategory }) => {
           {t("Только билеты", "تذاكر فقط", "Only tickets")}
         </div>
       </div>
-      {isError && <div>error</div>}
-      {isLoading && <div>loading</div>}
       <div className={scss.list}>
-        {data?.map((el,i) => (
-          <div key={i} className={scss.item}>
-            <div className={scss.img}>
-              <img src={el.image} alt="" />
-              <div className={scss.eventTabs}>
-                <div className="">
-                  <img src={eventImg.src} alt="" />
-                </div>
-                <div key={el.category.id} className="">
-                  {el.category.category}
-                </div>
-                <div className="">
-                  <img src={eventImg.src} alt="" />
+        {data ? (
+          data?.map((el, i) => (
+            <div key={i} className={scss.item}>
+              <div className={scss.img}>
+                <img src={el.image} alt="" />
+                <div className={scss.eventTabs}>
+                  <div className="">
+                    <img src={eventImg.src} alt="" />
+                  </div>
+                  <div key={el.category.id} className="">
+                    {el.category.category}
+                  </div>
+                  <div className="">
+                    <img src={eventImg.src} alt="" />
+                  </div>
                 </div>
               </div>
+              <div className={scss.info}>
+                <h6>{el.title}</h6>
+                <p>
+                  {el.date}
+                  {el.time}
+                </p>
+                <p>{el.address}</p>
+              </div>
             </div>
-            <div className={scss.info}>
-              <h6>{el.title}</h6>
-              <p>
-                {el.date}
-                {el.time}
-              </p>
-              <p>
-                {el.address}
-              </p>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <h3>null</h3>
+        )}
       </div>
     </>
   );

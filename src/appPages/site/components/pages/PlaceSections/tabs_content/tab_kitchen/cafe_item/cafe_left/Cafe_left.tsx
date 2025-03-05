@@ -9,7 +9,7 @@ import icon5 from "@/assets/images/placeImages/Icon5.png";
 import { usePathname } from "next/navigation";
 import { useGetKitchensQuery } from "@/redux/api/place";
 interface Props {
-  data: PLACE.kitchenIdResponse;
+  data: PLACE.kitchenIdResponse | null;
 }
 
 const Cafe_left: FC<Props> = ({ data }) => {

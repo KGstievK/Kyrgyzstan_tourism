@@ -1,7 +1,7 @@
 import React from 'react';
-import scss from './Cafe_map.module.scss';
+import scss from './Hotel_map.module.scss';
 
-const Cafe_map = () => {
+const Hotel_map = () => {
   return (
       <div className={scss.mapWrapper}>
         {/* Вставьте iframe или компонент карты Google с маркерами */}
@@ -18,4 +18,4 @@ const Cafe_map = () => {
   );
 };
 
-export default Cafe_map;
+export default Hotel_map;

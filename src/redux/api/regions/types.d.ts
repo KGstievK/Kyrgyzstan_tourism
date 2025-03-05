@@ -27,7 +27,7 @@ namespace REGION_LIST {
         popular_places: PopularResponse
         region_category: string
     
-    }[]
+    }
 
     type RegionRequest = void
     

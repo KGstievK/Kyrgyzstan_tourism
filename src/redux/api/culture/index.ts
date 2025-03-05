@@ -49,7 +49,7 @@ const api = index.injectEndpoints({
       }),
       providesTags: ["hand-crafts"],
     }),
-    getCurency: build.query<CULTURE.CurrencyResponse, CULTURE.CurrencyRequest>({
+    getCurrency: build.query<CULTURE.CurrencyResponse, CULTURE.CurrencyRequest>({
       query: () => ({
         url: `/currency`,
         method: "GET",
@@ -64,6 +64,6 @@ export const {
   useGetCultureKitchenQuery,
   useGetCultureNationalClothesQuery,
   useGetNationalInstrumentQuery,
-  useGetCurencyQuery,
+  useGetCurrencyQuery,
   useGetHandCraftsQuery
 } = api;

@@ -1,24 +1,86 @@
+"use client"
 import { FC } from "react";
 import Image from "next/image";
 import scss from "./Favorites.module.scss";
 import { CiSearch } from "react-icons/ci";
 import { MdArrowOutward } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
-import { IoEllipseSharp } from "react-icons/io5";
-import { IoEllipseOutline } from "react-icons/io5";
+import { IoEllipseSharp, IoEllipseOutline } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import images from "../../../../../assets/images/Favorites/user.png";
-import Balykchy from "../../../../../assets/images/Favorites/Balykchy.png";
-import Ala_Archa from "../../../../../assets/images/Favorites/Ala-Archa.png";
-import Son_Köl from "../../../../../assets/images/Favorites/Son-Köl.png";
-import Cholpon_Ata from "../../../../../assets/images/Favorites/Cholpon-Ata.png";
-import Tüp from "../../../../../assets/images/Favorites/Tüp.png";
-import Canyon_Tale from "../../../../../assets/images/Favorites/Canyon Tale.png";
-import Barskoon from "../../../../../assets/images/Favorites/Barskoon.png";
-import Jeti_Oguz from "../../../../../assets/images/Favorites/Jeti-Oguz.png";
-import Cholpon_Ata2 from "../../../../../assets/images/Favorites/Cholpon_Ata2.png";
+import { useGetFavoriteItemsQuery } from "@/redux/api/auth";
 
 const Favorites: FC = () => {
+  const { data: favoriteItems, isLoading, error } = useGetFavoriteItemsQuery();
+
+  const renderFavoriteItem = (item: any) => {
+    let name = "";
+    let image = "";
+    let address = "";
+    let avgRating = 0;
+    let ratingCount = 0;
+
+    if (item.attractions) {
+      name = item.attractions.attraction_name;
+      image = item.attractions.main_image;
+      address = item.attractions.region_category;
+      avgRating = item.attractions.avg_rating;
+      ratingCount = item.attractions.rating_count;
+    } else if (item.popular_region) {
+      name = item.popular_region.popular_name;
+      image = item.popular_region.popular_image;
+      address = item.popular_region.region;
+      avgRating = item.popular_region.avg_rating;
+      ratingCount = item.popular_region.rating_count;
+    } else if (item.gallery) {
+      name = item.gallery.gallery_name;
+      image = item.gallery.gallery_image;
+      address = item.gallery.address;
+      avgRating = item.gallery.avg_rating;
+      ratingCount = item.gallery.rating_count;
+    } else if (item.hotels) {
+      name = item.hotels.name;
+      image = item.hotels.main_image;
+      address = item.hotels.region;
+      avgRating = item.hotels.avg_rating;
+      ratingCount = item.hotels.rating_count;
+    }
+
+    const renderStars = (rating: number) => {
+      const stars = [];
+      for (let i = 1; i <= 5; i++) {
+        stars.push(
+          i <= Math.round(rating) ? (
+            <IoEllipseSharp key={i} />
+          ) : (
+            <IoEllipseOutline key={i} />
+          )
+        );
+      }
+      return stars;
+    };
+
+    return (
+      <div className={scss.Favorite_images_block_1} key={item.id}>
+        <div className={scss.images_likes}>
+          <FcLike className={scss.like} />
+        </div>
+        <Image src={image} alt={name} width={300} height={200} className={scss.regions_images} />
+        <div className={scss.info}>
+          <h3>{name}</h3>
+          <div className={scss.reyting}>
+            <p>{avgRating}/5</p>
+            {renderStars(avgRating)}
+            <span>{ratingCount} reviews</span>
+          </div>
+          <div className={scss.address}>
+            <FaLocationDot /> <p>{address}</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section className={scss.Favorites}>
       <div className={scss.content}>
@@ -43,215 +105,15 @@ const Favorites: FC = () => {
             <h1>Favorites</h1>
           </div>
           <div className={scss.Favorite_images}>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image src={Balykchy} alt="img" className={scss.regions_images} />
-              <div className={scss.info}>
-                <h3>Balykchy</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Balykchy, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image
-                src={Ala_Archa}
-                alt="img"
-                className={scss.regions_images}
-              />
-              <div className={scss.info}>
-                <h3>Ala-Archa</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Kosh-Köl, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image src={Son_Köl} alt="img" className={scss.regions_images} />
-              <div className={scss.info}>
-                <h3>Son-Köl</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Tamchy, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image
-                src={Cholpon_Ata}
-                alt="img"
-                className={scss.regions_images}
-              />
-              <div className={scss.info}>
-                <h3>Cholpon-Ata</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Cholpon-Ata, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image src={Tüp} alt="img" className={scss.regions_images} />
-              <div className={scss.info}>
-                <h3>Tüp</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Tüp, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image
-                src={Canyon_Tale}
-                alt="img"
-                className={scss.regions_images}
-              />
-              <div className={scss.info}>
-                <h3>Canyon Tale</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Tüp, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image src={Barskoon} alt="img" className={scss.regions_images} />
-              <div className={scss.info}>
-                <h3>Barskoon</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Cholpon-Ata, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image
-                src={Jeti_Oguz}
-                alt="img"
-                className={scss.regions_images}
-              />
-              <div className={scss.info}>
-                <h3>Jeti-Oguz</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Cholpon-Ata, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
-            <div className={scss.Favorite_images_block_1}>
-              <div className={scss.images_likes}>
-                <FcLike className={scss.like} />
-              </div>
-              <Image
-                src={Cholpon_Ata2}
-                alt="img"
-                className={scss.regions_images}
-              />
-              <div className={scss.info}>
-                <h3>Cholpon-Ata</h3>
-                <div className={scss.reyting}>
-                  <p>4.5/5</p>
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseSharp />
-                  <IoEllipseOutline />
-                  <span>23 764 reviews</span>
-                </div>
-                <div className={scss.address}>
-                  <FaLocationDot /> <p>Cholpon-Ata, 107, Karakol 722360</p>
-                </div>
-              </div>
-            </div>
+            {isLoading ? (
+              <div>Загрузка...</div>
+            ) : error ? (
+              <div>Ошибка загрузки избранного</div>
+            ) : !favoriteItems || favoriteItems.length === 0 ? (
+              <div>Избранных элементов нет</div>
+            ) : (
+              favoriteItems.map((item) => renderFavoriteItem(item))
+            )}
           </div>
         </div>
       </div>

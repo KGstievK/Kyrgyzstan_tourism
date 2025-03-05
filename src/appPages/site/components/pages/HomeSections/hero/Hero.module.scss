@@ -285,10 +285,15 @@
     }
   }
 
+  .container {
+    position: relative;
+  }
+
   .icons1 {
     position: absolute;
+    gap: 10px;
     width: 35px;
-    top: 60px;
+    top: 20px;
     right: 15px;
     display: flex;
     flex-direction: column;

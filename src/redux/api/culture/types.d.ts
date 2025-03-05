@@ -70,7 +70,7 @@ namespace CULTURE {
     currency_name: string
     currency_description: CurrencyDescription[]
     currency_image: CurrencyImage[]
-  }
+  }[]
 
   type CurrencyRequest = void
   

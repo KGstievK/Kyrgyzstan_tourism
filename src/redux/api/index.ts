@@ -60,6 +60,8 @@ export const api = createApi({
     "cultureList",
     "Reviews", 
     "StaticReviews",
+    "favorite", 
+    "comments",
   ],
   endpoints: () => ({}),
 });

@@ -102,7 +102,6 @@ export default function SearchBar({
 
   return (
     <div className={styles.searchBar}>
-      <h2 className={styles.searchTitle}>• Where to go</h2>
       <div className={styles.searchContainer}>
         <Autocomplete onLoad={onLoadA} onPlaceChanged={onPlaceChangedA}>
           <input

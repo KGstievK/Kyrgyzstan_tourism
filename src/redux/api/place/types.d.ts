@@ -63,7 +63,7 @@ namespace PLACE {
     id: number
     name: string
     main_image: string
-    average_rating: number
+    avg_rating: number
     rating_count: number
     region: string
     popular_places: number
@@ -97,7 +97,10 @@ namespace PLACE {
   type HotelIDResponse = {
     id: number;
     name: string | undefined;
-    hotel_image: string[];
+    hotel_image: {
+      id: number;
+      image: string
+    }[];
     address: string;
     description: string;
     bedroom: number;

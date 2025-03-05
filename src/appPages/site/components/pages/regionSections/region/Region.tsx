@@ -1,22 +1,16 @@
-import { usePathname } from "next/navigation";
-import { useGetRegionListQuery } from "@/redux/api/regions";
 import PlaceInfo from "@/appPages/site/ui/placeInfo/PlaceInfo";
+
 interface CommonData {
   name: string;
   image: string;
   description: string;
 }
-const Region = () => {
-  const { data, isLoading, isError } = useGetRegionListQuery();
-  const pathName = usePathname();
-  const routeName = pathName.split("/")[1];
 
-  const region = data?.find(
-    (el) => el.region_category.toLocaleLowerCase() === routeName.toLowerCase()
-  );
+interface RegionProps {
+  region: REGION_LIST.RegionResponse;
+}
 
-  if (!region) return null;
-
+const Region: React.FC<RegionProps> = ({ region }) => {
   const commonData: CommonData = {
     name: region.region_name,
     image: region.region_image,
