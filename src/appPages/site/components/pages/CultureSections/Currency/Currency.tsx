@@ -1,25 +1,24 @@
+"use client";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import styles from "./Currency.module.scss";
-import { useGetCurrencyQuery, useGetGamesQuery } from "@/redux/api/culture";
-import img1 from "@/assets/images/cultureImages/image 996.jpg";
-import img2 from "@/assets/images/cultureImages/image 997.jpg";
-import imgback from "@/assets/images/cultureImages/currency_back.jpg";
 
 import Image from "next/image";
 import { useMeasure } from "react-use";
+import { useGetCurrencyQuery } from "@/redux/api/culture";
+
 const Currency = () => {
   const { t } = useTranslate();
-  const { data, isError, isLoading } = useGetCurrencyQuery();
-  const [ref, { width, height }] = useMeasure<HTMLDivElement>();
-  const dataImages = Array.from({ length: 10 }, (_, i) => ({
-    front: img1,
-    back: img2,
-  }));
 
-  console.log(data);
+  const [ref, { height }] = useMeasure<HTMLDivElement>();
+  const { data: currencyData, error, isLoading } = useGetCurrencyQuery();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return null;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading currency data</p>;
+
+  const currency = currencyData?.[0];
+
+  const images = currency?.currency_image || [];
+  const descriptions = currency?.currency_description || [];
 
   return (
     <section className={styles.section}>
@@ -39,31 +38,41 @@ const Currency = () => {
         </div>
         <div className={styles.bottom} style={{ top: height }}>
           <div className={styles.images}>
-            {data && data[0]?.currency_image.map((el, idx) => (
-              <div key={idx} className={styles.image}>
-                <div className={styles.img}>
-                  <Image
-                    src={el.front_image}
-                    alt="currency"
-                    width={199}
-                    height={94}
-                  />
+            {images.length > 0 ? (
+              images.map((el, idx) => (
+                <div key={idx} className={styles.image}>
+                  {el.front_image && (
+                    <div className={styles.img}>
+                      <Image
+                        src={el.front_image}
+                        alt="currency"
+                        width={199}
+                        height={94}
+                      />
+                    </div>
+                  )}
+                  {el.back_image && (
+                    <div className={styles.img}>
+                      <Image
+                        src={el.back_image}
+                        alt="currency"
+                        width={199}
+                        height={94}
+                      />
+                    </div>
+                  )}
                 </div>
-                <div className={styles.img}>
-                  <Image
-                    src={el.back_image}
-                    width={199}
-                    height={94}
-                    alt="currency"
-                  />
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No currency images available</p>
+            )}
           </div>
           <div className={styles.descrs}>
-            {data && data[0]?.currency_description.map((el, idx) => (
-              <p key={idx}>{el.description}</p>
-            ))}
+            {descriptions.length > 0 ? (
+              descriptions.map((des, idx) => <p key={idx}>{des.description}</p>)
+            ) : (
+              <p>No currency description available</p>
+            )}
           </div>
         </div>
       </div>

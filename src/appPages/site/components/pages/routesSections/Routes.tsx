@@ -14,13 +14,13 @@ import { FaBus, FaRegCalendar, FaUser } from "react-icons/fa";
 import { IoMdSubway } from "react-icons/io";
 import { GiAirplaneDeparture } from "react-icons/gi";
 import { PiAirplaneLandingFill, PiAirplaneTakeoffFill } from "react-icons/pi";
-import DatePicker from "react-datepicker";
 import airport1 from "../../../../../assets/images/routesImages/airport1.png";
 import airport2 from "../../../../../assets/images/routesImages/airport2.png";
 import airport3 from "../../../../../assets/images/routesImages/airport3.png";
 import route from "../../../../../assets/images/routesImages/route.png";
 import { IoClose } from "react-icons/io5";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const Routes = () => {
   const newbilet = ["8:00", "8:20", "8:30", "8:40", "9:00"];
   const [count, setCount] = useState<number>(1);
@@ -28,7 +28,7 @@ const Routes = () => {
   const [modalWindow, setModalWindow] = useState<boolean>(false);
   const [modalWindowTickets, setModalWindowTickets] = useState<boolean>(false);
   const [filterAvia, setFilterAvia] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
 
   return (
     <div className={scss.Routes}>
@@ -96,145 +96,158 @@ const Routes = () => {
           )}
         </div>
         {modalWindow && (
-          <div
-            className={
-              modalWindowTickets ? scss.modalWindowAll : scss.modalWindow
-            }
-          >
-            {modalWindowTickets ? (
-              <div className={scss.textIcon}>
-                <h5>We found 5 tickets according to your request</h5>
-                <IoClose
-                  onClick={() => setModalWindowTickets(false)}
-                  className={scss.IoClose}
-                />
-              </div>
-            ) : (
-              <h4>Search for cheap airline tickets</h4>
-            )}
-            <div className={scss.SearchInputs}>
-              <div className={scss.block11}>
-                <PiAirplaneTakeoffFill className={scss.icon} />
-                <h6>Bishkek</h6>
-              </div>
-              <div className={scss.block11}>
-                <PiAirplaneLandingFill className={scss.icon} />
-                <h6>Jalal-Abad</h6>
-              </div>
-              <button
-                onClick={() => setModalWindowTickets(!modalWindowTickets)}
-                className={scss.searchBtn}
-              >
-                Search
-              </button>
-            </div>
-            <div className={scss.blockCat}>
-              <div className={scss.chooseData}>
-                <FaRegCalendar className={scss.calendarIcon} />
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={(date: Date | null) => setSelectedDate(date)}
-                  dateFormat="dd/MM/yyyy"
-                  placeholderText="Choose Date"
-                  className={scss.dateInput}
-                  calendarClassName="custom-calendar"
-                />
-              </div>
-              <div
-                onClick={() => setCount(count + 1)}
-                className={scss.ticketNumber}
-              >
-                <FaUser className={scss.userIcon} />
-                <span>{count}</span>
-              </div>
-              <div
-                onClick={() => setFilterAvia(!filterAvia)}
-                className={scss.filter}
-              >
-                <span>Filters</span>
-              </div>
-            </div>
-            {filterAvia && (
-              <div className={scss.filterAvia}>
-                <div className={scss.transfer}>
-                  <p>With transfer</p>
-                  <label className={scss.switch}>
-                    <input type="checkbox" />
-                    <span className={scss.slider}></span>
-                  </label>
+          <>
+            <div
+              onClick={() => setModalWindow(false)}
+              className={scss.modalWindowBg}
+            ></div>{" "}
+            <div
+              className={
+                modalWindowTickets ? scss.modalWindowAll : scss.modalWindow
+              }
+            >
+              {modalWindowTickets ? (
+                <div className={scss.textIcon}>
+                  <h5>We found 5 tickets according to your request</h5>
+                  <IoClose
+                    onClick={() => setModalWindowTickets(false)}
+                    className={scss.IoClose}
+                  />
                 </div>
-                <div className={scss.transfer}>
-                  <p>Without transfer</p>
-                  <label className={scss.switch}>
-                    <input type="checkbox" />
-                    <span className={scss.slider}></span>
-                  </label>
+              ) : (
+                <h4>Search for cheap airline tickets</h4>
+              )}
+              <div className={scss.SearchInputs}>
+                <div className={scss.block11}>
+                  <PiAirplaneTakeoffFill className={scss.icon} />
+                  <h6>Bishkek</h6>
                 </div>
-                <div className={scss.transfer}>
-                  <p>With luggage</p>
-                  <label className={scss.switch}>
-                    <input type="checkbox" />
-                    <span className={scss.slider}></span>
-                  </label>
+                <div className={scss.block11}>
+                  <PiAirplaneLandingFill className={scss.icon} />
+                  <h6>Jalal-Abad</h6>
                 </div>
-                <div className={scss.transfer}>
-                  <p>Without luggage</p>
-                  <label className={scss.switch}>
-                    <input type="checkbox" />
-                    <span className={scss.slider}></span>
-                  </label>
+                <button
+                  onClick={() => setModalWindowTickets(!modalWindowTickets)}
+                  className={scss.searchBtn}
+                >
+                  Search
+                </button>
+              </div>
+              <div className={scss.blockCat}>
+                <div className={scss.chooseData}>
+                  <FaRegCalendar className={scss.calendarIcon} />
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText="Choose Date"
+                    className={scss.dateInput}
+                  />
+                </div>
+                <div
+                  onClick={() => setCount(count + 1)}
+                  className={scss.ticketNumber}
+                >
+                  <FaUser className={scss.userIcon} />
+                  <span>{count}</span>
+                </div>
+                <div
+                  onClick={() => setFilterAvia(!filterAvia)}
+                  className={scss.filter}
+                >
+                  <span>Filters</span>
                 </div>
               </div>
-            )}
+              {filterAvia && (
+                <div className={scss.filterAvia}>
+                  <div className={scss.transfer}>
+                    <p>With transfer</p>
+                    <label className={scss.switch}>
+                      <input type="checkbox" />
+                      <span className={scss.slider}></span>
+                    </label>
+                  </div>
+                  <div className={scss.transfer}>
+                    <p>Without transfer</p>
+                    <label className={scss.switch}>
+                      <input type="checkbox" />
+                      <span className={scss.slider}></span>
+                    </label>
+                  </div>
+                  <div className={scss.transfer}>
+                    <p>With luggage</p>
+                    <label className={scss.switch}>
+                      <input type="checkbox" />
+                      <span className={scss.slider}></span>
+                    </label>
+                  </div>
+                  <div className={scss.transfer}>
+                    <p>Without luggage</p>
+                    <label className={scss.switch}>
+                      <input type="checkbox" />
+                      <span className={scss.slider}></span>
+                    </label>
+                  </div>
+                </div>
+              )}
 
-            {modalWindowTickets && (
-              <div className={scss.modalWindowTickets}>
-                <div className={scss.blockImages}>
-                  <img
-                    src={airport1.src}
-                    alt="airport1"
-                    className={scss.airport1}
-                  />
-                  <img
-                    src={airport2.src}
-                    alt="airport1"
-                    className={scss.airport2}
-                  />
-                  <img
-                    src={airport3.src}
-                    alt="airport1"
-                    className={scss.airport3}
-                  />
-                </div>
-                {newbilet.map((el, idx) => (
-                  <div key={idx} className={scss.ticketsTime}>
+              {modalWindowTickets && (
+                <div className={scss.modalWindowTickets}>
+                  <div className={scss.blockImages}>
+                    <img
+                      src={airport1.src}
+                      alt="airport1"
+                      className={scss.airport1}
+                    />
                     <img
                       src={airport2.src}
-                      alt="airport2"
-                      className={scss.airportImg}
+                      alt="airport1"
+                      className={scss.airport2}
                     />
-                    <div className={scss.block22}>
-                      <div className={scss.blockTiket1}>
-                        <p className={scss.time}>{el}</p>
-                        <div className={scss.text}>
-                          <p className={scss.adresTitle}>Bishkek</p>
-                          <span className={scss.dateTitle}>18 May, friday</span>
+                    <img
+                      src={airport3.src}
+                      alt="airport1"
+                      className={scss.airport3}
+                    />
+                  </div>
+                  {newbilet.map((el, idx) => (
+                    <div key={idx} className={scss.ticketsTime}>
+                      <img
+                        src={airport2.src}
+                        alt="airport2"
+                        className={scss.airportImg}
+                      />
+                      <div className={scss.block22}>
+                        <div className={scss.blockTiket1}>
+                          <p className={scss.time}>{el}</p>
+                          <div className={scss.text}>
+                            <p className={scss.adresTitle}>Bishkek</p>
+                            <span className={scss.dateTitle}>
+                              18 May, friday
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      <img src={route.src} alt="route" className={scss.route} />
-                      <div className={scss.blockTiket2}>
-                        <p className={scss.time}>{el}</p>
-                        <div className={scss.text}>
-                          <p className={scss.adresTitle}>Bishkek</p>
-                          <span className={scss.dateTitle}>18 May, friday</span>
+                        <img
+                          src={route.src}
+                          alt="route"
+                          className={scss.route}
+                        />
+                        <div className={scss.blockTiket2}>
+                          <p className={scss.time}>{el}</p>
+                          <div className={scss.text}>
+                            <p className={scss.adresTitle}>Bishkek</p>
+                            <span className={scss.dateTitle}>
+                              18 May, friday
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
       {modalWindowTime && (

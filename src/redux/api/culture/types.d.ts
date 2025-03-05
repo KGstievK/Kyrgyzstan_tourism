@@ -52,17 +52,17 @@ namespace CULTURE {
   type CultureHand_craftsRequest = void;
 
   type CultureNationalInstrumentsResponse = {
-    id: number
+    id: number;
     culture: {
-      id: number
-      culture_name: string
-    }
-    hand_name: string
-    hand_description: string
-    hand_image: string
-  }[]
-  
-  type CultureNationalInstrumentsRequest = void
+      id: number;
+      culture_name: string;
+    };
+    hand_name: string;
+    hand_description: string;
+    hand_image: string;
+  }[];
+
+  type CultureNationalInstrumentsRequest = void;
 
   type CurrencyResponse = {
     id: number
@@ -72,21 +72,19 @@ namespace CULTURE {
     currency_image: CurrencyImage[]
   }[]
 
-  type CurrencyRequest = void
-  
-  export interface Culture {
-    id: number
-    culture_name: string
-  }
-  
-  export interface CurrencyDescription {
-    description: string
-  }
-  
-  export interface CurrencyImage {
-    front_image: string
-    back_image: string
-  }
-  
+  type CurrencyRequest = void;
 
+  export interface Culture {
+    id: number;
+    culture_name: string;
+  }
+
+  export interface CurrencyDescription {
+    description: string;
+  }
+
+  export interface CurrencyImage {
+    front_image: string;
+    back_image: string;
+  }
 }
