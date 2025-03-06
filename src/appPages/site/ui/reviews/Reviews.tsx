@@ -5,9 +5,9 @@ import StatisticColumn from "./statisticColumn/StatisticColumn";
 import ReviewsColumn from "./reviewsColumn/ReviewsColumn";
 
 interface ReviewsProps {
-  isTab: number; // 0: places, 1: hotels, 2: kitchens, 3: events, 4: attractions
-  isCurrent: number | null; // ID текущей сущности
-  reviewStatic?: REVIEWS.StaticReview; // Статистика текущей сущности
+  isTab: number; 
+  isCurrent: number | null; 
+  reviewStatic?: REVIEWS.StaticReview;
 }
 
 const entityMap: Record<number, string> = {

@@ -10,8 +10,8 @@ import Link from "next/link";
 
 interface StatisticColumnProps {
   reviewStatic?: REVIEWS.StaticReview;
-  isCurrent: number | null; // ID текущей сущности
-  isTab: number; // 0: places, 1: hotels, 2: kitchens, 3: events, 4: attractions
+  isCurrent: number | null; 
+  isTab: number;
 }
 
 const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, isTab }) => {
@@ -35,16 +35,10 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
           className={`${styles.flex} ${styles.gap2} ${styles.mb8}`}
         >
           <button
-            onClick={() => setShowReviewModal(true)}
-            className={styles.buttonPrimary}
-          >
-            Write review
-          </button>
-          <button
             onClick={() => setShowPhotoModal(true)}
             className={styles.buttonSecondary}
           >
-            Upload a photo
+            Write Rewiew
           </button>
           {showReviewModal && (
             <ReviewModal
@@ -52,7 +46,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
               onClose={() => setShowReviewModal(false)}
               onSubmit={() => setShowReviewModal(false)}
               uploadedFiles={uploadedFiles}
-              isTab={isTab} // Передаем isTab в ReviewModal
+              isTab={isTab}
             />
           )}
           {showPhotoModal && (
