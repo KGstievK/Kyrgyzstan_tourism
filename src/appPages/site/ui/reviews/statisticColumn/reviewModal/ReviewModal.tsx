@@ -21,8 +21,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 }) => {
   const { register, handleSubmit } = useForm<REVIEWS.RewiewHotelRquest>();
   const [postRewiewHotel] = usePostRewiewHotelMutation();
-  const { id } = useParams()
-  console.log("🚀 ~ id:", id)
+  const id = useParams()
+  // console.log("🚀 ~ id:", id)
   // const hotelId = id ? parseInt(id as string, 6) : undefined; // Преобразуем строку в число
   const { data: user } = useGetMeQuery();
   const { data: hotels } = useGetHotelIDQuery(Number(id)); // Передаем число в запрос
