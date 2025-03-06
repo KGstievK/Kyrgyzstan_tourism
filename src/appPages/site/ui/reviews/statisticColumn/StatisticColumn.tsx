@@ -11,9 +11,10 @@ import Link from "next/link";
 interface StatisticColumnProps {
   reviewStatic?: REVIEWS.StaticReview;
   isCurrent: number | null; // ID текущей сущности
+  isTab: number; // 0: places, 1: hotels, 2: kitchens, 3: events, 4: attractions
 }
 
-const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic }) => {
+const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, isTab }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -51,6 +52,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic }) 
               onClose={() => setShowReviewModal(false)}
               onSubmit={() => setShowReviewModal(false)}
               uploadedFiles={uploadedFiles}
+              isTab={isTab} // Передаем isTab в ReviewModal
             />
           )}
           {showPhotoModal && (

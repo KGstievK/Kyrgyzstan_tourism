@@ -3,15 +3,16 @@ import React, { useState } from "react";
 import { X, Pencil } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./ReviewModal.module.scss";
-import { usePostRewiewHotelMutation } from "@/redux/api/reviews";
+import { usePostRewiewHotelMutation, usePostRewiewKitchenMutation } from "@/redux/api/reviews";
 import { useGetMeQuery } from "@/redux/api/auth";
-import { useGetHotelIDQuery } from "@/redux/api/place";
+import { useGetHotelIDQuery, useGetKitchenIDQuery } from "@/redux/api/place";
 
 interface ReviewModalProps {
   onClose: () => void;
   onSubmit: () => void;
   uploadedFiles: File[];
   isCurrent: number | null; // ID текущей сущности
+  isTab: number; // 0: places, 1: hotels, 2: kitchens, 3: events, 4: attractions
 }
 
 const ReviewModal: React.FC<ReviewModalProps> = ({
@@ -19,22 +20,24 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   onSubmit,
   uploadedFiles,
   isCurrent,
+  isTab,
 }) => {
-  const { register, handleSubmit } = useForm<REVIEWS.RewiewHotelRquest>();
+  const { register, handleSubmit } = useForm<REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest>();
   const [postRewiewHotel] = usePostRewiewHotelMutation();
+  const [postRewiewKitchen] = usePostRewiewKitchenMutation();
+
   const { data: user } = useGetMeQuery();
   const { data: hotels } = useGetHotelIDQuery(Number(isCurrent));
+  const { data: kitchen } = useGetKitchenIDQuery(Number(isCurrent));
   const [rating, setRating] = useState(0);
 
-  const onSubmitForm: SubmitHandler<REVIEWS.RewiewHotelRquest> = async (data) => {
-    if (!user?.[0]?.id || !hotels?.id) return;
+  const onSubmitForm: SubmitHandler<REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest> = async (data) => {
+    if (!user?.[0]?.id || !isCurrent) return;
 
     // Создаем FormData
     const formData = new FormData();
 
-    // Добавляем текстовые данные
-    formData.append("client_hotel", user[0].id!.toString());
-    formData.append("hotel", hotels.id!.toString());
+    // Добавляем общие данные
     formData.append("comment", data.comment);
     if (rating) formData.append("rating", rating.toString());
 
@@ -44,8 +47,16 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     });
 
     try {
-      // Отправляем FormData на сервер
-      await postRewiewHotel(formData).unwrap();
+      if (isTab === 1) { // Если это отель
+        formData.append("client_hotel", user[0].id!.toString());
+        formData.append("hotel", isCurrent.toString());
+        await postRewiewHotel(formData).unwrap();
+      } else if (isTab === 2) { // Если это кухня
+        formData.append("client_kitchen", user[0].id!.toString());
+        formData.append("kitchen_region", isCurrent.toString());
+        await postRewiewKitchen(formData).unwrap();
+      }
+
       onSubmit();
     } catch (error) {
       console.error("Failed to submit review:", error);

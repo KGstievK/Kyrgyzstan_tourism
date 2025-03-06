@@ -90,7 +90,17 @@ const api = index.injectEndpoints({
         body: formData
       }),
       invalidatesTags: ["Reviews"]
-    })
+    }),
+    postRewiewKitchen: builder.mutation<REVIEWS.ReviewKitchenResponse, FormData>({
+      query: (formData) => ({
+        url: '/kitchen_review_create/',
+        method: 'POST',
+        body: formData
+      }),
+      invalidatesTags: ["Reviews"]
+    }),
+    
+
   }),
 });
-export const { useGetStaticReviewsQuery, useGetReviewsQuery, usePostRewiewHotelMutation } = api;
+export const { useGetStaticReviewsQuery, useGetReviewsQuery, usePostRewiewHotelMutation, usePostRewiewKitchenMutation } = api;
