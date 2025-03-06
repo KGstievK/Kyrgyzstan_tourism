@@ -1,3 +1,4 @@
+'use client'
 import { FC, useState } from "react";
 import styles from "../Reviews.module.scss";
 import ReviewModal from "./reviewModal/ReviewModal";
@@ -9,14 +10,16 @@ import Link from "next/link";
 
 interface StatisticColumnProps {
   reviewStatic?: REVIEWS.StaticReview;
+  isCurrent: number | null; // ID текущей сущности
 }
 
-const StatisticColumn: FC<StatisticColumnProps> = ({ reviewStatic }) => {
+const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const {status} = useGetMeQuery()
   const router = useRouter()
+
   const handlePhotoUpload = (files: File[]) => {
     setUploadedFiles(files);
     setShowPhotoModal(false);
@@ -44,6 +47,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ reviewStatic }) => {
           </button>
           {showReviewModal && (
             <ReviewModal
+              isCurrent={isCurrent}
               onClose={() => setShowReviewModal(false)}
               onSubmit={() => setShowReviewModal(false)}
               uploadedFiles={uploadedFiles}

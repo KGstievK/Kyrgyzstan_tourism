@@ -25,10 +25,10 @@ namespace REVIEWS {
   };
   type RewiewHotelRquest = {
     client_hotel: number;
-    comment?: string;
+    comment: string;
     hotel: number | null;
-    rating?: number;
-    images?: string[];
+    rating: number;
+    images: string[];
   };
   // Универсальный отзыв
   export interface Review {

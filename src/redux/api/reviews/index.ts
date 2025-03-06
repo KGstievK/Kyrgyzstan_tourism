@@ -83,11 +83,11 @@ const api = index.injectEndpoints({
         }));
       },
     }),
-    postRewiewHotel: builder.mutation<REVIEWS.RewiewHotelResponse, REVIEWS.RewiewHotelRquest>({
-      query: (data) => ({
+    postRewiewHotel: builder.mutation<REVIEWS.RewiewHotelResponse, FormData>({
+      query: (formData) => ({
         url: '/hotels_review_create/',
         method: 'POST',
-        body: data,
+        body: formData
       }),
       invalidatesTags: ["Reviews"]
     })
