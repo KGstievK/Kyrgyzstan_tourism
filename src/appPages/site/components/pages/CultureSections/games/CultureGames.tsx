@@ -40,9 +40,10 @@
 
 // export default CultureGames;
 
-import React from 'react';
-import styles from './CultureGames.module.scss';
-import img from '@/assets/images/cultureImages/main-culture.jpg';
+import React from "react";
+import styles from "./CultureGames.module.scss";
+import img from "@/assets/images/cultureImages/main-culture.jpg";
+import { useGetGamesQuery } from "@/redux/api/culture";
 interface GameProps {
   title: string;
   description: string;
@@ -50,7 +51,12 @@ interface GameProps {
   imageAlt: string;
 }
 
-const Game: React.FC<GameProps> = ({ title, description, imageSrc, imageAlt }) => {
+const Game: React.FC<GameProps> = ({
+  title,
+  description,
+  imageSrc,
+  imageAlt,
+}) => {
   return (
     <article className={styles.game}>
       <div className={styles.game__imageContainer}>
@@ -68,53 +74,63 @@ const GamesPage: React.FC = () => {
   const games: GameProps[] = [
     {
       title: "Ulak-tartysh",
-      description: "Ulak-tartysh, which means \"gray wolf\". They say that it originated in ancient times when nomadic peoples would fight hordes of animals together in the steppe in order to survive. The game has a bit of a dark past, however. It was named after an error that occurred in the game in Samarkand, which was a great disaster for people. Since these were the times when nomadic horsemen would attack settlements and drive away people and livestock. The goal of each team is to throw the carcass of the animal into the opponent's tai-kazan. Carrying and throwing a 20-kilogram carcass requires a lot of skill and strength.",
+      description:
+        'Ulak-tartysh, which means "gray wolf". They say that it originated in ancient times when nomadic peoples would fight hordes of animals together in the steppe in order to survive. The game has a bit of a dark past, however. It was named after an error that occurred in the game in Samarkand, which was a great disaster for people. Since these were the times when nomadic horsemen would attack settlements and drive away people and livestock. The goal of each team is to throw the carcass of the animal into the opponent\'s tai-kazan. Carrying and throwing a 20-kilogram carcass requires a lot of skill and strength.',
       imageSrc: img.src,
-      imageAlt: "Ulak-tartysh game"
+      imageAlt: "Ulak-tartysh game",
     },
     {
       title: "Kyz-kuumai",
-      description: "Kyz-kuumai is a racing competition between a boy and a girl. The goal of the game is when the boy catches up to the girl during the race. The girl always rides a faster, and it starts off in several earlier. If the pursuit catches up to the girl, the rider has the right to kiss her as a reward, otherwise, the girl will hit him with a whip.",
+      description:
+        "Kyz-kuumai is a racing competition between a boy and a girl. The goal of the game is when the boy catches up to the girl during the race. The girl always rides a faster, and it starts off in several earlier. If the pursuit catches up to the girl, the rider has the right to kiss her as a reward, otherwise, the girl will hit him with a whip.",
       imageSrc: img.src,
-      imageAlt: "Kyz-kuumai game"
+      imageAlt: "Kyz-kuumai game",
     },
     {
       title: "Korkut",
-      description: "Korkut is more of the music-al instruments. Supposedly, Dede Korkut prayed to God to grant him immortality. The angel of death threatened him that he would come for him wherever he went. Korkut traveled around the world until he reached the Syr Darya river, where he spread his carpet.",
+      description:
+        "Korkut is more of the music-al instruments. Supposedly, Dede Korkut prayed to God to grant him immortality. The angel of death threatened him that he would come for him wherever he went. Korkut traveled around the world until he reached the Syr Darya river, where he spread his carpet.",
       imageSrc: img.src,
-      imageAlt: "Korkut game"
+      imageAlt: "Korkut game",
     },
     {
       title: "Ordo",
-      description: "Ordo is one of the most complex Kyrgyz national folk games with battle scenes, which remains popular to this day. The game corresponds to some extent to chess, it requires strategy, tactics, foresight, the ability to think analytically. Ordo was originally a military exercise, which gained the status of a sport. The traditional Ordo game was popular among almost all Kyrgyzstandars. It teaches the young generation to get acquainted with the history of their country and the military art of the Kyrgyz.",
+      description:
+        "Ordo is one of the most complex Kyrgyz national folk games with battle scenes, which remains popular to this day. The game corresponds to some extent to chess, it requires strategy, tactics, foresight, the ability to think analytically. Ordo was originally a military exercise, which gained the status of a sport. The traditional Ordo game was popular among almost all Kyrgyzstandars. It teaches the young generation to get acquainted with the history of their country and the military art of the Kyrgyz.",
       imageSrc: img.src,
-      imageAlt: "Ordo game"
+      imageAlt: "Ordo game",
     },
     {
       title: "Tyiyn-enmei",
-      description: "Tyiyn enmei (picking a coin from the ground on a gallop on a horse) is an ancient sporting game of the Kyrgyz. In the old times people used coins, but now they use coins. The game starts when the referee throws the coin on the ground and the rider gets to the start on the horse. The goal of Tyiyn enmei is to pick up the coin from the ground on a gallop on a horse. The game itself is accompanied by the demonstration of riding art, dexterity, agility, and quick reaction. It is the way in which coins are picked up that matters most. The person who picks up the most coins is the winner.",
+      description:
+        "Tyiyn enmei (picking a coin from the ground on a gallop on a horse) is an ancient sporting game of the Kyrgyz. In the old times people used coins, but now they use coins. The game starts when the referee throws the coin on the ground and the rider gets to the start on the horse. The goal of Tyiyn enmei is to pick up the coin from the ground on a gallop on a horse. The game itself is accompanied by the demonstration of riding art, dexterity, agility, and quick reaction. It is the way in which coins are picked up that matters most. The person who picks up the most coins is the winner.",
       imageSrc: img.src,
-      imageAlt: "Tyiyn-enmei game"
-    }
+      imageAlt: "Tyiyn-enmei game",
+    },
   ];
+
+  const { data } = useGetGamesQuery();
+  console.log("🚀 ~ data:", data);
 
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.banner}>
         <h1 className={styles.banner__title}>Games</h1>
         <p className={styles.banner__description}>
-          Games are traditions, the things have glorious past glory and a strong future. Traditional concentrated in a simple but important physical exercises must treated by modern technologies.
+          Since ancient times, the Kyrgyz have given a great place to folk games
+          and entertainment, not a single folk festival took place without them.
+          Traditional equestrian games remain the most beloved and revered.
         </p>
       </div>
-      
+
       <main className={styles.games}>
-        {games.map((game, index) => (
+        {data?.map((game, index) => (
           <Game
             key={index}
-            title={game.title}
-            description={game.description}
-            imageSrc={game.imageSrc}
-            imageAlt={game.imageAlt}
+            title={game.games_name}
+            description={game.games_description}
+            imageSrc={game.games_image}
+            imageAlt={game.games_name}
           />
         ))}
       </main>

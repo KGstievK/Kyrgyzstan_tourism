@@ -1,5 +1,5 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import styles from "../Culture.module.scss";
+import styles from "./National_clothes.module.scss";
 import { useGetCultureNationalClothesQuery } from "@/redux/api/culture";
 
 const National_clothes = () => {
@@ -26,10 +26,17 @@ const National_clothes = () => {
         </div>
         {data?.map((el, idx) => (
           <div key={idx} className={styles.main}>
-            <div className={styles.img} style={{background: `url(${el.clothes_image}) center/cover no-repeat`}}></div>
+            <div
+              className={styles.img}
+              style={{
+                background: `url(${el.clothes_image}) center/cover no-repeat`,
+              }}
+            ></div>
             <div className={styles["main-text"]}>
               <h3 className={styles["main-heading"]}>{el.clothes_name}</h3>
-              <p className={styles["main-paragraph"]}>{el.clothes_description}</p>
+              <p className={styles["main-paragraph"]}>
+                {el.clothes_description}
+              </p>
             </div>
           </div>
         ))}

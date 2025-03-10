@@ -19,14 +19,29 @@ namespace CULTURE {
     };
     kitchen_name: string;
     kitchen_description: string;
-    kitchen_image: CultureKitchenImage[];
+    culture_kitchen_image: CultureKitchenImage[];
   }[];
+
   type CultureKitchenImage = {
     id: number;
     image: string;
   };
 
   type CultureKitchenRequest = void;
+
+  type CultureKitchenMainResponse = {
+    id: number;
+    culture: {
+      id: number;
+      culture_name: string;
+    };
+    title: string;
+    description: string;
+    image_1?: string;
+    image_2?: string;
+    image_3?: string;
+    image_4?: string;
+  }[];
 
   type CultureNationalClothesResponse = {
     id: number;
@@ -57,9 +72,9 @@ namespace CULTURE {
       id: number;
       culture_name: string;
     };
-    hand_name: string;
-    hand_description: string;
-    hand_image: string;
+    national_name: string;
+    national_description: string;
+    national_image: string;
   }[];
 
   type CultureNationalInstrumentsRequest = void;
