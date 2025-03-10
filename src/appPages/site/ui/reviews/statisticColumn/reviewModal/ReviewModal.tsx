@@ -1,78 +1,72 @@
+"use client";
 import React, { useState } from "react";
 import { X, Pencil } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./ReviewModal.module.scss";
-import { usePostRewiewHotelMutation } from "@/redux/api/reviews";
+import {
+  usePostRewiewHotelMutation,
+  usePostRewiewKitchenMutation,
+} from "@/redux/api/reviews";
 import { useGetMeQuery } from "@/redux/api/auth";
-import { useGetHotelIDQuery } from "@/redux/api/place";
-import { useRouter } from "next/router";
-import { useParams, usePathname } from "next/navigation";
+import { useGetHotelIDQuery, useGetKitchenIDQuery } from "@/redux/api/place";
+import Rating from "./Rating/Rating";
 
 interface ReviewModalProps {
   onClose: () => void;
   onSubmit: () => void;
   uploadedFiles: File[];
-  isCurrent: number | null; // ID текущей сущности
-
+  isCurrent: number | null;
+  isTab: number;
 }
 
 const ReviewModal: React.FC<ReviewModalProps> = ({
   onClose,
   onSubmit,
   uploadedFiles,
-  isCurrent
+  isCurrent,
+  isTab,
 }) => {
-  const { register, handleSubmit } = useForm<REVIEWS.RewiewHotelRquest>();
+  const { register, handleSubmit } = useForm<
+    REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest
+  >();
   const [postRewiewHotel] = usePostRewiewHotelMutation();
-  const id  = useParams();
+  const [postRewiewKitchen] = usePostRewiewKitchenMutation();
 
-  console.log("🚀 ~ id:", id)
-  console.log("🚀 ~ idcurrent:", isCurrent)
-  // const hotelId = id ? parseInt(id as string, 6) : undefined; // Преобразуем строку в число
   const { data: user } = useGetMeQuery();
-  const { data: hotels } = useGetHotelIDQuery(Number(isCurrent)); // Передаем число в запрос
-  const [rating, setRating] = useState(0);
-  console.log("🚀 ~ hotels:", hotels);
-  console.log("🚀 ~ hotels:", hotels?.id);
+  const { data: hotels } = useGetHotelIDQuery(Number(isCurrent));
+  const { data: kitchen } = useGetKitchenIDQuery(Number(isCurrent));
+  const [rating, setRating] = useState(0); // Состояние рейтинга
 
-  const onSubmitForm: SubmitHandler<REVIEWS.RewiewHotelRquest> = async (
-    data
-  ) => {
-    if (!user?.[0]?.id || !hotels?.id) return;
+  const onSubmitForm: SubmitHandler<
+    REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest
+  > = async (data) => {
+    if (!user?.[0]?.id || !isCurrent) return;
 
-    // Преобразуем файлы в base64
-    const images = await Promise.all(
-      uploadedFiles.map((file) => {
-        return new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      })
-    );
+    // Создаем FormData
+    const formData = new FormData();
 
-    const reviewData: REVIEWS.RewiewHotelRquest = {
-      client_hotel: user[0].id,
-      hotel: hotels.id!, // Используем id отеля
-      comment: data.comment,
-      rating: rating,
-      images: images,
-    };
-    console.log(
-      "🚀 ~ constonSubmitForm:SubmitHandler<REVIEWS.RewiewHotelRquest>= ~ reviewData:",
-      reviewData
-    );
+    formData.append("comment", data.comment);
+    if (rating) formData.append("rating", rating.toString());
+
+    uploadedFiles.forEach((file, index) => {
+      formData.append("images", file);
+    });
 
     try {
-      await postRewiewHotel(reviewData);
+      if (isTab === 1) {
+        formData.append("client_hotel", user[0].id!.toString());
+        formData.append("hotel", isCurrent.toString());
+        await postRewiewHotel(formData).unwrap();
+      } else if (isTab === 2) {
+        formData.append("client_kitchen", user[0].id!.toString());
+        formData.append("kitchen_region", isCurrent.toString());
+        await postRewiewKitchen(formData).unwrap();
+      }
+
+      onSubmit();
     } catch (error) {
       console.error("Failed to submit review:", error);
     }
-  };
-
-  const handleRatingChange = (value: number) => {
-    setRating(value);
   };
 
   return (
@@ -86,18 +80,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           <h2 className={styles.title}>What do you think ?</h2>
           <p className={styles.subtitle}>Please give your rating</p>
         </div>
-
         <div className={styles.ratingContainer}>
-          {[1, 2, 3, 4, 5].map((value) => (
-            <button
-              key={value}
-              className={`${styles.ratingCircle} ${
-                value === rating ? styles.active : ""
-              }`}
-              onClick={() => handleRatingChange(value)}
-              aria-label={`Rate ${value} stars`}
-            />
-          ))}
+          <Rating value={rating} onChange={setRating} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmitForm)}>

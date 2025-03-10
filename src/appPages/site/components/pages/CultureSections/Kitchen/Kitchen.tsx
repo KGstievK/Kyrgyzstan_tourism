@@ -1,11 +1,16 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import styles from "./Kitchen.module.scss";
-import { useGetCultureKitchenQuery } from "@/redux/api/culture";
-import image from "@/assets/images/homeImages/bishkek.jpg";
-import Image from "next/image";
+import {
+  useGetCultureKitchenMainQuery,
+  useGetCultureKitchenQuery,
+} from "@/redux/api/culture";
+import sanitizeHtml from "sanitize-html";
 const Kitchen = () => {
   const { t } = useTranslate();
   const { data, isError, isLoading } = useGetCultureKitchenQuery();
+
+  const { data: main } = useGetCultureKitchenMainQuery();
+  console.log("🚀 ~ Kitchen ~ main:", main);
 
   if (isLoading) {
     return <div>Loading...</div>; // или ваш компонент загрузки
@@ -36,64 +41,38 @@ const Kitchen = () => {
           </p>
         </div>
 
-        <div className={styles.kitchen}>
-          <div className={styles.grid_layout}>
-            {Array.from({ length: 4 }).map((_, idx) => (
-              <div key={idx} className={styles.image_wrapper}>
-                <Image
-                  src={image}
-                  alt="image"
-                  fill
-                  className={styles.object_cover}
-                />
+        {main?.map((el) => (
+          <div key={el.id} className={styles.block}>
+            <div className={styles.Images}>
+              <img src={el.image_1} alt="" className={styles.img1} />
+              <div className={styles.images2}>
+                <img src={el.image_2} alt="" className={styles.img2} />
+                <img src={el.image_3} alt="" className={styles.img2} />
               </div>
-            ))}
+              <img src={el.image_4} alt="" className={styles.img1} />
+            </div>
+            <div className={styles.text}>
+              <h3>{el.title}</h3>
+              <p
+                className={styles.description1}
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHtml(el.description),
+                }}
+              />
+            </div>
           </div>
-
-          <div className={styles.descr}>
-            <h3>asdfghjklkjuyt</h3>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit
-              ipsum accusantium doloremque, quidem adipisci minus possimus
-              corporis alias, hic iste commodi quos dolores! Beatae sed,
-              accusamus vitae sunt explicabo architecto, rem nobis saepe dicta
-              deserunt aliquid doloremque corporis nostrum officiis.
-            </p>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit
-              ipsum accusantium doloremque, quidem adipisci minus possimus
-              corporis alias, hic iste commodi quos dolores! Beatae sed,
-              accusamus vitae sunt explicabo architecto, rem nobis saepe dicta
-              deserunt aliquid doloremque corporis nostrum officiis.
-            </p>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit
-              ipsum accusantium doloremque, quidem adipisci minus possimus
-              corporis alias, hic iste commodi quos dolores! Beatae sed,
-              accusamus vitae sunt explicabo architecto, rem nobis saepe dicta
-              deserunt aliquid doloremque corporis nostrum officiis.
-            </p>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit
-              ipsum accusantium doloremque, quidem adipisci minus possimus
-              corporis alias, hic iste commodi quos dolores! Beatae sed,
-              accusamus vitae sunt explicabo architecto, rem nobis saepe dicta
-              deserunt aliquid doloremque corporis nostrum officiis.
-            </p>
-          </div>
-        </div>
+        ))}
 
         {data.map((el, idx) => (
           <div key={idx} className={styles.main}>
-            <div
-              className={styles.img}
-              style={{
-                background: `url(${el.games_image}) center/cover no-repeat`,
-              }}
-            ></div>
+            {el.culture_kitchen_image.map((item) => (
+              <img key={item.id} src={item.image} alt="kitchen" />
+            ))}
             <div className={styles["main-text"]}>
-              <h3 className={styles["main-heading"]}>{el.games_name}</h3>
-              <p className={styles["main-paragraph"]}>{el.games_description}</p>
+              <h3 className={styles["main-heading"]}>{el.kitchen_name}</h3>
+              <p className={styles["main-paragraph"]}>
+                {el.kitchen_description}
+              </p>
             </div>
           </div>
         ))}

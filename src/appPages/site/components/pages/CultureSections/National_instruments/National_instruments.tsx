@@ -1,13 +1,11 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import styles from "../Culture.module.scss";
+import styles from "./National_instruments.module.scss";
 import { useGetNationalInstrumentQuery } from "@/redux/api/culture";
 
 const National_instruments = () => {
   const { t } = useTranslate();
-  const { data, isError } = useGetNationalInstrumentQuery();
-
-  if (isError) return null;
-
+  const { data, isLoading } = useGetNationalInstrumentQuery();
+  console.log("🚀 ~ constNational_instruments= ~ data:", data);
   return (
     <section className={styles.section}>
       <div className="container">
@@ -30,15 +28,12 @@ const National_instruments = () => {
         </div>
         {data?.map((el, idx) => (
           <div key={idx} className={styles.main}>
-            <div
-              className={styles.img}
-              style={{
-                background: `url(${el.hand_image}) center/cover no-repeat`,
-              }}
-            ></div>
+            <img src={el.national_image} alt="" />
             <div className={styles["main-text"]}>
-              <h3 className={styles["main-heading"]}>{el.hand_name}</h3>
-              <p className={styles["main-paragraph"]}>{el.hand_description}</p>
+              <h3 className={styles["main-heading"]}>{el.national_name}</h3>
+              <p className={styles["main-paragraph"]}>
+                {el.national_description}
+              </p>
             </div>
           </div>
         ))}

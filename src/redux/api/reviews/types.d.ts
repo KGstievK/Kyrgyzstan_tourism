@@ -25,11 +25,36 @@ namespace REVIEWS {
   };
   type RewiewHotelRquest = {
     client_hotel: number;
-    comment?: string;
+    comment: string;
     hotel: number | null;
-    rating?: number;
-    images?: string[];
+    rating: number;
+    images: string[];
   };
+
+  type ReviewKitchenResponse = {
+    id: number
+    client_kitchen: ClientKitchen
+    kitchen_region: string
+    kitchen_review_image: any[]
+    comment: string
+    rating: number
+    nutrition_rating: number
+    service_rating: number
+    price_rating: number
+    atmosphere_rating: number
+    created_at: string
+  }
+  type ReviewKitchenRequest = {
+    client_kitchen: number
+    kitchen_region: number
+    comment: string
+    rating: number
+    nutrition_rating: number
+    service_rating: number
+    price_rating: number
+    atmosphere_rating: number
+    images: string[]
+  }
   // Универсальный отзыв
   export interface Review {
     id: number;

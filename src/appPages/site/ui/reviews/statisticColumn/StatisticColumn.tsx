@@ -1,3 +1,4 @@
+'use client'
 import { FC, useState } from "react";
 import styles from "../Reviews.module.scss";
 import ReviewModal from "./reviewModal/ReviewModal";
@@ -9,15 +10,17 @@ import Link from "next/link";
 
 interface StatisticColumnProps {
   reviewStatic?: REVIEWS.StaticReview;
-  isCurrent: number | null; // ID текущей сущности
+  isCurrent: number | null; 
+  isTab: number;
 }
 
-const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic }) => {
+const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, isTab }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const {status} = useGetMeQuery()
   const router = useRouter()
+
   const handlePhotoUpload = (files: File[]) => {
     setUploadedFiles(files);
     setShowPhotoModal(false);
@@ -32,16 +35,10 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic }) 
           className={`${styles.flex} ${styles.gap2} ${styles.mb8}`}
         >
           <button
-            onClick={() => setShowReviewModal(true)}
-            className={styles.buttonPrimary}
-          >
-            Write review
-          </button>
-          <button
             onClick={() => setShowPhotoModal(true)}
             className={styles.buttonSecondary}
           >
-            Upload a photo
+            Write Rewiew
           </button>
           {showReviewModal && (
             <ReviewModal
@@ -49,6 +46,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic }) 
               onClose={() => setShowReviewModal(false)}
               onSubmit={() => setShowReviewModal(false)}
               uploadedFiles={uploadedFiles}
+              isTab={isTab}
             />
           )}
           {showPhotoModal && (

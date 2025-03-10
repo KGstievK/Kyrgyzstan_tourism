@@ -1,3 +1,4 @@
+"use client"
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Hotel_info.module.scss";
 import { useGetHotelIDQuery } from "@/redux/api/place";

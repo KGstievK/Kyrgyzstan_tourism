@@ -28,6 +28,7 @@
     "react-router-dom": "^7.1.1",
     "react-toastify": "^11.0.5",
     "react-use": "^17.6.0",
+    "sanitize-html": "^2.14.0",
     "sass": "^1.83.1"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2.13.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",
     "typescript": "^5"
