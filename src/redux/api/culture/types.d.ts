@@ -80,12 +80,12 @@ namespace CULTURE {
   type CultureNationalInstrumentsRequest = void;
 
   type CurrencyResponse = {
-    id: number;
-    culture: Culture;
-    currency_name: string;
-    currency_description: CurrencyDescription[];
-    currency_image: CurrencyImage[];
-  }[];
+    id: number
+    culture: Culture
+    currency_name: string
+    currency_description: CurrencyDescription[]
+    currency_image: CurrencyImage[]
+  }[]
 
   type CurrencyRequest = void;
 

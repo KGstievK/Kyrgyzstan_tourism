@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./AttractionList.module.scss";
 import Stars from "@/appPages/site/ui/stars/Stars";
@@ -23,35 +22,38 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
   const pathName = usePathname();
   const routeID: number = Number(pathName.split("/")[2]);
 
-  // Filter cafes for current place
+  // Фильтруем достопримечательности по текущему месту
   const attractionsInPlace = attractions.filter((el) => el.popular_places === routeID);
 
-  // Auto-select first cafe on load
+  // Устанавливаем первый элемент при загрузке, если currentId еще не задан
   useEffect(() => {
-    if (attractionsInPlace.length > 0) {
-      setIsCurrent(attractionsInPlace[0].id);
+    if (attractionsInPlace.length > 0 && isCurrent === null) {
+      const firstAttractionId = attractionsInPlace[0].id;
+      setIsCurrent(firstAttractionId);
     }
-  }, [attractionsInPlace, setIsCurrent]);
+  }, [attractionsInPlace, isCurrent, setIsCurrent]);
 
-  // No cafes scenario
-  if (isCurrent === null) {
-    return <h1>{t("Нет кафе", "لا توجد مقاهي", "No cafes")}</h1>;
+  // Если нет достопримечательностей
+  if (attractionsInPlace.length === 0) {
+    return <h1>{t("Нет достопримечательностей", "لا توجد معالم", "No attractions")}</h1>;
   }
 
-  // Pagination utility
+  // Пагинация
   const paginateArray = <T,>(arr: T[], pageSize: number): T[][] => {
     return arr.reduce(
       (result, _, index) =>
-        index % pageSize
-          ? result
-          : [...result, arr.slice(index, index + pageSize)],
+        index % pageSize ? result : [...result, arr.slice(index, index + pageSize)],
       [] as T[][]
     );
   };
 
-  // Render individual cafe items
-  const renderCafeItem = attractionsInPlace.map((el, i) => (
-    <div onClick={() => setIsCurrent(el.id)} key={i} className={scss.item}>
+  // Рендерим элементы списка
+  const renderAttractionItem = attractionsInPlace.map((el, i) => (
+    <div
+      onClick={() => setIsCurrent(el.id)}
+      key={i}
+      className={`${scss.item} ${isCurrent === el.id ? scss.active : ""}`} // Добавляем активный класс
+    >
       <Image
         src={errorImg || !el.main_image ? imgNone : el.main_image}
         alt={el.attraction_name}
@@ -70,22 +72,25 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
           <Stars rating={el.avg_rating} />
           <p>Reviews: {el.rating_count}</p>
         </div>
-        <div className={scss.prices}>
-          {`$${'$$$'} - $$'$$$'}, ${"Russian, Canadian"}`}
-        </div>
+        <div className={scss.prices}>{`$${'$$$'} - $$'$$$'}, ${"Russian, Canadian"}`}</div>
       </div>
     </div>
   ));
 
-  // Paginate cafe items
-  const dividedArray = paginateArray(renderCafeItem, ITEMS_PER_PAGE);
+  const dividedArray = paginateArray(renderAttractionItem, ITEMS_PER_PAGE);
   const isAllItemsShown = isLimit >= dividedArray.length;
 
   return (
     <div className={scss.attractions}>
       <div className={scss.attractions_title}>
-        <h4>{t("Лучшие достопримечательности поблизости", "أفضل المعالم القريبة", "The best attractions nearby")}</h4>
-        {attractions.length > ITEMS_PER_PAGE && !isAllItemsShown && (
+        <h4>
+          {t(
+            "Лучшие достопримечательности поблизости",
+            "أفضل المعالم القريبة",
+            "The best attractions nearby"
+          )}
+        </h4>
+        {attractionsInPlace.length > ITEMS_PER_PAGE && !isAllItemsShown && (
           <p onClick={() => setIsLimit(dividedArray.length)}>
             {t("Показать все", "عرض الكل", "Show all")}
           </p>

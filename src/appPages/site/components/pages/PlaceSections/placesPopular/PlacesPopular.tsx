@@ -8,7 +8,6 @@ import { useMemo, useState } from "react";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import Stars from "@/appPages/site/ui/stars/Stars";
-import { log } from "node:console";
 
 type TabsDataType = Record<number, REGION_LIST.PopularResponse>;
 
@@ -61,7 +60,7 @@ const PlacesPopular = () => {
                   <h6>{item.popular_name}</h6>
                   <div>
                     <span className={scss.grade}>{item.avg_rating}</span>
-                    <Stars rating={item.avg_rating} />
+                    <Stars rating={item.avg_rating} width={9} height={9} />
                     <span className={scss.review}>
                       {item.rating_count} reviews
                     </span>

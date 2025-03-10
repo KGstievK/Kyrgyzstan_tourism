@@ -1,40 +1,50 @@
 import { FC, ReactNode, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useGetMeQuery, usePatchRefreshTokenMutation } from '../redux/api/auth';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface SessionProviderProps {
-	children: ReactNode;
+  children: ReactNode;
 }
 
 export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
-	const { status } = useGetMeQuery();
-	console.log("🚀 ~ status:", status)
-	const { pathname } = useLocation();
-	const router = useRouter();
+  const { status } = useGetMeQuery();
   const [refreshTokenMutation] = usePatchRefreshTokenMutation();
+
+  const pathname = usePathname();
+  const router = useRouter();
 
 
 	const handleRefreshToken = async () => {
-    const localStorageData = JSON.parse(localStorage.getItem("accessToken")!);
-    const SessionStorageData = JSON.parse(sessionStorage.getItem("accessToken")!);
+    if (typeof window === "undefined") return; 
 
-    if (!localStorageData || !SessionStorageData) {
-      return;
-    }
+    const localStorageData = localStorage.getItem("accessToken");
+    const sessionStorageData = sessionStorage.getItem("accessToken");
 
-    const { access, refresh } = localStorageData || SessionStorageData;
-   
+    const parsedLocalStorageData = localStorageData ? JSON.parse(localStorageData) : null;
+    const parsedSessionStorageData = sessionStorageData ? JSON.parse(sessionStorageData) : null;
+
+    const access = parsedSessionStorageData?.access || parsedLocalStorageData?.access;
+    const refresh = parsedSessionStorageData?.refresh || parsedLocalStorageData?.refresh;
+
     const isTokenExpired = (token: string): boolean => {
       try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        const now = Math.floor(Date.now() / 1000);
-        return payload.exp < now;
+        if (!token) return true;
+        const base64Url = token.split(".")[1];
+        if (!base64Url) return true;
+        const payload = JSON.parse(atob(base64Url));
+        return payload.exp < Math.floor(Date.now() / 1000);
       } catch (error) {
         console.error("Ошибка при проверке токена:", error);
         return true;
       }
     };
+
+    if (!refresh || isTokenExpired(refresh)) {
+      console.warn("refreshToken недействителен, редирект на /auth/sign-in");
+      localStorage.removeItem("accessToken");
+      sessionStorage.removeItem("accessToken");
+      return;
+    }
 
     if (isTokenExpired(access)) {
       try {
@@ -47,42 +57,41 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
         console.error("Не удалось обновить токены:", error);
         localStorage.removeItem("accessToken");
         sessionStorage.removeItem("accessToken");
-        router.push("/auth/sign-in"); 
       }
     }
   };
 
-	const handleNavigation = () => {
-		switch (pathname) {
-			case '/auth/sign-in':
-			case '/auth/sign-up':
-			case '/auth/reset-password':
-			case '/auth/forgot':
-				if (status === 'fulfilled') {
-					router.back();
-				}
-				break;
-			case '/chats':
-			case '/notifications':
-			case '/settings':
-			case '/profile':
-			case '/my-public':
-				if (status === 'rejected') {
-					router.push('/auth/sign-in');
-				}
-				break;
-			default:
-				break;
-		}
-	};
+  const handleNavigation = () => {
+    switch (pathname) {
+      case "/auth/sign-in":
+      case "/auth/sign-up":
+      case "/auth/reset-password":
+      case "/auth/forgot":
+        if (status === "fulfilled") {
+          router.back();
+        }
+        break;
+      case "/chats":
+      case "/notifications":
+      case "/settings":
+      case "/profile":
+      case "/my-public":
+        if (status === "rejected") {
+          router.push("/auth/sign-in");
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
-	useEffect(() => {
-		handleRefreshToken()
-	}, [pathname])
+  useEffect(() => {
+    handleRefreshToken();
+  }, [pathname]);
 
-	useEffect(() => {
-		handleNavigation();
-	}, [status, pathname, router]);
+  useEffect(() => {
+    handleNavigation();
+  }, [status, pathname, router]);
 
-	return children;
+  return children;
 };

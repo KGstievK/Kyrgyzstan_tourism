@@ -14,6 +14,47 @@ namespace REVIEWS {
     image: string;
   }
 
+  type RewiewHotelResponse = {
+    id?: number;
+    client_hotel: ClientHotel;
+    hotel: string;
+    hotel_review_image: any[];
+    comment: string;
+    rating: number;
+    created_date: string;
+  };
+  type RewiewHotelRquest = {
+    client_hotel: number;
+    comment: string;
+    hotel: number | null;
+    rating: number;
+    images: string[];
+  };
+
+  type ReviewKitchenResponse = {
+    id: number
+    client_kitchen: ClientKitchen
+    kitchen_region: string
+    kitchen_review_image: any[]
+    comment: string
+    rating: number
+    nutrition_rating: number
+    service_rating: number
+    price_rating: number
+    atmosphere_rating: number
+    created_at: string
+  }
+  type ReviewKitchenRequest = {
+    client_kitchen: number
+    kitchen_region: number
+    comment: string
+    rating: number
+    nutrition_rating: number
+    service_rating: number
+    price_rating: number
+    atmosphere_rating: number
+    images: string[]
+  }
   // Универсальный отзыв
   export interface Review {
     id: number;
@@ -25,7 +66,6 @@ namespace REVIEWS {
     createdAt: string; // Унифицируем дату
   }
 
-  // Универсальная статистика
   export interface StaticReview {
     id: number;
     name: string; // kitchen_name, popular_name, name, attraction_name

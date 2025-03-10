@@ -9,11 +9,14 @@
     grid-template-columns: 8% 50% 26.5%;
     align-items: center;
     justify-content: space-between;
-    // justify-items: end;
+    justify-items: end;
   }
   .logo {
     width: 100%;
     max-width: 100px;
+  }
+  nav {
+    width: 100%;
   }
   .nav {
     display: flex;

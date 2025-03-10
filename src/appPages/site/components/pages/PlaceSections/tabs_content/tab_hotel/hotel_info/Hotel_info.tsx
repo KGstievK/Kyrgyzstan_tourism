@@ -1,3 +1,4 @@
+"use client"
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Hotel_info.module.scss";
 import { useGetHotelIDQuery } from "@/redux/api/place";
@@ -5,9 +6,12 @@ import { FC } from "react";
 import imgLike from "@/assets/images/placeImages/like.png";
 import imgShare from "@/assets/images/placeImages/share.png";
 import imgBed from "@/assets/images/placeImages/bed.png";
-import imgContact from "@/assets/images/placeImages/contact.png";
+import safety from "@/assets/images/placeImages/safety.png";
 import imgProper from "@/assets/images/placeImages/proper.png";
 import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Preloader from "@/appPages/site/ui/preLoader/Preloader";
 
 interface propsType {
   isCurrent: number | null;
@@ -15,8 +19,34 @@ interface propsType {
 
 const Hotel_info: FC<propsType> = ({ isCurrent }) => {
   const { t } = useTranslate();
-  const { data, isError } = useGetHotelIDQuery(isCurrent);
+  const { data, isError, isLoading } = useGetHotelIDQuery(isCurrent);
   const images = data?.hotel_image ?? [];
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Мой сайт",
+          text: "Посмотрите этот сайт!",
+          url: window.location.href,
+        });
+        toast.success("Ссылка успешно отправлена!");
+      } catch (error) {
+        toast.error("Ошибка при попытке поделиться.");
+      }
+    } else {
+      toast.info('Ваш браузер не поддерживает функцию "Поделиться".');
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <Preloader />
+      </>
+    );
+  }
+
   if (isError) {
     return null;
   }
@@ -37,7 +67,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
               <button>
                 <img src={imgLike.src} alt="" />
               </button>
-              <button>
+              <button onClick={handleShare}>
                 <img src={imgShare.src} alt="" />
               </button>
             </div>
@@ -64,13 +94,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           </div>
           <div className={scss.descr}>
             <h6>{t("", "", "Apartment Description")}</h6>
-            <p>
-              {t(
-                "",
-                "",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-              )}
-            </p>
+            <p>{data?.description}</p>
           </div>
           <div className={scss.amen}>
             <h6>{t("", "", "Offered Amenities")}</h6>
@@ -81,16 +105,16 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
                   <span>{item}</span>
                 </div>
               ))}
-              <button>{t("", "", "Show All 10 Amenities")}</button>
             </div>
+            <button>{t("", "", "Show All 10 Amenities")}</button>
           </div>
           <div className={scss.safe}>
             <h6>{t("", "", "Safety and Hygiene")}</h6>
             <div className={scss.safe_list}>
-              {Array.from({ length: 4 }).map((_, index) => (
+              {data?.safety_and_hygiene.map((item, index) => (
                 <div key={index}>
-                  <img src={imgBed.src} alt="" />
-                  <span>{t("", "", "Daily Cleaning")}</span>
+                  <img src={safety.src} alt="safety" />
+                  <span>{item}</span>
                 </div>
               ))}
             </div>
@@ -114,17 +138,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
                 {data?.price_long_period}
               </li>
             </ul>
-            <button>{t("", "", "Reserve Now")}</button>
-            <div className={scss.call}>
-              <div>
-                <img src={imgProper.src} alt="" />
-                <span>{t("", "", "Property Inquiry")}</span>
-              </div>
-              <div>
-                <img src={imgContact.src} alt="" />
-                <span>{t("", "", "Contact Host")}</span>
-              </div>
-            </div>
+            <button>{t("", "", "Call Now")}</button>
           </div>
         </div>
       </div>

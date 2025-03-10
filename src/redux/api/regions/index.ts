@@ -2,7 +2,7 @@ import {api as index} from ".."
 
 const api = index.injectEndpoints({
     endpoints: (builder) => ({
-        getRegionList: builder.query<REGION_LIST.RegionResponse, REGION_LIST.RegionRequest>({
+        getRegionList: builder.query<REGION_LIST.RegionResponse[], REGION_LIST.RegionRequest>({
             query: () => ({
                 url: `/region`,
                 method: "GET",

@@ -149,7 +149,8 @@
   right: 1rem;
   color: white;
   z-index: 50;
-
+  background: none;
+  border: 0;
   &:hover {
     color: #d1d5db;
   }
@@ -159,6 +160,8 @@
   position: absolute;
   color: white;
   transition: color 0.2s;
+  background: none;
+  border: 0;
 
   &:hover {
     color: #d1d5db;

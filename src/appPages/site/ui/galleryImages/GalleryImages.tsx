@@ -15,7 +15,8 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
   const largeImages = images.slice(0, 2);
   const smallImages = images.slice(2);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
-
+  images.forEach((el,i) => console.log(i))
+  
     
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (selectedImage === null) return;
@@ -80,7 +81,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
             alt={`Kitchen ${img.id}`}
             className={styles.image}
             loading="lazy"
-            onClick={() => setSelectedImage(i)}
+            onClick={() => setSelectedImage(images.findIndex(el => el.id === img.id))}
           />
         </div>
       ))}
@@ -95,7 +96,12 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
                 alt={`Kitchen ${img.id}`}
                 className={styles.image}
                 loading="lazy"
-                onClick={() => setSelectedImage(i)}
+                onClick={() => {
+                  setSelectedImage(images.findIndex(el => el.id === img.id))
+                  console.log("item " + (groupIndex++ + i));
+                  console.log("item mini " + (i));
+
+                }}
               />
             </div>
           ))}

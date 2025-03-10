@@ -1,18 +1,72 @@
-import React, { useState } from 'react';
-import { X, Pencil } from 'lucide-react';
-import styles from './ReviewModal.module.scss';
+"use client";
+import React, { useState } from "react";
+import { X, Pencil } from "lucide-react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import styles from "./ReviewModal.module.scss";
+import {
+  usePostRewiewHotelMutation,
+  usePostRewiewKitchenMutation,
+} from "@/redux/api/reviews";
+import { useGetMeQuery } from "@/redux/api/auth";
+import { useGetHotelIDQuery, useGetKitchenIDQuery } from "@/redux/api/place";
+import Rating from "./Rating/Rating";
 
 interface ReviewModalProps {
   onClose: () => void;
-  onSubmit: (rating: number, review: string) => void;
+  onSubmit: () => void;
+  uploadedFiles: File[];
+  isCurrent: number | null;
+  isTab: number;
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit }) => {
-  const [rating, setRating] = useState<number>(1);
-  const [review, setReview] = useState<string>('');
+const ReviewModal: React.FC<ReviewModalProps> = ({
+  onClose,
+  onSubmit,
+  uploadedFiles,
+  isCurrent,
+  isTab,
+}) => {
+  const { register, handleSubmit } = useForm<
+    REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest
+  >();
+  const [postRewiewHotel] = usePostRewiewHotelMutation();
+  const [postRewiewKitchen] = usePostRewiewKitchenMutation();
 
-  const handleSubmit = () => {
-    onSubmit(rating, review);
+  const { data: user } = useGetMeQuery();
+  const { data: hotels } = useGetHotelIDQuery(Number(isCurrent));
+  const { data: kitchen } = useGetKitchenIDQuery(Number(isCurrent));
+  const [rating, setRating] = useState(0); // Состояние рейтинга
+
+  const onSubmitForm: SubmitHandler<
+    REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest
+  > = async (data) => {
+    if (!user?.[0]?.id || !isCurrent) return;
+
+    // Создаем FormData
+    const formData = new FormData();
+
+    formData.append("comment", data.comment);
+    if (rating) formData.append("rating", rating.toString());
+
+    uploadedFiles.forEach((file, index) => {
+      formData.append("images", file);
+    });
+
+    try {
+      if (isTab === 1) {
+        formData.append("client_hotel", user[0].id!.toString());
+        formData.append("hotel", isCurrent.toString());
+        await postRewiewHotel(formData).unwrap();
+      } else if (isTab === 2) {
+        formData.append("client_kitchen", user[0].id!.toString());
+        formData.append("kitchen_region", isCurrent.toString());
+        await postRewiewKitchen(formData).unwrap();
+      }
+
+      onSubmit();
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+    }
   };
 
   return (
@@ -26,31 +80,24 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ onClose, onSubmit }) => {
           <h2 className={styles.title}>What do you think ?</h2>
           <p className={styles.subtitle}>Please give your rating</p>
         </div>
-
         <div className={styles.ratingContainer}>
-          {[1, 2, 3, 4, 5].map((value) => (
-            <button
-              key={value}
-              className={`${styles.ratingCircle} ${value <= rating ? styles.active : ''}`}
-              onClick={() => setRating(value)}
-              aria-label={`Rate ${value} stars`}
+          <Rating value={rating} onChange={setRating} />
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmitForm)}>
+          <div className={styles.reviewInputContainer}>
+            <Pencil className={styles.pencilIcon} size={20} />
+            <textarea
+              className={styles.reviewInput}
+              placeholder="Tell us about your experience"
+              {...register("comment")}
             />
-          ))}
-        </div>
+          </div>
 
-        <div className={styles.reviewInputContainer}>
-          <Pencil className={styles.pencilIcon} size={20} />
-          <textarea
-            className={styles.reviewInput}
-            placeholder="Tell us about your experience"
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-          />
-        </div>
-
-        <button className={styles.sendButton} onClick={handleSubmit}>
-          Send
-        </button>
+          <button type="submit" className={styles.sendButton}>
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );

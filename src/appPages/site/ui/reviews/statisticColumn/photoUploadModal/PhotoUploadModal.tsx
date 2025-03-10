@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { X, Image, Plus } from 'lucide-react';
+import { X, Plus } from 'lucide-react';
 import styles from './PhotoUploadModal.module.scss';
 
 interface PhotoUploadModalProps {
   onClose: () => void;
-  onSend: () => void;
+  onSend: (files: File[]) => void;
 }
 
 interface UploadBlock {
@@ -46,9 +46,9 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({ onClose, onSend }) 
   const handleSendClick = () => {
     const files = uploadBlocks
       .filter(block => block.file)
-      .map(block => block.file);
-    console.log('Sending files:', files);
-    onSend();
+      .map(block => block.file) as File[];
+    onSend(files);
+    onClose();
   };
 
   return (

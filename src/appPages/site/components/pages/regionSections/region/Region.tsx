@@ -1,50 +1,23 @@
-"use client";
-import scss from "./Region.module.scss";
+import PlaceInfo from "@/appPages/site/ui/placeInfo/PlaceInfo";
 
-import groupPng from "@/assets/images/regions/Group.png";
-import { useGetRegionListQuery } from "@/redux/api/regions";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+interface CommonData {
+  name: string;
+  image: string;
+  description: string;
+}
 
-const Region = () => {
-  const { data, isLoading, isError } = useGetRegionListQuery();
+interface RegionProps {
+  region: REGION_LIST.RegionResponse;
+}
 
-  const pathName = usePathname();
-  const routeName = pathName.split("/")[1];
+const Region: React.FC<RegionProps> = ({ region }) => {
+  const commonData: CommonData = {
+    name: region.region_name,
+    image: region.region_image,
+    description: region.region_description,
+  };
 
-  const region = data?.find(
-    (el) => el.region_category.toLocaleLowerCase() === routeName.toLowerCase()
-  );
-
-  if (!region) return null;
-  return (
-    <>
-      <section id={scss.Region}>
-        <div className="container">
-          <div className={scss.region}>
-            <div className={scss.img}>
-              
-              <Image 
-                src={region?.region_image} 
-                alt={region?.region_name}
-                width={590}
-                height={423}
-              />
-              <div className="">
-                <img src={groupPng.src} alt="temperature" />
-                <span>26°C</span>
-              </div>
-            </div>
-
-            <div className={scss.block}>
-              <h2>{region?.region_name}</h2>
-              <p>{region?.region_description.slice(0, 470)}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
+  return <PlaceInfo data={commonData} />;
 };
 
 export default Region;
