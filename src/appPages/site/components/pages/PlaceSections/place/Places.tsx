@@ -19,7 +19,7 @@ const Places = () => {
     description: data.description,
   };
 
-  return <PlaceInfo data={commonData} />;
+  return <PlaceInfo data={commonData} lat={data.latitude} lon={data.longitude} />;
 };
 
 export default Places;

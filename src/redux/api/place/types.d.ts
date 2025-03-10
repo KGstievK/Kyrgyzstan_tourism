@@ -6,6 +6,8 @@ namespace PLACE {
     popular_image: string;
     description: string;
     popular_reviews: any[];
+    latitude: string,
+    longitude: string
   };
 
   type PlaceRequest = number;
@@ -125,6 +127,8 @@ namespace PLACE {
     image: Image[] 
     description: string
     rating_count: number
+    rank: string,
+    type_attraction: string
   }
 
   type AttractionIDRequest = number | null

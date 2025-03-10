@@ -16,6 +16,7 @@ interface SearchBarProps {
   onSearch: () => void;
   autocompleteA: React.MutableRefObject<google.maps.places.Autocomplete | null>;
   autocompleteB: React.MutableRefObject<google.maps.places.Autocomplete | null>;
+  setModalWindowTime?: (boolean: boolean) => void;
 }
 
 const kyrgyzstanBounds = {
@@ -37,6 +38,7 @@ export default function SearchBar({
   onSearch,
   autocompleteA,
   autocompleteB,
+  setModalWindowTime,
 }: SearchBarProps) {
   const onLoadA = (autocomplete: google.maps.places.Autocomplete) => {
     autocompleteA.current = autocomplete;
@@ -121,7 +123,14 @@ export default function SearchBar({
             className={styles.input}
           />
         </Autocomplete>
-        <button onClick={onSearch} className={styles.btnGo}>
+        <button
+          onClick={() => {
+            onSearch();
+            setModalWindowTime && setModalWindowTime(true)
+            
+          }}
+          className={styles.btnGo}
+        >
           Go
         </button>
       </div>

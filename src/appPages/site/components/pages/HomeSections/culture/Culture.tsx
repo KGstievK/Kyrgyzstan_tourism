@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useGetCultureListQuery } from "@/redux/api/home";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 const Culture: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -50,10 +51,10 @@ const Culture: React.FC = () => {
               <h2>{currentSlide.culture_name}</h2>
               <p>{currentSlide.culture_description}</p>
 
-              <button className={styles.butt}>
+              <Link href={`/`} className={styles.butt}>
                 More{" "}
                 <ArrowRightIcon className={styles.icon} size={16} />
-              </button>
+              </Link>
             </div>
           </div>
           <div className={styles.arrowBlock}>

@@ -26,7 +26,8 @@ namespace REGION_LIST {
         What_to_try: WhatToTryItemResponse
         popular_places: PopularResponse
         region_category: string
-    
+        latitude: string,
+        longitude: string
     }
 
     type RegionRequest = void
