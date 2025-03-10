@@ -1,9 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: [ "13.61.175.49",], // Добавьте ваш хост
+    domains: ["13.49.68.103"],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
