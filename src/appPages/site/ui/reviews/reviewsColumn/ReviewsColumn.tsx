@@ -1,3 +1,4 @@
+"use client"
 import { Search, SlidersHorizontal } from "lucide-react";
 import styles from "../Reviews.module.scss";
 import { FC, useEffect, useState } from "react";
@@ -6,8 +7,8 @@ import { LikeOutlined, UserOutlined } from "@ant-design/icons";
 import { FilterModal } from "./filterModal/FilterModal";
 import { useGetReviewsQuery } from "@/redux/api/reviews";
 import { Avatar, Space } from "antd";
-import Image from "next/image";
 import { useGetMeQuery } from "@/redux/api/auth";
+import Image from "next/image";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -31,6 +32,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     rating: ratingFilter,
     month: monthFilter,
   });
+  
 
   console.log(dataReviews);
 
@@ -93,7 +95,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                             size={47}
                             icon={
                               userPreview ? (
-                                <img
+                                <Image
                                   src={userPreview}
                                   alt="avatar"
                                   style={{
@@ -103,9 +105,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                                     borderRadius: "50%",
                                   }}
                                 />
-                              ) : review.client.user_picture ? (
-                                <img
-                                  src={review.client.user_picture}
+                              ) : review.client?.user_picture ? (
+                                <Image
+                                  src={review.client?.user_picture}
                                   alt="avatar"
                                   width={100}
                                   height={100}
@@ -125,16 +127,16 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                   </Space>
                   <div>
                     <div className={styles.authorName}>
-                      {review.client.first_name} {review.client.last_name}
+                      {review.client?.first_name} {review.client?.last_name}
                     </div>
                     <div className={styles.authorPlace}>
-                      {review.client.from_user}
+                      {review.client?.from_user}
                     </div>
                   </div>
                 </div>
                 <div className={styles.likes}>
                   <LikeOutlined className={styles.likeIcon} />
-                  <span className={styles.likeCount}>12</span>
+                  <span className={styles.likeCount}>{review.count_like}</span>
                 </div>
               </div>
               <div className={`${styles.gap4}`}>

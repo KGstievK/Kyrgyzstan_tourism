@@ -10,18 +10,10 @@ interface User {
   birth_date: string;
 }
 
-interface ClientHotel {
+interface Client {
   id: number
   first_name: string
   last_name: string
   user_picture: string
-  from_user: string
-}
-
-interface ClientKitchen {
-  id: number
-  first_name: string
-  last_name: string
-  user_picture: any
   from_user: string
 }

@@ -4,12 +4,14 @@ import { X, Pencil } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./ReviewModal.module.scss";
 import {
+  usePostRewiewAttractionMutation,
   usePostRewiewHotelMutation,
   usePostRewiewKitchenMutation,
+  usePostRewiewPlacesMutation,
 } from "@/redux/api/reviews";
 import { useGetMeQuery } from "@/redux/api/auth";
-import { useGetHotelIDQuery, useGetKitchenIDQuery } from "@/redux/api/place";
 import Rating from "./Rating/Rating";
+
 
 interface ReviewModalProps {
   onClose: () => void;
@@ -27,40 +29,48 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   isTab,
 }) => {
   const { register, handleSubmit } = useForm<
-    REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest
+    REVIEWS.RewiewHotelRequest | REVIEWS.ReviewKitchenRequest | REVIEWS.ReviewAttractionRequest | REVIEWS.ReviewPlacesRequest
   >();
+  const [postRewiewPlaces] = usePostRewiewPlacesMutation()
   const [postRewiewHotel] = usePostRewiewHotelMutation();
   const [postRewiewKitchen] = usePostRewiewKitchenMutation();
-
+  const [postRewiewAttraction] = usePostRewiewAttractionMutation();
+  
   const { data: user } = useGetMeQuery();
-  const { data: hotels } = useGetHotelIDQuery(Number(isCurrent));
-  const { data: kitchen } = useGetKitchenIDQuery(Number(isCurrent));
   const [rating, setRating] = useState(0); // Состояние рейтинга
 
   const onSubmitForm: SubmitHandler<
-    REVIEWS.RewiewHotelRquest | REVIEWS.ReviewKitchenRequest
+    REVIEWS.RewiewHotelRequest | REVIEWS.ReviewKitchenRequest | REVIEWS.ReviewAttractionRequest | REVIEWS.ReviewPlacesRequest
   > = async (data) => {
     if (!user?.[0]?.id || !isCurrent) return;
 
     // Создаем FormData
     const formData = new FormData();
 
+    // Добавляем общие данные
+    formData.append("client", user[0].id!.toString());
     formData.append("comment", data.comment);
     if (rating) formData.append("rating", rating.toString());
 
+    // Добавляем изображения
     uploadedFiles.forEach((file, index) => {
       formData.append("images", file);
     });
 
     try {
-      if (isTab === 1) {
-        formData.append("client_hotel", user[0].id!.toString());
+      // Определяем тип сущности и добавляем соответствующий ключ
+      if (isTab === 0) {
+        formData.append("popular", isCurrent.toString())
+        await postRewiewPlaces(formData)
+      } else if (isTab === 1) {
         formData.append("hotel", isCurrent.toString());
         await postRewiewHotel(formData).unwrap();
       } else if (isTab === 2) {
-        formData.append("client_kitchen", user[0].id!.toString());
         formData.append("kitchen_region", isCurrent.toString());
         await postRewiewKitchen(formData).unwrap();
+      } else if (isTab === 4) {
+        formData.append("attractions", isCurrent.toString()); // Исправлено на "attractions"
+        await postRewiewAttraction(formData).unwrap();
       }
 
       onSubmit();
