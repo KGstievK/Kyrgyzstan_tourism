@@ -40,7 +40,7 @@ const api = index.injectEndpoints({
     postLogout: build.mutation<AUTH.PostLogoutResponse, AUTH.PostLogoutRequest>(
       {
         query: () => ({
-          url: "/auth/logout",
+          url: "/logout",
           method: "POST",
         }),
         invalidatesTags: ["auth"],

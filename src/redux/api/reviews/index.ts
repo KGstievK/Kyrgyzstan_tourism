@@ -11,7 +11,7 @@ const api = index.injectEndpoints({
         url: `/${entityType}_review_static`,
         method: "GET",
       }),
-      providesTags: (result, error, { entityType}) =>
+      providesTags: (result, error, { entityType }) =>
         result
           ? [
               ...result.map(({ id }) => ({
@@ -40,8 +40,6 @@ const api = index.injectEndpoints({
       },
     }),
 
-    
-
     getReviews: builder.query<
       REVIEWS.Review[],
       { entityType: string; rating?: string; month?: string }
@@ -66,13 +64,9 @@ const api = index.injectEndpoints({
           id: item.id,
           entityId:
             item.hotel || item.kitchen_region || item.attractions || "unknown",
-          client:
-            item.client_hotel ||
-            item.client_kitchen ||
-            item.client ||
-            item.client_home,
-          comment: item.comment || item.attraction_comment,
-          rating: item.rating,
+          client: item.client,
+          comment: item.comment || item.comment,
+          count_like: item.count_like,
           reviewImages:
             item.hotel_review_image ||
             item.kitchen_review_image ||
@@ -83,24 +77,89 @@ const api = index.injectEndpoints({
         }));
       },
     }),
+
+    // GET-запрос для отзывов отелей по ID
+    getHotelReviewById: builder.query<REVIEWS.RewiewHotelResponse, number>({
+      query: (id) => ({
+        url: `/hotels_review_list/${id}/`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Reviews", id }],
+    }),
+
+    // GET-запрос для отзывов достопримечательностей по ID
+    getAttractionReviewById: builder.query<
+      REVIEWS.ReviewAttractionResponse,
+      number
+    >({
+      query: (id) => ({
+        url: `/attraction_review_list/${id}/`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Reviews", id }],
+    }),
+
+    // GET-запрос для отзывов кухонь по ID
+    getKitchenReviewById: builder.query<REVIEWS.ReviewKitchenResponse, number>({
+      query: (id) => ({
+        url: `/kitchen_review_list/${id}/`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Reviews", id }],
+    }),
+
     postRewiewHotel: builder.mutation<REVIEWS.RewiewHotelResponse, FormData>({
       query: (formData) => ({
-        url: '/hotels_review_create/',
-        method: 'POST',
-        body: formData
+        url: "/hotels_review_create/",
+        method: "POST",
+        body: formData,
       }),
-      invalidatesTags: ["Reviews"]
+      invalidatesTags: ["Reviews"],
     }),
-    postRewiewKitchen: builder.mutation<REVIEWS.ReviewKitchenResponse, FormData>({
+    postRewiewKitchen: builder.mutation<
+      REVIEWS.ReviewKitchenResponse,
+      FormData
+    >({
       query: (formData) => ({
-        url: '/kitchen_review_create/',
-        method: 'POST',
-        body: formData
+        url: "/kitchen_review_create/",
+        method: "POST",
+        body: formData,
       }),
-      invalidatesTags: ["Reviews"]
+      invalidatesTags: ["Reviews"],
     }),
-    
-
+    postRewiewAttraction: builder.mutation<
+      REVIEWS.ReviewAttractionResponse,
+      FormData
+    >({
+      query: (formData) => ({
+        url: "/attraction_review_create/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Reviews"],
+    }),
+    postRewiewPlaces: builder.mutation<
+      REVIEWS.ReviewPlacesResponse,
+      FormData
+    >({
+      query: (formData) => ({
+        url: "/popular_places_review_create/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Reviews"],
+    }),
   }),
 });
-export const { useGetStaticReviewsQuery, useGetReviewsQuery, usePostRewiewHotelMutation, usePostRewiewKitchenMutation } = api;
+
+export const {
+  useGetStaticReviewsQuery,
+  useGetReviewsQuery,
+  useGetHotelReviewByIdQuery,
+  useGetAttractionReviewByIdQuery,
+  useGetKitchenReviewByIdQuery,
+  usePostRewiewHotelMutation,
+  usePostRewiewKitchenMutation,
+  usePostRewiewAttractionMutation,
+  usePostRewiewPlacesMutation
+} = api;

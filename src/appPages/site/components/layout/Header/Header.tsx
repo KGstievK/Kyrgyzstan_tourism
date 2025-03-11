@@ -133,7 +133,7 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Link href="/auth/sign-up">
+                    <Link href="/auth/sign-in">
                       <button>{t("Войти", "التسجيل", "Sign in")}</button>
                     </Link>
                   </>

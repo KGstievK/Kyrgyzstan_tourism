@@ -6,11 +6,10 @@ import PhotoUploadModal from "./photoUploadModal/PhotoUploadModal";
 import StatisticBlock from "./statisticBlock/StatisticBlock";
 import { useGetMeQuery } from "@/redux/api/auth";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 interface StatisticColumnProps {
   reviewStatic?: REVIEWS.StaticReview;
-  isCurrent: number | null; 
+  isCurrent: number | null;
   isTab: number;
 }
 
@@ -18,8 +17,8 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const {status} = useGetMeQuery()
-  const router = useRouter()
+  const { status } = useGetMeQuery();
+  const router = useRouter();
 
   const handlePhotoUpload = (files: File[]) => {
     setUploadedFiles(files);
@@ -38,7 +37,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
             onClick={() => setShowPhotoModal(true)}
             className={styles.buttonSecondary}
           >
-            Write Rewiew
+            Write Review
           </button>
           {showReviewModal && (
             <ReviewModal
@@ -70,7 +69,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
           className={`${styles.flex} ${styles.gap2} ${styles.mb8}`}
         >
           <button
-          onClick={() => router.push('/auth/sign-in')}
+            onClick={() => router.push('/auth/sign-in')}
             className={styles.buttonPrimary}
           >
             Sign In
