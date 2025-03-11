@@ -5,7 +5,6 @@ import Hotel_list from "./hotel_list/Hotel_list";
 import Hotel_info from "./hotel_info/Hotel_info";
 import Reviews from "@/appPages/site/ui/reviews/Reviews";
 import { useGetStaticReviewsQuery } from "@/redux/api/reviews";
-import Hotel_map from "./hotel_map/Hotel_map";
 
 interface TabHotelProps {
   isTab: number;
@@ -19,7 +18,6 @@ const Tab_hotel: React.FC<TabHotelProps> = ({ isTab }) => {
   return (
     <>
       <div className={scss.hotel}>
-        <Hotel_map />
         <Hotel_list isCurrent={isCurrent} setIsCurrent={setIsCurrent} />
         <Hotel_info isCurrent={isCurrent} />
       </div>

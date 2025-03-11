@@ -6,6 +6,7 @@ import scss from "./AttractionList.module.scss";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import imgNone from "@/assets/images/universalImage/none.png";
 import { useGetAttractionsQuery } from "@/redux/api/home";
+import { ImageOff, MapPin, Loader } from "lucide-react";
 
 interface AttractionsProps {
   isCurrent: number | null;
@@ -17,10 +18,15 @@ const ITEMS_PER_PAGE = 4;
 const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
   const { t } = useTranslate();
   const [isLimit, setIsLimit] = useState<number>(1);
-  const [errorImg, setErrorImg] = useState(false);
-  const { data: attractions = [] } = useGetAttractionsQuery();
+  const [imgErrors, setImgErrors] = useState<{[key: number]: boolean}>({});
+  const { data: attractions = [], isLoading, error } = useGetAttractionsQuery();
   const pathName = usePathname();
   const routeID: number = Number(pathName.split("/")[2]);
+
+  // Handle image error for specific attraction
+  const handleImageError = (id: number) => {
+    setImgErrors(prev => ({...prev, [id]: true}));
+  };
 
   // Фильтруем достопримечательности по текущему месту
   const attractionsInPlace = attractions.filter((el) => el.popular_places === routeID);
@@ -33,11 +39,6 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
     }
   }, [attractionsInPlace, isCurrent, setIsCurrent]);
 
-  // Если нет достопримечательностей
-  if (attractionsInPlace.length === 0) {
-    return <h1>{t("Нет достопримечательностей", "لا توجد معالم", "No attractions")}</h1>;
-  }
-
   // Пагинация
   const paginateArray = <T,>(arr: T[], pageSize: number): T[][] => {
     return arr.reduce(
@@ -47,6 +48,69 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
     );
   };
 
+  // Loading scenario
+  if (isLoading) {
+    return (
+      <div className={scss.attractions}>
+        <div className={scss.attractions_title}>
+          <h4>
+            {t(
+              "Лучшие достопримечательности поблизости",
+              "أفضل المعالم القريبة",
+              "The best attractions nearby"
+            )}
+          </h4>
+        </div>
+        <div className={scss.noAttractionsContainer}>
+          <Loader size={48} className={scss.loadingSpinner} />
+          <p>{t("Загрузка...", "جار التحميل...", "Loading...")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error scenario
+  if (error) {
+    return (
+      <div className={scss.attractions}>
+        <div className={scss.attractions_title}>
+          <h4>
+            {t(
+              "Лучшие достопримечательности поблизости",
+              "أفضل المعالم القريبة",
+              "The best attractions nearby"
+            )}
+          </h4>
+        </div>
+        <div className={scss.noAttractionsContainer}>
+          <ImageOff size={48} />
+          <p>{t("Ошибка загрузки данных", "خطأ في تحميل البيانات", "Error loading data")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Если нет достопримечательностей
+  if (attractionsInPlace.length === 0) {
+    return (
+      <div className={scss.attractions}>
+        <div className={scss.attractions_title}>
+          <h4>
+            {t(
+              "Лучшие достопримечательности поблизости",
+              "أفضل المعالم القريبة",
+              "The best attractions nearby"
+            )}
+          </h4>
+        </div>
+        <div className={scss.noAttractionsContainer}>
+          <MapPin size={48} />
+          <p>{t("Нет достопримечательностей", "لا توجد معالم", "No attractions")}</p>
+        </div>
+      </div>
+    );
+  }
+
   // Рендерим элементы списка
   const renderAttractionItem = attractionsInPlace.map((el, i) => (
     <div
@@ -54,18 +118,27 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
       key={i}
       className={`${scss.item} ${isCurrent === el.id ? scss.active : ""}`} // Добавляем активный класс
     >
-      <Image
-        src={errorImg || !el.main_image ? imgNone : el.main_image}
-        alt={el.attraction_name}
-        width={486}
-        height={543}
-        unoptimized
-        style={{
-          objectFit: "cover",
-          backgroundColor: "#f0f0f0",
-        }}
-        onError={() => setErrorImg(true)}
-      />
+      <div className={scss.imageContainer}>
+        {imgErrors[el.id] || !el.main_image ? (
+          <div className={scss.imgNotFound}>
+            <ImageOff size={32} />
+            <p>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</p>
+          </div>
+        ) : (
+          <Image
+            src={el.main_image}
+            alt={el.attraction_name}
+            width={281}
+            height={152}
+            unoptimized
+            style={{
+              objectFit: "cover",
+              backgroundColor: "#f0f0f0",
+            }}
+            onError={() => handleImageError(el.id)}
+          />
+        )}
+      </div>
       <div className={scss.info}>
         <h6 className={scss.title}>{el.attraction_name}</h6>
         <div className={scss.stars_review}>

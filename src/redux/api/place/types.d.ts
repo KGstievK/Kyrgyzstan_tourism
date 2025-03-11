@@ -110,7 +110,12 @@ namespace PLACE {
     cars: number;
     bikes: number;
     pets: number;
-    amenities: string[];
+    amenities: Array<{
+      id: string
+      amenity: string
+      title: string
+      icon: string
+    }>
     safety_and_hygiene: string[];
     price_short_period: number;
     price_medium_period: number;
@@ -150,11 +155,13 @@ namespace PLACE {
     time: string
     address: string
     price: number
+    ticket: string
   }[]
 
   type EventListRequest = {
     category: string,
     search: string,
-    date: string
+    date: string,
+    ticket: string
   }
 }

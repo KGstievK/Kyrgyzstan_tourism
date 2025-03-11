@@ -7,7 +7,8 @@ import imgRight from "@/assets/images/placeImages/Arrow_alt_lright.png";
 import scss from "./Hotel_list.module.scss";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import imgNone from "@/assets/images/universalImage/none.png";
+import Hotel_map from "../hotel_map/Hotel_map";
+import { ImageOff, Coffee, Hotel, Loader } from "lucide-react";
 
 interface HotelListProps {
   setIsCurrent: (id: number) => void;
@@ -27,9 +28,9 @@ const ITEMS_PER_PAGE = 6;
 const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
   const { t } = useTranslate();
   const [isLimit, setIsLimit] = useState<number>(1);
-  const { data: hotels = [], isLoading } = useGetHotelsQuery();
+  const [imageError, setImageError] = useState<Record<string, boolean>>({});
+  const { data: hotels = [], isLoading, error } = useGetHotelsQuery();
   const placeID = usePathname().split("/")[2];
-  const [errorImg, setErrorImg] = useState(false);
 
   const hotelsInPlace = hotels.filter(
     (el) => el.popular_places === Number(placeID)
@@ -40,27 +41,75 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
       setIsCurrent(hotelsInPlace[0].id);
     }
   }, [hotelsInPlace, isCurrent, setIsCurrent]);
+
+  const handleImageError = (id: string) => {
+    setImageError(prev => ({
+      ...prev,
+      [id]: true
+    }));
+  };
+
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className={scss.hotelListContainer}>
+        <div className={scss.head}>
+          <h4>{t("Отели", "فنادق", "Hotels")}</h4>
+        </div>
+        <div className={scss.noHotelsContainer}>
+          <div className={scss.loadingSpinner}>
+            <Loader size={40} className={scss.spinnerIcon} />
+          </div>
+          <p>{t("Загрузка отелей...", "جار تحميل الفنادق...", "Loading hotels...")}</p>
+        </div>
+      </div>
+    );
   }
-  if (isCurrent === null) {
-    return <h1>{t("Нет отелей", "لا توجد فنادق", "No hotels")}</h1>;
+
+  // Обработка ошибок
+  if (error) {
+    return (
+      <div className={scss.hotelListContainer}>
+        <div className={scss.head}>
+          <h4>{t("Отели", "فنادق", "Hotels")}</h4>
+        </div>
+        <div className={scss.noHotelsContainer}>
+          <ImageOff size={48} />
+          <p>{t("Ошибка при загрузке отелей", "خطأ في تحميل الفنادق", "Error loading hotels")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Проверка на отсутствие отелей
+  if (hotelsInPlace.length === 0) {
+    return (
+      <div className={scss.hotelListContainer}>
+        <div className={scss.head}>
+          <h4>{t("Отели", "فنادق", "Hotels")}</h4>
+        </div>
+        <div className={scss.noHotelsContainer}>
+          <Hotel size={48} />
+          <p>{t("В этом месте пока нет отелей", "لا توجد فنادق في هذا المكان حتى الآن", "No hotels in this place yet")}</p>
+        </div>
+      </div>
+    );
   }
 
   const renderHotelItem = (hotel: Hotel) => (
-    <div key={hotel.id} className={scss.item}>
-      <Image
-        src={errorImg || !hotel.main_image ? imgNone : hotel.main_image}
-        alt={hotel.name}
-        width={341}
-        height={270}
-        unoptimized
-        style={{
-          objectFit: "cover",
-          backgroundColor: "#f0f0f0",
-        }}
-        onError={() => setErrorImg(true)}
-      />{" "}
+    <div onClick={() => setIsCurrent(hotel.id)} key={hotel.id} className={scss.item}>
+      {imageError[`hotel-${hotel.id}`] ? (
+        <div className={scss.imageFallback}>
+          <span>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</span>
+        </div>
+      ) : (
+        <Image 
+          src={hotel.main_image} 
+          alt={hotel.name} 
+          width={341} 
+          height={270} 
+          onError={() => handleImageError(`hotel-${hotel.id}`)}
+        />
+      )}
       <div className={scss.block}>
         <h6>{hotel.name}</h6>
         <div>
@@ -70,9 +119,27 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
           </span>
         </div>
       </div>
-      <img className={scss.heart} src={imgHeart.src} alt="favorite" />
+      {imageError[`heart-${hotel.id}`] ? (
+        <div className={scss.heartFallback}>♡</div>
+      ) : (
+        <img 
+          className={scss.heart} 
+          src={imgHeart.src} 
+          alt="favorite" 
+          onError={() => handleImageError(`heart-${hotel.id}`)}
+        />
+      )}
       <button onClick={() => setIsCurrent(hotel.id)}>
-        <img className={scss.right} src={imgRight.src} alt="select" />
+        {imageError[`right-${hotel.id}`] ? (
+          <div className={scss.rightFallback}>→</div>
+        ) : (
+          <img 
+            className={scss.right} 
+            src={imgRight.src} 
+            alt="select" 
+            onError={() => handleImageError(`right-${hotel.id}`)}
+          />
+        )}
       </button>
     </div>
   );
@@ -88,7 +155,9 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
   const isAllItemsShown = isLimit >= hotelGroups.length;
 
   return (
-    <>
+    <div className={scss.hotelContainer}>
+      <Hotel_map />
+
       <div className={scss.head}>
         <h4>
           {t(
@@ -103,12 +172,14 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
           </button>
         )}
       </div>
-      {hotelGroups.slice(0, isLimit).map((group, groupIndex) => (
-        <div key={groupIndex} className={scss.list}>
-          {group.map(renderHotelItem)}
-        </div>
-      ))}
-    </>
+      {hotelGroups.length > 0 && (
+        hotelGroups.slice(0, isLimit).map((group, groupIndex) => (
+          <div key={groupIndex} className={scss.list}>
+            {group.map(renderHotelItem)}
+          </div>
+        ))
+      ) }
+    </div>
   );
 };
 

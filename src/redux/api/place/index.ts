@@ -52,13 +52,13 @@ const api = index.injectEndpoints({
       providesTags: ["attractionID"],
     }),
     getEventList: builder.query<PLACE.EventListResponse, PLACE.EventListRequest>({
-      query: ({ category, date, search }) => {
+      query: ({ category, date, search, ticket }) => {
         const params = new URLSearchParams();
     
         if (category) params.append("category", category);
         if (date) params.append("date", date);
         if (search) params.append("search", search);
-    
+        if (ticket) params.append("ticket", ticket)
         const queryString = params.toString();
         return {
           url: queryString ? `/event?${queryString}` : "/event",

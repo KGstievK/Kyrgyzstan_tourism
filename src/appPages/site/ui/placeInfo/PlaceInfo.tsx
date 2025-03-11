@@ -17,7 +17,6 @@ interface RegionProps {
 const PlaceInfo: React.FC<RegionProps> = ({ data, lat = 42.8746, lon=  74.5698 }) => {
   if (!data) return null;
     const {data: weatherData} = useGetWeatherQuery({lat: lat, lon: lon});
-    console.log(weatherData);
     
   return (
     <section id={scss.Places}>

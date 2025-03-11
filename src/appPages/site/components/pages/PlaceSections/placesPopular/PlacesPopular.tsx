@@ -46,7 +46,14 @@ const PlacesPopular = () => {
   }, [findRegion]);
 
   const totalTabs = Object.keys(tabsData).length;
-
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const target = e.target as HTMLImageElement;
+    target.src =
+      "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
+    target.alt = "Image not available";
+  };
   return (
     <>
       <section id={scss.Places}>
@@ -55,7 +62,7 @@ const PlacesPopular = () => {
           <div className={scss.list}>
             {tabsData[activeTab]?.map((item, i) => (
               <div key={i} className={scss.item}>
-                <img src={item.popular_image} alt="" />
+                <img src={item.popular_image} onError={handleImageError} alt="" />
                 <div className={scss.block}>
                   <h6>{item.popular_name}</h6>
                   <div>

@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
 import Stars from "@/appPages/site/ui/stars/Stars";
+import React from "react";
+
 const Places = () => {
   const { t } = useTranslate();
   const { data, isLoading, isError } = useGetRegionListQuery();
@@ -14,6 +16,12 @@ const Places = () => {
   const routeName = pathName.split("/")[1];  
   const popularPlacesInRegion = data?.find((place) => place.region_category.trim().toLocaleLowerCase() === routeName.trim().toLocaleLowerCase());
 
+  // Функция для обработки ошибок загрузки изображений
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
+    target.alt = "Image not available";
+  };
 
   return (
     <>
@@ -23,7 +31,11 @@ const Places = () => {
           <div className={scss.list}>
             {popularPlacesInRegion?.popular_places?.map((place, i) => (
               <div key={i} className={scss.item}>
-                <img src={place.popular_image} alt="popular place" />
+                <img 
+                  src={place.popular_image} 
+                  alt="popular place" 
+                  onError={handleImageError}
+                />
                 <div className={scss.block}>
                   <h6>{place.popular_name}</h6>
                   <div>
@@ -36,11 +48,21 @@ const Places = () => {
                     </span>
                   </div>
                 </div>
-                <img className={scss.heart} src={imgHeart.src} alt="like" />
+                <img 
+                  className={scss.heart} 
+                  src={imgHeart.src} 
+                  alt="like" 
+                  onError={handleImageError}
+                />
                 <Link
                   href={`/${routeName}/${place.id}`}
                 >
-                  <img className={scss.right} src={imgRight.src} alt="" />
+                  <img 
+                    className={scss.right} 
+                    src={imgRight.src} 
+                    alt="go to details" 
+                    onError={handleImageError}
+                  />
                 </Link>
               </div>
             ))}

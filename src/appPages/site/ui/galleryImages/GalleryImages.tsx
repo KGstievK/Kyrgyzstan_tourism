@@ -15,8 +15,16 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
   const largeImages = images.slice(0, 2);
   const smallImages = images.slice(2);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
-  images.forEach((el,i) => console.log(i))
   
+  // Проверка наличия изображений
+  const hasImages = images && images.length > 0;
+  
+  // Функция для обработки ошибок загрузки изображений
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
+    target.alt = "Image not available";
+  };
     
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (selectedImage === null) return;
@@ -36,7 +44,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
         }
         break;
     }
-  }, [selectedImage]);
+  }, [selectedImage, images.length]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -63,50 +71,67 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
 
   return (
     <div className={styles.imageGrid}>
-      {/* Крупные изображения */}
-      {selectedImage !== null && (
-        <ImageModal
-          images={images || []}
-          selectedImage={selectedImage}
-          onClose={() => setSelectedImage(null)}
-          onPrevious={handlePrevious}
-          onNext={handleNext}
-          onSelectImage={setSelectedImage}
-        />
-      )}
-      {largeImages.map((img,i) => (
-        <div key={img.id} className={`${styles.imageWrapper} ${styles.large}`}>
-          <img
-            src={img.image}
-            alt={`Kitchen ${img.id}`}
-            className={styles.image}
-            loading="lazy"
-            onClick={() => setSelectedImage(images.findIndex(el => el.id === img.id))}
-          />
+      {!hasImages ? (
+        <div className={styles.noImagesContainer || ""}>
+          <div className={styles.noImagesContent || ""}>
+            <MdPhotoCamera size={50} color="#888" />
+            <h3>Изображения отсутствуют</h3>
+            <p>В данном разделе пока нет загруженных изображений</p>
+          </div>
         </div>
-      ))}
-        <button onClick={() => setSelectedImage(0)} className={styles.showImages}><MdPhotoCamera color='#fff' /> Show all ({images.length})</button>
-      {/* Группы по 4 маленьких изображения */}
-      {smallImageGroups.map((group, groupIndex) => (
-        <div key={groupIndex} className={styles.smallGroup}>
-          {group.map((img,i) => (
-            <div key={img.id} className={styles.smallImageWrapper}>
+      ) : (
+        <>
+          {/* Крупные изображения */}
+          {selectedImage !== null && (
+            <ImageModal
+              images={images || []}
+              selectedImage={selectedImage}
+              onClose={() => setSelectedImage(null)}
+              onPrevious={handlePrevious}
+              onNext={handleNext}
+              onSelectImage={setSelectedImage}
+            />
+          )}
+          {largeImages.map((img,i) => (
+            <div key={img.id} className={`${styles.imageWrapper} ${styles.large}`}>
               <img
                 src={img.image}
-                alt={`Kitchen ${img.id}`}
+                alt={`Image ${img.id}`}
                 className={styles.image}
                 loading="lazy"
-                onClick={() => {
-                  setSelectedImage(images.findIndex(el => el.id === img.id))
-                  console.log("item " + (groupIndex++ + i));
-                  console.log("item mini " + (i));
-
-                }}
+                onClick={() => setSelectedImage(images.findIndex(el => el.id === img.id))}
+                onError={handleImageError}
               />
             </div>
           ))}
-        </div>
-      ))}
+          {images.length > 0 && (
+            <button onClick={() => setSelectedImage(0)} className={styles.showImages}>
+              <MdPhotoCamera color='#fff' /> Show all ({images.length})
+            </button>
+          )}
+          {/* Группы по 4 маленьких изображения */}
+          {smallImageGroups.map((group, groupIndex) => (
+            <div key={groupIndex} className={styles.smallGroup}>
+              {group.map((img,i) => (
+                <div key={img.id} className={styles.smallImageWrapper}>
+                  <img
+                    src={img.image}
+                    alt={`Image ${img.id}`}
+                    className={styles.image}
+                    loading="lazy"
+                    onClick={() => {
+                      setSelectedImage(images.findIndex(el => el.id === img.id))
+                      console.log("item " + (groupIndex + i + 1));
+                      console.log("item mini " + i);
+                    }}
+                    onError={handleImageError}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 };
