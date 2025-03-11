@@ -14,6 +14,8 @@ namespace REVIEWS {
     image: string;
   }
 
+  //! Rewiews
+
   type RewiewHotelResponse = {
     id: number;
     client: Client;
@@ -119,15 +121,63 @@ namespace REVIEWS {
     rating: number;
     created_date: string;
   };
+
+
+  //! Reply
+
+  type ReplyAttractionResponse = {
+    review: number
+    comment: string
+    user: number
+  }
+  type ReplyAttractionRequest = {
+    review: number
+    comment: string
+    user: number
+  }
+  type ReplyHotelResponse = {
+    review: number
+    comment: string
+    user: number
+  }
+  type ReplyHotelRequest = {
+    review: number
+    comment: string
+    user: number
+  }
+  type ReplyKitchenResponse = {
+    review: number
+    comment: string
+    user: number
+  }
+  type ReplyKitchenRequest = {
+    review: number
+    comment: string
+    user: number
+  }
+  type ReplyPlaceResponse = {
+    review: number
+    comment: string
+    user: number
+  }
+  type ReplyPlaceRequest = {
+    review: number
+    comment: string
+    user: number
+  }
+
+
+
   export interface Review {
     [x: string]: number;
     id: number;
     entityId: number | string; // ID сущности (hotel, kitchen_region, attractions)
     client: Client;
     comment: string;
-    count_like: number;
+    rating: number
     reviewImages: ReviewImage[];
     createdAt: string; // Унифицируем дату
+    replyReviews: ReplyHotelReview[]
   }
 
   export interface StaticReview {
@@ -141,4 +191,10 @@ namespace REVIEWS {
     bad: number;
     terribly: number;
   }
+
+  export interface ReplyHotelReview {
+  id: number
+  user: Client
+  comment: string
+}
 }
