@@ -24,9 +24,16 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
 
   const [pointA, setPointA] = useState("");
   const [pointB, setPointB] = useState("");
-  const [pointACoords, setPointACoords] = useState<{ lat: number; lng: number } | null>(null);
-  const [pointBCoords, setPointBCoords] = useState<{ lat: number; lng: number } | null>(null);
-  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
+  const [pointACoords, setPointACoords] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [pointBCoords, setPointBCoords] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [directions, setDirections] =
+    useState<google.maps.DirectionsResult | null>(null);
   const [isSearched, setIsSearched] = useState(false);
 
   useEffect(() => {
@@ -36,21 +43,33 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   const autocompleteA = useRef<google.maps.places.Autocomplete | null>(null);
   const autocompleteB = useRef<google.maps.places.Autocomplete | null>(null);
 
-  const { data: walkData, error: walkError, refetch: refetchWalk } = useGetDirectionsQuery(
+  const {
+    data: walkData,
+    error: walkError,
+    refetch: refetchWalk,
+  } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "WALKING" }
       : ({} as any),
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
-  const { data: carData, error: carError, refetch: refetchCar } = useGetDirectionsQuery(
+  const {
+    data: carData,
+    error: carError,
+    refetch: refetchCar,
+  } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "DRIVING" }
       : ({} as any),
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
-  const { data: trainData, error: trainError, refetch: refetchTrain } = useGetDirectionsQuery(
+  const {
+    data: trainData,
+    error: trainError,
+    refetch: refetchTrain,
+  } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "TRAIN" }
       : ({} as any),
@@ -99,15 +118,17 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
         autocompleteA={autocompleteA}
         autocompleteB={autocompleteB}
       />
-      <RouteInfo
-        walkData={walkData}
-        walkError={walkError}
-        carData={carData}
-        carError={carError}
-        trainData={trainData}
-        trainError={trainError}
-        isSearched={isSearched}
-      />
+      <div className={scss.block}>
+        <RouteInfo
+          walkData={walkData}
+          walkError={walkError}
+          carData={carData}
+          carError={carError}
+          trainData={trainData}
+          trainError={trainError}
+          isSearched={isSearched}
+        />
+      </div>
       <div className={scss.map}>
         <Map directions={directions} />
       </div>

@@ -10,11 +10,13 @@ interface CommonData {
   }
 interface RegionProps {
   data: CommonData;
+  lat: string,
+  lon: string
 }
 
-const PlaceInfo: React.FC<RegionProps> = ({ data }) => {
+const PlaceInfo: React.FC<RegionProps> = ({ data, lat = 42.8746, lon=  74.5698 }) => {
   if (!data) return null;
-    const {data: weatherData} = useGetWeatherQuery({lat: 42.8746, lon: 74.5698});
+    const {data: weatherData} = useGetWeatherQuery({lat: lat, lon: lon});
     console.log(weatherData);
     
   return (

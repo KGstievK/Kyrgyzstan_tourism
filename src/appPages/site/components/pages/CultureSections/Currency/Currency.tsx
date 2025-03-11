@@ -68,8 +68,13 @@ const Currency = () => {
             )}
           </div>
           <div className={styles.descrs}>
+            <h1 className={styles.h1}>National currency of Kyrgyzstan</h1>{" "}
             {descriptions.length > 0 ? (
-              descriptions.map((des, idx) => <p key={idx}>{des.description}</p>)
+              descriptions.map((des, idx) => (
+                <p className={styles.description} key={idx}>
+                  {des.description}
+                </p>
+              ))
             ) : (
               <p>No currency description available</p>
             )}

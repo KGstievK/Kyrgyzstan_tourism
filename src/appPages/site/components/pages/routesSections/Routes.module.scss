@@ -6,7 +6,7 @@
     background-position: center;
     width: 100%;
     min-height: 100vh;
-
+    padding-top: clamp(50px, 5vw, 150px);
     @media (max-width: 428px) {
       min-height: 900px;
     }
@@ -26,12 +26,11 @@
       justify-content: center;
       flex-direction: column;
       gap: 60px;
-      position: absolute;
-      top: 150px;
       width: 100%;
       height: 394px;
       background: #ffffff99;
       backdrop-filter: blur(15px);
+
       @media (max-width: 980px) {
         width: 100%;
         gap: 40px;
@@ -47,7 +46,7 @@
       }
       @media (max-width: 560px) {
         height: 230px;
-        gap: 30px;
+        gap: 0;
       }
       @media (max-width: 530px) {
         height: 220px;
@@ -55,170 +54,15 @@
       @media (max-width: 428px) {
         width: 100%;
         height: 168px;
-        gap: 30px;
       }
-      .inputs {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        @media (max-width: 428px) {
-          gap: 4px;
-        }
-        input {
-          width: 304px;
-          height: 64px;
-          outline: none;
-          border-width: 1px;
-          border-radius: 8px;
-          padding: 0 25px;
-          font-family: Montserrat;
-          font-weight: 500;
-          font-size: 24px;
-          line-height: 24.38px;
-          color: #242424;
-          @media (max-width: 835px) {
-            width: 290px;
-          }
-          @media (max-width: 820px) {
-            height: 55px;
-          }
-          @media (max-width: 768px) {
-            width: 250px;
-          }
-          @media (max-width: 680px) {
-            width: 240px;
-            height: 50px;
-          }
-          @media (max-width: 600px) {
-            width: 205px;
-            height: 45px;
-          }
-          @media (max-width: 560px) {
-            width: 215px;
-          }
-          @media (max-width: 550px) {
-            width: 190px;
-            height: 40px;
-            font-size: 18px;
-          }
-          @media (max-width: 530px) {
-            width: 180px;
-            height: 40px;
-            font-size: 20px;
-          }
-          @media (max-width: 500px) {
-            width: 160px;
-            font-size: 18px;
-          }
-          @media (max-width: 480px) {
-            width: 150px;
-            height: 37px;
-          }
-          @media (max-width: 428px) {
-            width: 139px;
-            height: 34px;
-            border-radius: 3.79px;
-            border-width: 0.47px;
-            font-size: 16px;
-            padding: 0 10px;
-          }
-          @media (max-width: 414px) {
-            width: 130px;
-          }
-          @media (max-width: 391px) {
-            width: 124px;
-          }
-          @media (max-width: 320px) {
-            width: 104px;
-          }
-          &::placeholder {
-            font-family: Montserrat;
-            font-weight: 500;
-            font-size: 24px;
-            line-height: 24.38px;
-            color: #5a5a5a;
-            @media (max-width: 600px) {
-              font-size: 20px;
-            }
-            @media (max-width: 550px) {
-              font-size: 18px;
-            }
-            @media (max-width: 480px) {
-              font-size: 16px;
-            }
-            @media (max-width: 428px) {
-              font-size: 13px;
-            }
-          }
-        }
-        .btnGo {
-          cursor: pointer;
-          width: 101px;
-          height: 64px;
-          border-radius: 8px;
-          background: #3c5f63;
-          font-family: Montserrat;
-          font-weight: 500;
-          font-size: 20px;
-          line-height: 24.38px;
-          text-align: center;
-          color: #e5e4e9;
-          border: none;
-          @media (max-width: 835px) {
-            width: 95px;
-          }
-          @media (max-width: 820px) {
-            height: 55px;
-          }
-          @media (max-width: 768px) {
-            width: 80px;
-          }
-          @media (max-width: 680px) {
-            width: 80px;
-            height: 50px;
-          }
-          @media (max-width: 600px) {
-            width: 70px;
-            height: 45px;
-          }
-          @media (max-width: 560px) {
-            width: 60px;
-          }
-          @media (max-width: 550px) {
-            width: 47px;
-            height: 40px;
-            font-size: 15px;
-          }
-          @media (max-width: 530px) {
-            width: 50px;
-            height: 40px;
-          }
-          @media (max-width: 500px) {
-            font-size: 14px;
-          }
-          @media (max-width: 480px) {
-            width: 40px;
-            height: 37px;
-          }
-          @media (max-width: 428px) {
-            width: 48px;
-            height: 34px;
-            border-radius: 3.79px;
-            font-size: 9.47px;
-            line-height: 11.54px;
-          }
-          @media (max-width: 391px) {
-            width: 40px;
-          }
-        }
-      }
+
       .blockCitys {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
         gap: 20px;
+
         @media (max-width: 768px) {
           gap: 15px;
         }
@@ -228,10 +72,12 @@
         @media (max-width: 560px) {
           gap: 5px;
         }
+
         .cityImgs {
           display: flex;
           align-items: center;
           gap: 20px;
+
           @media (max-width: 1280px) {
             gap: 15px;
           }
@@ -247,9 +93,11 @@
           @media (max-width: 361px) {
             gap: 3px;
           }
+
           .imgTalas {
             width: 117.23578643798828px;
             height: 43.82968521118164px;
+
             @media (max-width: 1280px) {
               width: 116px;
               height: auto;
@@ -260,7 +108,6 @@
             @media (max-width: 1050px) {
               width: 90px;
             }
-
             @media (max-width: 870px) {
               width: 90px;
             }
@@ -301,9 +148,11 @@
               height: 13px;
             }
           }
+
           .imgChui {
             width: 174.8114471435547px;
             height: 79.8900146484375px;
+
             @media (max-width: 1280px) {
               width: 166px;
               height: auto;
@@ -320,7 +169,6 @@
               width: 130px;
               height: auto;
             }
-
             @media (max-width: 870px) {
               width: 130px;
               height: auto;
@@ -363,9 +211,11 @@
               height: 24px;
             }
           }
+
           .imgKyl {
             width: 194.8383026123047px;
             height: 100.75045013427734px;
+
             @media (max-width: 1280px) {
               width: 166px;
               height: auto;
@@ -382,7 +232,6 @@
               width: 130px;
               height: auto;
             }
-
             @media (max-width: 870px) {
               width: 110px;
               height: auto;
@@ -425,9 +274,11 @@
               height: 30px;
             }
           }
+
           .imgJalalAbad {
             width: 191.06060791015625px;
             height: 79.16565704345703px;
+
             @media (max-width: 1280px) {
               width: 186px;
               height: auto;
@@ -444,7 +295,6 @@
               width: 130px;
               height: auto;
             }
-
             @media (max-width: 870px) {
               width: 120px;
               height: auto;
@@ -486,9 +336,11 @@
               height: 24px;
             }
           }
+
           .imgNaryn {
             width: 188.97621154785156px;
             height: 120.86315155029297px;
+
             @media (max-width: 1280px) {
               width: 176px;
               height: auto;
@@ -547,9 +399,11 @@
               height: 35px;
             }
           }
+
           .imgOsh {
             width: 142.16712951660156px;
             height: 107.91228485107422px;
+
             @media (max-width: 1280px) {
               width: 136px;
               height: auto;
@@ -566,7 +420,6 @@
               width: 100px;
               height: auto;
             }
-
             @media (max-width: 870px) {
               width: 90px;
               height: auto;
@@ -608,9 +461,11 @@
               height: 32px;
             }
           }
+
           .imgBatken {
             width: 137.53115844726562px;
             height: 52.40520095825195px;
+
             @media (max-width: 1280px) {
               width: 136px;
               height: 50px;
@@ -665,10 +520,12 @@
             }
           }
         }
+
         .cityTitle {
           display: flex;
           align-items: center;
           gap: 120px;
+
           @media (max-width: 1280px) {
             gap: 100px;
           }
@@ -717,12 +574,14 @@
           @media (max-width: 320px) {
             gap: 15px;
           }
+
           h5 {
             font-family: Montserrat;
             font-weight: 700;
             font-size: 24px;
             color: #3c5f63;
             line-height: 29.26px;
+
             @media (max-width: 1050px) {
               font-size: 20px;
             }
@@ -753,1051 +612,12 @@
           }
         }
       }
-      .blockTime {
-        width: 1011px;
-        height: 130px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        @media (max-width: 1040px) {
-          width: 90%;
-        }
-
-        @media (max-width: 884px) {
-          width: 84%;
-        }
-        @media (max-width: 550px) {
-          height: 100px;
-        }
-        @media (max-width: 500px) {
-          width: 80%;
-        }
-
-        @media (max-width: 428px) {
-          width: 358px;
-          height: 47px;
-        }
-
-        @media (max-width: 361px) {
-          width: 320px;
-        }
-
-        @media (max-width: 350px) {
-          width: 290px;
-        }
-
-        .Time {
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-
-          @media (max-width: 560px) {
-            gap: 5px;
-          }
-
-          .icon {
-            width: 56px;
-            height: 63px;
-            color: #3c5f63;
-            @media (max-width: 600px) {
-              width: 50px;
-              height: 60px;
-            }
-            @media (max-width: 550px) {
-              width: 45px;
-              height: 55px;
-            }
-            @media (max-width: 500px) {
-              width: 35px;
-              height: 40px;
-            }
-
-            @media (max-width: 428px) {
-              width: 25px;
-              height: 25px;
-            }
-          }
-
-          p {
-            font-family: Inter;
-            font-weight: 500;
-            font-size: 24px;
-            line-height: 33.6px;
-            color: #242424;
-
-            @media (max-width: 884px) {
-              font-size: 20px;
-            }
-
-            @media (max-width: 600px) {
-              font-size: 18px;
-            }
-
-            @media (max-width: 550px) {
-              font-size: 15px;
-            }
-            @media (max-width: 500px) {
-              font-size: 13px;
-            }
-
-            @media (max-width: 428px) {
-              font-size: 11.57px;
-              line-height: 11.43px;
-            }
-
-            @media (max-width: 350px) {
-              font-size: 8.57px;
-              line-height: 11.43px;
-            }
-          }
-        }
-      }
-    }
-    .modalWindowBg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: rgba(0, 0, 0, 0.479);
-      width: 100%;
-      height: 100vh;
-      cursor: pointer;
-    }
-    .modalWindow,
-    .modalWindowAll {
-      position: absolute;
-      top: 200px;
-      left: 348px;
-      width: 823px;
-      border-radius: 8px;
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 30px;
-      @media (max-width: 1280px) {
-        left: 230px;
-      }
-      @media (max-width: 1190px) {
-        left: 210px;
-      }
-      @media (max-width: 1115px) {
-        left: 139px;
-      }
-      @media (max-width: 1010px) {
-        left: 90px;
-      }
-      @media (max-width: 990px) {
-        left: 70px;
-      }
-      @media (max-width: 950px) {
-        width: 800px;
-      }
-      @media (max-width: 920px) {
-        left: 60px;
-      }
-      @media (max-width: 900px) {
-        left: 50px;
-      }
-      @media (max-width: 884px) {
-        left: 67px;
-        width: 750px;
-      }
-      @media (max-width: 860px) {
-        left: 50px;
-      }
-      @media (max-width: 835px) {
-        width: 700px;
-        left: 67px;
-      }
-      @media (max-width: 820px) {
-        left: 55px;
-      }
-      @media (max-width: 800px) {
-        left: 50px;
-      }
-      @media (max-width: 780px) {
-        left: 40px;
-      }
-      @media (max-width: 768px) {
-        width: 650px;
-        top: 180px;
-        left: 60px;
-      }
-      @media (max-width: 730px) {
-        left: 40px;
-      }
-      @media (max-width: 720px) {
-        left: 35px;
-      }
-      @media (max-width: 700px) {
-        left: 25px;
-      }
-      @media (max-width: 690px) {
-        width: 600px;
-        left: 40px;
-      }
-      @media (max-width: 660px) {
-        left: 28px;
-      }
-      @media (max-width: 640px) {
-        width: 580px;
-        top: 190px;
-        left: 30px;
-        gap: 20px;
-      }
-      @media (max-width: 600px) {
-        width: 500px;
-        top: 166px;
-        left: 50px;
-      }
-      @media (max-width: 550px) {
-        width: 450px;
-        top: 160px;
-        left: 49px;
-      }
-      @media (max-width: 530px) {
-        left: 40px;
-      }
-      @media (max-width: 500px) {
-        left: 40px;
-        width: 400px;
-      }
-      @media (max-width: 470px) {
-        left: 30px;
-        width: 400px;
-      }
-      @media (max-width: 428px) {
-        top: 170px;
-        left: 25px;
-        width: 379px;
-        border-radius: 3.24px;
-        gap: 10px;
-      }
-      @media (max-width: 391px) {
-        width: 339px;
-      }
-      @media (max-width: 376px) {
-        left: 20px;
-      }
-      @media (max-width: 361px) {
-        left: 13px;
-      }
-      @media (max-width: 350px) {
-        width: 300px;
-        left: 20px;
-      }
-      h4 {
-        color: #3c5f63;
-        font-family: Poppins;
-        font-weight: 600;
-        font-size: 25px;
-        line-height: 28px;
-        text-align: center;
-        @media (max-width: 428px) {
-          font-size: 12px;
-          line-height: 11.34px;
-        }
-      }
-      .textIcon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 150px;
-        @media (max-width: 835px) {
-          gap: 120px;
-        }
-        @media (max-width: 600px) {
-          gap: 70px;
-        }
-        @media (max-width: 500px) {
-          gap: 35px;
-        }
-        @media (max-width: 320px) {
-          gap: 30px;
-        }
-        h5 {
-          color: #3c5f63;
-          font-family: Poppins;
-          font-weight: 600;
-          font-size: 25px;
-          line-height: 28px;
-          text-align: center;
-          @media (max-width: 600px) {
-            font-size: 18px;
-            line-height: 20px;
-          }
-          @media (max-width: 500px) {
-            font-size: 16px;
-            line-height: 17px;
-          }
-          @media (max-width: 428px) {
-            font-size: 12px;
-            line-height: 11.34px;
-          }
-        }
-        .IoClose {
-          cursor: pointer;
-          width: 30px;
-          height: 30px;
-          color: #33363f;
-          @media (max-width: 500px) {
-            width: 22px;
-            height: 22px;
-          }
-        }
-      }
-      .SearchInputs {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-        @media (max-width: 550px) {
-          gap: 10px;
-        }
-        @media (max-width: 428px) {
-          align-items: start;
-          justify-content: start;
-          gap: 5px;
-          padding-left: 10px;
-        }
-        .block11 {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 0 20px;
-          width: 260px;
-          height: 64px;
-          border-width: 1px;
-          border-radius: 8px;
-          border: 1px solid #004a60;
-          @media (max-width: 835px) {
-            width: 220px;
-          }
-          @media (max-width: 690px) {
-            width: 200px;
-            height: 58px;
-          }
-          @media (max-width: 640px) {
-            width: 190px;
-            height: 50px;
-          }
-          @media (max-width: 600px) {
-            width: 170px;
-            height: 40px;
-          }
-          @media (max-width: 550px) {
-            width: 160px;
-            height: 35px;
-          }
-          @media (max-width: 500px) {
-            width: 140px;
-            height: 30px;
-            padding: 0 3px;
-            gap: 0;
-          }
-          @media (max-width: 428px) {
-            width: 144px;
-            height: 26px;
-            padding: 0 5px;
-            border-radius: 3.24px;
-            gap: 3px;
-          }
-          @media (max-width: 390px) {
-            width: 90px;
-          }
-          .icon {
-            width: 30px;
-            height: 30px;
-            padding-top: 8.92px;
-            padding-right: 2.52px;
-            padding-bottom: 6.75px;
-            padding-left: 3.51px;
-            color: #3c5f63;
-            @media (max-width: 428px) {
-              width: 13.721841812133789px;
-              height: 13.721841812133789px;
-              padding-top: 2.1px;
-              padding-right: 1.98px;
-              padding-bottom: 2.41px;
-              padding-left: 1.65px;
-            }
-          }
-          h6 {
-            font-family: Frank Ruhl Libre;
-            font-weight: 700;
-            font-size: 14px;
-            line-height: 18.07px;
-            color: #242424;
-            @media (max-width: 500px) {
-              font-size: 12px;
-            }
-            @media (max-width: 428px) {
-              font-size: 10px;
-              line-height: 12.91px;
-            }
-          }
-        }
-        .searchBtn {
-          width: 101px;
-          height: 64px;
-          border-radius: 8px;
-          background: #3c5f63;
-          border: none;
-          font-family: Montserrat;
-          font-weight: 500;
-          font-size: 20px;
-          line-height: 24.38px;
-          text-align: center;
-          color: #e5e4e9;
-          @media (max-width: 690px) {
-            width: 90px;
-            height: 58px;
-          }
-          @media (max-width: 640px) {
-            width: 80px;
-            height: 50px;
-          }
-          @media (max-width: 600px) {
-            width: 70px;
-            height: 40px;
-            font-size: 17px;
-          }
-          @media (max-width: 550px) {
-            width: 60px;
-            height: 35px;
-            font-size: 15px;
-          }
-          @media (max-width: 500px) {
-            width: 50px;
-            height: 30px;
-            font-size: 13px;
-          }
-          @media (max-width: 428px) {
-            width: 41px;
-            height: 26px;
-            font-size: 10px;
-            border-radius: 3.24px;
-            line-height: 12.19px;
-          }
-        }
-      }
-      .blockCat {
-        margin-left: 100px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        @media (max-width: 884px) {
-          margin-left: 60px;
-        }
-        @media (max-width: 820px) {
-          margin-left: 70px;
-        }
-        @media (max-width: 768px) {
-          margin-left: 50px;
-        }
-        @media (max-width: 600px) {
-          margin-left: 40px;
-        }
-        @media (max-width: 428px) {
-          margin-left: 15px;
-        }
-        .chooseData {
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          width: 134px;
-          height: 35px;
-          border: 1px solid #5a5a5a;
-          border-radius: 5px;
-          padding: 6px 10px;
-          background: white;
-          @media (max-width: 428px) {
-            width: 56.44368362426758px;
-            height: 14.177685737609863px;
-            border-radius: 2.03px;
-            border-width: 0.41px;
-            padding-top: 2.43px;
-            padding-right: 4.05px;
-            padding-bottom: 2.43px;
-            padding-left: 4.05px;
-          }
-        }
-
-        .calendarIcon {
-          font-size: 20px;
-          color: #3c5f63;
-          @media (max-width: 428px) {
-            font-size: 18px;
-          }
-        }
-
-        .dateInput {
-          border: none;
-          outline: none;
-          font-size: 14px;
-          width: 100%;
-          background: transparent;
-          @media (max-width: 428px) {
-            font-size: 6px;
-          }
-        }
-
-        .ticketNumber {
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          width: 54px;
-          height: 35px;
-          border-width: 1px;
-          border-radius: 5px;
-          padding-top: 6px;
-          padding-right: 10px;
-          padding-bottom: 6px;
-          padding-left: 10px;
-          border: 1px solid #5a5a5a;
-          @media (max-width: 600px) {
-            width: 50px;
-            height: 30px;
-          }
-          @media (max-width: 550px) {
-            width: 40px;
-            height: 30px;
-            gap: 3px;
-          }
-          @media (max-width: 428px) {
-            width: 22.443681716918945px;
-            height: 17.177684783935547px;
-            border-radius: 2.03px;
-            border-width: 0.41px;
-            padding-top: 2.43px;
-            padding-right: 4.05px;
-            padding-bottom: 2.43px;
-            padding-left: 4.05px;
-            gap: 4.05px;
-          }
-          .userIcon {
-            width: 18px;
-            height: 20px;
-            color: #3c5f63;
-            @media (max-width: 428px) {
-              width: 7.291380882263184;
-              height: 8.101841926574707;
-            }
-          }
-          span {
-            font-family: Montserrat;
-            font-weight: 500;
-            font-size: 18px;
-            line-height: 22px;
-            letter-spacing: -0.41px;
-            color: #777777;
-            @media (max-width: 550px) {
-              font-size: 15px;
-            }
-            @media (max-width: 428px) {
-              font-size: 6px;
-            }
-          }
-        }
-        .filter {
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 61px;
-          height: 35px;
-          border-width: 1px;
-          border-radius: 5px;
-          padding-top: 6px;
-          padding-right: 10px;
-          padding-bottom: 6px;
-          padding-left: 10px;
-          border: 1px solid #5a5a5a;
-          @media (max-width: 600px) {
-            width: 60px;
-            height: 30px;
-          }
-          @media (max-width: 550px) {
-            width: 50px;
-            height: 30px;
-          }
-          @media (max-width: 428px) {
-            width: 26.311058044433594px;
-            height: 16.544349670410156px;
-            border-radius: 2.08px;
-            border-width: 0.42px;
-            padding-top: 2.49px;
-            padding-right: 4.16px;
-            padding-bottom: 2.49px;
-            padding-left: 4.16px;
-            gap: 4.16px;
-          }
-          span {
-            font-family: Montserrat;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 22px;
-            letter-spacing: -0.41px;
-            color: #004a60;
-            @media (max-width: 428px) {
-              font-size: 6px;
-              line-height: 8.91px;
-              letter-spacing: -0.17px;
-            }
-          }
-        }
-      }
-      .filterAvia {
-        position: absolute;
-        top: 57px;
-        left: 12pc;
-        width: 238px;
-        height: 128px;
-        border-radius: 5px;
-        background: #fffdfd;
-        box-shadow: 0px 0px 15px 0px #00000026;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0 30px;
-        gap: 6px;
-        @media (max-width: 768px) {
-          width: 200px;
-          height: 120px;
-          padding: 0 20px;
-          top: 50px;
-        }
-        @media (max-width: 640px) {
-          width: 200px;
-          top: 10px;
-        }
-        @media (max-width: 500px) {
-          width: 200px;
-          padding: 0 10px;
-          top: 10px;
-          left: 9pc;
-          gap: 5px;
-        }
-        @media (max-width: 428px) {
-          padding: 0 13px;
-          width: 190px;
-          height: 90px;
-          left: 5pc;
-          top: -10px;
-        }
-        @media (max-width: 320px) {
-          padding: 0 13px;
-          width: 150px;
-          height: 100px;
-          left: 3.9pc;
-          top: -23px;
-        }
-        .transfer {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          p {
-            font-family: Frank Ruhl Libre;
-            font-weight: 700;
-            font-size: 14px;
-            line-height: 18.07px;
-            color: #004a60;
-            @media (max-width: 428px) {
-              font-size: 10px;
-              line-height: 12.91px;
-            }
-          }
-          .switch {
-            position: relative;
-            display: inline-block;
-            width: 34px;
-            height: 20px;
-            @media (max-width: 428px) {
-              width: 18.20833396911621px;
-              height: 11.25px;
-            }
-          }
-
-          .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-          }
-          .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            border-radius: 20px;
-            transition: 0.4s;
-          }
-
-          .slider:before {
-            position: absolute;
-            content: "";
-            height: 14px;
-            width: 14px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            border-radius: 50%;
-            transition: 0.4s;
-            @media (max-width: 428px) {
-              width: 8px;
-              height: 8px;
-              bottom: 2px;
-            }
-          }
-
-          input:checked + .slider {
-            background-color: #004a60;
-          }
-
-          input:checked + .slider:before {
-            transform: translateX(14px);
-            @media (max-width: 428px) {
-              transform: translateX(5px);
-            }
-          }
-        }
-      }
-    }
-    .modalWindow {
-      height: 319px;
-      @media (max-width: 950px) {
-        height: 300px;
-      }
-      @media (max-width: 884px) {
-        height: 280px;
-      }
-      @media (max-width: 835px) {
-        height: 260px;
-      }
-      @media (max-width: 768px) {
-        height: 240px;
-      }
-      @media (max-width: 640px) {
-        height: 200px;
-      }
-      @media (max-width: 428px) {
-        height: 129px;
-      }
-    }
-
-    .modalWindowAll {
-      height: 1200px;
-      @media (max-width: 1280px) {
-        height: 1200px;
-      }
-      @media (max-width: 600px) {
-        height: 950px;
-      }
-      @media (max-width: 500px) {
-        height: 890px;
-      }
-      @media (max-width: 428px) {
-        height: 524px;
-      }
-      .modalWindowTickets {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 20px;
-        @media (max-width: 428px) {
-          gap: 10px;
-        }
-        .blockImages {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          width: 522px;
-          height: 72px;
-          @media (max-width: 600px) {
-            width: 490px;
-            padding-left: 20px;
-          }
-          @media (max-width: 500px) {
-            width: 420px;
-            padding-left: 30px;
-          }
-          .airport1 {
-            width: 85px;
-            height: 64px;
-            @media (max-width: 600px) {
-              width: 70px;
-              height: auto;
-            }
-            @media (max-width: 500px) {
-              width: 40px;
-            }
-            @media (max-width: 428px) {
-              width: 35.12510299682617px;
-              height: 26.44713592529297px;
-            }
-          }
-          .airport2 {
-            width: 142px;
-            height: 64px;
-            @media (max-width: 600px) {
-              width: 120px;
-              height: auto;
-            }
-            @media (max-width: 500px) {
-              width: 90px;
-            }
-            @media (max-width: 428px) {
-              width: 58.67958068847656px;
-              height: 26.44713592529297px;
-            }
-          }
-          .airport3 {
-            width: 210px;
-            height: 64px;
-            @media (max-width: 600px) {
-              width: 170px;
-              height: auto;
-            }
-            @media (max-width: 500px) {
-              width: 140px;
-            }
-            @media (max-width: 428px) {
-              width: 86.7796630859375px;
-              height: 26.44713592529297px;
-            }
-          }
-          @media (max-width: 428px) {
-            width: 218px;
-            height: 30px;
-            gap: 6px;
-          }
-        }
-        .ticketsTime {
-          display: flex;
-          align-items: start;
-          justify-content: center;
-          flex-direction: column;
-          padding: 0 25px;
-          width: 540px;
-          height: 139px;
-          border-radius: 8px;
-          background: #ffffff;
-          box-shadow: 0px 4px 4px 0px #00000040;
-          @media (max-width: 600px) {
-            width: 400px;
-            height: 110px;
-          }
-          @media (max-width: 500px) {
-            width: 350px;
-            height: 100px;
-          }
-          @media (max-width: 428px) {
-            width: 236px;
-            height: 57px;
-            border-radius: 3.31px;
-            padding-left: 15px;
-          }
-          .airportImg {
-            width: 58px;
-            height: 26px;
-            @media (max-width: 428px) {
-              width: 23.967716217041016px;
-              height: 10.744148254394531px;
-            }
-          }
-          .block22 {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            @media (max-width: 600px) {
-              gap: 20px;
-            }
-            @media (max-width: 500px) {
-              gap: 15px;
-            }
-            .blockTiket1 {
-              display: flex;
-              flex-direction: column;
-              align-items: start;
-              gap: 10px;
-              @media (max-width: 428px) {
-                gap: 0;
-              }
-              .time {
-                font-family: Inter;
-                font-weight: 400;
-                font-size: 26px;
-                line-height: 34px;
-                color: #0c131d;
-                @media (max-width: 600px) {
-                  font-size: 17px;
-                  line-height: 20.05px;
-                }
-                @media (max-width: 500px) {
-                  font-size: 13px;
-                  line-height: 16px;
-                }
-                @media (max-width: 428px) {
-                  font-size: 10px;
-                  line-height: 14.05px;
-                }
-              }
-              .text {
-                display: flex;
-                flex-direction: column;
-                align-items: start;
-                .adresTitle {
-                  font-family: Inter;
-                  font-weight: 400;
-                  font-size: 12px;
-                  line-height: 18px;
-                  color: #9ea9b7;
-                  @media (max-width: 600px) {
-                    font-size: 7px;
-                    line-height: 12px;
-                  }
-                  @media (max-width: 500px) {
-                    font-size: 5px;
-                    line-height: 6px;
-                  }
-                }
-                .dateTitle {
-                  font-family: Inter;
-                  font-weight: 400;
-                  font-size: 12px;
-                  line-height: 18px;
-                  color: #9ea9b7;
-                  @media (max-width: 600px) {
-                    font-size: 7px;
-                    line-height: 12px;
-                  }
-                  @media (max-width: 500px) {
-                    font-size: 5px;
-                    line-height: 6px;
-                  }
-                }
-              }
-            }
-            .blockTiket2 {
-              display: flex;
-              flex-direction: column;
-              align-items: end;
-              gap: 10px;
-              @media (max-width: 428px) {
-                gap: 0;
-              }
-              .time {
-                font-family: Inter;
-                font-weight: 400;
-                font-size: 26px;
-                line-height: 34px;
-                color: #0c131d;
-                @media (max-width: 600px) {
-                  font-size: 17px;
-                  line-height: 20.05px;
-                }
-                @media (max-width: 500px) {
-                  font-size: 13px;
-                  line-height: 16px;
-                }
-                @media (max-width: 428px) {
-                  font-size: 10px;
-                  line-height: 14.05px;
-                }
-              }
-              .text {
-                display: flex;
-                flex-direction: column;
-                align-items: end;
-                .adresTitle {
-                  font-family: Inter;
-                  font-weight: 400;
-                  font-size: 10px;
-                  line-height: 18px;
-                  color: #9ea9b7;
-                  @media (max-width: 600px) {
-                    font-size: 7px;
-                    line-height: 12px;
-                  }
-                  @media (max-width: 500px) {
-                    font-size: 5px;
-                    line-height: 6px;
-                  }
-                }
-                .dateTitle {
-                  font-family: Inter;
-                  font-weight: 400;
-                  font-size: 10px;
-                  line-height: 18px;
-                  color: #9ea9b7;
-                  @media (max-width: 600px) {
-                    font-size: 7px;
-                    line-height: 12px;
-                  }
-                  @media (max-width: 500px) {
-                    font-size: 5px;
-                    line-height: 6px;
-                  }
-                }
-              }
-            }
-            .route {
-              width: 258px;
-              height: 66px;
-              @media (max-width: 600px) {
-                width: 180px;
-                height: auto;
-              }
-              @media (max-width: 428px) {
-                width: 106px;
-                height: 27px;
-              }
-            }
-          }
-        }
-      }
     }
   }
+
   .map {
-    margin-top: 30px;
-    @media (max-width: 428px) {
-      margin: 10px 0 10px 10px;
-      width: 408px;
-      height: 178px;
-    }
-    @media (max-width: 414px) {
-      margin: 10px 0 10px 10px;
-      width: 390px;
-      height: 178px;
-    }
-    @media (max-width: 391px) {
-      margin: 10px 0 10px 10px;
-      width: 370px;
-      height: 178px;
-    }
-    @media (max-width: 375px) {
-      margin: 10px 0 10px 10px;
-      width: 350px;
-      height: 178px;
-    }
-    @media (max-width: 361px) {
-      margin: 10px 0 10px 10px;
-      width: 340px;
-      height: 178px;
-    }
-    @media (max-width: 320px) {
-      margin: 10px 0 10px 10px;
-      width: 300px;
-      height: 178px;
-    }
+    margin-top: 300px;
+
+
   }
 }

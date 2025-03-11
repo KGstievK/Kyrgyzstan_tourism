@@ -4,7 +4,7 @@
     height: 250px;
     display: flex;
     align-items: center;
-    gap: 80px;
+    justify-content: space-between;
     margin-bottom: 50px;
     padding-inline: 50px;
     background-image: url("../../../../../../assets/images/cultureImages/bg.jpg");
@@ -33,7 +33,8 @@
       font-size: clamp(12px, 5vw, 24px);
       font-weight: 500;
       line-height: 30.98px;
-      width: 100%;
+      width: 626px;
+      height: 156px;
     }
   }
   .bottom {
@@ -61,12 +62,48 @@
         align-items: center;
       }
     }
+    .descrs {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 30px;
+      .h1 {
+        font-family: Montserrat, sans-serif;
+        font-weight: 700;
+        font-size: clamp(20px, 3vw, 24px);
+        line-height: clamp(24px, 3vw, 29.26px);
+      }
+
+      .description {
+        max-width: 588px;
+        width: 100%;
+        font-family: Montserrat, sans-serif;
+        font-weight: 400;
+        font-size: clamp(20px, 3vw, 20px);
+        line-height: clamp(24px, 3.5vw, 24.38px);
+      }
+    }
+  }
+}
+@media (max-width: 1034px) {
+  .top {
+    gap: 90px;
   }
 }
 @media (max-width: 1023px) {
   .main {
     flex-direction: column;
     width: 100%;
+  }
+}
+@media (max-width: 834px) {
+  .section {
+    .top {
+      .top-paragraph {
+        font-size: 22px;
+        line-height: 26.98px;
+      }
+    }
   }
 }
 @media (max-width: 814px) {
@@ -76,7 +113,6 @@
       padding: 0 30px;
       .top-paragraph {
         font-size: 18px;
-        line-height: 26.98px;
       }
     }
   }
@@ -93,20 +129,59 @@
 }
 @media (max-width: 543px) {
   .section {
+    padding: 6px 0;
+    .top {
+      height: 121px;
+      .top-paragraph {
+        padding-top: 30px;
+        line-height: 20.98px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+@media (max-width: 440px) {
+  .section {
     .top {
       .top-paragraph {
-        line-height: 21.98px;
+        line-height: 15.98px;
         font-size: 12px;
       }
     }
   }
 }
 
-@media (max-width: 362px) {
+@media (max-width: 405px) {
   .section {
     .top {
       .top-paragraph {
-        line-height: 16.98px;
+        line-height: 13.98px;
+        // font-size: 11px;
+      }
+    }
+  }
+}
+
+@media (max-width: 378px) {
+  .section {
+    .top {
+      .top-heading {
+        font-size: 20px;
+      }
+      .top-paragraph {
+        line-height: 12.98px;
+        font-size: 11px;
+      }
+    }
+  }
+}
+
+@media (max-width: 330px) {
+  .section {
+    .top {
+      .top-paragraph {
+        line-height: 11.98px;
+        font-size: 10px;
       }
     }
   }

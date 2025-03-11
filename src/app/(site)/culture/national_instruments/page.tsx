@@ -1,7 +1,7 @@
-"use client"
-import Currency from "@/appPages/site/components/pages/CultureSections/Currency/Currency";
+"use client";
 
+import National_instruments from "@/appPages/site/components/pages/CultureSections/National_instruments/National_instruments";
 
-const page = () => <Currency />;
+const page = () => <National_instruments />;
 
 export default page;

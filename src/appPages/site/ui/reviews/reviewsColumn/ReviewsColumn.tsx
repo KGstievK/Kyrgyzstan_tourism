@@ -105,9 +105,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                                     borderRadius: "50%",
                                   }}
                                 />
-                              ) : review.client.user_picture ? (
+                              ) : review.client?.user_picture ? (
                                 <Image
-                                  src={review.client.user_picture}
+                                  src={review.client?.user_picture}
                                   alt="avatar"
                                   width={100}
                                   height={100}
@@ -127,10 +127,10 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                   </Space>
                   <div>
                     <div className={styles.authorName}>
-                      {review.client.first_name} {review.client.last_name}
+                      {review.client?.first_name} {review.client?.last_name}
                     </div>
                     <div className={styles.authorPlace}>
-                      {review.client.from_user}
+                      {review.client?.from_user}
                     </div>
                   </div>
                 </div>

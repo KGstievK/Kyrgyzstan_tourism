@@ -1,14 +1,20 @@
 .section {
   padding: 40px 0;
+  @media (max-width: 428px) {
+    padding: 0;
+  }
   .top {
     height: 250px;
     display: flex;
     align-items: center;
-    gap: 80px;
+    justify-content: space-between;
     padding-inline: 50px;
     background-image: url("../../../../../../assets/images/cultureImages/bg.jpg");
     background-position: center;
     backdrop-filter: blur(10px);
+    @media (max-width: 428px) {
+      height: 121px;
+    }
     .muted-background {
       background-color: rgba(195, 185, 185, 0.639);
       backdrop-filter: blur(10px);
@@ -22,58 +28,79 @@
     .top-heading {
       color: #004a60;
       font-family: Abril Fatface;
-      font-size: clamp(28px, 5vw, 64px);
+      font-size: clamp(28px, 5vw, 56px);
       font-weight: 400;
-      max-width: 150px;
+      line-height: clamp(28px, 5vw, 86.34px);
+      max-width: 345px;
     }
     .top-paragraph {
       color: #000;
-      font-family: Frank Ruhl Libre;
+      font-family: "Frank Ruhl Libre", serif;
       font-size: clamp(12px, 5vw, 24px);
       font-weight: 500;
-      line-height: 30.98px;
-      width: 100%;
+      line-height: clamp(12px, 5vw, 30.98px);
+      width: 707px;
+      text-align: center;
     }
   }
   .main {
     padding-top: 60px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: start;
     gap: 30px;
-    .img {
-      width: 100%;
-      height: 397px;
-      border: 1px solid black;
+    @media (max-width: 834px) {
+      flex-direction: column;
+    }
+    img {
+      width: 574px;
+      height: 392px;
+      @media (max-width: 1043px) {
+        width: 500px;
+      }
+      @media (max-width: 1043px) {
+        width: 500px;
+      }
+      @media (max-width: 1034px) {
+        width: 450px;
+        height: auto;
+      }
+      @media (max-width: 884px) {
+        width: 400px;
+      }
+      @media (max-width: 834px) {
+        width: 100%;
+      }
     }
     .main-text {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
       flex-direction: column;
-      font-family: Montserrat;
-      width: 100%;
-      max-width: 600px;
-      height: 397px;
+      gap: 20px;
+      @media (max-width: 884px) {
+        gap: 9px;
+      }
       .main-heading {
         font-size: clamp(17px, 5vw, 24px);
         font-weight: 700;
         line-height: 26px;
       }
       .main-paragraph {
-        max-width: 500px;
+        max-width: 553px;
         font-size: clamp(12px, 5vw, 20px);
         font-weight: 400;
+        @media (max-width: 1122px) {
+          font-size: 18px;
+        }
+        @media (max-width: 1034px) {
+          font-size: 15px;
+        }
+        @media (max-width: 834px) {
+          max-width: 100%;
+        }
       }
     }
   }
 }
-@media (max-width: 1023px) {
-  .main {
-    flex-direction: column;
-    width: 100%;
-  }
-}
+
 @media (max-width: 814px) {
   .section {
     .top {
@@ -106,12 +133,22 @@
     }
   }
 }
-
-@media (max-width: 362px) {
+@media (max-width: 428px) {
   .section {
     .top {
       .top-paragraph {
-        line-height: 16.98px;
+        line-height: 15.49px;
+      }
+    }
+  }
+}
+
+@media (max-width: 366px) {
+  .section {
+    .top {
+      .top-paragraph {
+        line-height: 10.98px;
+        font-size: 10px;
       }
     }
   }

@@ -10,9 +10,8 @@ import {
   usePostRewiewPlacesMutation,
 } from "@/redux/api/reviews";
 import { useGetMeQuery } from "@/redux/api/auth";
-import { useGetAttractionIDQuery, useGetHotelIDQuery, useGetKitchenIDQuery } from "@/redux/api/place";
 import Rating from "./Rating/Rating";
-import { isContext } from "vm";
+
 
 interface ReviewModalProps {
   onClose: () => void;
@@ -36,7 +35,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   const [postRewiewHotel] = usePostRewiewHotelMutation();
   const [postRewiewKitchen] = usePostRewiewKitchenMutation();
   const [postRewiewAttraction] = usePostRewiewAttractionMutation();
-
+  
   const { data: user } = useGetMeQuery();
   const [rating, setRating] = useState(0); // Состояние рейтинга
 
@@ -63,7 +62,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
       if (isTab === 0) {
         formData.append("popular", isCurrent.toString())
         await postRewiewPlaces(formData)
-      }else if (isTab === 1) {
+      } else if (isTab === 1) {
         formData.append("hotel", isCurrent.toString());
         await postRewiewHotel(formData).unwrap();
       } else if (isTab === 2) {

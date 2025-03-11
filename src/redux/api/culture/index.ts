@@ -19,6 +19,17 @@ const api = index.injectEndpoints({
       }),
       providesTags: ["culture-kitchen"],
     }),
+    getCultureKitchenMain: build.query<
+      CULTURE.CultureKitchenMainResponse,
+      void
+    >({
+      query: () => ({
+        url: `/culture_kitchen_main/`,
+        method: "GET",
+      }),
+      providesTags: ["culture-kitchen"],
+    }),
+
     getCultureNationalClothes: build.query<
       CULTURE.CultureNationalClothesResponse,
       CULTURE.CultureNationalClothesRequest
@@ -34,7 +45,7 @@ const api = index.injectEndpoints({
       CULTURE.CultureNationalInstrumentsRequest
     >({
       query: () => ({
-        url: `/national_instrument`,
+        url: `/instruments`,
         method: "GET",
       }),
       providesTags: ["national-instrument"],
@@ -44,12 +55,12 @@ const api = index.injectEndpoints({
       CULTURE.CultureHand_craftsRequest
     >({
       query: () => ({
-        url: `/hand_crafts`,
+        url: `/handcrafts`,
         method: "GET",
       }),
       providesTags: ["hand-crafts"],
     }),
-    getCurrency: build.query<CULTURE.CurrencyResponse, CULTURE.CurrencyRequest>({
+    getCurency: build.query<CULTURE.CurrencyResponse, CULTURE.CurrencyRequest>({
       query: () => ({
         url: `/currency`,
         method: "GET",
@@ -64,6 +75,7 @@ export const {
   useGetCultureKitchenQuery,
   useGetCultureNationalClothesQuery,
   useGetNationalInstrumentQuery,
-  useGetCurrencyQuery,
-  useGetHandCraftsQuery
+  useGetCurencyQuery,
+  useGetHandCraftsQuery,
+  useGetCultureKitchenMainQuery,
 } = api;

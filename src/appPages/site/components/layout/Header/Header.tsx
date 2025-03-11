@@ -1,20 +1,22 @@
+// Header.tsx
 "use client";
-import Link from "next/link";
-import scss from "./Header.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { useWindowSize } from "react-use";
 import { useEffect, useState } from "react";
-// import down from "@/images/down.png";
+import { useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
-import useTranslate from "@/appPages/site/hooks/translate/translate";
-import { DesktopNavigation } from "./components/DesktopNavigation";
-import { LanguageSelector } from "./components/LanguageSelector";
-import BurgerMenu from "@/appPages/site/ui/burgerMenu/BurgerMenu";
+import { RootState } from "@/redux/store";
 import { useGetMeQuery } from "@/redux/api/auth";
+import { useWindowSize } from "react-use";
+import Link from "next/link";
 import { Avatar, Badge, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
+import scss from "./Header.module.scss";
+import { DesktopNavigation } from "./components/desktopNavigation/DesktopNavigation";
+import { LanguageSelector } from "./components/LanguageSelector";
+import { UserProfile } from "./components/userProfile/UserProfile";
+import { MobileNavigation } from "./components/mobileNavigation/MobileNavigation";
 
+// Типы
 interface NavItem {
   name: {
     ru: string;
@@ -24,8 +26,13 @@ interface NavItem {
   path: string;
 }
 
-// Constants
-const REGIONS = [
+interface Region {
+  name: string[];
+  path: string;
+}
+
+// Константы
+const REGIONS: Region[] = [
   { name: ["Чуй", "شوي", "Chui"], path: "/chui" },
   { name: ["Ош", "أوش", "Osh"], path: "/osh" },
   { name: ["Джалал-Абад", "جلال أباد", "Jalal-Abad"], path: "/jalal-abad" },
@@ -43,132 +50,69 @@ const NAV_ITEMS: NavItem[] = [
   { name: { ru: "Маршруты", ar: "الطرق", en: "Routes" }, path: "/routes" },
 ];
 
-// Components
-
+// Главный компонент
 const Header = () => {
-  const { data: userData, status } = useGetMeQuery();
-  const [userPreview, setUserPreview] = useState<string | null>(null);
-
-  const { width } = useWindowSize();
-  const { t, changeLanguage } = useTranslate();
+  const { data: userData, status } = useGetMeQuery(); // Данные пользователя
+  const { width } = useWindowSize(); // Ширина окна
+  const { t } = useTranslate(); // Функция перевода
   const lang = useSelector<RootState, string>(
     (state) => state.translate.currentLang
   );
   const pathname = usePathname();
 
-  const [isShow, setIsShow] = useState(false);
-  const [isRegion, setIsRegion] = useState(false);
-  const [isRegionName, setIsRegionName] = useState("");
-  const [isRotate, setIsRotate] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Состояние мобильного меню
+  const [isRegionOpen, setIsRegionOpen] = useState(false); // Состояние выпадающего списка регионов
+  const [isLangRotate, setIsLangRotate] = useState(false); // Поворот стрелки языков
 
+  // Закрытие меню при смене пути
   useEffect(() => {
-    setIsShow(false);
-    setIsRegion(false);
+    setIsMobileMenuOpen(false);
+    setIsRegionOpen(false);
   }, [pathname]);
 
-  const isActive = (path: string) => {
-    return path === "/" ? pathname === path : pathname.startsWith(path);
-  };
+  // Проверка активного пути
+  const isActive = (path: string) =>
+    path === "/" ? pathname === path : pathname.startsWith(path);
 
   return (
-    <header id={scss.Header}>
+    <header className={scss.Header}>
       <div className="container">
         <div className={scss.content}>
-          <div className={scss.logo}>LOGO</div>
+          <Link href="/" className={scss.logo}>
+            ЛОГО
+          </Link>
 
           {width > 834 ? (
-            <>
+            <div className={scss.desktopLayout}>
               <DesktopNavigation
                 navItems={NAV_ITEMS}
                 regions={REGIONS}
                 isActive={isActive}
-                isRegion={isRegion}
-                setIsRegion={setIsRegion}
-                isRegionName={isRegionName}
-                setIsRegionName={setIsRegionName}
+                isRegionOpen={isRegionOpen}
+                setIsRegionOpen={setIsRegionOpen}
                 t={t}
               />
-              <div className={scss.block}>
+              <div className={scss.actions}>
                 <LanguageSelector
                   lang={lang}
-                  changeLanguage={changeLanguage}
-                  isRotate={isRotate}
-                  setIsRotate={setIsRotate}
+                  isRotate={isLangRotate}
+                  setIsRotate={setIsLangRotate}
                 />
-                {status === "fulfilled" ? (
-                  <>
-                    <Link href="/profile">
-                      <Space direction="vertical" size={10}>
-                        <Space wrap size={10}>
-                          <Badge count={1}>
-                            {userData?.map((el, idx) => (
-                              <Avatar key={idx}
-                                size={50 }
-                                icon={
-                                  userPreview ? (
-                                    <img src={userPreview} alt="avatar" />
-                                  ) : el.user_picture ? (
-                                    <img
-                                      src={el.user_picture}
-                                      alt="avatar"
-                                      width={100}
-                                      height={100}
-                                      style={{
-                                        objectFit: 'cover',
-                                        top: '0',
-                                        right: '0',
-                                        borderRadius: '50%'
-                                      }}
-                                    />
-                                  ) : (
-                                    <UserOutlined />
-                                  )
-                                }
-                              />
-                            ))}
-                          </Badge>
-                        </Space>
-                      </Space>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/auth/sign-in">
-                      <button>{t("Войти", "التسجيل", "Sign in")}</button>
-                    </Link>
-                  </>
-                )}
+                <UserProfile userData={userData} status={status} />
               </div>
-            </>
+            </div>
           ) : (
-            <>
-              <div className={scss.block2}>
-                <Link href="/auth/sign-up">
-                  <button>{t("Войти", "التسجيل", "Sign in")}</button>
-                </Link>
-                <div className={scss.burger}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <BurgerMenu />
-              </div>
-              {isShow && (
-                <div className={scss.modal}>
-                  <nav>
-                    {NAV_ITEMS.map((item) => (
-                      <Link
-                        key={item.path}
-                        href={item.path}
-                        className={isActive(item.path) ? scss.active : ""}
-                      >
-                        {t(item.name.ru, item.name.ar, item.name.en)}
-                      </Link>
-                    ))}
-                  </nav>
-                </div>
-              )}
-            </>
+            <MobileNavigation
+              navItems={NAV_ITEMS}
+              isOpen={isMobileMenuOpen}
+              setIsOpen={setIsMobileMenuOpen}
+              isActive={isActive}
+              t={t}
+              lang={lang}
+              userData={userData}
+              status={status}
+              regions={REGIONS} // Добавляем передачу регионов
+            />
           )}
         </div>
       </div>
