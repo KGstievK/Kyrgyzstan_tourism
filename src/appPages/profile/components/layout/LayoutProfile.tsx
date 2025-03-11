@@ -3,6 +3,8 @@ import scss from "./LayoutProfile.module.scss";
 import { FC, ReactNode, useState } from "react";
 import Link from "next/link";
 import HeaderProfile from "./HeaderProfile/HeaderProfile";
+import SearchProfile from "../pages/SearchProfile/SearchProfile";
+import { User } from "lucide-react";
 
 interface LayoutProfileProps {
   children: ReactNode;

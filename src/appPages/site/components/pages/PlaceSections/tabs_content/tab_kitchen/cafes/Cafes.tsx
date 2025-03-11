@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { Coffee, ImageOff } from "lucide-react";
 
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Cafes.module.scss";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import { useGetKitchensQuery } from "@/redux/api/place";
-import imgNone from "@/assets/images/universalImage/none.png";
 
 interface CafeProps {
   isCurrent: number | null;
@@ -18,10 +18,18 @@ const ITEMS_PER_PAGE = 4;
 const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   const { t } = useTranslate();
   const [isLimit, setIsLimit] = useState<number>(1);
-  const [errorImg, setErrorImg] = useState(false);
-  const { data: cafes = [] } = useGetKitchensQuery();
+  const { data: cafes = [], isLoading, error } = useGetKitchensQuery();
   const pathName = usePathname();
   const routeID: number = Number(pathName.split("/")[2]);
+
+  // Функция для обработки ошибок загрузки изображений
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=No+Image";
+    target.alt = "Image not available";
+    target.style.objectFit = "contain";
+    target.style.backgroundColor = "#f5f5f5";
+  };
 
   // Filter cafes for current place
   const cafesInPlace = cafes.filter((el) => el.popular_places === +routeID);
@@ -30,15 +38,8 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   useEffect(() => {
     if (cafesInPlace.length > 0 && isCurrent === null) {
       setIsCurrent(cafesInPlace[0].id);
-      console.log(isCurrent);
-      
     }
   }, [cafesInPlace, setIsCurrent, isCurrent]);
-
-  // No cafes scenario
-  if (isCurrent === null) {
-    return <h1>{t("Нет кафе", "لا توجد مقاهي", "No cafes")}</h1>;
-  }
 
   // Pagination utility
   const paginateArray = <T,>(arr: T[], pageSize: number): T[][] => {
@@ -51,11 +52,56 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
     );
   };
 
+  // No cafes or error scenario
+  if (error) {
+    return (
+      <div className={scss.cafes}>
+        <div className={scss.cafes_title}>
+          <h4>{t("Рестораны", "مطاعم", "Restaurants")}</h4>
+        </div>
+        <div className={scss.noCafesContainer}>
+          <ImageOff size={48} />
+          <p>{t("Ошибка загрузки данных", "خطأ في تحميل البيانات", "Error loading data")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading scenario
+  if (isLoading) {
+    return (
+      <div className={scss.cafes}>
+        <div className={scss.cafes_title}>
+          <h4>{t("Рестораны", "مطاعم", "Restaurants")}</h4>
+        </div>
+        <div className={scss.noCafesContainer}>
+          <div className={scss.loadingSpinner}></div>
+          <p>{t("Загрузка...", "جار التحميل...", "Loading...")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // No cafes scenario
+  if (!cafesInPlace.length) {
+    return (
+      <div className={scss.cafes}>
+        <div className={scss.cafes_title}>
+          <h4>{t("Рестораны", "مطاعم", "Restaurants")}</h4>
+        </div>
+        <div className={scss.noCafesContainer}>
+          <Coffee size={48} />
+          <p>{t("В этом месте пока нет ресторанов", "لا توجد مطاعم في هذا المكان حتى الآن", "No restaurants in this place yet")}</p>
+        </div>
+      </div>
+    );
+  }
+
   // Render individual cafe items
   const renderCafeItem = cafesInPlace.map((el, i) => (
     <div onClick={() => setIsCurrent(el.id)} key={el.id} className={scss.item}>
       <Image
-        src={errorImg || !el.main_image ? imgNone : el.main_image}
+        src={el.main_image}
         alt={el.kitchen_name}
         width={486}
         height={543}
@@ -64,7 +110,7 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
           objectFit: "cover",
           backgroundColor: "#f0f0f0",
         }}
-        onError={() => setErrorImg(true)}
+        onError={(e) => handleImageError(e as any)}
       />
       <div className={scss.info}>
         <h6 className={scss.title}>{el.kitchen_name}</h6>
@@ -86,7 +132,7 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   return (
     <div className={scss.cafes}>
       <div className={scss.cafes_title}>
-        <h4>{t("", "", "The best restaurants with reasonable prices")}</h4>
+        <h4>{t("Лучшие рестораны с разумными ценами", "أفضل المطاعم بأسعار معقولة", "The best restaurants with reasonable prices")}</h4>
         {cafes.length > ITEMS_PER_PAGE && !isAllItemsShown && (
           <p onClick={() => setIsLimit(dividedArray.length)}>
             {t("Показать все", "عرض الكل", "Show all")}

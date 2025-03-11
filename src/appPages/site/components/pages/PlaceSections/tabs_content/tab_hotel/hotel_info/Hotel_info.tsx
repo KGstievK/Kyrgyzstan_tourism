@@ -12,6 +12,8 @@ import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Preloader from "@/appPages/site/ui/preLoader/Preloader";
+import { BathIcon, Bed, CarFront, CarFrontIcon, CarTaxiFront } from "lucide-react";
+import { MdOutlinePets, MdPets } from "react-icons/md";
 
 interface propsType {
   isCurrent: number | null;
@@ -74,21 +76,24 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           </div>
           <div className={scss.list}>
             <div>
-              <img src={imgBed.src} alt="" />
+              {/* <img src={imgBed.src} alt="" /> */}
+              <Bed size={40} />
               <span>{data?.bedroom} Bedrooms</span>
             </div>
             <div>
-              <img src={imgBed.src} alt="" />
+              <BathIcon size={40} />
               <span>{data?.bathroom} Bathrooms</span>
             </div>
             <div>
-              <img src={imgBed.src} alt="" />
+              {/* <img src={imgBed.src} alt="" /> */}
+              <CarFront size={40} />
               <span>
                 {data?.cars}cars/{data?.bikes}bikes
               </span>
             </div>
             <div>
-              <img src={imgBed.src} alt="" />
+              {/* <img src={imgBed.src} alt="" /> */}
+              <MdOutlinePets size={40} />
               <span>{data?.pets} Pets Allowed</span>
             </div>
           </div>
@@ -99,14 +104,16 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           <div className={scss.amen}>
             <h6>{t("", "", "Offered Amenities")}</h6>
             <div className={scss.amenities}>
+              
               {data?.amenities.map((item, index) => (
-                <div key={index}>
-                  <img src={imgBed.src} alt="" />
-                  <span>{item}</span>
+                  
+                <div key={item.id}>
+                  <img src={item.icon} alt="" />
+                  <span>{item.amenity}</span>
                 </div>
               ))}
             </div>
-            <button>{t("", "", "Show All 10 Amenities")}</button>
+            {/* <button>{t("", "", "Show All 10 Amenities")}</button> */}
           </div>
           <div className={scss.safe}>
             <h6>{t("", "", "Safety and Hygiene")}</h6>

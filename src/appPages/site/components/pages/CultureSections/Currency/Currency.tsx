@@ -4,13 +4,13 @@ import styles from "./Currency.module.scss";
 
 import Image from "next/image";
 import { useMeasure } from "react-use";
-import { useGetCurrencyQuery } from "@/redux/api/culture";
+import { useGetCurencyQuery } from "@/redux/api/culture";
 
 const Currency = () => {
   const { t } = useTranslate();
 
   const [ref, { height }] = useMeasure<HTMLDivElement>();
-  const { data: currencyData, error, isLoading } = useGetCurrencyQuery();
+  const { data: currencyData, error, isLoading } = useGetCurencyQuery();
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading currency data</p>;

@@ -9,6 +9,7 @@ interface DatePickerProps {
   initialDate?: Date;
   onDateChange?: (date: Date) => void;
   setIsDate: (date: string) => void;
+  isDate: string
 }
 
 type TranslatedText = string;
@@ -17,6 +18,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   initialDate = new Date(),
   onDateChange,
   setIsDate,
+  isDate
 }) => {
   const [date, setDate] = useState<Date>(initialDate);
 
@@ -96,6 +98,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         getWeekDay={getWeekDay}
         getDaysInMonth={getDaysInMonth}
         date={date}
+        isDate={isDate}
         setIsDate={setIsDate}
       />
     </div>
