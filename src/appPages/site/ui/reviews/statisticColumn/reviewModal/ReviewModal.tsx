@@ -103,13 +103,13 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 
       try {
         if (isTab === 0) {
-          formData.append("popular", isCurrent.toString());
+          formData.append("popular_place", isCurrent.toString());
           await postRewiewPlaces(formData);
         } else if (isTab === 1) {
           formData.append("hotel", isCurrent.toString());
           await postRewiewHotel(formData).unwrap();
         } else if (isTab === 2) {
-          formData.append("kitchen_region", isCurrent.toString());
+          formData.append("kitchen", isCurrent.toString());
           await postRewiewKitchen(formData).unwrap();
         } else if (isTab === 4) {
           formData.append("attractions", isCurrent.toString());
