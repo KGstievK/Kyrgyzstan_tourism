@@ -17,8 +17,19 @@ const Attractions: React.FC<AttractionsProps> = ({ isTab }) => {
     return storedId !== null ? +storedId : null;
   });
 
-  const { data } = useGetStaticReviewsQuery({ entityType: "attractions" });
-  const attractionStaticInfo = data?.find((attraction) => attraction.id === currentId);
+  const { data } = useGetStaticReviewsQuery({ entityType: "attraction" });
+  const attractionStaticInfo = data?.find(
+    (attraction) => attraction.id === currentId
+  );
+  console.log(attractionStaticInfo);
+  console.log(currentId);
+  console.log(data);
+  console.log("Data:", data);
+  if (!data) {
+    console.log("Данные еще не загружены...");
+  } else {
+    console.log("Данные загружены:", JSON.stringify(data, null, 2));
+  }
 
   // Сохраняем currentId в sessionStorage при его изменении
   useEffect(() => {
@@ -33,7 +44,11 @@ const Attractions: React.FC<AttractionsProps> = ({ isTab }) => {
         <AttractionList isCurrent={currentId} setIsCurrent={setCurrentId} />
         <AttractionInfo isCurrent={currentId} />
       </div>
-      <Reviews isTab={isTab} isCurrent={currentId} reviewsStatic={attractionStaticInfo} />
+      <Reviews
+        isTab={isTab}
+        isCurrent={currentId}
+        reviewStatic={attractionStaticInfo}
+      />
     </>
   );
 };

@@ -10,6 +10,7 @@ import { Avatar, Space } from "antd";
 import { useGetMeQuery } from "@/redux/api/auth";
 import Image from "next/image";
 import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
+import { data } from "react-router-dom";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -37,11 +38,10 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   });
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<number | undefined>();
-
+  
   useEffect(() => {
     if (reviewsData) {
       const filteredReviews = reviewsData.filter((review) => {
-        if (entityType === "popular_places") return true;
         return String(review.entityId) === String(isCurrent);
       });
       setDataReviews(filteredReviews);
@@ -49,7 +49,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       setDataReviews([]);
     }
   }, [reviewsData, isCurrent, entityType]);
-
+  
   const applyFilters = (rating?: string, month?: string) => {
     setRatingFilter(rating);
     setMonthFilter(month);

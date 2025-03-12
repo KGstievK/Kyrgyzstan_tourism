@@ -21,7 +21,8 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   const id: number = Number(pathName.split("/")[2]);
   const { data } = useGetStaticReviewsQuery({ entityType: "popular_places" });
   const placeStaticInfo = data?.find((place) => place.id === id);
-
+  console.log(placeStaticInfo);
+  
   const [pointA, setPointA] = useState("");
   const [pointB, setPointB] = useState("");
   const [pointACoords, setPointACoords] = useState<{

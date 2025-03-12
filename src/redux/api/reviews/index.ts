@@ -8,7 +8,7 @@ const api = index.injectEndpoints({
       { entityType: string }
     >({
       query: ({ entityType }) => ({
-        url: `/${entityType}_review_static`,
+        url: `/${entityType}${entityType === "popular_places" ? "_static" : "_review_static"}`,
         method: "GET",
       }),
       providesTags: (result, error, { entityType }) =>
@@ -45,7 +45,7 @@ const api = index.injectEndpoints({
       { entityType: string; rating?: string; month?: string }
     >({
       query: ({ entityType, rating, month }) => ({
-        url: `/${entityType}_review_list`,
+        url: `/${entityType}${entityType === "popular_places" ? "_review" : "_review_list"}`,
         method: "GET",
         params: { rating, month },
       }),
@@ -63,7 +63,7 @@ const api = index.injectEndpoints({
         return response.map((item) => ({
           id: item.id,
           entityId:
-            item.hotel || item.kitchen_region || item.attractions || "unknown",
+            item.hotel || item.kitchen || item.attractions || item.popular_place || "unknown",
           client: item.client,
           comment: item.comment || item.comment,
           rating: item.rating,

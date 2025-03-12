@@ -40,6 +40,7 @@ namespace REVIEWS {
     id: number;
     client: Client;
     kitchen_region: string;
+    kitchen: number,
     comment: string;
     created_at: string;
     kitchen_review_image: KitchenReviewImage[];
@@ -92,7 +93,7 @@ namespace REVIEWS {
   type ReviewAttractionResponse = {
     id: number;
     client: Client;
-    attractions: string;
+    attractions: number;
     attraction_review_image: any[];
     comment: string;
     rating: number;
