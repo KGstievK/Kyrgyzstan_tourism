@@ -171,19 +171,19 @@ namespace REVIEWS {
   export interface Review {
     [x: string]: number;
     id: number;
-    entityId: number | string; // ID сущности (hotel, kitchen_region, attractions)
+    entityId: number | string; 
     client: Client;
     comment: string;
     rating: number
     reviewImages: ReviewImage[];
-    createdAt: string; // Унифицируем дату
+    createdAt: string; 
     replyReviews: ReplyHotelReview[]
   }
 
   export interface StaticReview {
     id: number;
-    name: string; // kitchen_name, popular_name, name, attraction_name
-    avgRating: number; // avg_rating или average_rating
+    name: string; 
+    avgRating: number; 
     ratingCount: number;
     excellent: number;
     good: number;

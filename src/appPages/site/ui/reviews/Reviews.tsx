@@ -33,7 +33,7 @@ const Reviews: FC<ReviewsProps> = ({ isTab, isCurrent, reviewStatic }) => {
           reviewStatic={reviewStatic}
           entityType={entityType}
           isCurrent={isCurrent}
-          isTab={isTab} // Передаем isTab
+          isTab={isTab}
         />
       </div>
     </div>

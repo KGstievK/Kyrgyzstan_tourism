@@ -109,9 +109,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                                 borderRadius: "50%",
                               }}
                             />
-                          ) : review.client?.user_picture ? (
+                          ) : review.client.user_picture ? (
                             <Image
-                              src={review.client?.user_picture}
+                              src={review.client.user_picture}
                               alt="avatar"
                               width={100}
                               height={100}
@@ -131,10 +131,10 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                   </Space>
                   <div>
                     <div className={styles.authorName}>
-                      {review.client?.first_name} {review.client?.last_name}
+                      {review.client.first_name} {review.client.last_name}
                     </div>
                     <div className={styles.authorPlace}>
-                      {review.client?.from_user}
+                      {review.client.from_user}
                     </div>
                   </div>
                 </div>
@@ -171,7 +171,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             {review.replyReviews && review.replyReviews.length > 0 && (
               <div className={styles.spaceY6}>
                 {review.replyReviews.map((el) => (
-                  <div key={el.id} className={styles.reviewCard}>
+                  <div key={el.id} className={styles.reviewCard} style={{
+                    paddingLeft: '50px'
+                  }}>
                     <div className={`${styles.itemsCenter} ${styles.gap3}`}>
                       <div className={styles.avatarContainer}>
                         <div className={styles.avatarBlock}>
