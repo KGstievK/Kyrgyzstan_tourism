@@ -141,7 +141,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           <X size={24} />
         </button>
 
-        {isTab === 2 ? (
+        {isTab === 2 && !isReply ? (
           <>
             <div className={styles.header}>
               <h2 className={styles.title}>What do you think?</h2>

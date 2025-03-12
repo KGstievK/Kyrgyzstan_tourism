@@ -10,7 +10,6 @@ import { Avatar, Space } from "antd";
 import { useGetMeQuery } from "@/redux/api/auth";
 import Image from "next/image";
 import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
-import { data } from "react-router-dom";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -38,18 +37,27 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   });
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<number | undefined>();
-  
+
   useEffect(() => {
     if (reviewsData) {
+      // Фильтруем отзывы по entityId
       const filteredReviews = reviewsData.filter((review) => {
         return String(review.entityId) === String(isCurrent);
       });
-      setDataReviews(filteredReviews);
+
+      // Сортируем отзывы по дате (новые в начале)
+      const sortedReviews = filteredReviews.sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return dateB - dateA; // Убывающий порядок
+      });
+
+      setDataReviews(sortedReviews);
     } else {
       setDataReviews([]);
     }
   }, [reviewsData, isCurrent, entityType]);
-  
+
   const applyFilters = (rating?: string, month?: string) => {
     setRatingFilter(rating);
     setMonthFilter(month);
@@ -89,9 +97,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
 
       <div className={styles.spaceY6}>
         {dataReviews.map((review) => (
-          <div key={review.id} className={styles.reviewCard} style={{
-            padding: "0"
-          }}>
+          <div key={review.id} className={styles.reviewCard} style={{ padding: "0" }}>
             <div className={`${styles.itemsCenter} ${styles.gap3}`}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatarBlock}>
@@ -171,18 +177,11 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             </button>
 
             {review.replyReviews && review.replyReviews.length > 0 && (
-              <div className={styles.spaceY6} style={{
-                padding: '20px 0 0 0'
-              }}>
+              <div className={styles.spaceY6} style={{ padding: "20px 0 0 0" }}>
                 {review.replyReviews.map((el) => (
-                  <div key={el.id} className={styles.reviewCard} style={{
-                    padding: '0 0 10px 50px',
-                    margin: '0 0 10px 0',
-                    }}>
+                  <div key={el.id} className={styles.reviewCard} style={{ padding: "0 0 10px 50px", margin: "0 0 10px 0" }}>
                     <div className={`${styles.itemsCenter} ${styles.gap3}`}>
-                      <div className={styles.avatarContainer} style={{
-                        margin: '0'
-                      }}>
+                      <div className={styles.avatarContainer} style={{ margin: "0" }}>
                         <div className={styles.avatarBlock}>
                           <Space direction="vertical" size={20}>
                             <Space wrap size={20}>
@@ -234,9 +233,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                         <span className={styles.reviewDate}>{el.created_date}</span>
                       </div>
                     </div>
-                    <p className={styles.reviewText} style={{
-                      margin: "0"
-                    }}>{el.comment}</p>
+                    <p className={styles.reviewText} style={{ margin: "0" }}>{el.comment}</p>
                   </div>
                 ))}
               </div>

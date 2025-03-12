@@ -23,7 +23,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  align-items: flex-start; // Выравниваем контент по левому краю
+  align-items: flex-start;
 
   .closeButton {
     position: absolute;
@@ -45,20 +45,22 @@
       right: 12px;
     }
   }
+
   .header {
-    text-align: left; // Выравниваем заголовок по левому краю
+    text-align: left;
     margin-bottom: 20px;
 
     @media (max-width: 768px) {
       margin-bottom: 24px;
     }
   }
+
   .ratingContainer {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start; // Выравниваем рейтинг по левому краю
+    align-items: flex-start; // Исправлено
     margin-bottom: 20px;
     gap: 14px;
 
@@ -67,30 +69,62 @@
       display: grid;
       grid-template-columns: 50% 38%;
       justify-content: space-between;
-      align-items: flex-start; // Выравниваем рейтинг по левому краю
+      align-items: flex-start;
       margin-bottom: 20px;
       gap: 14px;
     }
+
     @media (max-width: 768px) {
       gap: 12px;
       margin-bottom: 24px;
     }
   }
+
   form {
     position: relative;
     width: 100%;
     height: auto;
+    flex-grow: 1; // Форма занимает оставшееся пространство
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .sendButton {
+      display: block;
+      max-width: 400px;
+      width: 100%;
+      margin: 0;
+      padding: 16px;
+      background-color: #004d5f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #003847;
+      }
+
+      @media (max-width: 768px) {
+        max-width: 100%;
+        padding: 14px;
+        font-size: 16px;
+      }
+    }
+
     .reviewInputContainer {
       width: 100%;
-      height: auto;
-      position: relative;
+      max-height: 400px;
+      height: 100%;
       margin-bottom: 40px;
       flex-grow: 1;
-      width: 100%; // Занимает всю ширину
 
       .reviewInput {
         width: 100%;
-        height: auto;
+        height: 100%;
         padding: 16px 16px 16px 48px;
         border: 2px solid #e0e0e0;
         border-radius: 8px;
@@ -120,6 +154,7 @@
       }
     }
   }
+
   @media (max-width: 1280px) {
     max-width: 90%;
     height: auto;
@@ -195,30 +230,4 @@
   top: 16px;
   left: 16px;
   color: #666;
-}
-
-.sendButton {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 0; // Убираем автоматический отступ по центру
-  padding: 16px;
-  background-color: #004d5f;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #003847;
-  }
-
-  @media (max-width: 768px) {
-    max-width: 100%;
-    padding: 14px;
-    font-size: 16px;
-  }
 }
