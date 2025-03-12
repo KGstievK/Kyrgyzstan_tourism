@@ -89,7 +89,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
 
       <div className={styles.spaceY6}>
         {dataReviews.map((review) => (
-          <div key={review.id} className={styles.reviewCard}>
+          <div key={review.id} className={styles.reviewCard} style={{
+            padding: "0"
+          }}>
             <div className={`${styles.itemsCenter} ${styles.gap3}`}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatarBlock}>
@@ -169,13 +171,18 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             </button>
 
             {review.replyReviews && review.replyReviews.length > 0 && (
-              <div className={styles.spaceY6}>
+              <div className={styles.spaceY6} style={{
+                padding: '20px 0 0 0'
+              }}>
                 {review.replyReviews.map((el) => (
                   <div key={el.id} className={styles.reviewCard} style={{
-                    paddingLeft: '50px'
-                  }}>
+                    padding: '0 0 10px 50px',
+                    margin: '0 0 10px 0',
+                    }}>
                     <div className={`${styles.itemsCenter} ${styles.gap3}`}>
-                      <div className={styles.avatarContainer}>
+                      <div className={styles.avatarContainer} style={{
+                        margin: '0'
+                      }}>
                         <div className={styles.avatarBlock}>
                           <Space direction="vertical" size={20}>
                             <Space wrap size={20}>
@@ -227,7 +234,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                         <span className={styles.reviewDate}>{el.id}</span>
                       </div>
                     </div>
-                    <p className={styles.reviewText}>{el.comment}</p>
+                    <p className={styles.reviewText} style={{
+                      margin: "0"
+                    }}>{el.comment}</p>
                   </div>
                 ))}
               </div>
