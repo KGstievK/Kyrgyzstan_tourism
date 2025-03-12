@@ -145,7 +145,6 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
           <Stars rating={el.avg_rating} />
           <p>Reviews: {el.rating_count}</p>
         </div>
-        <div className={scss.prices}>{`$${'$$$'} - $$'$$$'}, ${"Russian, Canadian"}`}</div>
       </div>
     </div>
   ));
