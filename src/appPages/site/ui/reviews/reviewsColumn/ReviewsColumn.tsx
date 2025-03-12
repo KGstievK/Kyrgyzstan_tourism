@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Search, SlidersHorizontal } from "lucide-react";
 import styles from "../Reviews.module.scss";
 import { FC, useEffect, useState } from "react";
@@ -9,17 +9,20 @@ import { useGetReviewsQuery } from "@/redux/api/reviews";
 import { Avatar, Space } from "antd";
 import { useGetMeQuery } from "@/redux/api/auth";
 import Image from "next/image";
+import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
 
 interface ReviewsColumnProps {
   entityType: string;
   isCurrent: number | null;
   reviewStatic?: REVIEWS.StaticReview;
+  isTab: number;
 }
 
 const ReviewsColumn: FC<ReviewsColumnProps> = ({
   entityType,
   isCurrent,
   reviewStatic,
+  isTab,
 }) => {
   const [isShow, setIsShow] = useState(false);
   const [dataReviews, setDataReviews] = useState<REVIEWS.Review[]>([]);
@@ -32,14 +35,12 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     rating: ratingFilter,
     month: monthFilter,
   });
-  
-
-  console.log(dataReviews);
+  const [showReplyModal, setShowReplyModal] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState<number | undefined>();
 
   useEffect(() => {
     if (reviewsData) {
       const filteredReviews = reviewsData.filter((review) => {
-        // Для popular_places нет явного entityId, фильтруем все
         if (entityType === "popular_places") return true;
         return String(review.entityId) === String(isCurrent);
       });
@@ -49,10 +50,14 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     }
   }, [reviewsData, isCurrent, entityType]);
 
-  // Функция для применения фильтров (например, через FilterModal)
   const applyFilters = (rating?: string, month?: string) => {
     setRatingFilter(rating);
     setMonthFilter(month);
+  };
+
+  const handleReplyClick = (reviewId: number) => {
+    setSelectedReviewId(reviewId);
+    setShowReplyModal(true);
   };
 
   return (
@@ -78,59 +83,60 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
           reviewStatic={reviewStatic}
           isShow={isShow}
           setIsShow={setIsShow}
-          onApply={applyFilters} // Передаём функцию для фильтров
+          onApply={applyFilters}
         />
       )}
 
       <div className={styles.spaceY6}>
         {dataReviews.map((review) => (
-          <div key={review.id} className={styles.reviewCard}>
+          <div key={review.id} className={styles.reviewCard} style={{
+            padding: "0"
+          }}>
             <div className={`${styles.itemsCenter} ${styles.gap3}`}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatarBlock}>
                   <Space direction="vertical" size={20}>
                     <Space wrap size={20}>
-                          <Avatar
-                            
-                            size={47}
-                            icon={
-                              userPreview ? (
-                                <Image
-                                  src={userPreview}
-                                  alt="avatar"
-                                  style={{
-                                    objectFit: "cover",
-                                    top: "0",
-                                    right: "0",
-                                    borderRadius: "50%",
-                                  }}
-                                />
-                              ) : review.client?.user_picture ? (
-                                <Image
-                                  src={review.client?.user_picture}
-                                  alt="avatar"
-                                  width={100}
-                                  height={100}
-                                  style={{
-                                    objectFit: "cover",
-                                    top: "0",
-                                    right: "0",
-                                    borderRadius: "50%",
-                                  }}
-                                />
-                              ) : (
-                                <UserOutlined />
-                              )
-                            }
-                          />
+                      <Avatar
+                        size={47}
+                        icon={
+                          userPreview ? (
+                            <Image
+                              src={userPreview}
+                              alt="avatar"
+                              style={{
+                                objectFit: "cover",
+                                top: "0",
+                                right: "0",
+                                borderRadius: "50%",
+                              }}
+                            />
+                          ) : review.client.user_picture ? (
+                            <Image
+                              src={review.client.user_picture}
+                              alt="avatar"
+                              width={100}
+                              height={100}
+                              style={{
+                                objectFit: "cover",
+                                top: "0",
+                                right: "0",
+                                borderRadius: "50%",
+                              }}
+                            />
+                          ) : (
+                            <UserOutlined />
+                          )
+                        }
+                      />
                     </Space>
                   </Space>
                   <div>
                     <div className={styles.authorName}>
-                      {review.client?.first_name} {review.client?.last_name}
+                      {review.client.first_name} {review.client.last_name}
                     </div>
                     <div className={styles.authorPlace}>
-                      {review.client?.from_user}
+                      {review.client.from_user}
                     </div>
                   </div>
                 </div>
@@ -157,10 +163,99 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                 ))}
               </div>
             )}
-            <button className={styles.replyButton}>Reply</button>
+            <button
+              className={styles.replyButton}
+              onClick={() => handleReplyClick(review.id)}
+            >
+              Reply
+            </button>
+
+            {review.replyReviews && review.replyReviews.length > 0 && (
+              <div className={styles.spaceY6} style={{
+                padding: '20px 0 0 0'
+              }}>
+                {review.replyReviews.map((el) => (
+                  <div key={el.id} className={styles.reviewCard} style={{
+                    padding: '0 0 10px 50px',
+                    margin: '0 0 10px 0',
+                    }}>
+                    <div className={`${styles.itemsCenter} ${styles.gap3}`}>
+                      <div className={styles.avatarContainer} style={{
+                        margin: '0'
+                      }}>
+                        <div className={styles.avatarBlock}>
+                          <Space direction="vertical" size={20}>
+                            <Space wrap size={20}>
+                              <Avatar
+                                size={47}
+                                icon={
+                                  userPreview ? (
+                                    <Image
+                                      src={userPreview}
+                                      alt="avatar"
+                                      style={{
+                                        objectFit: "cover",
+                                        top: "0",
+                                        right: "0",
+                                        borderRadius: "50%",
+                                      }}
+                                    />
+                                  ) : el.user.user_picture ? (
+                                    <Image
+                                      src={el.user.user_picture}
+                                      alt="avatar"
+                                      width={100}
+                                      height={100}
+                                      style={{
+                                        objectFit: "cover",
+                                        top: "0",
+                                        right: "0",
+                                        borderRadius: "50%",
+                                      }}
+                                    />
+                                  ) : (
+                                    <UserOutlined />
+                                  )
+                                }
+                              />
+                            </Space>
+                          </Space>
+                          <div>
+                            <div className={styles.authorName}>
+                              {el.user.first_name} {el.user.last_name}
+                            </div>
+                            <div className={styles.authorPlace}>
+                              {el.user.from_user}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={`${styles.gap4}`}>
+                        <span className={styles.reviewDate}>{el.id}</span>
+                      </div>
+                    </div>
+                    <p className={styles.reviewText} style={{
+                      margin: "0"
+                    }}>{el.comment}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
+
+      {showReplyModal && (
+        <ReviewModal
+          isCurrent={isCurrent}
+          onClose={() => setShowReplyModal(false)}
+          onSubmit={() => setShowReplyModal(false)}
+          uploadedFiles={[]}
+          isTab={isTab}
+          isReply={true}
+          reviewId={selectedReviewId}
+        />
+      )}
 
       <div className={styles.pagination}>
         <div className={`${styles.flex} ${styles.gap3}`}>

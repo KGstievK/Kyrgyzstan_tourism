@@ -66,7 +66,8 @@ const api = index.injectEndpoints({
             item.hotel || item.kitchen_region || item.attractions || "unknown",
           client: item.client,
           comment: item.comment || item.comment,
-          count_like: item.count_like,
+          rating: item.rating,
+          count_like: item.count_like || 0,
           reviewImages:
             item.hotel_review_image ||
             item.kitchen_review_image ||
@@ -74,6 +75,28 @@ const api = index.injectEndpoints({
             item.attraction_review_image ||
             [],
           createdAt: item.created_at || item.created_date,
+          replyReviews:
+            item.reply_hotel_reviews?.map((reply: any) => ({
+              id: reply.id,
+              user: reply.user,
+              comment: reply.comment,
+            })) ||
+            item.reply_attraction_reviews?.map((reply: any) => ({
+              id: reply.id,
+              user: reply.user,
+              comment: reply.comment,
+            })) ||
+            item.reply_kitchen_reviews?.map((reply: any) => ({
+              id: reply.id,
+              user: reply.user,
+              comment: reply.comment,
+            })) ||
+            item.reply_popular_places?.map((reply: any) => ({
+              id: reply.id,
+              user: reply.user,
+              comment: reply.comment,
+            })) ||
+            [],
         }));
       },
     }),
@@ -138,12 +161,44 @@ const api = index.injectEndpoints({
       }),
       invalidatesTags: ["Reviews"],
     }),
-    postRewiewPlaces: builder.mutation<
-      REVIEWS.ReviewPlacesResponse,
+    postRewiewPlaces: builder.mutation<REVIEWS.ReviewPlacesResponse, FormData>({
+      query: (formData) => ({
+        url: "/popular_places_review_create/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Reviews"],
+    }),
+    postReplyAttraction: builder.mutation<
+      REVIEWS.ReplyAttractionResponse,
       FormData
     >({
       query: (formData) => ({
-        url: "/popular_places_review_create/",
+        url: "/reply_attraction_review/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Reviews"],
+    }),
+    postReplyHotel: builder.mutation<REVIEWS.ReplyHotelResponse, FormData>({
+      query: (formData) => ({
+        url: "/reply_hotel_reviews/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Reviews"],
+    }),
+    postReplyKitchen: builder.mutation<REVIEWS.ReplyKitchenResponse, FormData>({
+      query: (formData) => ({
+        url: "/reply_kitchen_reviews/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Reviews"],
+    }),
+    postReplyPlace: builder.mutation<REVIEWS.ReplyPlaceResponse, FormData>({
+      query: (formData) => ({
+        url: "/reply_popular_places/",
         method: "POST",
         body: formData,
       }),
@@ -161,5 +216,9 @@ export const {
   usePostRewiewHotelMutation,
   usePostRewiewKitchenMutation,
   usePostRewiewAttractionMutation,
-  usePostRewiewPlacesMutation
+  usePostRewiewPlacesMutation,
+  usePostReplyAttractionMutation,
+  usePostReplyHotelMutation,
+  usePostReplyKitchenMutation,
+  usePostReplyPlaceMutation,
 } = api;
