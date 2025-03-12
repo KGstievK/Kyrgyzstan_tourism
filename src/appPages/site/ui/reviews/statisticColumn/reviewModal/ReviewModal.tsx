@@ -58,6 +58,10 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 
   const { data: user } = useGetMeQuery();
   const [rating, setRating] = useState(0);
+  const [serviceRating, setServiceRating] = useState(0);
+  const [nutritionRating, setNutritionRating] = useState(0);
+  const [priceRating, setPriceRating] = useState(0);
+  const [atmosphereRating, setAtmosphereRating] = useState(0);
 
   const onSubmitForm: SubmitHandler<
     | REVIEWS.RewiewHotelRequest
@@ -110,6 +114,14 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           await postRewiewHotel(formData).unwrap();
         } else if (isTab === 2) {
           formData.append("kitchen", isCurrent.toString());
+          if (serviceRating)
+            formData.append("service_rating", serviceRating.toString());
+          if (nutritionRating)
+            formData.append("nutrition_rating", nutritionRating.toString());
+          if (priceRating)
+            formData.append("price_rating", priceRating.toString());
+          if (atmosphereRating)
+            formData.append("atmosphere_rating", atmosphereRating.toString());
           await postRewiewKitchen(formData).unwrap();
         } else if (isTab === 4) {
           formData.append("attractions", isCurrent.toString());
@@ -129,16 +141,49 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           <X size={24} />
         </button>
 
-        <div className={styles.header}>
-          <h2 className={styles.title}>
-            {isReply ? `Response to user @${reviewId}` : "What do you think ?"}
-          </h2>
-          {!isReply && <p className={styles.subtitle}>Please give your rating</p>}
-        </div>
-        {!isReply && (
-          <div className={styles.ratingContainer}>
-            <Rating value={rating} onChange={setRating} />
-          </div>
+        {isTab === 2 ? (
+          <>
+            <div className={styles.header}>
+              <h2 className={styles.title}>What do you think?</h2>
+              <p className={styles.subtitle}>Please give your rating</p>
+            </div>
+
+            <div className={styles.ratingContainer}>
+              <p>overall assessment</p>
+              <Rating value={rating} onChange={setRating} />
+              <div className={styles.KitchenRewiew}>
+                <p>evaluation of the service</p>
+                <p>nutrition assessment</p>
+                <Rating value={serviceRating} onChange={setServiceRating} />
+                <Rating value={nutritionRating} onChange={setNutritionRating} />
+                <p>price estimation</p>
+                <p>assessment of the atmosphere</p>
+                <Rating value={priceRating} onChange={setPriceRating} />
+                <Rating
+                  value={atmosphereRating}
+                  onChange={setAtmosphereRating}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={styles.header}>
+              <h2 className={styles.title}>
+                {isReply
+                  ? `Response to user @${reviewId}`
+                  : "What do you think ?"}
+              </h2>
+              {!isReply && (
+                <p className={styles.subtitle}>Please give your rating</p>
+              )}
+            </div>
+            {!isReply && (
+              <div className={styles.ratingContainer}>
+                <Rating value={rating} onChange={setRating} />
+              </div>
+            )}
+          </>
         )}
 
         <form onSubmit={handleSubmit(onSubmitForm)}>
@@ -146,7 +191,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             <Pencil className={styles.pencilIcon} size={20} />
             <textarea
               className={styles.reviewInput}
-              placeholder={isReply ? "Write your response..." : "Tell us about your experience"}
+              placeholder={
+                isReply
+                  ? "Write your response..."
+                  : "Tell us about your experience"
+              }
               {...register("comment")}
             />
           </div>

@@ -231,7 +231,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                         </div>
                       </div>
                       <div className={`${styles.gap4}`}>
-                        <span className={styles.reviewDate}>{el.id}</span>
+                        <span className={styles.reviewDate}>{el.created_date}</span>
                       </div>
                     </div>
                     <p className={styles.reviewText} style={{
