@@ -107,3 +107,164 @@
         }
     }
 }
+
+/* Добавьте эти стили в ваш Gallery.module.scss файл */
+
+/* Стили для состояния загрузки */
+.loadingContainer {
+    width: 100%;
+    padding: 20px 0;
+  }
+  
+  .skeletonGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .skeletonItem {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+    height: 300px;
+    position: relative;
+  }
+  
+  .skeletonImage {
+    height: 70%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: pulse 1.5s infinite;
+  }
+  
+  .skeletonContent {
+    padding: 15px;
+  }
+  
+  .skeletonTitle {
+    height: 20px;
+    width: 80%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: pulse 1.5s infinite;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  
+  .skeletonRating {
+    height: 15px;
+    width: 60%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: pulse 1.5s infinite;
+    border-radius: 4px;
+  }
+  
+  @keyframes pulse {
+    0% {
+      background-position: 0% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  
+  /* Стили для отображения ошибки */
+  .errorContainer {
+    width: 100%;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .errorContent {
+    text-align: center;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #fff3f3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 500px;
+  }
+  
+  .errorContent h3 {
+    color: #d32f2f;
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+  
+  .errorContent p {
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .retryButton {
+    background-color: #3C5F63;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+  
+  .retryButton:hover {
+    background-color: #2b4548;
+  }
+  
+  /* Стили для пустого состояния */
+  .emptyState {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 18px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  
+  /* Основные стили галереи */
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Анимация для плавного появления элементов */
+  .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Улучшенные стили для элементов списка */
+  .item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Добавьте остальные стили из вашего оригинального файла */

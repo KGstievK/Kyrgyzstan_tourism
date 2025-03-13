@@ -87,3 +87,24 @@
       }
     }
   }
+
+  .inputWrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input.inputError {
+    border-color: #f44336;
+    background-color: rgba(244, 67, 54, 0.05);
+  }
+  
+  .errorMessage {
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 4px;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    text-align: left;
+  }

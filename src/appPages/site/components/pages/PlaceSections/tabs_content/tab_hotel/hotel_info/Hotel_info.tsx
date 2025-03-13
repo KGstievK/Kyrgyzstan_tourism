@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Hotel_info.module.scss";
 import { useGetHotelIDQuery } from "@/redux/api/place";
@@ -12,7 +12,13 @@ import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Preloader from "@/appPages/site/ui/preLoader/Preloader";
-import { BathIcon, Bed, CarFront, CarFrontIcon, CarTaxiFront } from "lucide-react";
+import {
+  BathIcon,
+  Bed,
+  CarFront,
+  CarFrontIcon,
+  CarTaxiFront,
+} from "lucide-react";
 import { MdOutlinePets, MdPets } from "react-icons/md";
 
 interface propsType {
@@ -76,25 +82,39 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           </div>
           <div className={scss.list}>
             <div>
-              {/* <img src={imgBed.src} alt="" /> */}
               <Bed size={40} />
-              <span>{data?.bedroom} Bedrooms</span>
-            </div>
-            <div>
-              <BathIcon size={40} />
-              <span>{data?.bathroom} Bathrooms</span>
-            </div>
-            <div>
-              {/* <img src={imgBed.src} alt="" /> */}
-              <CarFront size={40} />
               <span>
-                {data?.cars}cars/{data?.bikes}bikes
+                {data?.bedroom} {t("Спальни", "غرف نوم", "Bedrooms")}
               </span>
             </div>
             <div>
-              {/* <img src={imgBed.src} alt="" /> */}
+              <BathIcon size={40} />
+              <span>
+                {data?.bathroom} {t("Ванные", "الحمامات", "Bathrooms")}
+              </span>
+            </div>
+            <div>
+              <CarFront size={40} />
+              <span>
+                {data?.cars} {t("машины", "سيارات", "cars")} / {data?.bikes}{" "}
+                {t("велосипеды", "دراجات", "bikes")}
+              </span>
+            </div>
+            <div>
               <MdOutlinePets size={40} />
-              <span>{data?.pets} Pets Allowed</span>
+              <span>
+                {data?.pets
+                  ? t(
+                      "Домашние животные разрешены",
+                      "الحيوانات الأليفة مسموح بها",
+                      "Pets Allowed"
+                    )
+                  : t(
+                      "Домашние животные запрещены",
+                      "الحيوانات الأليفة غير مسموح بها",
+                      "No Pets Allowed"
+                    )}
+              </span>
             </div>
           </div>
           <div className={scss.descr}>
@@ -104,9 +124,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           <div className={scss.amen}>
             <h6>{t("", "", "Offered Amenities")}</h6>
             <div className={scss.amenities}>
-              
               {data?.amenities.map((item, index) => (
-                  
                 <div key={item.id}>
                   <img src={item.icon} alt="" />
                   <span>{item.amenity}</span>

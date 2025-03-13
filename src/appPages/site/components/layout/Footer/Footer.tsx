@@ -6,15 +6,11 @@ import mail from '@/assets/images/footerImages/mail.png';
 import Link from 'next/link';
 import useTranslate from '@/appPages/site/hooks/translate/translate';
 
-
-
 const Footer = () => {
-
     const {t} = useTranslate();
 
     return (
         <footer id={scss.Footer}>
-
             <div className={scss.logo}>
                 <p>logo</p>
                 <div className={scss.links}>
@@ -27,38 +23,38 @@ const Footer = () => {
 
             <nav>
                 <div className={scss.items}>
-                    <h4>{t("","","Home")}</h4>
+                    <h4>{t("Главная", "الرئيسية", "Home")}</h4>
                     <div className={scss.navLinks}>
-                        <Link href="/Attractions">{t("","","Attractions")}</Link>
-                        <Link href="/Map">{t("","","Map")}</Link>
+                        <Link href="/Attractions">{t("Достопримечательности", "المعالم السياحية", "Attractions")}</Link>
+                        <Link href="/Map">{t("Карта", "خريطة", "Map")}</Link>
                     </div>
                 </div>
                 <div className={scss.items}>
-                    <h4>{t("","","Regions")}</h4>
+                    <h4>{t("Регионы", "المناطق", "Regions")}</h4>
                     <div className={scss.navLinks}>
-                        <Link href="/batken">{t("","","Batken")}</Link>
-                        <Link href="/jalal-Abad">{t("","","Jalal-Abad")}</Link>
-                        <Link href="/issyk_kul">{t("","","Issyk_kul")}</Link>
-                        <Link href="/naryn">{t("","","Naryn")}</Link>
-                        <Link href="/osh">{t("","","Osh")}</Link>
-                        <Link href="/talas">{t("","","Talas")}</Link>
-                        <Link href="/chyi">{t("","","Chyi")}</Link>
+                        <Link href="/batken">{t("Баткен", "باتكين", "Batken")}</Link>
+                        <Link href="/jalal-Abad">{t("Джалал-Абад", "جلال-أباد", "Jalal-Abad")}</Link>
+                        <Link href="/issyk_kul">{t("Иссык-Куль", "إيسيك كول", "Issyk_kul")}</Link>
+                        <Link href="/naryn">{t("Нарын", "نارين", "Naryn")}</Link>
+                        <Link href="/osh">{t("Ош", "أوش", "Osh")}</Link>
+                        <Link href="/talas">{t("Талас", "تالاس", "Talas")}</Link>
+                        <Link href="/chyi">{t("Чуй", "تشوي", "Chyi")}</Link>
                     </div>
                 </div>
                 <div className={scss.items}>
-                    <h4>{t("","","Culture")}</h4>
+                    <h4>{t("Культура", "الثقافة", "Culture")}</h4>
                     <div className={scss.navLinks}>
-                        <Link href="/games">{t("","","Games")}</Link>
-                        <Link href="/nationalInstruments">{t("","","National Instruments")}</Link>
-                        <Link href="/nationalClothes">{t("","","National Clothes")}</Link>
-                        <Link href="/nandCrafts">{t("","","Hand Crafts")}</Link>
-                        <Link href="/currency">{t("","","Currency")}</Link>
-                        <Link href="/kitchen">{t("","","Kitchen")}</Link>
+                        <Link href="/games">{t("Игры", "الألعاب", "Games")}</Link>
+                        <Link href="/national_instruments">{t("Национальные инструменты", "الآلات الموسيقية الوطنية", "National Instruments")}</Link>
+                        <Link href="/national_clothes">{t("Национальная одежда", "الملابس الوطنية", "National Clothes")}</Link>
+                        <Link href="/hand_crafts">{t("Ремесла", "الحرف اليدوية", "Hand Crafts")}</Link>
+                        <Link href="/currency">{t("Валюта", "العملة", "Currency")}</Link>
+                        <Link href="/kitchen">{t("Кухня", "المطبخ", "Kitchen")}</Link>
                     </div>
                 </div>
                 <div className={scss.items}>
                     <h4>
-                        <Link href="/gallery">{t("","","Gallery")}</Link>
+                        <Link href="/gallery">{t("Галерея", "معرض الصور", "Gallery")}</Link>
                     </h4>
                 </div>
             </nav>
