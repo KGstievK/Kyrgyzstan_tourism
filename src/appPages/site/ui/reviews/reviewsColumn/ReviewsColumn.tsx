@@ -10,7 +10,6 @@ import { Avatar, Space } from "antd";
 import { useGetMeQuery } from "@/redux/api/auth";
 import Image from "next/image";
 import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
-import { data } from "react-router-dom";
 import { ImageModal } from "../../imageModal/ImageModal";
 
 interface ReviewsColumnProps {
@@ -32,7 +31,6 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   const [monthFilter, setMonthFilter] = useState<string | undefined>();
   const [selectedReviewIndex, setSelectedReviewIndex] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);  const [isLength, setIsLength] = useState(0);
-  const { data: user } = useGetMeQuery();
   const [userPreview, setUserPreview] = useState<string | null>(null);
   const { data: reviewsData } = useGetReviewsQuery({
     entityType,
