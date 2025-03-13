@@ -60,14 +60,24 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   };
   useEffect(() => {
     if (reviewsData) {
+      // Фильтруем отзывы по entityId
       const filteredReviews = reviewsData.filter((review) => {
         return String(review.entityId) === String(isCurrent);
       });
-      setDataReviews(filteredReviews);
+
+      // Сортируем отзывы по дате (новые в начале)
+      const sortedReviews = filteredReviews.sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return dateB - dateA; // Убывающий порядок
+      });
+
+      setDataReviews(sortedReviews);
     } else {
       setDataReviews([]);
     }
   }, [reviewsData, isCurrent, entityType]);
+
 
   const applyFilters = (rating?: string, month?: string) => {
     setRatingFilter(rating);
@@ -289,7 +299,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                         </div>
                       </div>
                       <div className={`${styles.gap4}`}>
-                        <span className={styles.reviewDate}>{el.id}</span>
+                        <span className={styles.reviewDate}>{el.created_date}</span>
                       </div>
                     </div>
                     <p

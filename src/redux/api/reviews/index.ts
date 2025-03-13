@@ -67,6 +67,10 @@ const api = index.injectEndpoints({
           client: item.client,
           comment: item.comment || item.comment,
           rating: item.rating,
+          nutrition_rating: item.nutrition_rating,
+          service_rating: item.service_rating,
+          price_rating: item.price_rating,
+          atmosphere_rating: item.atmosphere_rating,
           count_like: item.count_like || 0,
           reviewImages:
             item.hotel_review_image ||
@@ -80,21 +84,25 @@ const api = index.injectEndpoints({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             item.reply_attraction_reviews?.map((reply: any) => ({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             item.reply_kitchen_reviews?.map((reply: any) => ({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             item.reply_popular_places?.map((reply: any) => ({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             [],
         }));
