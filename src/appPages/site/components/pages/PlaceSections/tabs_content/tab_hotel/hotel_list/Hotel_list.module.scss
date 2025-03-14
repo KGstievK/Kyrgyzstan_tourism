@@ -2,13 +2,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 30px;
+    @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 10px;
+        align-items: end;
+    }   
     h4 {
         font-family: Montserrat;
         font-size: 32px;
         font-weight: 700;
-        line-height: 39.01px;
+        // line-height: 39.01px;
         color: #004A60;
-        margin-bottom: 30px;
+        line-height: clamp(20px, 5vw, 39.01px);
+    
+        @media (max-width: 1024px) {
+          font-size: 28px;
+        }
+    
+        @media (max-width: 768px) {
+          font-size: 24px;
+          align-self: flex-start;
+        }
+    
+        @media (max-width: 600px) {
+            font-size: 24px;
+          
+        }
     }   
     button {
         cursor: pointer;

@@ -40,6 +40,7 @@ namespace REVIEWS {
     id: number;
     client: Client;
     kitchen_region: string;
+    kitchen: number,
     comment: string;
     created_at: string;
     kitchen_review_image: KitchenReviewImage[];
@@ -65,17 +66,17 @@ namespace REVIEWS {
   };
 
   type ReviewKitchenResponse = {
-    id: number;
-    client: Client;
-    kitchen_region: string;
-    kitchen_review_image: any[];
-    comment: string;
-    rating: number;
-    nutrition_rating: number;
-    service_rating: number;
-    price_rating: number;
-    atmosphere_rating: number;
-    created_at: string;
+    id: number
+    kitchen: string
+    kitchen_review_image: any[]
+    comment: string
+    rating: number
+    nutrition_rating: number
+    service_rating: number
+    price_rating: number
+    atmosphere_rating: number
+    created_date: string
+    client: number
   };
   type ReviewKitchenRequest = {
     client: number;
@@ -92,7 +93,7 @@ namespace REVIEWS {
   type ReviewAttractionResponse = {
     id: number;
     client: Client;
-    attractions: string;
+    attractions: number;
     attraction_review_image: any[];
     comment: string;
     rating: number;
@@ -129,6 +130,7 @@ namespace REVIEWS {
     review: number
     comment: string
     user: number
+    created_date: string
   }
   type ReplyAttractionRequest = {
     review: number
@@ -139,6 +141,7 @@ namespace REVIEWS {
     review: number
     comment: string
     user: number
+    created_date: string
   }
   type ReplyHotelRequest = {
     review: number
@@ -149,6 +152,7 @@ namespace REVIEWS {
     review: number
     comment: string
     user: number
+    created_date: string
   }
   type ReplyKitchenRequest = {
     review: number
@@ -159,6 +163,7 @@ namespace REVIEWS {
     review: number
     comment: string
     user: number
+    created_date: string
   }
   type ReplyPlaceRequest = {
     review: number
@@ -196,5 +201,6 @@ namespace REVIEWS {
   id: number
   user: Client
   comment: string
+  created_date: string
 }
 }

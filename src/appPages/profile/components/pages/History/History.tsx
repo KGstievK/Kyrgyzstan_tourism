@@ -46,7 +46,7 @@ const tabsButton = [
               }
               key={tab.id}
               onClick={() => {
-                sessionStorage.setItem("tab", tab.id.toString());
+                sessionStorage.setItem("tabHistory", tab.id.toString());
                 setIsTab(tab.id);
               }}
               className={isTab === tab.id ? scss.active : ""}

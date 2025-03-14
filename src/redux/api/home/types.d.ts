@@ -15,6 +15,7 @@ namespace HOME {
   type CultureListResponse = {
     id: number;
     culture_name: string;
+    culture: string;
     culture_description: string;
     culture_image: string;
   }[];

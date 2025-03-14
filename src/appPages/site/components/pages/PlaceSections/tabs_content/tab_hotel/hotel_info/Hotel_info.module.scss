@@ -26,140 +26,200 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          gap: clamp(10px, 2vw, 15px);
+          
+          @media (max-width: 576px) {
+            align-items: flex-start;
+          }
+          
           .title {
             h5 {
               font-family: Montserrat;
-              font-size: 27.89px;
+              font-size: clamp(16px, 4vw, 27.89px);
               font-weight: 700;
-              line-height: 33.99px;
+              line-height: 1.2;
               color: #242424;
+              margin: 0 0 clamp(4px, 1vw, 8px) 0;
             }
+            
             p {
               font-family: Montserrat;
-              font-size: 15.93px;
+              font-size: clamp(11px, 2vw, 15.93px);
               font-weight: 500;
-              line-height: 19.42px;
+              line-height: 1.2;
               text-align: left;
               color: #9A9A9A;
+              margin: 0;
             }
           }
+          
           .links {
             display: flex;
-            gap: 15px;
+            gap: clamp(8px, 1.5vw, 15px);
+            
+            @media (max-width: 576px) {
+              align-self: flex-end;
+              margin-top: 5px;
+            }
+            
             button {
               border: 0;
               background: none;
               cursor: pointer;
+              padding: clamp(3px, 0.5vw, 5px);
             }
+            
             img {
               &:first-child {
-                width: 37px;
-                height: 27px;
+                width: clamp(24px, 4vw, 37px);
+                height: clamp(18px, 3vw, 27px);
               }
+              
               &:last-child {
-                width: 27px;
-                height: 30px;
+                width: clamp(18px, 3vw, 27px);
+                height: clamp(20px, 3.3vw, 30px);
               }
             }
           }
         }
+        
         .list {
           display: flex;
           justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 10px;
+          gap: clamp(5px, 1vw, 10px);
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          padding-bottom: 5px;
+          
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        
           div {
-            width: calc(25% - 10px);
-            height: 160px;
+            width: calc(25% - clamp(5px, 1vw, 10px));
+            min-width: clamp(70px, 15vw, 140px);
+            height: clamp(85px, 18vw, 160px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: clamp(4px, 2vw, 20px);
             background: #EFF0F2;
             border-radius: 8px;
-            @media (max-width: 834px) {
-              width: calc(50% - 10px);
-            }
-            @media (max-width: 490px) {
-              width: 100%;
-            }
+            padding: clamp(3px, 1vw, 10px);
+            
             img {
-              width: 42px;
-              height: 32px;
+              width: clamp(26px, 4vw, 42px);
+              height: clamp(20px, 3vw, 32px);
             }
+            
+            svg {
+              width: clamp(24px, 4vw, 40px);
+              height: clamp(24px, 4vw, 40px);
+            }
+            
             span {
               font-family: Montserrat;
-              font-size: 15.93px;
+              font-size: clamp(10px, 1.8vw, 15.93px);
               font-weight: 600;
-              line-height: 19.42px;
+              line-height: 1.2;
               color: #242424;
+              text-align: center;
             }
           }
         }
         .descr {
           p {
             font-family: Montserrat;
-            font-size: 14.94px;
+            font-size: clamp(12px, 1.6vw, 14.94px);
             font-weight: 400;
-            line-height: 19.92px;
+            line-height: 1.35;
             color: #9A9A9A;
           }
         }
+        
         .amen {
           .amenities {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: clamp(10px, 2vw, 20px);
+            margin-bottom: clamp(15px, 3vw, 30px);
             @media (max-width: 490px) {
               grid-template-columns: 1fr;
             }
             div {
               display: flex;
               align-items: center;
-              gap: 10px;
-            }
-          }
-          button {
-            width: 100%;
-            max-width: 241px;
-            height: 60px;
-            border: 1px solid #242424;
-            background-color: white;
-            border-radius: 6px;
-            font-family: Montserrat;
-            font-size: 14.94px;
-            font-weight: 600;
-            line-height: 18.21px;
-            color: #242424;
-          }
-        }
-        .safe {
-          .safe_list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            @media (max-width: 490px) {
-              grid-template-columns: 1fr;
-            }
-            div {
-              display: flex;
-              gap: 10px;
-              align-items: center;
+              gap: clamp(5px, 1vw, 10px);
+              
               img {
-                width: 32px;
-                height: 32px;
+                width: clamp(20px, 3vw, 30px);
+                height: clamp(20px, 3vw, 30px);
               }
-              p {
+              
+              span {
                 font-family: Montserrat;
-                font-size: 15.93px;
+                font-size: clamp(12px, 1.6vw, 14.94px);
                 font-weight: 500;
-                line-height: 19.42px;
+                line-height: 1.3;
                 color: #242424;
               }
             }
           }
+          button {
+            width: 100%;
+            max-width: clamp(180px, 25vw, 241px);
+            height: clamp(40px, 6vw, 60px);
+            border: 1px solid #242424;
+            background-color: white;
+            border-radius: 6px;
+            font-family: Montserrat;
+            font-size: clamp(12px, 1.6vw, 14.94px);
+            font-weight: 600;
+            line-height: 1.2;
+            color: #242424;
+          }
+        }
+        
+        .safe {
+          .safe_list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: clamp(8px, 1vw, 10px);
+            @media (max-width: 490px) {
+              grid-template-columns: 1fr;
+            }
+            div {
+              display: flex;
+              gap: clamp(5px, 1vw, 10px);
+              align-items: center;
+              img {
+                width: clamp(24px, 3vw, 32px);
+                height: clamp(24px, 3vw, 32px);
+              }
+              span {
+                font-family: Montserrat;
+                font-size: clamp(12px, 1.8vw, 15.93px);
+                font-weight: 500;
+                line-height: 1.2;
+                color: #242424;
+              }
+            }
+          }
+        }
+        
+        /* Добавляем общие стили для заголовков h6, которые используются во всех секциях */
+        .descr h6,
+        .amen h6,
+        .safe h6 {
+          font-family: Montserrat;
+          font-size: clamp(16px, 2vw, 18px);
+          font-weight: 700;
+          line-height: 1.2;
+          color: #242424;
+          margin: 0 0 clamp(10px, 2vw, 15px) 0;
         }
       }
       .right {

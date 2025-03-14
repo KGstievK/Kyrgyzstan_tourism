@@ -107,7 +107,7 @@ const Culture: React.FC = () => {
                   t("Описание отсутствует", "الوصف غير متوفر", "No description available")}
               </p>
 
-              <Link href={`/`} className={styles.butt}>
+              <Link href={`/culture/${currentSlide.culture.replaceAll(" ", "_").toLowerCase()}`} className={styles.butt}>
                 {t("Подробнее", "المزيد", "More")}{" "}
                 <ArrowRightIcon className={styles.icon} size={16} />
               </Link>

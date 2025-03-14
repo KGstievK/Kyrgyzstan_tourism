@@ -11,6 +11,14 @@
   &::-webkit-scrollbar {
     display: none; // Chrome, Safari, Edge
   }
+  
+  @media (max-width: 1200px) {
+    gap: 12px;
+  }
+  
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
 }
 
 .imageWrapper {
@@ -22,6 +30,26 @@
   &.large {
     width: 463.49px;
     height: 329.12px;
+    
+    @media (max-width: 1200px) {
+      width: 400px;
+      height: 280px;
+    }
+    
+    @media (max-width: 991px) {
+      width: 320px;
+      height: 220px;
+    }
+    
+    @media (max-width: 768px) {
+      width: 280px;
+      height: 200px;
+    }
+    
+    @media (max-width: 576px) {
+      width: 240px;
+      height: 170px;
+    }
   }
 }
 
@@ -33,14 +61,41 @@
   width: 463.49px;
   height: 329.12px;
   flex-shrink: 0;
+  
+  @media (max-width: 1200px) {
+    width: 400px;
+    height: 280px;
+  }
+  
+  @media (max-width: 991px) {
+    width: 320px;
+    height: 220px;
+    gap: 6px;
+  }
+  
+  @media (max-width: 768px) {
+    width: 280px;
+    height: 200px;
+    gap: 4px;
+  }
+  
+  @media (max-width: 576px) {
+    width: 240px;
+    height: 170px;
+    gap: 3px;
+  }
 }
 
 .smallImageWrapper {
   position: relative;
-  border-radius: 8px;
+  // border-radius: 8px;
   overflow: hidden;
   width: 100%;
   height: 100%;
+  
+  @media (max-width: 576px) {
+    border-radius: 5px;
+  }
 }
 
 .image {
@@ -54,8 +109,7 @@
   }
 }
 
-/* Добавьте эти стили в ваш файл GalleryImages.module.scss */
-
+/* Стили для пустого состояния */
 .noImagesContainer {
   width: 100%;
   height: 300px;
@@ -64,8 +118,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
   border: 2px dashed #ccc;
+  
+  @media (max-width: 768px) {
+    height: 250px;
+  }
+  
+  @media (max-width: 576px) {
+    height: 200px;
+  }
 }
 
 .noImagesContent {
@@ -77,12 +138,20 @@
     margin: 15px 0 10px;
     color: #333;
     font-weight: 500;
+    
+    @media (max-width: 576px) {
+      font-size: 18px;
+    }
   }
 
   p {
     color: #666;
     margin: 0;
     font-size: 16px;
+    
+    @media (max-width: 576px) {
+      font-size: 14px;
+    }
   }
 }
 
@@ -101,4 +170,18 @@
   line-height: 18.99px;
   gap: 5px;
   cursor: pointer;
+  
+  @media (max-width: 768px) {
+    bottom: 15px;
+    left: 15px;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  
+  @media (max-width: 576px) {
+    bottom: 10px;
+    left: 10px;
+    font-size: 12px;
+    line-height: 14px;
+  }
 }

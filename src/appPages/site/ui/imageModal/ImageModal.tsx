@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
-import styles from './ImageModal.module.scss'; // Импорт SCSS-модуля
+import styles from './ImageModal.module.scss';
 
 interface Image {
   id: number;
@@ -24,15 +24,57 @@ export function ImageModal({
   onNext,
   onSelectImage
 }: ImageModalProps) {
-  // Функция для обработки ошибок загрузки изображений
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentImageSrc, setCurrentImageSrc] = useState<string>('');
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    if (images && images[selectedImage]) {
+      setIsLoading(true);
+      setImageError(false);
+      
+      const img = new Image();
+      img.src = images[selectedImage].image;
+      
+      img.onload = () => {
+        setCurrentImageSrc(images[selectedImage].image);
+        setIsLoading(false);
+      };
+      
+      img.onerror = () => {
+        setCurrentImageSrc("https://placehold.co/800x600/e0e0e0/969696?text=Image+Not+Available");
+        setIsLoading(false);
+        setImageError(true);
+      };
+    }
+  }, [images, selectedImage]);
+
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
-    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Available";
+    target.src = "https://placehold.co/800x600/e0e0e0/969696?text=Image+Not+Available";
     target.alt = "Image not available";
+    setImageError(true);
     
-    // Добавляем класс для стилизации ошибочного изображения
-    target.classList.add(styles.errorImage || '');
+    if (styles.errorImage) {
+      target.classList.add(styles.errorImage);
+    }
   };
+
+  // Обработчик для клавиш
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      } else if (e.key === 'ArrowLeft') {
+        onPrevious();
+      } else if (e.key === 'ArrowRight') {
+        onNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose, onPrevious, onNext]);
 
   return (
     <div 
@@ -42,7 +84,6 @@ export function ImageModal({
       }}
     >
       <div className={styles.modalContent}>
-        {/* Close button */}
         <button
           onClick={onClose}
           className={styles.closeButton}
@@ -50,7 +91,6 @@ export function ImageModal({
           <X size={24} />
         </button>
 
-        {/* Navigation buttons */}
         {selectedImage > 0 && (
           <button
             onClick={onPrevious}
@@ -71,24 +111,26 @@ export function ImageModal({
           </button>
         )}
 
-        {/* Main Image */}
         <div className={styles.mainImageContainer}>
-          {images && images[selectedImage] ? (
+          {isLoading ? (
+            <div className={styles.loaderContainer}>
+              <div className={styles.loader}></div>
+            </div>
+          ) : images && images[selectedImage] ? (
             <img
-              src={images[selectedImage].image}
+              src={currentImageSrc}
               alt={`Full size image ${selectedImage + 1}`}
-              className={styles.mainImage}
+              className={`${styles.mainImage} ${imageError ? styles.errorImage : ''}`}
               onError={handleImageError}
             />
           ) : (
-            <div className={styles.imageErrorContainer || ''}>
+            <div className={styles.imageErrorContainer}>
               <ImageOff size={48} />
               <p>Изображение недоступно</p>
             </div>
           )}
         </div>
 
-        {/* Thumbnails */}
         <div className={styles.thumbnailsContainer}>
           <div className={styles.thumbnailsScroll}>
             <div className={styles.thumbnailsList}>
@@ -105,6 +147,7 @@ export function ImageModal({
                     alt={`Thumbnail ${index + 1}`}
                     className={styles.thumbnailImage}
                     onError={handleImageError}
+                    loading="lazy"
                   />
                 </div>
               ))}

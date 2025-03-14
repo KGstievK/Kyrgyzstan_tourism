@@ -129,6 +129,7 @@ namespace PLACE {
     id: number
     attraction_name: string
     main_image: string | null
+    popular_places: number
     image: Image[] 
     description: string
     rating_count: number

@@ -8,7 +8,7 @@ const api = index.injectEndpoints({
       { entityType: string }
     >({
       query: ({ entityType }) => ({
-        url: `/${entityType}_review_static`,
+        url: `/${entityType}${entityType === "popular_places" ? "_static" : "_review_static"}`,
         method: "GET",
       }),
       providesTags: (result, error, { entityType }) =>
@@ -45,7 +45,7 @@ const api = index.injectEndpoints({
       { entityType: string; rating?: string; month?: string }
     >({
       query: ({ entityType, rating, month }) => ({
-        url: `/${entityType}_review_list`,
+        url: `/${entityType}${entityType === "popular_places" ? "_review" : "_review_list"}`,
         method: "GET",
         params: { rating, month },
       }),
@@ -63,10 +63,14 @@ const api = index.injectEndpoints({
         return response.map((item) => ({
           id: item.id,
           entityId:
-            item.hotel || item.kitchen_region || item.attractions || "unknown",
+            item.hotel || item.kitchen || item.attractions || item.popular_place || "unknown",
           client: item.client,
           comment: item.comment || item.comment,
           rating: item.rating,
+          nutrition_rating: item.nutrition_rating,
+          service_rating: item.service_rating,
+          price_rating: item.price_rating,
+          atmosphere_rating: item.atmosphere_rating,
           count_like: item.count_like || 0,
           reviewImages:
             item.hotel_review_image ||
@@ -80,21 +84,25 @@ const api = index.injectEndpoints({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             item.reply_attraction_reviews?.map((reply: any) => ({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             item.reply_kitchen_reviews?.map((reply: any) => ({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             item.reply_popular_places?.map((reply: any) => ({
               id: reply.id,
               user: reply.user,
               comment: reply.comment,
+              created_date: reply.created_date
             })) ||
             [],
         }));

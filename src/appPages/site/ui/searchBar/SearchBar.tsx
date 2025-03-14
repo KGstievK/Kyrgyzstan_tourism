@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import styles from "./SearchBar.module.scss";
+import { useRouter } from "next/navigation";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface SearchBarProps {
   pointA: string;
@@ -17,6 +19,8 @@ interface SearchBarProps {
   autocompleteA: React.MutableRefObject<google.maps.places.Autocomplete | null>;
   autocompleteB: React.MutableRefObject<google.maps.places.Autocomplete | null>;
   setModalWindowTime?: (boolean: boolean) => void;
+  fromMap?: boolean; // Флаг, указывающий, что компонент рендерится из Map компонента
+  navigateToRoutes?: boolean; // Флаг для навигации на /routes при поиске
 }
 
 const kyrgyzstanBounds = {
@@ -39,7 +43,70 @@ export default function SearchBar({
   autocompleteA,
   autocompleteB,
   setModalWindowTime,
+  fromMap = false,
+  navigateToRoutes = false,
 }: SearchBarProps) {
+  const router = useRouter();
+  const { t } = useTranslate();
+  
+  // Состояния для хранения ошибок
+  const [pointAError, setPointAError] = useState<string | null>(null);
+  const [pointBError, setPointBError] = useState<string | null>(null);
+  
+  // Функция для навигации на страницу /routes с параметрами
+  const navigateToRoutesPage = () => {
+    if (!validateInputs()) return;
+    
+    if (!pointACoords || !pointBCoords) return;
+    
+    // Создаем URL с параметрами поиска
+    const queryParams = new URLSearchParams({
+      pointA: pointA,
+      pointB: pointB,
+      pointALat: pointACoords.lat.toString(),
+      pointALng: pointACoords.lng.toString(),
+      pointBLat: pointBCoords.lat.toString(),
+      pointBLng: pointBCoords.lng.toString(),
+    }).toString();
+    
+    router.push(`/routes?${queryParams}`);
+  };
+  
+  // Функция для валидации полей ввода
+  const validateInputs = () => {
+    let isValid = true;
+    
+    // Сбрасываем предыдущие ошибки
+    setPointAError(null);
+    setPointBError(null);
+    
+    // Проверяем первое поле
+    if (!pointA.trim()) {
+      setPointAError(t("Укажите пункт отправления", "الرجاء تحديد نقطة المغادرة", "Please specify departure point"));
+      isValid = false;
+    }
+    
+    // Проверяем второе поле
+    if (!pointB.trim()) {
+      setPointBError(t("Укажите пункт назначения", "الرجاء تحديد الوجهة", "Please specify destination"));
+      isValid = false;
+    }
+    
+    return isValid;
+  };
+  
+  // Функция-обертка для onSearch с валидацией
+  const handleSearch = () => {
+    if (!validateInputs()) return;
+    
+    onSearch();
+    setModalWindowTime && setModalWindowTime(true);
+  };
+  
+  // Создаем refs для хранения введенных пользователем значений
+  const inputARef = React.useRef<HTMLInputElement>(null);
+  const inputBRef = React.useRef<HTMLInputElement>(null);
+
   const onLoadA = (autocomplete: google.maps.places.Autocomplete) => {
     autocompleteA.current = autocomplete;
     autocomplete.setBounds(kyrgyzstanBounds);
@@ -66,11 +133,17 @@ export default function SearchBar({
     }
 
     if (place.geometry && place.geometry.location) {
-      setPointA(place.formatted_address || "");
+      // Используем введенное пользователем значение
+      const inputValue = inputARef.current?.value || pointA;
+      
+      setPointA(inputValue);
       setPointACoords({
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       });
+      
+      // Сбрасываем ошибку, если она была
+      setPointAError(null);
     } else {
       console.error("No geometry available for Point A:", place);
       setPointACoords(null);
@@ -89,49 +162,84 @@ export default function SearchBar({
       setPointBCoords(null);
       return;
     }
-
+    
     if (place.geometry && place.geometry.location) {
-      setPointB(place.formatted_address || "");
+      // Используем значение, введенное пользователем
+      const inputValue = inputBRef.current?.value || pointB;
+      
+      setPointB(inputValue);
       setPointBCoords({
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       });
+      
+      // Сбрасываем ошибку, если она была
+      setPointBError(null);
     } else {
       console.error("No geometry available for Point B:", place);
       setPointBCoords(null);
     }
   };
 
+  // Обработчики для очистки ошибок при вводе
+  const handlePointAChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPointA(e.target.value);
+    if (e.target.value.trim()) {
+      setPointAError(null);
+    }
+  };
+
+  const handlePointBChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPointB(e.target.value);
+    if (e.target.value.trim()) {
+      setPointBError(null);
+    }
+  };
+
   return (
     <div className={styles.searchBar}>
       <div className={styles.searchContainer}>
-        <Autocomplete onLoad={onLoadA} onPlaceChanged={onPlaceChangedA}>
-          <input
-            type="text"
-            value={pointA}
-            onChange={(e) => setPointA(e.target.value)}
-            placeholder="Where?"
-            className={`${styles.input} ${pointA ? styles.inputFocused : ""}`}
-          />
-        </Autocomplete>
-        <Autocomplete onLoad={onLoadB} onPlaceChanged={onPlaceChangedB}>
-          <input
-            type="text"
-            value={pointB}
-            onChange={(e) => setPointB(e.target.value)}
-            placeholder="Where?"
-            className={styles.input}
-          />
-        </Autocomplete>
+        <div className={styles.inputWrapper}>
+          <Autocomplete onLoad={onLoadA} onPlaceChanged={onPlaceChangedA}>
+            <input
+              ref={inputARef}
+              type="text"
+              value={pointA}
+              onChange={handlePointAChange}
+              placeholder={t("Откуда?", "من أين؟", "From where?")}
+              className={`${styles.input} ${pointA ? styles.inputFocused : ""} ${pointAError ? styles.inputError : ""}`}
+            />
+          </Autocomplete>
+          {pointAError && <div className={styles.errorMessage}>{pointAError}</div>}
+        </div>
+        
+        <div className={styles.inputWrapper}>
+          <Autocomplete onLoad={onLoadB} onPlaceChanged={onPlaceChangedB}>
+            <input
+              ref={inputBRef}
+              type="text"
+              value={pointB}
+              onChange={handlePointBChange}
+              placeholder={t("Куда?", "إلى أين؟", "Where to?")}
+              className={`${styles.input} ${pointBError ? styles.inputError : ""}`}
+            />
+          </Autocomplete>
+          {pointBError && <div className={styles.errorMessage}>{pointBError}</div>}
+        </div>
+        
         <button
           onClick={() => {
-            onSearch();
-            setModalWindowTime && setModalWindowTime(true)
-            
+            if (fromMap && navigateToRoutes) {
+              // Если компонент отображается на странице карты, и нужно перейти на страницу маршрутов
+              navigateToRoutesPage();
+            } else {
+              // Если компонент уже находится на странице маршрутов
+              handleSearch();
+            }
           }}
           className={styles.btnGo}
         >
-          Go
+          {t("Поехали", "انطلق", "Go")}
         </button>
       </div>
     </div>
