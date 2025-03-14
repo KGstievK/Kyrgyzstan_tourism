@@ -10,6 +10,14 @@
     background-image: url("../../../../../../assets/images/cultureImages/bg.jpg");
     background-position: center;
     backdrop-filter: blur(10px);
+    @media (max-width: 500px) {
+      position: absolute;
+      width: 100%;
+      height: 151px;
+      top: 80px;
+      left: 0;
+      justify-content: center;
+    }
     .muted-background {
       background-color: rgba(195, 185, 185, 0.639);
       backdrop-filter: blur(10px);
@@ -43,6 +51,9 @@
     gap: 50px;
     @media (max-width: 834px) {
       grid-template-columns: 1fr;
+    }
+    @media (max-width: 500px) {
+      padding-top: 130px;
     }
     .images {
       width: 100%;
