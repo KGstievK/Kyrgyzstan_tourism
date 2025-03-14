@@ -13,12 +13,14 @@ const Tab_event = () => {
   const [search, setIsSearch] = useState("");
   const [ticket, setTicket] = useState("");
   const [date, setIsDate] = useState("");
-  const { data, isLoading, isError } = useGetEventListQuery({
+  const { data: event, isLoading, isError } = useGetEventListQuery({
     category,
     search,
     date,
     ticket,
   });
+
+  const data = event?.filter(el => el.id === +routeName)
   return (
     <div className={scss.event}>
       <div className={scss.filter}>
