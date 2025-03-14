@@ -43,9 +43,9 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
   }, [hotelsInPlace, isCurrent, setIsCurrent]);
 
   const handleImageError = (id: string) => {
-    setImageError(prev => ({
+    setImageError((prev) => ({
       ...prev,
-      [id]: true
+      [id]: true,
     }));
   };
 
@@ -59,7 +59,13 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
           <div className={scss.loadingSpinner}>
             <Loader size={40} className={scss.spinnerIcon} />
           </div>
-          <p>{t("Загрузка отелей...", "جار تحميل الفنادق...", "Loading hotels...")}</p>
+          <p>
+            {t(
+              "Загрузка отелей...",
+              "جار تحميل الفنادق...",
+              "Loading hotels..."
+            )}
+          </p>
         </div>
       </div>
     );
@@ -74,7 +80,13 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
         </div>
         <div className={scss.noHotelsContainer}>
           <ImageOff size={48} />
-          <p>{t("Ошибка при загрузке отелей", "خطأ في تحميل الفنادق", "Error loading hotels")}</p>
+          <p>
+            {t(
+              "Ошибка при загрузке отелей",
+              "خطأ في تحميل الفنادق",
+              "Error loading hotels"
+            )}
+          </p>
         </div>
       </div>
     );
@@ -89,24 +101,40 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
         </div>
         <div className={scss.noHotelsContainer}>
           <Hotel size={48} />
-          <p>{t("В этом месте пока нет отелей", "لا توجد فنادق في هذا المكان حتى الآن", "No hotels in this place yet")}</p>
+          <p>
+            {t(
+              "В этом месте пока нет отелей",
+              "لا توجد فنادق في هذا المكان حتى الآن",
+              "No hotels in this place yet"
+            )}
+          </p>
         </div>
       </div>
     );
   }
 
   const renderHotelItem = (hotel: Hotel) => (
-    <div onClick={() => setIsCurrent(hotel.id)} key={hotel.id} className={scss.item}>
+    <div
+      onClick={() => setIsCurrent(hotel.id)}
+      key={hotel.id}
+      className={scss.item}
+    >
       {imageError[`hotel-${hotel.id}`] ? (
         <div className={scss.imageFallback}>
-          <span>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</span>
+          <span>
+            {t(
+              "Изображение не найдено",
+              "الصورة غير موجودة",
+              "Image not found"
+            )}
+          </span>
         </div>
       ) : (
-        <Image 
-          src={hotel.main_image} 
-          alt={hotel.name} 
-          width={341} 
-          height={270} 
+        <Image
+          src={hotel.main_image}
+          alt={hotel.name}
+          width={341}
+          height={270}
           onError={() => handleImageError(`hotel-${hotel.id}`)}
         />
       )}
@@ -122,10 +150,10 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
       {imageError[`heart-${hotel.id}`] ? (
         <div className={scss.heartFallback}>♡</div>
       ) : (
-        <img 
-          className={scss.heart} 
-          src={imgHeart.src} 
-          alt="favorite" 
+        <img
+          className={scss.heart}
+          src={imgHeart.src}
+          alt="favorite"
           onError={() => handleImageError(`heart-${hotel.id}`)}
         />
       )}
@@ -133,10 +161,10 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
         {imageError[`right-${hotel.id}`] ? (
           <div className={scss.rightFallback}>→</div>
         ) : (
-          <img 
-            className={scss.right} 
-            src={imgRight.src} 
-            alt="select" 
+          <img
+            className={scss.right}
+            src={imgRight.src}
+            alt="select"
             onError={() => handleImageError(`right-${hotel.id}`)}
           />
         )}
@@ -161,9 +189,9 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
       <div className={scss.head}>
         <h4>
           {t(
-            "Лучшие достопримечательности поблизости",
-            "أفضل المعالم السياحية القريبة",
-            "The best attractions nearby"
+            "Лучшие отели поблизости",
+            "أفضل الفنادق القريبة",
+            "The best hotels nearby"
           )}
         </h4>
         {hotels.length > ITEMS_PER_PAGE && !isAllItemsShown && (
@@ -172,13 +200,12 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
           </button>
         )}
       </div>
-      {hotelGroups.length > 0 && (
+      {hotelGroups.length > 0 &&
         hotelGroups.slice(0, isLimit).map((group, groupIndex) => (
           <div key={groupIndex} className={scss.list}>
             {group.map(renderHotelItem)}
           </div>
-        ))
-      ) }
+        ))}
     </div>
   );
 };

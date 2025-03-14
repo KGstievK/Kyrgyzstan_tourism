@@ -4,8 +4,10 @@ import { BsPersonWalking } from "react-icons/bs";
 import { FaCar } from "react-icons/fa";
 import { IoSubway } from "react-icons/io5";
 import { TiLocation } from "react-icons/ti";
-import { FetchBaseQueryError, SerializedError } from "@reduxjs/toolkit/query";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { SerializedError } from "@reduxjs/toolkit";
 import { GiAirplaneDeparture } from "react-icons/gi";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface RouteInfoProps {
   walkData?: { distance: string; duration: string };
@@ -28,14 +30,16 @@ export default function RouteInfo({
   isSearched,
   setModalWindow
 }: RouteInfoProps) {
+  const { t } = useTranslate();
+  
   const getErrorText = (error?: FetchBaseQueryError | SerializedError) => {
-    if (!error) return "N/A";
+    if (!error) return t("Нет данных", "لا توجد بيانات", "No data");
     if ("status" in error) {
       return `${error.status}: ${
-        typeof error.data === "string" ? error.data : "Error"
+        typeof error.data === "string" ? error.data : t("Ошибка", "خطأ", "Error")
       }`;
     }
-    return "Error";
+    return t("Ошибка", "خطأ", "Error");
   };
 
   return (
@@ -59,13 +63,12 @@ export default function RouteInfo({
       <div className={styles.routeItem}>
         <IoSubway className={styles.icon} />
         <p>
-          {isSearched ? trainData?.duration || "-" : "-"}
+          {isSearched ? trainData?.duration || t("Нет маршрута", "لا يوجد طريق", "No route") : "-"}
         </p>
       </div>
       <div onClick={() => setModalWindow && setModalWindow(true)} className={styles.routeItem}>
         <GiAirplaneDeparture className={styles.icon} />
-        <p>5 tickets</p>
-        {" "}
+        <p>{t("5 билетов", "5 تذاكر", "5 tickets")}</p>
       </div>
     </div>
   );

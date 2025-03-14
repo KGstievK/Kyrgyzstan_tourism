@@ -1,131 +1,121 @@
 "use client";
-import { useGetFavoriteItemsQuery } from '@/redux/api/auth';
-import React, { useState } from 'react';
+import { useGetFavoriteItemsQuery, useGetMeQuery } from "@/redux/api/auth";
+import React, { useState } from "react";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Favorites.module.scss";
 import imgHeart from "@/assets/images/regions/Vector.png";
 import imgMetka from "@/assets/images/galleryImages/metka.png";
 import Stars from "@/appPages/site/ui/stars/Stars";
+import {
+  useDeleteFavoriteMutation,
+  useGetFavoriteQuery,
+} from "@/redux/api/regions";
+import { FaHeart } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { RiSearch2Line } from "react-icons/ri";
+import { GoArrowUpRight } from "react-icons/go";
+import { FiArrowUpRight } from "react-icons/fi";
+import user1 from "../../../../../assets/images/Favorites/user1.jpg";
 
 const Favorites = () => {
-  const { data } = useGetFavoriteItemsQuery();
   const { t } = useTranslate();
-  console.log(data);
-  
+  const { data } = useGetFavoriteQuery();
+  console.log("🚀 ~ Gallery ~ favorite:", data);
+  const { data: user } = useGetMeQuery();
+  const [deleteFavorite] = useDeleteFavoriteMutation();
+
+  const handleDeleteFavorite = async (placeId: number) => {
+    try {
+      await deleteFavorite({ id: placeId });
+      console.log(
+        "🚀 ~ handleDeleteFavorite ~ deleteFavorite:",
+        deleteFavorite
+      );
+      console.log("Favorite removed successfully");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   // Функция для обработки ошибок загрузки изображений
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
     const target = e.target as HTMLImageElement;
-    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
+    target.src =
+      "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
     target.alt = "Image not available";
   };
 
   return (
     <section id={scss.Favorites}>
       <div className="container">
-        <div className={scss.list}>
-          {data && data.map((item, i) => (
-            <React.Fragment key={i}>
-              {/* Отображение галереи */}
-              {item.gallery && (
-                <div className={scss.item}>
-                  <img 
-                    src={item.gallery.gallery_image} 
-                    alt="gallery place" 
-                    onError={handleImageError}
-                  />
-                  <div className={scss.block}>
-                    <h6>{item.gallery.gallery_name}</h6>
-                    <div>
-                      <span className={scss.grade}>{item.gallery.avg_rating}</span>
-                      <Stars rating={item.gallery.avg_rating} width={9} height={9} />
-                      <span className={scss.review}>
-                        {item.gallery.rating_count} {t("Отзывы", "مراجعات", "reviews")}
-                      </span>
-                    </div>
-                    <span className={scss.metka}>
-                      <img src={imgMetka.src} alt="location icon" onError={handleImageError} />
-                      <span>{item.gallery.address}</span>
-                    </span>
-                  </div>
-                  <img className={scss.heart} src={imgHeart.src} alt="favorite icon" onError={handleImageError} />
+        <div className={scss.content}>
+          <div className={scss.blockProfile}>
+            <div className={scss.search}>
+              <div className={scss.inputs}>
+                <RiSearch2Line className={scss.Search2Line} />
+                <input type="text" />
+              </div>
+              <div className={scss.arrowUpRight}>
+                <FiArrowUpRight className={scss.upRight} />
+              </div>
+            </div>
+            {user?.map((el) => (
+              <div key={el.id} className={scss.profile}>
+                <div className={scss.text}>
+                  <h5 className={scss.lastName}>
+                    {el.last_name} {el.first_name}
+                  </h5>
+                  <p className={scss.name}>{el.email}</p>
                 </div>
-              )}
-
-              {/* Отображение достопримечательностей */}
-              {item.attractions && (
-                <div className={scss.item}>
-                  <img 
-                    src={item.attractions.main_image} 
-                    alt="attraction place" 
-                    onError={handleImageError}
-                  />
-                  <div className={scss.block}>
-                    <h6>{item.attractions.attraction_name}</h6>
-                    <div>
-                      <span className={scss.grade}>{item.attractions.avg_rating}</span>
-                      <Stars rating={item.attractions.avg_rating} width={9} height={9} />
-                      <span className={scss.review}>
-                        {item.attractions.rating_count} {t("Отзывы", "مراجعات", "reviews")}
-                      </span>
+                <img src={user1.src} alt="" className={scss.user1} />
+              </div>
+            ))}
+          </div>
+          <h1>Favorites</h1>
+          <div className={scss.list}>
+            {data &&
+              data.map((item, i) => (
+                <React.Fragment key={i}>
+                  {item.popular_place && (
+                    <div className={scss.item}>
+                      <img
+                        src={item.popular_place.popular_image}
+                        alt="gallery place"
+                        onError={handleImageError}
+                      />
+                      <div className={scss.block}>
+                        <h6>{item.popular_place.popular_name}</h6>
+                        <div>
+                          <span className={scss.grade}>
+                            {item.popular_place.avg_rating}
+                          </span>
+                          <Stars
+                            rating={item.popular_place.avg_rating}
+                            width={9}
+                            height={9}
+                          />
+                          <span className={scss.review}>
+                            {item.popular_place.rating_count}{" "}
+                            {t("Отзывы", "مراجعات", "reviews")}
+                          </span>
+                        </div>
+                        <span className={scss.metka}>
+                          <FaLocationDot className={scss.locationDot} />
+                          <span>{item.popular_place.region}</span>
+                        </span>
+                      </div>
+                      <div className={scss.heart}>
+                        <FaHeart
+                          onClick={() => handleDeleteFavorite(item.id)}
+                          className={scss.heartIconRed}
+                        />
+                      </div>
                     </div>
-                    <span className={scss.metka}>
-                      <img src={imgMetka.src} alt="" />
-                      <span>{item.attractions.region_category}</span>
-                    </span>
-                  </div>
-                  <img className={scss.heart} src={imgHeart.src} alt="" />
-                </div>
-              )}
-
-              {/* Отображение отелей */}
-              {item.hotels && (
-                <div className={scss.item}>
-                  <img 
-                    src={item.hotels.main_image} 
-                    alt="hotel place" 
-                    onError={handleImageError}
-                  />
-                  <div className={scss.block}>
-                    <h6>{item.hotels.name}</h6>
-                    <div>
-                      <span className={scss.grade}>{item.hotels.avg_rating}</span>
-                      <Stars rating={item.hotels.avg_rating} width={9} height={9} />
-                      <span className={scss.review}>
-                        {item.hotels.rating_count} {t("Отзывы", "مراجعات", "reviews")}
-                      </span>
-                    </div>
-                  </div>
-                  <img className={scss.heart} src={imgHeart.src} alt="" />
-                </div>
-              )}
-
-              {/* Отображение популярных регионов */}
-              {item.popular_region && (
-                <div className={scss.item}>
-                  <img 
-                    src={item.popular_region.popular_image} 
-                    alt="popular region" 
-                    onError={handleImageError}
-                  />
-                  <div className={scss.block}>
-                    <h6>{item.popular_region.popular_name}</h6>
-                    <div>
-                      <span className={scss.grade}>{item.popular_region.avg_rating}</span>
-                      <Stars rating={item.popular_region.avg_rating} width={9} height={9} />
-                      <span className={scss.review}>
-                        {item.popular_region.rating_count} {t("Отзывы", "مراجعات", "reviews")}
-                      </span>
-                    </div>
-                    <span className={scss.metka}>
-                      <img src={imgMetka.src} alt="" />
-                      <span>{item.popular_region.region}</span>
-                    </span>
-                  </div>
-                  <img className={scss.heart} src={imgHeart.src} alt="" />
-                </div>
-              )}
-            </React.Fragment>
-          ))}
+                  )}
+                </React.Fragment>
+              ))}
+          </div>
         </div>
       </div>
     </section>

@@ -7,6 +7,7 @@ import imgHeart from "@/assets/images/placeImages/Vector.png";
 import imgRight from "@/assets/images/placeImages/Arrow_alt_lright.png";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { BiLike } from "react-icons/bi";
+import ReviewsColumn from "@/appPages/site/ui/reviews/reviewsColumn/ReviewsColumn";
 
 interface Hotel {
   id: number;
@@ -178,7 +179,7 @@ const HotelHistory = () => {
       </div>
 
       {/* Comments Section */}
-      <div className={scss.comentary}>
+      {/* <div className={scss.comentary}>
         {isLoading ? (
           <div>Loading...</div>
         ) : error ? (
@@ -238,7 +239,8 @@ const HotelHistory = () => {
             })}
           </div>
         )}
-      </div>
+      </div> */}
+      {/* <ReviewsColumn /> */}
     </div>
   );
 };

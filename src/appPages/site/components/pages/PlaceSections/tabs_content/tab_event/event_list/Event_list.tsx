@@ -19,6 +19,17 @@ interface Props {
   error?: any;
 }
 
+// Константа с категориями, которая будет использоваться для маппинга
+const CATEGORIES = [
+  { ru: "Концерт", ar: "حفلة موسيقية", en: "Concert" },
+  { ru: "Кино", ar: "سينما", en: "Cinema" },
+  { ru: "Досуг", ar: "الترفيه", en: "Leisure" },
+  { ru: "Выставки", ar: "المعارض", en: "Exhibitions" },
+  { ru: "Театр", ar: "مسرح", en: "Theater" },
+  { ru: "Мастер классы", ar: "دروس تعليمية", en: "Master classes" },
+  { ru: "Туризм", ar: "السياحة", en: "Tourism" },
+];
+
 const Event_list: FC<Props> = ({
   data,
   setCategory,
@@ -32,35 +43,49 @@ const Event_list: FC<Props> = ({
   const { t } = useTranslate();
   const [isDropDown, setIsDropDown] = useState(false);
   const [imgErrors, setImgErrors] = useState<{[key: number]: boolean}>({});
+  
+  // Отслеживаем выбранную категорию на английском для API
+  const [selectedCategoryEn, setSelectedCategoryEn] = useState<string>("");
 
   const handleImageError = (index: number) => {
     setImgErrors(prev => ({...prev, [index]: true}));
   };
 
-  const filterList = [
-    { ru: "Концерт", ar: "حفلة موسيقية", en: "Concert" },
-    { ru: "Кино", ar: "سينما", en: "Cinema" },
-    { ru: "Досуг", ar: "الترفيه", en: "Leisure" },
-    { ru: "Выставки", ar: "المعارض", en: "Exhibitions" },
-    { ru: "Театр", ar: "مسرح", en: "Theater" },
-    { ru: "Мастер классы", ar: "دروس تعليمية", en: "Master classes" },
-    { ru: "Туризм", ar: "السياحة", en: "Tourism" },
-  ];
+  // Функция для установки категории
+  // Всегда сохраняет английское название категории для API, но отображает на текущем языке
+  const handleCategorySelect = (categoryObject: typeof CATEGORIES[0]) => {
+    // Если категория уже выбрана, сбрасываем её
+    if (selectedCategoryEn === categoryObject.en) {
+      setSelectedCategoryEn("");
+      setCategory(""); // Сбрасываем категорию в API
+    } else {
+      setSelectedCategoryEn(categoryObject.en);
+      setCategory(categoryObject.en); // Отправляем английское название в API
+    }
+  };
+  
+  // Функция для проверки, выбрана ли категория
+  const isCategorySelected = (categoryObject: typeof CATEGORIES[0]) => {
+    return selectedCategoryEn === categoryObject.en;
+  };
+
+  // Функция сброса всех фильтров
+  const resetFilters = () => {
+    setSelectedCategoryEn("");
+    setCategory("");
+    setTicket("");
+    setIsDate("");
+  };
 
   // Error scenario
   if (error) {
     return (
       <>
         <div className={scss.filter}>
-          {/* Filter components remain unchanged */}
           <div
-            onClick={() => {
-              setCategory("");
-              setTicket("");
-              setIsDate("");
-            }}
+            onClick={resetFilters}
             style={
-              category == "" && ticket == ""
+              selectedCategoryEn === "" && ticket === ""
                 ? { background: "#004A60", color: "white" }
                 : {}
             }
@@ -68,7 +93,7 @@ const Event_list: FC<Props> = ({
           >
             {t("Все", "الكل", "All")}
           </div>
-          {/* Other filter options */}
+          {/* Остальные фильтры */}
         </div>
         <div className={scss.noEventsContainer}>
           <ImageOff size={48} />
@@ -83,15 +108,10 @@ const Event_list: FC<Props> = ({
     return (
       <>
         <div className={scss.filter}>
-          {/* Filter components remain unchanged */}
           <div
-            onClick={() => {
-              setCategory("");
-              setTicket("");
-              setIsDate("");
-            }}
+            onClick={resetFilters}
             style={
-              category == "" && ticket == ""
+              selectedCategoryEn === "" && ticket === ""
                 ? { background: "#004A60", color: "white" }
                 : {}
             }
@@ -99,7 +119,7 @@ const Event_list: FC<Props> = ({
           >
             {t("Все", "الكل", "All")}
           </div>
-          {/* Other filter options */}
+          {/* Остальные фильтры */}
         </div>
         <div className={scss.noEventsContainer}>
           <Loader size={48} className={scss.loadingSpinner}/>
@@ -113,13 +133,9 @@ const Event_list: FC<Props> = ({
     <>
       <div className={scss.filter}>
         <div
-          onClick={() => {
-            setCategory("");
-            setTicket("");
-            setIsDate("");
-          }}
+          onClick={resetFilters}
           style={
-            category == "" && ticket == ""
+            selectedCategoryEn === "" && ticket === ""
               ? { background: "#004A60", color: "white" }
               : {}
           }
@@ -173,23 +189,16 @@ const Event_list: FC<Props> = ({
                 strokeLinejoin="round"
               />
             </svg>
-            {filterList.map((item, index) => (
+            {CATEGORIES.map((item, index) => (
               <span
                 key={index}
                 className={scss.dropDownItem}
-                onClick={() =>
-                  setCategory(
-                    category === item.ru ||
-                      category === item.en ||
-                      category === item.ar
-                      ? ""
-                      : t(item.ru, item.ar, item.en)
-                  )
-                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCategorySelect(item);
+                }}
                 style={
-                  category === item.ru ||
-                  category === item.en ||
-                  category === item.ar
+                  isCategorySelected(item)
                     ? { background: "#004A60", color: "white" }
                     : {}
                 }
@@ -201,7 +210,7 @@ const Event_list: FC<Props> = ({
         </div>
         <div
           style={
-            ticket == "true" ? { background: "#004A60", color: "white" } : {}
+            ticket === "true" ? { background: "#004A60", color: "white" } : {}
           }
           onClick={() => setTicket(ticket !== "" ? "" : "true")}
           className={scss.item}

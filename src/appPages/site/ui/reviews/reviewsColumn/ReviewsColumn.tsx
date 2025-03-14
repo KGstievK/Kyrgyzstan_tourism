@@ -10,6 +10,7 @@ import { Avatar, Space } from "antd";
 import { useGetMeQuery } from "@/redux/api/auth";
 import Image from "next/image";
 import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
+import { ImageModal } from "../../imageModal/ImageModal";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -28,7 +29,8 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   const [dataReviews, setDataReviews] = useState<REVIEWS.Review[]>([]);
   const [ratingFilter, setRatingFilter] = useState<string | undefined>();
   const [monthFilter, setMonthFilter] = useState<string | undefined>();
-  const { data: user } = useGetMeQuery();
+  const [selectedReviewIndex, setSelectedReviewIndex] = useState<number | null>(null);
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);  const [isLength, setIsLength] = useState(0);
   const [userPreview, setUserPreview] = useState<string | null>(null);
   const { data: reviewsData } = useGetReviewsQuery({
     entityType,
@@ -36,8 +38,24 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     month: monthFilter,
   });
   const [showReplyModal, setShowReplyModal] = useState(false);
-  const [selectedReviewId, setSelectedReviewId] = useState<number | undefined>();
+  const [selectedReviewId, setSelectedReviewId] = useState<
+    number | undefined
+  >();
 
+  const handlePrevious = () => {
+    if (selectedImage !== null && selectedImage > 0) {
+      setSelectedImage(selectedImage - 1);
+    }
+  };
+  
+  const handleNext = () => {
+    if (selectedImage !== null && selectedReviewIndex !== null) {
+      const maxIndex = dataReviews[selectedReviewIndex]?.reviewImages.length - 1 || 0;
+      if (selectedImage < maxIndex) {
+        setSelectedImage(selectedImage + 1);
+      }
+    }
+  };
   useEffect(() => {
     if (reviewsData) {
 
@@ -56,6 +74,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       setDataReviews([]);
     }
   }, [reviewsData, isCurrent, entityType]);
+
 
   const applyFilters = (rating?: string, month?: string) => {
     setRatingFilter(rating);
@@ -95,8 +114,14 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       )}
 
       <div className={styles.spaceY6}>
-        {dataReviews.map((review) => (
-          <div key={review.id} className={styles.reviewCard} style={{ padding: "0" }}>
+        {dataReviews.map((review, reviewIndex) => (
+          <div
+            key={review.id}
+            className={styles.reviewCard}
+            style={{
+              padding: "0",
+            }}
+          >
             <div className={`${styles.itemsCenter} ${styles.gap3}`}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatarBlock}>
@@ -160,7 +185,17 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
               <div className={styles.imageGrid}>
                 {review.reviewImages.map((image, index) => (
                   <img
+                    onClick={() => {
+                      setSelectedReviewIndex(reviewIndex);
+                      setSelectedImage(
+                        review.reviewImages.findIndex(
+                          (el) => el.id === image.id
+                        )
+                      );
+                      setIsLength(review.reviewImages.length);
+                    }}
                     key={image.id}
+                    loading="lazy"
                     src={image.image}
                     alt={`Review image ${index + 1}`}
                     className={styles.reviewImage}
@@ -168,6 +203,21 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                 ))}
               </div>
             )}
+
+            {selectedImage !== null && selectedReviewIndex !== null && (
+              <ImageModal
+                images={dataReviews[selectedReviewIndex]?.reviewImages || []}
+                selectedImage={selectedImage}
+                onClose={() => {
+                  setSelectedImage(null);
+                  setSelectedReviewIndex(null);
+                }}
+                onPrevious={handlePrevious}
+                onNext={handleNext}
+                onSelectImage={setSelectedImage}
+              />
+            )}
+
             <button
               className={styles.replyButton}
               onClick={() => handleReplyClick(review.id)}
@@ -176,11 +226,28 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             </button>
 
             {review.replyReviews && review.replyReviews.length > 0 && (
-              <div className={styles.spaceY6} style={{ padding: "20px 0 0 0" }}>
+              <div
+                className={styles.spaceY6}
+                style={{
+                  padding: "20px 0 0 0",
+                }}
+              >
                 {review.replyReviews.map((el) => (
-                  <div key={el.id} className={styles.reviewCard} style={{ padding: "0 0 10px 50px", margin: "0 0 10px 0" }}>
+                  <div
+                    key={el.id}
+                    className={styles.reviewCard}
+                    style={{
+                      padding: "0 0 10px 50px",
+                      margin: "0 0 10px 0",
+                    }}
+                  >
                     <div className={`${styles.itemsCenter} ${styles.gap3}`}>
-                      <div className={styles.avatarContainer} style={{ margin: "0" }}>
+                      <div
+                        className={styles.avatarContainer}
+                        style={{
+                          margin: "0",
+                        }}
+                      >
                         <div className={styles.avatarBlock}>
                           <Space direction="vertical" size={20}>
                             <Space wrap size={20}>
@@ -232,7 +299,14 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                         <span className={styles.reviewDate}>{el.created_date}</span>
                       </div>
                     </div>
-                    <p className={styles.reviewText} style={{ margin: "0" }}>{el.comment}</p>
+                    <p
+                      className={styles.reviewText}
+                      style={{
+                        margin: "0",
+                      }}
+                    >
+                      {el.comment}
+                    </p>
                   </div>
                 ))}
               </div>
