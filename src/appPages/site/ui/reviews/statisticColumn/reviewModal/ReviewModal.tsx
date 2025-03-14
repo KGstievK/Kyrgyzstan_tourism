@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { X, Pencil } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import styles from "./ReviewModal.module.scss";
+import scss from "./ReviewModal.module.scss";
 import {
   usePostReplyAttractionMutation,
   usePostReplyHotelMutation,
@@ -135,30 +135,30 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   };
 
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>
+    <div className={scss.modalOverlay}>
+      <div className={scss.modalContent}>
+        <button className={scss.closeButton} onClick={onClose}>
           <X size={24} />
         </button>
 
         {isTab === 2 && !isReply ? (
           <>
-            <div className={styles.header}>
-              <h2 className={styles.title}>What do you think?</h2>
-              <p className={styles.subtitle}>Please give your rating</p>
+            <div className={scss.header}>
+              <h2 className={scss.title}>What do you think?</h2>
+              <p className={scss.subtitle}>Please give your rating</p>
             </div>
 
-            <div className={styles.ratingContainer}>
-              <p>overall assessment</p>
-              <Rating value={rating} onChange={setRating} />
-              <div className={styles.KitchenRewiew}>
+            <div className={scss.ratingContainer}>
+              <div className={scss.KitchenRewiew}>
+                <p>overall assessment:</p>
+                <Rating value={rating} onChange={setRating} />
                 <p>evaluation of the service</p>
-                <p>nutrition assessment</p>
                 <Rating value={serviceRating} onChange={setServiceRating} />
+                <p>nutrition assessment</p>
                 <Rating value={nutritionRating} onChange={setNutritionRating} />
                 <p>price estimation</p>
-                <p>assessment of the atmosphere</p>
                 <Rating value={priceRating} onChange={setPriceRating} />
+                <p>assessment of the atmosphere</p>
                 <Rating
                   value={atmosphereRating}
                   onChange={setAtmosphereRating}
@@ -168,18 +168,18 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           </>
         ) : (
           <>
-            <div className={styles.header}>
-              <h2 className={styles.title}>
+            <div className={scss.header}>
+              <h2 className={scss.title}>
                 {isReply
                   ? `Response to user @${reviewId}`
                   : "What do you think ?"}
               </h2>
               {!isReply && (
-                <p className={styles.subtitle}>Please give your rating</p>
+                <p className={scss.subtitle}>Please give your rating</p>
               )}
             </div>
             {!isReply && (
-              <div className={styles.ratingContainer}>
+              <div className={scss.ratingContainer}>
                 <Rating value={rating} onChange={setRating} />
               </div>
             )}
@@ -187,10 +187,10 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
         )}
 
         <form onSubmit={handleSubmit(onSubmitForm)}>
-          <div className={styles.reviewInputContainer}>
-            <Pencil className={styles.pencilIcon} size={20} />
+          <div className={scss.reviewInputContainer}>
+            <Pencil className={scss.pencilIcon} size={20} />
             <textarea
-              className={styles.reviewInput}
+              className={scss.reviewInput}
               placeholder={
                 isReply
                   ? "Write your response..."
@@ -199,10 +199,14 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
               {...register("comment")}
             />
           </div>
-
-          <button type="submit" className={styles.sendButton}>
-            Send
-          </button>
+          <div className={scss.btn}>
+            <button type="submit" className={scss.sendButton}>
+              Send
+            </button>
+            <button className={scss.sendButton} onClick={onClose}>
+              cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
