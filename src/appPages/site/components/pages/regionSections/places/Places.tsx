@@ -2,40 +2,36 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Places.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
-import imgHeart from "@//assets/images/regions/Vector.png";
 import Link from "next/link";
-import { useGetRegionListQuery } from "@/redux/api/regions";
+import {
+  useGetFavoriteQuery,
+  useGetRegionListQuery,
+} from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
 import Stars from "@/appPages/site/ui/stars/Stars";
-import React from "react";
+import LikePost from "./LikePost";
 
 const Places = () => {
   const { t } = useTranslate();
   const { data, isLoading, isError } = useGetRegionListQuery();
   const pathName = usePathname();
-  const routeName = pathName.split("/")[1];  
-  const popularPlacesInRegion = data?.find((place) => place.region_category.trim().toLocaleLowerCase() === routeName.trim().toLocaleLowerCase());
+  const routeName = pathName.split("/")[1];
 
-  // Функция для обработки ошибок загрузки изображений
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.target as HTMLImageElement;
-    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
-    target.alt = "Image not available";
-  };
+  const popularPlacesInRegion = data?.find(
+    (place) =>
+      place.region_category.trim().toLocaleLowerCase() ===
+      routeName.trim().toLocaleLowerCase()
+  );
 
   return (
-    <>
-      <section id={scss.Places}>
-        <div className="container">
-          <h2>{t("Популярные места", "أماكن مشهورة", "Popular places")}</h2>
-          <div className={scss.list}>
-            {popularPlacesInRegion?.popular_places?.map((place, i) => (
+    <section id={scss.Places}>
+      <div className="container">
+        <h2>{t("Популярные места", "أماكن مشهورة", "Popular places")}</h2>
+        <div className={scss.list}>
+          {popularPlacesInRegion?.popular_places?.map((place, i) => {
+            return (
               <div key={i} className={scss.item}>
-                <img 
-                  src={place.popular_image} 
-                  alt="popular place" 
-                  onError={handleImageError}
-                />
+                <img src={place.popular_image} alt="popular place" />
                 <div className={scss.block}>
                   <h6>{place.popular_name}</h6>
                   <div>
@@ -48,28 +44,16 @@ const Places = () => {
                     </span>
                   </div>
                 </div>
-                <img 
-                  className={scss.heart} 
-                  src={imgHeart.src} 
-                  alt="like" 
-                  onError={handleImageError}
-                />
-                <Link
-                  href={`/${routeName}/${place.id}`}
-                >
-                  <img 
-                    className={scss.right} 
-                    src={imgRight.src} 
-                    alt="go to details" 
-                    onError={handleImageError}
-                  />
+                <LikePost postId={place.id} />
+                <Link href={`/${routeName}/${place.id}`}>
+                  <img className={scss.right} src={imgRight.src} alt="" />
                 </Link>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 
