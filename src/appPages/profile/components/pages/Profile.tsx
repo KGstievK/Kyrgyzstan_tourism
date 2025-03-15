@@ -41,7 +41,7 @@ const Profile: FC = () => {
         <SearchProfile />
         <User />
       </div>
-      <h2 className="title">Создать аккаунт</h2>
+      <h2 className="title">Personal information</h2>
       <div className={scss.ProfileCover}>
         <VisionProfile />
       </div>

@@ -55,22 +55,22 @@ const SignInPage: FC = () => {
       <h1 className={scss.authTitle}>Sign in</h1>
       <h2>Войдите в аккаунт</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {errors.email && (
+          <span className={scss.error}>{errors.email.message}</span>
+        )}
         <input
           type="text"
           placeholder="Email"
           {...register("email", { required: "Email обязателен" })}
         />
-        {errors.email && (
-          <span className={scss.error}>{errors.email.message}</span>
-        )}
+          {errors.password && (
+            <span className={scss.error}>{errors.password.message}</span>
+          )}
         <input
           type="password"
           placeholder="Password"
           {...register("password", { required: "Пароль обязателен" })}
         />
-        {errors.password && (
-          <span className={scss.error}>{errors.password.message}</span>
-        )}
         <div className={scss.links}>
           <div className={scss.Remember}>
             <ConfigProvider

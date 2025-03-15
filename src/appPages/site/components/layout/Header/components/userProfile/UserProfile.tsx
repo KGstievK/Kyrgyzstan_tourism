@@ -13,7 +13,7 @@ interface UserProfileProps {
 export const UserProfile: React.FC<UserProfileProps> = ({ userData, status }) => {
   if (status !== "fulfilled") {
     return (
-      <Link href="/auth/sign-up" className={scss.signInButton}>
+      <Link href="/auth/sign-in" className={scss.signInButton}>
         Войти
       </Link>
     );

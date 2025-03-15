@@ -47,6 +47,9 @@
     align-items: center;
     justify-content: flex-end;
     gap: 90px;
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
   form {
     width: 636px;
@@ -55,6 +58,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-right: 25px;
+
     h3 {
       padding: 14px 15px;
       font-family: "Playfair Display", sans-serif;
@@ -114,6 +119,4 @@
       }
     }
   }
- 
- 
 }

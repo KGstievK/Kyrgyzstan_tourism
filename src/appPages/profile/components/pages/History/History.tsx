@@ -7,7 +7,12 @@ import { IoLocationSharp } from "react-icons/io5";
 import { IoLaptopOutline } from "react-icons/io5";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { TfiArrowTopRight } from "react-icons/tfi";
-import { MdAttractions, MdHotel, MdOutlineMailOutline, MdPlace } from "react-icons/md";
+import {
+  MdAttractions,
+  MdHotel,
+  MdOutlineMailOutline,
+  MdPlace,
+} from "react-icons/md";
 import hotel from "@/assets/images/History/Hotel.png";
 import hotel1 from "@/assets/images/History/Hotel1.png";
 import SearchProfile from "../SearchProfile/SearchProfile";
@@ -21,7 +26,7 @@ import AttractioHistory from "./historyTabs/attractionHistory/AttractionHistory"
 
 const History: FC = () => {
   const { data: userComments, isLoading, error } = useGetUserCommentsQuery();
-const tabsButton = [
+  const tabsButton = [
     { id: 0, name: "place", img: <MdPlace size={18} /> },
     { id: 1, name: "Hotel", img: <MdHotel size={18} /> },
     { id: 2, name: "Kitchen", img: <IconToolsKitchen size={18} /> },
@@ -34,39 +39,40 @@ const tabsButton = [
   });
 
   return (
-    <section id={scss.Tabs_content}>
-      <div className="container">
-        <div className={scss.tabs}>
-          {tabsButton.map((tab) => (
-            <button
-              style={
-                isTab === tab.id
-                  ? { background: "#004A60", color: "white" }
-                  : { background: "transparent" }
-              }
-              key={tab.id}
-              onClick={() => {
-                sessionStorage.setItem("tabHistory", tab.id.toString());
-                setIsTab(tab.id);
-              }}
-              className={isTab === tab.id ? scss.active : ""}
-            >
-              {tab.img}
-              {tab.name}
-            </button>
-          ))}
-        </div>
+    <section id={scss.Tabs_content} className={scss.History}>
+      <div className={scss.headerUser}>
+        <SearchProfile />
+        <User />
+      </div>
+      <div className={scss.tabs}>
+        {tabsButton.map((tab) => (
+          <button
+            style={
+              isTab === tab.id
+                ? { background: "#004A60", color: "white" }
+                : { background: "transparent" }
+            }
+            key={tab.id}
+            onClick={() => {
+              sessionStorage.setItem("tabHistory", tab.id.toString());
+              setIsTab(tab.id);
+            }}
+            className={isTab === tab.id ? scss.active : ""}
+          >
+            {tab.img}
+            {tab.name}
+          </button>
+        ))}
+      </div>
 
-        <div className={scss.content}>
-          {isTab === 0 && <PlaceHistory  />}
-          {isTab === 1 && <HotelHistory  />}
-          {isTab === 2 && <KitchenHistory  />}
-          {isTab === 4 && <AttractioHistory  />}
-          
-        </div>
+      <div className={scss.content}>
+        {isTab === 0 && <PlaceHistory />}
+        {isTab === 1 && <HotelHistory />}
+        {isTab === 2 && <KitchenHistory />}
+        {isTab === 4 && <AttractioHistory />}
       </div>
     </section>
-  )
+  );
   // return (
   //   <section className={scss.History}>
   //     <div className={scss.headerUser}>

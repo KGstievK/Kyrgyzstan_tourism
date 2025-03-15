@@ -16,6 +16,8 @@ import { RiSearch2Line } from "react-icons/ri";
 import { GoArrowUpRight } from "react-icons/go";
 import { FiArrowUpRight } from "react-icons/fi";
 import user1 from "../../../../../assets/images/Favorites/user1.jpg";
+import SearchProfile from "../SearchProfile/SearchProfile";
+import User from "../User/User";
 
 const Favorites = () => {
   const { t } = useTranslate();
@@ -48,74 +50,54 @@ const Favorites = () => {
 
   return (
     <section id={scss.Favorites}>
-      <div className="container">
-        <div className={scss.content}>
-          <div className={scss.blockProfile}>
-            <div className={scss.search}>
-              <div className={scss.inputs}>
-                <RiSearch2Line className={scss.Search2Line} />
-                <input type="text" />
-              </div>
-              <div className={scss.arrowUpRight}>
-                <FiArrowUpRight className={scss.upRight} />
-              </div>
-            </div>
-            {user?.map((el) => (
-              <div key={el.id} className={scss.profile}>
-                <div className={scss.text}>
-                  <h5 className={scss.lastName}>
-                    {el.last_name} {el.first_name}
-                  </h5>
-                  <p className={scss.name}>{el.email}</p>
-                </div>
-                <img src={user1.src} alt="" className={scss.user1} />
-              </div>
-            ))}
-          </div>
-          <h1>Favorites</h1>
-          <div className={scss.list}>
-            {data &&
-              data.map((item, i) => (
-                <React.Fragment key={i}>
-                  {item.popular_place && (
-                    <div className={scss.item}>
-                      <img
-                        src={item.popular_place.popular_image}
-                        alt="gallery place"
-                        onError={handleImageError}
-                      />
-                      <div className={scss.block}>
-                        <h6>{item.popular_place.popular_name}</h6>
-                        <div>
-                          <span className={scss.grade}>
-                            {item.popular_place.avg_rating}
-                          </span>
-                          <Stars
-                            rating={item.popular_place.avg_rating}
-                            width={9}
-                            height={9}
-                          />
-                          <span className={scss.review}>
-                            {item.popular_place.rating_count}{" "}
-                            {t("Отзывы", "مراجعات", "reviews")}
-                          </span>
-                        </div>
-                        <span className={scss.metka}>
-                          <FaLocationDot className={scss.locationDot} />
-                          <span>{item.popular_place.region}</span>
+      <div className={scss.headerUser}>
+        <SearchProfile />
+        <User />
+      </div>
+      <div className={scss.content}>
+        <h1>Favorites</h1>
+        <div className={scss.list}>
+          {data &&
+            data.map((item, i) => (
+              <React.Fragment key={i}>
+                {item.popular_place && (
+                  <div className={scss.item}>
+                    <img
+                      src={item.popular_place.popular_image}
+                      alt="gallery place"
+                      onError={handleImageError}
+                    />
+                    <div className={scss.block}>
+                      <h6>{item.popular_place.popular_name}</h6>
+                      <div>
+                        <span className={scss.grade}>
+                          {item.popular_place.avg_rating}
+                        </span>
+                        <Stars
+                          rating={item.popular_place.avg_rating}
+                          width={9}
+                          height={9}
+                        />
+                        <span className={scss.review}>
+                          {item.popular_place.rating_count}{" "}
+                          {t("Отзывы", "مراجعات", "reviews")}
                         </span>
                       </div>
-                      <div className={scss.heart}>
-                        <FaHeart
-                          onClick={() => handleDeleteFavorite(item.id)}
-                          className={scss.heartIconRed}
-                        />
-                      </div>
+                      <span className={scss.metka}>
+                        <FaLocationDot className={scss.locationDot} />
+                        <span>{item.popular_place.region}</span>
+                      </span>
                     </div>
-                  )}
-                </React.Fragment>
-              ))}
-          </div>
+                    <div className={scss.heart}>
+                      <FaHeart
+                        onClick={() => handleDeleteFavorite(item.id)}
+                        className={scss.heartIconRed}
+                      />
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
         </div>
       </div>
     </section>
