@@ -1,125 +1,213 @@
-import React, { useState } from 'react';
+import React, { useEffect, ReactNode } from 'react';
 import styles from './AirLineModal.module.scss';
 import { Globe, Plane, X } from 'lucide-react';
+import { useGetAirTicketsQuery } from '@/redux/api/routes';
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
-interface Airline {
-  name: string;
-  logo: React.ReactNode;
-  logoClass: string;
-  description: string;
-  destinations: string[];
+// Типы данных
+interface AirlineTicket {
+  id: number;
+  ticket: number;
+  directions: string;
 }
 
-const AirlineCard: React.FC<{ airline: Airline }> = ({ airline }) => {
+interface AirlineData {
+  id: number;
+  name: string;
+  description: string;
+  website: string;
+  logo: string | null;
+  airline_tickets: AirlineTicket[];
+}
+
+interface AirlineCardProps {
+  airline: AirlineData;
+}
+
+interface AirlineModalProps {
+  setModalWindow: (isOpen: boolean) => void;
+}
+
+// Стили для заглушки логотипа
+const logoFallbackStyles = `
+  .logoFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+  }
+`;
+
+/**
+ * Компонент карточки авиакомпании
+ */
+const AirlineCard: React.FC<AirlineCardProps> = ({ airline }) => {
+  const { t } = useTranslate();
+
+  /**
+   * Возвращает класс логотипа на основе ID авиакомпании
+   */
+  const getLogoClass = (id: number): string => {
+    const classes = ['logoRed', 'logoGreen', 'logoBlue', 'logoPurple'];
+    return classes[id % classes.length];
+  };
+
+  /**
+   * Генерирует текст для заглушки логотипа
+   */
+  const getLogoText = (name: string): string => {
+    const words = name.split(' ');
+    if (words.length > 1) {
+      return words[0][0] + words[1][0];
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
+
+  /**
+   * Рендерит заглушку логотипа с инициалами
+   */
+  const renderLogoFallback = (name: string): ReactNode => {
+    const logoText = getLogoText(name);
+    return (
+      <div className={styles.logoFallback}>
+        {logoText}
+      </div>
+    );
+  };
+
+  /**
+   * Обработчик ошибки загрузки изображения
+   */
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
+    e.currentTarget.style.display = 'none';
+    const parent = e.currentTarget.parentElement;
+    if (parent) {
+      parent.appendChild(document.createTextNode(getLogoText(airline.name)));
+    }
+  };
+
   return (
     <div className={styles.airlineCard}>
-      {/* Логотип в левом верхнем углу */}
+      {/* Блок с логотипом */}
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
-          <span className={`${styles.logoText} ${styles[airline.logoClass]}`}>
-            {airline.logo}
+          <span className={`${styles.logoText} ${styles[getLogoClass(airline.id)]}`}>
+            {airline.logo ? (
+              <img 
+                src={airline.logo} 
+                alt={airline.name} 
+                onError={handleImageError} 
+              />
+            ) : renderLogoFallback(airline.name)}
           </span>
         </div>
       </div>
       
-      {/* Горизонтальная линия с названием, описанием и направлениями */}
+      {/* Основная информация */}
       <div className={styles.contentRow}>
-        {/* Название */}
+        {/* Название авиакомпании */}
         <div className={styles.nameColumn}>
-          <h2 className={styles.airlineName}>{airline.name}</h2>
+          <h2 className={styles.airlineName}>
+            {airline.name}
+          </h2>
         </div>
         
-        {/* Описание */}
+        {/* Описание авиакомпании */}
         <div className={styles.descriptionColumn}>
-          <p className={styles.description}>{airline.description}</p>
+          <p className={styles.description}>
+            {airline.description}
+          </p>
         </div>
         
         {/* Направления */}
         <div className={styles.destinationsColumn}>
           <h3 className={styles.destinationsTitle}>
             <Plane className={styles.planeIcon} />
-            Направления:
+            {t("Направления:", "الاتجاهات:", "Destinations:")}
           </h3>
           <div className={styles.destinationsList}>
-            {airline.destinations.map((destination, index) => (
-              <div key={index} className={styles.destinationTag}>
+            {airline.airline_tickets && airline.airline_tickets.map((ticket) => (
+              <div key={ticket.id} className={styles.destinationTag}>
                 <Globe className={styles.destinationIcon} />
-                <span>{destination}</span>
+                <span>{ticket.directions}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
       
-      {/* Кнопка подробнее */}
+      {/* Кнопка "Подробнее" */}
       <div className={styles.buttonContainer}>
-        <a href="#" className={styles.button}>
-          Подробнее
+        <a 
+          href={airline.website} 
+          className={styles.button} 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          {t("Подробнее", "المزيد", "More Details")}
         </a>
       </div>
     </div>
   );
 };
 
-const AirlineModal: React.FC<{ setModalWindow: (boolean: boolean) => void }> = ({ setModalWindow }) => {
-  const airlines: Airline[] = [
-    {
-      name: "Аэрофлот",
-      logo: "A",
-      logoClass: "logoRed",
-      description: "Крупнейшая авиакомпания России, предлагающая рейсы в более чем 50 стран мира с высоким уровнем сервиса.",
-      destinations: ["Москва", "Париж", "Нью-Йорк", "Токио", "Дубай"]
-    },
-    {
-      name: "S7 Airlines",
-      logo: "S7",
-      logoClass: "logoGreen",
-      description: "Одна из крупнейших частных авиакомпаний России с современным парком самолетов Airbus и Boeing.",
-      destinations: ["Москва", "Санкт-Петербург", "Берлин", "Пекин", "Рим"]
-    },
-    {
-      name: "Emirates",
-      logo: "E",
-      logoClass: "logoRed",
-      description: "Авиакомпания из ОАЭ, одна из лучших в мире по качеству обслуживания и комфорту пассажиров.",
-      destinations: ["Дубай", "Лондон", "Нью-Йорк", "Сидней", "Токио"]
-    },
-    {
-      name: "Lufthansa",
-      logo: "L",
-      logoClass: "logoBlue",
-      description: "Крупнейшая немецкая авиакомпания, известная надежностью, пунктуальностью и высоким качеством сервиса.",
-      destinations: ["Франкфурт", "Мюнхен", "Париж", "Лондон", "Нью-Йорк"]
-    },
-    {
-      name: "Turkish Airlines",
-      logo: "TK",
-      logoClass: "logoRed",
-      description: "Национальный авиаперевозчик Турции, летает более чем в 120 стран мира с отличной кухней на борту.",
-      destinations: ["Стамбул", "Анкара", "Москва", "Лондон", "Нью-Йорк"]
-    },
-    {
-      name: "Qatar Airways",
-      logo: "QA",
-      logoClass: "logoPurple",
-      description: "Одна из лучших авиакомпаний мира, базирующаяся в Дохе, отмечена многочисленными наградами за качество обслуживания.",
-      destinations: ["Доха", "Лондон", "Сингапур", "Нью-Йорк", "Сидней"]
-    }
-  ];
+/**
+ * Модальное окно со списком авиакомпаний
+ */
+const AirlineModal: React.FC<AirlineModalProps> = ({ setModalWindow }) => {
+  const { t } = useTranslate();
+  const { data, isLoading, error } = useGetAirTicketsQuery();
+  
+  // Добавляем стили для заглушки логотипа при монтировании
+  useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = logoFallbackStyles;
+    document.head.appendChild(styleElement);
+    
+    // Удаляем стили при размонтировании компонента
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
+
+  // Обработчик закрытия модального окна
+  const handleClose = (): void => {
+    setModalWindow(false);
+  };
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
+        {/* Шапка модального окна */}
         <div className={styles.modalHeader}>
-          <button className={styles.closeButton} onClick={() => setModalWindow(false)}>
+          <button 
+            className={styles.closeButton} 
+            onClick={handleClose}
+          >
             <X />
           </button>
         </div>
+        
+        {/* Основной контент */}
         <div className={styles.modalContent}>
-          <h1 className={styles.modalTitle}>Каталог авиакомпаний</h1>
+          <h1 className={styles.modalTitle}>
+            {t("Каталог авиакомпаний", "كتالوج شركات الطيران", "Airline Catalog")}
+          </h1>
+          
+          
+
+          
+          {/* Список авиакомпаний */}
           <div className={styles.airlinesList}>
-            {airlines.map((airline, index) => (
-              <AirlineCard key={index} airline={airline} />
+            {data && Array.isArray(data) && data.map((airline: AirlineData) => (
+              <AirlineCard 
+                key={airline.id} 
+                airline={airline} 
+              />
             ))}
           </div>
         </div>
@@ -127,10 +215,5 @@ const AirlineModal: React.FC<{ setModalWindow: (boolean: boolean) => void }> = (
     </div>
   );
 };
-
-interface AirlineModalProps {
-    setModalWindow: () => void
-}
-
 
 export default AirlineModal;

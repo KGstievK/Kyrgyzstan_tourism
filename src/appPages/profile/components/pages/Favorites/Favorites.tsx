@@ -6,6 +6,7 @@ import scss from "./Favorites.module.scss";
 import imgHeart from "@/assets/images/regions/Vector.png";
 import imgMetka from "@/assets/images/galleryImages/metka.png";
 import Stars from "@/appPages/site/ui/stars/Stars";
+
 import {
   useDeleteFavoriteMutation,
   useGetFavoriteQuery,
@@ -21,7 +22,7 @@ import User from "../User/User";
 
 const Favorites = () => {
   const { t } = useTranslate();
-  const { data } = useGetFavoriteQuery();
+  const { data, error, isLoading } = useGetFavoriteQuery();
   console.log("🚀 ~ Gallery ~ favorite:", data);
   const { data: user } = useGetMeQuery();
   const [deleteFavorite] = useDeleteFavoriteMutation();
@@ -47,6 +48,42 @@ const Favorites = () => {
       "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
     target.alt = "Image not available";
   };
+
+  if (isLoading) {
+    return (
+      <section id={scss.Favorites}>
+        <div className="container">
+          <div className={scss.loading}>
+            {t("Загрузка...", "جار التحميل...", "Loading...")}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id={scss.Favorites}>
+        <div className="container">
+          <div className={scss.error}>
+            {t("Ошибка при загрузке данных", "خطأ في تحميل البيانات", "Error loading data")}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <section id={scss.Favorites}>
+        <div className="container">
+          <div className={scss.empty}>
+            {t("У вас пока нет избранных элементов", "ليس لديك عناصر مفضلة حتى الآن", "You don't have any favorite items yet")}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id={scss.Favorites}>
