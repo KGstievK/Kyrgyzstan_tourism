@@ -5,59 +5,43 @@
   flex-direction: column;
   min-height: 100vh;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	background: url('../../../../assets/images/auth/background.svg') no-repeat center / cover;
-  // &::before {
-	// 	position: absolute;
-	// 	top: 0;
-	// 	left: 0;
-	// 	content: '';
-	// 	width: 100%;
-	// 	height: 100vh;
-	// 	background-color: #24242480;
-	// }
-
-  .headerUser {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 90px;
-  }
-
+  &::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		content: '';
+		width: 100%;
+		height: 100vh;
+		background-color: #24242480;
+    z-index: 0;
+	}
   .content {
     width: 100%;
     display: grid;
     grid-template-columns: 20% 80%;
-    // z-index: 1;
-    @media (max-width: 400px) {
+    z-index: 1;
+    @media (max-width: 768px) {
       grid-template-columns: 100%;
     }
 
     .headerMobile {
       display: none;
-      @media (max-width: 400px) {
+      @media (max-width: 768px) {
         display: block;
       }
     }
     .headerDeckstop {
       display: block;
-      @media (max-width: 400px) {
+      @media (max-width: 768px) {
         display: none;
       }
     }
   }
   main.mainDeckstop {
     background-color: white;
-    @media (max-width: 400px) {
-      display: none;
-    }
+   
   }
-  main.mainMobile {
-    display: none;
-
-    @media (max-width: 400px) {
-      display: block;
-    }
-  }
+ 
 }

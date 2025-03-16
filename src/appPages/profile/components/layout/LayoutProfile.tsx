@@ -20,15 +20,15 @@ const LayoutProfile: FC<LayoutProfileProps> = ({ children }) => {
   const [path, setPath] = useState<pathProps>()
   const pathname = usePathname();
   const tabs = [
-    { label: "Личный Кабинет", path: "/profile" },
-    { label: "Мои покупки", path: "/profile/history" },
+    { label: "Профиль", path: "/profile" },
+    { label: "Комментарии", path: "/profile/history" },
     { label: "Избранные", path: "/profile/favorite" },
-    { label: "Выйти", path: "/profile/logout" },
+    { label: "Выйти", path: "" },
   ];
   const tabsMobile = [
     { label: "Профиль", path: "/profile" },
-    { label: "Личный Кабинет", path: "/profile/my-office" },
-    { label: "Мои покупки", path: "/profile/history" },
+    { label: "Личный Кабинет", path: "/profile/my_office" },
+    { label: "Комментарии", path: "/profile/history" },
     { label: "Избранные", path: "/profile/favorite" },
     { label: "Выйти", path: "/profile/logout" },
   ];
@@ -38,15 +38,6 @@ const LayoutProfile: FC<LayoutProfileProps> = ({ children }) => {
   return (
     <div className={scss.LayoutProfile}>
         <div className={scss.content}>
-          <div className={scss.headerMobile}
-            style={{
-              display: pathname === '/profile'
-                ? ""
-                : "none",
-            }}
-          >
-            <HeaderProfile />
-          </div>
           <div className={scss.headerDeckstop}
             style={{
               display: pathname === '/profile'
@@ -57,11 +48,6 @@ const LayoutProfile: FC<LayoutProfileProps> = ({ children }) => {
             <HeaderProfile />
           </div>
           <main className={scss.mainMobile}
-            style={{
-              display: pathname === '/profile'
-                ? "none"
-                : "",
-            }}
           >
             {children}
           </main>

@@ -22,8 +22,9 @@
     }
   }
 
-  .history_content {
-    margin-top: 40px;
+  .content {
+    width: 100%;
+    overflow-y: hidden;
     .text {
       display: flex;
       align-items: center;
