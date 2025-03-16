@@ -6,7 +6,6 @@ import Link from "next/link";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-
 interface signInProps {
   email: string;
   password: string;
@@ -14,7 +13,13 @@ interface signInProps {
 
 const SignInPage: FC = () => {
   const [postLoginMutation] = usePostLoginMutation();
-  const { register, handleSubmit } = useForm<AUTH.PostLoginRequest>();
+  const [showModal, setShowModal] = useState(false); // Состояние для модалки
+  const [modalMessage, setModalMessage] = useState(""); // Сообщение модалки
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AUTH.PostLoginRequest>();
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleRememberMeChange = (checked: boolean) => {
@@ -22,6 +27,12 @@ const SignInPage: FC = () => {
   };
 
   const onSubmit: SubmitHandler<signInProps> = async (userData) => {
+    if (Object.keys(errors).length > 0) {
+      setModalMessage("Пожалуйста, заполните все обязательные поля.");
+      setShowModal(true);
+      return;
+    }
+
     const datalogin = {
       email: userData.email,
       password: userData.password,
@@ -41,34 +52,43 @@ const SignInPage: FC = () => {
   };
   return (
     <section className={scss.LoginPage}>
-      <h1 className={scss.authTitle}>Sign ip</h1>
-      <h2>Создать аккаунт</h2>
+      <h1 className={scss.authTitle}>Sign in</h1>
+      <h2>Войдите в аккаунт</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
           placeholder="Email"
-          {...register("email", { required: true })}
+          {...register("email", { required: "Email обязателен" })}
         />
+        {errors.email && (
+          <span className={scss.error}>{errors.email.message}</span>
+        )}
         <input
           type="password"
           placeholder="Password"
-          {...register("password", { required: true })}
+          {...register("password", { required: "Пароль обязателен" })}
         />
+        {errors.password && (
+          <span className={scss.error}>{errors.password.message}</span>
+        )}
         <div className={scss.links}>
-          <ConfigProvider
-            theme={{
-              token: {
-                colorPrimary: "407EC7", // Основной цвет
-                colorBorder: "#000", // Цвет границы
-              },
-            }}
-          >
-            <Switch
-              className={scss.customCheckbox}
-              checked={rememberMe}
-              onChange={handleRememberMeChange}
-            />
-          </ConfigProvider>
+          <div className={scss.Remember}>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: "407EC7", // Основной цвет
+                  colorBorder: "#000", // Цвет границы
+                },
+              }}
+            >
+              <Switch
+                className={scss.customCheckbox}
+                checked={rememberMe}
+                onChange={handleRememberMeChange}
+              />
+            </ConfigProvider>
+            <p>Remember me</p>
+          </div>
           <Link href="/auth/forgot" className={scss.link}>
             Забыли пароль?
           </Link>
@@ -91,6 +111,14 @@ const SignInPage: FC = () => {
           Зарегестрироваться
         </Link>
       </div>
+      {showModal && (
+        <div className={scss.modalOverlay}>
+          <div className={scss.modalContent}>
+            <p>{modalMessage}</p>
+            <button onClick={() => setShowModal(false)}>Закрыть</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

@@ -153,33 +153,53 @@
 .hiddenInput {
   display: none;
 }
-
-.sendButton {
-  display: block;
-  width: 200px;
-  margin: 0 auto;
-  padding: 12px 24px;
-  background-color: #0066cc;
-  color: white;
-  border: none;
-  border-radius: 24px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover:not(:disabled) {
-    background-color: #0052a3;
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-
-  @media (max-width: 768px) {
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  .sendButton {
+    display: block;
+    max-width: 200px;
     width: 100%;
-    padding: 10px 20px;
-    font-size: 14px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: #004d5f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+   
+  
+    &:hover:not(:disabled) {
+      background-color: #0052a3;
+    }
+  
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    &:nth-child(1) {
+      width: 100px;
+      padding: 6px 24px;
+      background-color: transparent;
+      color: #ccc;
+      border: none;
+      border-radius: 0;
+      border-bottom: 2px solid #ccc;
+      &:hover:not(:disabled) {
+        background-color: transparent;
+      }
+    }
+  
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
   }
 }

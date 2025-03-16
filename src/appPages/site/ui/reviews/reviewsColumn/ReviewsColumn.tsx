@@ -58,16 +58,15 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   };
   useEffect(() => {
     if (reviewsData) {
-      // Фильтруем отзывы по entityId
+
       const filteredReviews = reviewsData.filter((review) => {
         return String(review.entityId) === String(isCurrent);
       });
-
-      // Сортируем отзывы по дате (новые в начале)
+ 
       const sortedReviews = filteredReviews.sort((a, b) => {
         const dateA = new Date(a.createdAt).getTime();
         const dateB = new Date(b.createdAt).getTime();
-        return dateB - dateA; // Убывающий порядок
+        return dateB - dateA;
       });
 
       setDataReviews(sortedReviews);

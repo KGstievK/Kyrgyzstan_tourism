@@ -67,7 +67,6 @@ namespace AUTH {
     access: string;
   };
   type PatchRefreshRequest = {
- 
     refresh: string
   };
 
@@ -87,7 +86,6 @@ namespace AUTH {
     new_password: string;
   };
 
-
   interface Attraction {
     id: number;
     attraction_name: string;
@@ -98,7 +96,7 @@ namespace AUTH {
     avg_rating: number;
     rating_count: number;
   }
-  
+
   interface PopularRegion {
     id: number;
     popular_name: string;
@@ -106,8 +104,9 @@ namespace AUTH {
     region: string;
     avg_rating: number;
     rating_count: number;
+    address?: string;
   }
-  
+
   interface Gallery {
     id: number;
     gallery_name: string;
@@ -116,7 +115,19 @@ namespace AUTH {
     avg_rating: number;
     rating_count: number;
   }
-  
+
+  interface Kitchen {
+    id: number;
+    kitchen_name: string;
+    price: string;
+    popular_places: string[];
+    kitchen_region: string;
+    type_of_cafe: string;
+    average_rating: number;
+    rating_count: number;
+    main_image: string;
+  }
+
   interface Hotel {
     id: number;
     name: string;
@@ -125,14 +136,20 @@ namespace AUTH {
     rating_count: number;
     region: string;
     popular_places: string[];
+    latitude?: number;
+    longitude?: number;
   }
-  
+
   interface FavoriteItem {
     id: number;
+    user?: number;
     attractions?: Attraction;
     popular_region?: PopularRegion;
     gallery?: Gallery;
     hotels?: Hotel;
+    kitchen?: Kitchen;
+    like?: boolean;
+    created_date?: string;
   }
 
   export interface Client {
@@ -142,12 +159,12 @@ namespace AUTH {
     from_user: string;
     user_picture: string | null;
   }
-  
+
   export interface ReviewImage {
     id: number;
     image: string;
   }
-  
+
   export interface UserComment {
     id: number;
     comment: string;
