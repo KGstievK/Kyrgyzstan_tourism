@@ -2,13 +2,13 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Attractions.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
-import imgHeart from "@/assets/images/regions/Vector.png";
 import imgNone from "@/assets/images/universalImage/none.png";
 import Link from "next/link";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import { useGetAttractionsQuery } from "@/redux/api/home";
 import Image from "next/image";
 import { useState } from "react";
+import LikePost from "../../regionSections/places/LikePost";
 
 const Attractions = () => {
   const { t } = useTranslate();
@@ -23,7 +23,7 @@ const Attractions = () => {
     <>
       <section id={scss.Places}>
         <div className="container">
-          <h2>{t("Популярные места", "أماكن مشهورة", "Popular places")}</h2>
+          <h2>{t("Достопримечательности", "جاذبية", "Attractions ")}</h2>
           <div className={scss.list}>
             {AttractionDataList?.map((place) => (
               <div key={place.id} className={scss.item}>
@@ -53,16 +53,14 @@ const Attractions = () => {
                   </div>
                   <p className={scss.descr}>{textSlice(place.description)}</p>
                 </div>
-                <Image
-                  className={scss.heart}
-                  src={imgHeart.src}
-                  alt="like"
-                  width={24}
-                  height={24}
-                />
-                <Link onClick={() => {
-                  sessionStorage.setItem("tab", "4");
-                }} href={`/${place.region_category}/${place.popular_places}`}>
+                <LikePost postId={place.id} />
+
+                <Link
+                  onClick={() => {
+                    sessionStorage.setItem("tab", "4");
+                  }}
+                  href={`/${place.region_category}/${place.popular_places}`}
+                >
                   <Image
                     className={scss.right}
                     src={imgRight.src}

@@ -3,17 +3,14 @@ import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Places.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
 import Link from "next/link";
-import {
-  useGetFavoriteQuery,
-  useGetRegionListQuery,
-} from "@/redux/api/regions";
+import { useGetRegionListQuery } from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import LikePost from "./LikePost";
 
 const Places = () => {
   const { t } = useTranslate();
-  const { data, isLoading, isError } = useGetRegionListQuery();
+  const { data } = useGetRegionListQuery();
   const pathName = usePathname();
   const routeName = pathName.split("/")[1];
 

@@ -74,10 +74,10 @@ namespace REGION_LIST {
   type GetFavoriteResponse = {
     id: number;
     user: number;
-    attractions?: AttractionList[];
+    attractions?: AttractionList;
     popular_place?: PopularPlacesList;
-    kitchen?: KitchenList[];
-    hotels?: HotelsList[];
+    kitchen?: KitchenList;
+    hotels?: HotelsList;
     like?: boolean;
     created_date?: string;
   }[];

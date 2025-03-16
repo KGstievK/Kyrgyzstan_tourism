@@ -7,6 +7,7 @@ import Stars from "@/appPages/site/ui/stars/Stars";
 import imgNone from "@/assets/images/universalImage/none.png";
 import { useGetAttractionsQuery } from "@/redux/api/home";
 import { ImageOff, MapPin, Loader } from "lucide-react";
+import LikeAttraction from "./LikeAttraction";
 
 interface AttractionsProps {
   isCurrent: number | null;
@@ -18,18 +19,20 @@ const ITEMS_PER_PAGE = 4;
 const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
   const { t } = useTranslate();
   const [isLimit, setIsLimit] = useState<number>(1);
-  const [imgErrors, setImgErrors] = useState<{[key: number]: boolean}>({});
+  const [imgErrors, setImgErrors] = useState<{ [key: number]: boolean }>({});
   const { data: attractions = [], isLoading, error } = useGetAttractionsQuery();
   const pathName = usePathname();
   const routeID: number = Number(pathName.split("/")[2]);
 
   // Handle image error for specific attraction
   const handleImageError = (id: number) => {
-    setImgErrors(prev => ({...prev, [id]: true}));
+    setImgErrors((prev) => ({ ...prev, [id]: true }));
   };
 
   // Фильтруем достопримечательности по текущему месту
-  const attractionsInPlace = attractions.filter((el) => el.popular_places === routeID);
+  const attractionsInPlace = attractions.filter(
+    (el) => el.popular_places === routeID
+  );
 
   // Устанавливаем первый элемент при загрузке, если currentId еще не задан
   useEffect(() => {
@@ -43,7 +46,9 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
   const paginateArray = <T,>(arr: T[], pageSize: number): T[][] => {
     return arr.reduce(
       (result, _, index) =>
-        index % pageSize ? result : [...result, arr.slice(index, index + pageSize)],
+        index % pageSize
+          ? result
+          : [...result, arr.slice(index, index + pageSize)],
       [] as T[][]
     );
   };
@@ -84,7 +89,13 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
         </div>
         <div className={scss.noAttractionsContainer}>
           <ImageOff size={48} />
-          <p>{t("Ошибка загрузки данных", "خطأ في تحميل البيانات", "Error loading data")}</p>
+          <p>
+            {t(
+              "Ошибка загрузки данных",
+              "خطأ في تحميل البيانات",
+              "Error loading data"
+            )}
+          </p>
         </div>
       </div>
     );
@@ -105,7 +116,9 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
         </div>
         <div className={scss.noAttractionsContainer}>
           <MapPin size={48} />
-          <p>{t("Нет достопримечательностей", "لا توجد معالم", "No attractions")}</p>
+          <p>
+            {t("Нет достопримечательностей", "لا توجد معالم", "No attractions")}
+          </p>
         </div>
       </div>
     );
@@ -122,7 +135,13 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
         {imgErrors[el.id] || !el.main_image ? (
           <div className={scss.imgNotFound}>
             <ImageOff size={32} />
-            <p>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</p>
+            <p>
+              {t(
+                "Изображение не найдено",
+                "الصورة غير موجودة",
+                "Image not found"
+              )}
+            </p>
           </div>
         ) : (
           <Image
@@ -138,6 +157,7 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
             onError={() => handleImageError(el.id)}
           />
         )}
+        <LikeAttraction postId={el.id} />
       </div>
       <div className={scss.info}>
         <h6 className={scss.title}>{el.attraction_name}</h6>
