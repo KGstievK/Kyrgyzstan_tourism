@@ -49,30 +49,22 @@ const Profile: FC = () => {
           <h1 className={scss.logo}>LOGO</h1>
           <Space direction="vertical" size={16}>
             <Space wrap size={16}>
-              <label>
-                <Avatar
-                  className={scss.avatar}
-                  icon={
-                    userPreview ? (
-                      <img src={userPreview} alt="avatar" />
-                    ) : el.user_picture ? (
-                      <img src={el.user_picture} alt="avatar" />
-                    ) : (
-                      <UserOutlined />
-                    )
-                  }
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  {...register("user_picture")}
-                />
-              </label>
+              <Avatar
+                className={scss.avatar}
+                icon={
+                  userPreview ? (
+                    <img src={userPreview} alt="avatar" />
+                  ) : el.user_picture ? (
+                    <img src={el.user_picture} alt="avatar" />
+                  ) : (
+                    <UserOutlined />
+                  )
+                }
+              />
             </Space>
           </Space>
           <div className={scss.burgerMenu}>
-            <BurgerMenu/>
+            <BurgerMenu />
           </div>
         </div>
       ))}

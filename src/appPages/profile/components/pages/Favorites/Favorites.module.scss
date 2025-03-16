@@ -1,118 +1,54 @@
 #Favorites {
-  width: 100%;
-  background: #fff;
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 8px;
-  width: 100%;
-  height: 100vh;
-  gap: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 20px 83px 0 63px;
-
-  .headerUser {
-    width: 100%;
-    display: flex;
+  .headerMobile {
+    display: none;
     align-items: center;
+    width: 100%;
+    height: 56px;
     justify-content: flex-end;
-    gap: 90px;
+    background: url("../../../../../assets/images/footerImages/footer.jpg");
+    padding: 5px clamp(30px, 5vw, 83px) 5px clamp(30px, 5vw, 63px);
+    gap: 10px;
+    .logo {
+      margin-right: auto;
+    }
+    .avatar {
+      justify-self: flex-end;
+      width: clamp(40px, 6vw, 120px);
+      height: clamp(40px, 6vw, 120px);
+    }
     @media (max-width: 768px) {
-     display: none;
+      display: flex;
+    }
+    .burgerMenu {
+      display: none;
+      @media (max-width: 768px) {
+        display: block;
+        justify-self: flex-end;
+      }
     }
   }
   .content {
+    width: 100%;
+    background: #fff;
+    border-radius: 0 0 8px;
+    width: 100%;
+    height: 100vh;
+    gap: 20px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    .blockProfile {
+    align-items: flex-start;
+    padding: 20px clamp(30px, 5vw, 83px) 0 clamp(30px, 5vw, 63px);
+    .headerUser {
+      width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      flex-wrap: wrap; // кичине экрандарда жакшы иштейт
-      gap: 15px;
-
-      .search {
-        display: flex;
-        align-items: center;
-        gap: 15px; // ортодогу аралыкты чоңойтуу
-
-        .inputs {
-          display: flex;
-          align-items: center;
-          gap: clamp(3px, 1vw, 8px); // аралыктарды көбөйтүү
-          width: clamp(
-            250px,
-            75vw,
-            600px
-          ); // туурасы кичине экрандарга ылайыкташат
-          height: clamp(35px, 4vw, 42px);
-          border-radius: 30px;
-          background: #e5e4e9;
-          padding: 0 clamp(10px, 3vw, 18px);
-
-          .Search2Line {
-            color: #5a5a5a;
-            font-size: clamp(14px, 2vw, 20px);
-          }
-
-          input {
-            border: none;
-            width: 100%;
-          }
-        }
-
-        .arrowUpRight {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: clamp(35px, 4vw, 42px);
-          width: clamp(35px, 4vw, 42px);
-          background: #004a60;
-          border-radius: 50%;
-
-          .upRight {
-            color: #e5e4e9;
-            font-size: clamp(18px, 2.5vw, 24px);
-          }
-        }
-      }
-
-      .profile {
-        display: flex;
-        align-items: center;
-        gap: 10px; // профилдеги текст менен сүрөт аралык жакшыраак
-
-        .text {
-          display: flex;
-          flex-direction: column;
-          align-items: end;
-
-          .lastName {
-            font-family: "Abril Fatface", serif;
-            font-weight: 400;
-            font-size: clamp(10px, 1.5vw, 14px);
-            line-height: 100%;
-            color: #004a60;
-          }
-          .name {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 400;
-            font-size: clamp(8px, 1.2vw, 11px);
-            line-height: 140%;
-            color: #004a60;
-          }
-        }
-
-        .user1 {
-          width: clamp(35px, 4vw, 45px);
-          height: clamp(35px, 4vw, 45px);
-          border-radius: 50%;
-        }
+      justify-content: flex-end;
+      gap: 90px;
+      @media (max-width: 768px) {
+        display: none;
       }
     }
-
-    h1 {
+    h2 {
       font-family: "Abril Fatface", serif;
       font-weight: 400;
       font-size: clamp(32px, 6vw, 64px);
@@ -140,6 +76,110 @@
           border-radius: 8px 8px 0 0;
           width: 100%;
           height: 271px;
+          object-fit: cover;
+          @media (max-width: 490px) {
+            height: 180px;
+          }
+          @media (max-width: 390px) {
+            height: 286px;
+          }
+        }
+        .block {
+          padding: 10px;
+          h6 {
+            font-family: Montserrat;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 29.26px;
+            color: #242424;
+            margin: 10px 0;
+          }
+          div {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            .grade {
+              font-family: Inter;
+              font-size: 16px;
+              font-weight: 700;
+              line-height: 22.4px;
+            }
+            .stars {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+              span {
+                width: 9px;
+                height: 9px;
+                background-color: #3c5f63;
+                border-radius: 10px;
+              }
+            }
+            .review {
+              font-family: Montserrat;
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 16.8px;
+              color: #5a5a5a;
+              @media (max-width: 600px) {
+                width: 100%;
+              }
+              @media (max-width: 390px) {
+                width: auto;
+              }
+            }
+          }
+          .metka {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            .locationDot {
+              color: #004a60;
+            }
+            span {
+              font-family: Arial;
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 17.53px;
+              color: #3771c8;
+            }
+          }
+        }
+        .heart {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          width: 39px;
+          height: 39px;
+          background: white;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .heartIcon {
+            font-size: 20px;
+          }
+          .heartIconRed {
+            font-size: 20px;
+            color: red;
+          }
+        }
+      }
+      .kitchen {
+        position: relative;
+        width: 100%;
+        height: 229.3019561767578px;
+        @media (max-width: 600px) {
+          height: 310px;
+        }
+        @media (max-width: 390px) {
+          height: 380px;
+        }
+        > img {
+          width: 100%;
+          height: 152px;
           object-fit: cover;
           @media (max-width: 490px) {
             height: 180px;
