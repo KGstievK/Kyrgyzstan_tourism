@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import scss from "./Tab_kitchen.module.scss";
 import Cafes from "./cafes/Cafes";
 import Cafe_item from "./cafe_item/Cafe_item";
-import Cafe_map from "../tab_hotel/hotel_map/Hotel_map";
 import Reviews from "@/appPages/site/ui/reviews/Reviews";
 import { useGetStaticReviewsQuery } from "@/redux/api/reviews";
 

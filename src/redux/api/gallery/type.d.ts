@@ -1,5 +1,5 @@
 namespace GALLERY {
-    type GalleryResponse = {
+    export type GalleryResponse = {
         id: number
         gallery_name: string
         gallery_image: string
@@ -8,5 +8,7 @@ namespace GALLERY {
         rating_count: number
     }[]
 
-    type GalleryRequest = void
+    export type GalleryRequest = void
 }
+
+export { GALLERY };

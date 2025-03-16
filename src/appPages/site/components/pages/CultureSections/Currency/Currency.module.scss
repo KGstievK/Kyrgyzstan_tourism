@@ -49,7 +49,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 50px;
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       grid-template-columns: 1fr;
     }
     @media (max-width: 500px) {
@@ -76,7 +76,7 @@
     .descrs {
       display: flex;
       flex-direction: column;
-      align-items: start;
+      align-items: flex-start;
       gap: 30px;
       .h1 {
         font-family: Montserrat, sans-serif;
@@ -107,7 +107,7 @@
     width: 100%;
   }
 }
-@media (max-width: 834px) {
+@media (max-width: 835px) {
   .section {
     .top {
       .top-paragraph {

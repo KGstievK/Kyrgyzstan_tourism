@@ -1,19 +1,19 @@
 namespace PLACE {
   // ----------------------------------------------------------------------------------------------
   // ts types for place
-  type PlaceResponse = {
+  export type PlaceResponse = {
     popular_name: string;
     popular_image: string;
     description: string;
-    popular_reviews: any[];
+    popular_reviews: unknown[]; // заменил any на unknown
     latitude: string,
     longitude: string
   };
 
-  type PlaceRequest = number;
+  export type PlaceRequest = number;
   // ----------------------------------------------------------------------------------------------
   // ts types for kitchen
-  type KitchenResponse = {
+  export type KitchenResponse = {
     id: number;
     kitchen_name: string;
     price: number;
@@ -25,9 +25,9 @@ namespace PLACE {
     main_image: string;
   }[];
 
-  type KitchenRequest = void;
+  export type KitchenRequest = void;
 
-  type KitchenLocationResponse = {
+  export type KitchenLocationResponse = {
     id: number;
     address: string;
     Website: string;
@@ -37,7 +37,19 @@ namespace PLACE {
     latitude: number;
     longitude: number
   };
-  type kitchenIdResponse = {
+
+  export type KitchenLocation = {
+    id: number;
+    address: string;
+    Website: string;
+    email: string;
+    phone_number: string;
+    kitchen: string;
+    latitude: number;
+    longitude: number
+  };
+  
+  export type kitchenIdResponse = {
     id: number;
     kitchen_name: string;
     main_image: string | null;
@@ -58,10 +70,10 @@ namespace PLACE {
     kitchen: KitchenLocation[];
   };
 
-  type kitchenIdRequest = number | null;
+  export type kitchenIdRequest = number | null;
   // ----------------------------------------------------------------------------------------------
   // ts types for hotel
-  type HotelsResponse = {
+  export type HotelsResponse = {
     id: number
     name: string
     main_image: string
@@ -71,14 +83,14 @@ namespace PLACE {
     popular_places: number
   }[];
 
-  type HotelsRequest = void;
+  export type HotelsRequest = void;
 
-  type HotelReviewImage = {
+  export type HotelReviewImage = {
     id: number;
     image: string;
   };
 
-  type ClientHotel = {
+  export type ClientHotel = {
     id: number;
     first_name: string;
     last_name: string;
@@ -86,7 +98,7 @@ namespace PLACE {
     from_user: string;
   };
 
-  type HotelReview = {
+  export type HotelReview = {
     client_hotel: ClientHotel;
     hotel: number;
     comment: string;
@@ -96,7 +108,7 @@ namespace PLACE {
     hotel_review_image: HotelReviewImage[];
   };
 
-  type HotelIDResponse = {
+  export type HotelIDResponse = {
     id: number;
     name: string | undefined;
     hotel_image: {
@@ -123,9 +135,14 @@ namespace PLACE {
     hotel_reviews: HotelReview[];
   };
 
-  type HotelIDRequest = number | null;
+  export type HotelIDRequest = number | null;
 
-  type AttractionIDResponse = {
+  export type Image = {
+    id: number
+    image: string
+  }
+
+  export type AttractionIDResponse = {
     id: number
     attraction_name: string
     main_image: string | null
@@ -137,17 +154,12 @@ namespace PLACE {
     type_attraction: string
   }
 
-  type AttractionIDRequest = number | null
-  
-  type Image = {
-    id: number
-    image: string
-  }
+  export type AttractionIDRequest = number | null
 
-  type EventListResponse = {
+  export type EventListResponse = {
     id: number
     title: string
-    image: any
+    image: string // заменил any на string, предполагая что это URL изображения
     category: {
       id: number
       category: string
@@ -159,10 +171,13 @@ namespace PLACE {
     ticket: string
   }[]
 
-  type EventListRequest = {
+  export type EventListRequest = {
     category: string,
     search: string,
     date: string,
     ticket: string
   }
 }
+
+// Экспортируем пространство имен для использования в других файлах
+export { PLACE };

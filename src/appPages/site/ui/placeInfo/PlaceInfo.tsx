@@ -3,21 +3,30 @@ import scss from "./PlaceInfo.module.scss";
 import groupPng from "@/assets/images/regions/Group.png";
 import { useGetWeatherQuery } from "@/redux/weatherApi";
 import Image from "next/image";
+
 interface CommonData {
-    name: string;
-    image: string;
-    description: string;
-  }
-interface RegionProps {
-  data: CommonData;
-  lat: string,
-  lon: string
+  name: string;
+  image: string;
+  description: string;
 }
 
-const PlaceInfo: React.FC<RegionProps> = ({ data, lat = 42.8746, lon=  74.5698 }) => {
+interface RegionProps {
+  data: CommonData | null;
+  lat: string;
+  lon: string;
+}
+
+const PlaceInfo: React.FC<RegionProps> = ({ 
+  data, 
+  lat = "42.8746", 
+  lon = "74.5698" 
+}) => {
+  // Хук должен быть вызван на верхнем уровне компонента, независимо от условий
+  const { data: weatherData } = useGetWeatherQuery({ lat, lon });
+  
+  // Затем можно использовать условную логику для рендеринга
   if (!data) return null;
-    const {data: weatherData} = useGetWeatherQuery({lat: lat, lon: lon});
-    
+  
   return (
     <section id={scss.Places}>
       <div className="container">

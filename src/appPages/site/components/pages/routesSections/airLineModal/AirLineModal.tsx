@@ -3,6 +3,7 @@ import styles from './AirLineModal.module.scss';
 import { Globe, Plane, X } from 'lucide-react';
 import { useGetAirTicketsQuery } from '@/redux/api/routes';
 import useTranslate from "@/appPages/site/hooks/translate/translate";
+import Image from 'next/image';
 
 // Типы данных
 interface AirlineTicket {
@@ -26,6 +27,11 @@ interface AirlineCardProps {
 
 interface AirlineModalProps {
   setModalWindow: (isOpen: boolean) => void;
+}
+
+// Определяем тип для события ошибки загрузки изображения
+interface ImageErrorEvent extends React.SyntheticEvent<HTMLImageElement> {
+  currentTarget: HTMLImageElement;
 }
 
 // Стили для заглушки логотипа
@@ -82,7 +88,7 @@ const AirlineCard: React.FC<AirlineCardProps> = ({ airline }) => {
   /**
    * Обработчик ошибки загрузки изображения
    */
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
+  const handleImageError = (e: ImageErrorEvent): void => {
     e.currentTarget.style.display = 'none';
     const parent = e.currentTarget.parentElement;
     if (parent) {
@@ -97,10 +103,14 @@ const AirlineCard: React.FC<AirlineCardProps> = ({ airline }) => {
         <div className={styles.logo}>
           <span className={`${styles.logoText} ${styles[getLogoClass(airline.id)]}`}>
             {airline.logo ? (
-              <img 
+              <Image 
                 src={airline.logo} 
                 alt={airline.name} 
-                onError={handleImageError} 
+                width={100}
+                height={40}
+                style={{ objectFit: 'contain' }}
+                onError={handleImageError}
+                unoptimized={true}
               />
             ) : renderLogoFallback(airline.name)}
           </span>
@@ -160,7 +170,7 @@ const AirlineCard: React.FC<AirlineCardProps> = ({ airline }) => {
  */
 const AirlineModal: React.FC<AirlineModalProps> = ({ setModalWindow }) => {
   const { t } = useTranslate();
-  const { data, isLoading, error } = useGetAirTicketsQuery();
+  const { data } = useGetAirTicketsQuery();
   
   // Добавляем стили для заглушки логотипа при монтировании
   useEffect(() => {
@@ -197,9 +207,6 @@ const AirlineModal: React.FC<AirlineModalProps> = ({ setModalWindow }) => {
           <h1 className={styles.modalTitle}>
             {t("Каталог авиакомпаний", "كتالوج شركات الطيران", "Airline Catalog")}
           </h1>
-          
-          
-
           
           {/* Список авиакомпаний */}
           <div className={styles.airlinesList}>

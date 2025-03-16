@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
 import styles from './ImageModal.module.scss';
+import Image from 'next/image';
 
-interface Image {
+interface ImageItem {
   id: number;
   image: string;
 }
 
 interface ImageModalProps {
-  images: Image[];
+  images: ImageItem[];
   selectedImage: number;
   onClose: () => void;
   onPrevious: () => void;
@@ -33,15 +34,16 @@ export function ImageModal({
       setIsLoading(true);
       setImageError(false);
       
-      const img = new Image();
-      img.src = images[selectedImage].image;
+      // Используем DOM API Image вместо компонента Next.js Image
+      const imgElement = document.createElement('img');
+      imgElement.src = images[selectedImage].image;
       
-      img.onload = () => {
+      imgElement.onload = () => {
         setCurrentImageSrc(images[selectedImage].image);
         setIsLoading(false);
       };
       
-      img.onerror = () => {
+      imgElement.onerror = () => {
         setCurrentImageSrc("https://placehold.co/800x600/e0e0e0/969696?text=Image+Not+Available");
         setIsLoading(false);
         setImageError(true);
@@ -117,11 +119,16 @@ export function ImageModal({
               <div className={styles.loader}></div>
             </div>
           ) : images && images[selectedImage] ? (
-            <img
+            <Image
               src={currentImageSrc}
               alt={`Full size image ${selectedImage + 1}`}
               className={`${styles.mainImage} ${imageError ? styles.errorImage : ''}`}
+              width={800}
+              height={600}
+              style={{ objectFit: 'contain' }}
               onError={handleImageError}
+              priority={true}
+              unoptimized={true}
             />
           ) : (
             <div className={styles.imageErrorContainer}>
@@ -142,12 +149,16 @@ export function ImageModal({
                   }`}
                   onClick={() => onSelectImage(index)}
                 >
-                  <img
+                  <Image
                     src={image.image}
                     alt={`Thumbnail ${index + 1}`}
                     className={styles.thumbnailImage}
+                    width={150}
+                    height={100}
+                    style={{ objectFit: 'cover' }}
                     onError={handleImageError}
                     loading="lazy"
+                    unoptimized={true}
                   />
                 </div>
               ))}

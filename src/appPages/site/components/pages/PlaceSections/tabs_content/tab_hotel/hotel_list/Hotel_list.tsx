@@ -8,7 +8,7 @@ import scss from "./Hotel_list.module.scss";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Hotel_map from "../hotel_map/Hotel_map";
-import { ImageOff, Coffee, Hotel, Loader } from "lucide-react";
+import { ImageOff, Hotel, Loader } from "lucide-react";
 
 interface HotelListProps {
   setIsCurrent: (id: number) => void;
@@ -150,10 +150,12 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
       {imageError[`heart-${hotel.id}`] ? (
         <div className={scss.heartFallback}>♡</div>
       ) : (
-        <img
+        <Image
           className={scss.heart}
           src={imgHeart.src}
-          alt="favorite"
+          alt={t("Избранное", "المفضلة", "Favorite")}
+          width={24}
+          height={24}
           onError={() => handleImageError(`heart-${hotel.id}`)}
         />
       )}
@@ -161,10 +163,12 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
         {imageError[`right-${hotel.id}`] ? (
           <div className={scss.rightFallback}>→</div>
         ) : (
-          <img
+          <Image
             className={scss.right}
             src={imgRight.src}
-            alt="select"
+            alt={t("Выбрать", "اختر", "Select")}
+            width={24}
+            height={24}
             onError={() => handleImageError(`right-${hotel.id}`)}
           />
         )}

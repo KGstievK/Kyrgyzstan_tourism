@@ -12,7 +12,7 @@
     background-size: 100%;
     background-repeat: no-repeat;
 
-    >img {
+    > img {
       position: absolute;
       top: 0;
       left: 0;
@@ -66,14 +66,13 @@
     .main {
       flex-direction: column;
       height: auto;
-      
+
       .main-text {
         margin-top: 50px;
         width: 80%;
         transform: translate(0, 0%);
         position: static;
         box-shadow: 0px 0px 15px 0px #00000026;
-
       }
       img {
         position: static;
@@ -81,7 +80,7 @@
     }
   }
 }
-@media (max-width: 834px) {
+@media (max-width: 835px) {
   .section {
     .main {
       position: static;
@@ -101,7 +100,7 @@
         //   margin-top: 70%;
         // }
       }
-      >img {
+      > img {
         top: 79px;
         position: absolute;
         width: 100%;
@@ -109,7 +108,3 @@
     }
   }
 }
-
-
-
-

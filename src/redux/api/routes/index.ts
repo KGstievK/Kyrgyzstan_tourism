@@ -1,5 +1,5 @@
 import {api as index} from ".."
-
+import {AIRLINE} from "./types"
 const api = index.injectEndpoints({
     endpoints: (build) => ({
         getAirTickets: build.query<AIRLINE.AirResponse, void> ({

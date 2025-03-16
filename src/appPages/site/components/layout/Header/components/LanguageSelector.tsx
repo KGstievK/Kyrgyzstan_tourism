@@ -1,8 +1,6 @@
 // components/LanguageSelector.tsx
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import scss from "../Header.module.scss";
-import downArrow from "@/assets/images/headerImages/Vector.png";
 import { ChevronDown } from "lucide-react";
 
 // Пропсы для выбора языка

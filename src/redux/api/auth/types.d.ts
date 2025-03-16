@@ -86,7 +86,7 @@ namespace AUTH {
     new_password: string;
   };
 
-  interface Attraction {
+  type Attraction = {
     id: number;
     attraction_name: string;
     region_category: string;
@@ -97,7 +97,7 @@ namespace AUTH {
     rating_count: number;
   }
 
-  interface PopularRegion {
+  type PopularRegion = {
     id: number;
     popular_name: string;
     popular_image: string;
@@ -107,7 +107,7 @@ namespace AUTH {
     address?: string;
   }
 
-  interface Gallery {
+  type Gallery = {
     id: number;
     gallery_name: string;
     gallery_image: string;
@@ -116,7 +116,7 @@ namespace AUTH {
     rating_count: number;
   }
 
-  interface Kitchen {
+  type Kitchen = {
     id: number;
     kitchen_name: string;
     price: string;
@@ -128,7 +128,7 @@ namespace AUTH {
     main_image: string;
   }
 
-  interface Hotel {
+  type Hote = {
     id: number;
     name: string;
     main_image: string;
@@ -140,7 +140,7 @@ namespace AUTH {
     longitude?: number;
   }
 
-  interface FavoriteItem {
+  type FavoriteItem = {
     id: number;
     user?: number;
     attractions?: Attraction;
@@ -152,34 +152,4 @@ namespace AUTH {
     created_date?: string;
   }
 
-  export interface Client {
-    first_name: string;
-    last_name: string;
-    id: number;
-    from_user: string;
-    user_picture: string | null;
-  }
-
-  export interface ReviewImage {
-    id: number;
-    image: string;
-  }
-
-  export interface UserComment {
-    id: number;
-    comment: string;
-    rating: number;
-    created_date?: string; // Для отзывов об отелях
-    created_at?: string;   // Для отзывов о кухне
-    client_hotel?: Client;
-    client_kitchen?: Client;
-    hotel?: string;
-    kitchen_region?: string;
-    hotel_review_image?: ReviewImage[];
-    kitchen_review_image?: ReviewImage[];
-    atmosphere_rating?: number | null;
-    nutrition_rating?: number | null;
-    price_rating?: number | null;
-    service_rating?: number | null;
-  }
 }

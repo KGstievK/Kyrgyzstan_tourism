@@ -7,8 +7,6 @@ import { RootState } from "@/redux/store";
 import { useGetMeQuery } from "@/redux/api/auth";
 import { useWindowSize } from "react-use";
 import Link from "next/link";
-import { Avatar, Badge, Space } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Header.module.scss";
 import { DesktopNavigation } from "./components/desktopNavigation/DesktopNavigation";
@@ -30,6 +28,23 @@ interface Region {
   name: string[];
   path: string;
 }
+
+// Тип для данных пользователя, соответствующий возвращаемому значению API
+interface UserData {
+  id?: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: number;
+  user_picture: string | null;
+  from_user: string;
+  cover_photo: string | null;
+  birth_date: string;
+  [key: string]: unknown; // Для других возможных полей
+}
+
+// Экспортируем тип для повторного использования в компонентах
+export type UserDataType = UserData | UserData[] | null;
 
 // Константы
 const REGIONS: Region[] = [
@@ -98,7 +113,10 @@ const Header = () => {
                   isRotate={isLangRotate}
                   setIsRotate={setIsLangRotate}
                 />
-                <UserProfile userData={userData} status={status} />
+                <UserProfile 
+                  userData={userData as UserDataType} 
+                  status={status} 
+                />
               </div>
             </div>
           ) : (
@@ -109,9 +127,9 @@ const Header = () => {
               isActive={isActive}
               t={t}
               lang={lang}
-              userData={userData}
+              userData={userData as UserDataType}
               status={status}
-              regions={REGIONS} // Добавляем передачу регионов
+              regions={REGIONS}
             />
           )}
         </div>

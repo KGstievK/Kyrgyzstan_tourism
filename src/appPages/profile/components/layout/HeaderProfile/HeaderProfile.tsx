@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { usePathname } from "next/navigation";
 import scss from "./HeaderProfile.module.scss";
 import Link from "next/link";
@@ -8,18 +8,17 @@ import vector from "@/assets/icons/vectorWite.svg";
 import { usePostLogoutMutation } from "@/redux/api/auth";
 import { FC } from "react";
 
-
 const HeaderProfile: FC = () => {
   const pathname = usePathname();
   console.log(pathname);
   const [logoutMutation] = usePostLogoutMutation();
 
-	const logout = async () => {
-		await logoutMutation();
-		localStorage.removeItem('accessToken');
-		sessionStorage.removeItem('accessToken');
-		window.location.reload();
-	};
+  const logout = async () => {
+    await logoutMutation();
+    localStorage.removeItem("accessToken");
+    sessionStorage.removeItem("accessToken");
+    window.location.reload();
+  };
 
   const tabs = [
     { label: "Профиль", path: "/profile" },
@@ -34,19 +33,20 @@ const HeaderProfile: FC = () => {
     { label: "Выйти", path: "/profile/logout" },
   ];
 
-
   return (
-    <header className={scss.HeaderProfile} >
+    <header className={scss.HeaderProfile}>
       <div className={scss.content}>
         <div className={scss.nav}>
-          <form >
+          <form>
             <ul>
               {tabs.map((tab, idx) => (
                 <li key={idx}>
                   <Link href={tab.path}>
                     <button
                       onClick={() => {
-                        tab.label === "Выйти" ? logout() : "";
+                        if (tab.label === "Выйти") {
+                          logout();
+                        }
                       }}
                       className={pathname === tab.path ? scss.active : ""}
                       type="submit"
@@ -67,7 +67,9 @@ const HeaderProfile: FC = () => {
                   <Link href={tab.path}>
                     <button
                       onClick={() => {
-                        tab.label === "Выйти" ? logout() : "";
+                        if (tab.label === "Выйти") {
+                          logout();
+                        }
                       }}
                       className={pathname === tab.path ? scss.active : ""}
                       type="submit"

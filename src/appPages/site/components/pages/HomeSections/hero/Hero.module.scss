@@ -39,7 +39,7 @@
       margin-top: 80px;
     }
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       margin-top: 60px;
     }
 
@@ -64,8 +64,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     margin-top: 8px;
-
-
 
     .filterItem {
       display: block;
@@ -98,7 +96,7 @@
     position: relative;
     display: inline-block;
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       margin-left: 0; // Убрано смещение для мобильных устройств
     }
   }
@@ -176,7 +174,7 @@
       margin-top: 80px;
     }
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       margin-top: 60px;
       flex-direction: row; // Оставляем элементы в строке
       gap: 10px;
@@ -209,7 +207,7 @@
       line-height: clamp(15px, 3vw, 33.61px);
     }
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       width: 90%;
     }
   }
@@ -225,7 +223,7 @@
     padding: 30px 0;
     margin-top: 50px; // Отступ сверху, чтобы не перекрывать .hometext
 
-    @media screen and (max-width: 834px) {
+    @media screen and (max-width: 835px) {
       padding: 20px 0;
       margin-top: 30px; // Уменьшен отступ для мобильных устройств
     }
@@ -239,7 +237,7 @@
     margin: 0 auto;
     padding: 0 20px; // Отступы для предотвращения прилипания к краям
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       flex-direction: column;
       gap: 20px;
       align-items: flex-start; // Выравнивание контента слева на мобильных устройствах
@@ -280,7 +278,7 @@
       line-height: clamp(18px, 3vw, 33.61px);
     }
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       width: 90%;
     }
   }
@@ -299,7 +297,7 @@
     flex-direction: column;
     align-items: center;
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       display: none; // Скрываем иконки на мобильных устройствах
     }
   }

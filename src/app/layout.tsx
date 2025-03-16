@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.scss";
-import LayoutClient from "./layout.client";
 import RootLayoutClient from "./layout.client";
-// import { getServerSession } from "next-auth/next"
-// import { options } from "./api/auth/[...nextauth]/route";
-// import { Session } from "next-auth";
 
 import {
   Frank_Ruhl_Libre,
@@ -50,9 +45,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-  // session: Session | null
 }>) {
-  // const session = await getServerSession(options)
   return (
     <html lang="en">
       <body

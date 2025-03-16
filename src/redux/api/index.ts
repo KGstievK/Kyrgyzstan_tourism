@@ -62,7 +62,9 @@ export const api = createApi({
     "StaticReviews",
     "favorite", 
     "comments",
-    "airline"
+    "airline",
+    "comments2",
+    "Reviews2"
   ],
   endpoints: () => ({}),
 });

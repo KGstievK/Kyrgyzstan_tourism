@@ -2,13 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from './GalleryImages.module.scss';
 import { ImageModal } from '../imageModal/ImageModal';
 import { MdPhotoCamera } from 'react-icons/md';
-
+import Image from 'next/image';
 
 interface ImageGridProps {
   images: {
     id: number;
     image: string;
   }[];
+}
+
+// Интерфейс для обработчика ошибок изображения Next.js
+interface ImageErrorEvent extends React.SyntheticEvent<HTMLImageElement, Event> {
+  currentTarget: HTMLImageElement;
 }
 
 const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
@@ -20,12 +25,13 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
   const hasImages = images && images.length > 0;
   
   // Функция для обработки ошибок загрузки изображений
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.target as HTMLImageElement;
+  const handleImageError = (e: ImageErrorEvent) => {
+    const target = e.currentTarget;
     target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
     target.alt = "Image not available";
   };
-    
+  
+  // Используем useCallback для обработчика клавиш
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (selectedImage === null) return;
     
@@ -46,6 +52,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
     }
   }, [selectedImage, images.length]);
 
+  // Добавляем и удаляем обработчик событий клавиатуры
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
@@ -92,15 +99,19 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
               onSelectImage={setSelectedImage}
             />
           )}
-          {largeImages.map((img,i) => (
+          {largeImages.map((img) => (
             <div key={img.id} className={`${styles.imageWrapper} ${styles.large}`}>
-              <img
+              <Image
                 src={img.image}
                 alt={`Image ${img.id}`}
                 className={styles.image}
+                width={600}
+                height={400}
+                style={{ objectFit: 'cover' }}
                 loading="lazy"
                 onClick={() => setSelectedImage(images.findIndex(el => el.id === img.id))}
                 onError={handleImageError}
+                unoptimized={true}
               />
             </div>
           ))}
@@ -112,19 +123,21 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
           {/* Группы по 4 маленьких изображения */}
           {smallImageGroups.map((group, groupIndex) => (
             <div key={groupIndex} className={styles.smallGroup}>
-              {group.map((img,i) => (
+              {group.map((img) => (
                 <div key={img.id} className={styles.smallImageWrapper}>
-                  <img
+                  <Image
                     src={img.image}
                     alt={`Image ${img.id}`}
                     className={styles.image}
+                    width={300}
+                    height={200}
+                    style={{ objectFit: 'cover' }}
                     loading="lazy"
                     onClick={() => {
-                      setSelectedImage(images.findIndex(el => el.id === img.id))
-                      console.log("item " + (groupIndex + i + 1));
-                      console.log("item mini " + i);
+                      setSelectedImage(images.findIndex(el => el.id === img.id));
                     }}
                     onError={handleImageError}
+                    unoptimized={true}
                   />
                 </div>
               ))}

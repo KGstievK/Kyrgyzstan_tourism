@@ -13,7 +13,7 @@ const Tab_event = () => {
   const [search, setIsSearch] = useState("");
   const [ticket, setTicket] = useState("");
   const [date, setIsDate] = useState("");
-  const { data: event, isLoading, isError } = useGetEventListQuery({
+  const { data: event } = useGetEventListQuery({
     category,
     search,
     date,

@@ -4,6 +4,9 @@ import scss from "../../Header.module.scss";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { UserProfile } from "../userProfile/UserProfile";
 
+// Импортируем тип из Header
+import { UserDataType } from "../../Header";
+
 interface NavItem {
   name: {
     ru: string;
@@ -25,7 +28,7 @@ interface MobileNavigationProps {
   isActive: (path: string) => boolean;
   t: (ru: string, ar: string, en: string) => string;
   lang: string;
-  userData: any;
+  userData: UserDataType;
   status: string;
   regions: Region[];
 }

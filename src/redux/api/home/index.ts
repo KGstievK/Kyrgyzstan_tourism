@@ -1,5 +1,5 @@
 import {api as index} from ".."
-
+import {HOME} from "./types"
 const api = index.injectEndpoints({
     endpoints: (builder) => ({
         getAttractions: builder.query<HOME.AttractionsResponse, HOME.AttractionsRequest>({

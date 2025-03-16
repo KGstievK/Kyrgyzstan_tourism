@@ -3,11 +3,13 @@ import scss from "./Places.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
 import imgHeart from "@/assets/images/regions/Vector.png";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import Stars from "@/appPages/site/ui/stars/Stars";
+import { REGION_LIST } from "@/redux/api/regions/types";
 
 type TabsDataType = Record<number, REGION_LIST.PopularResponse>;
 
@@ -43,7 +45,7 @@ const PlacesPopular = () => {
     }
 
     return result;
-  }, [findRegion]);
+  }, [findRegion, popular_places]);
 
   const totalTabs = Object.keys(tabsData).length;
   const handleImageError = (
@@ -60,9 +62,17 @@ const PlacesPopular = () => {
         <div className="container">
           <h2>{t("", "", "Popular places")}</h2>
           <div className={scss.list}>
-            {tabsData[activeTab]?.map((item, i) => (
-              <div key={i} className={scss.item}>
-                <img src={item.popular_image} onError={handleImageError} alt="" />
+            {tabsData[activeTab]?.map((item) => (
+              <div key={item.id} className={scss.item}>
+                {/* Используем компонент Image вместо img */}
+                <Image 
+                  src={item.popular_image} 
+                  alt={item.popular_name || ""}
+                  width={340}
+                  height={271}
+                  style={{ objectFit: "cover" }}
+                  onError={handleImageError}
+                />
                 <div className={scss.block}>
                   <h6>{item.popular_name}</h6>
                   <div>
@@ -73,9 +83,23 @@ const PlacesPopular = () => {
                     </span>
                   </div>
                 </div>
-                <img className={scss.heart} src={imgHeart.src} alt="" />
+                {/* Заменяем img на Image для иконки сердца */}
+                <Image 
+                  className={scss.heart} 
+                  src={imgHeart.src} 
+                  alt="Избранное"
+                  width={24}
+                  height={24}
+                />
                 <Link href={`/${routeName}/${item.id}`}>
-                  <img className={scss.right} src={imgRight.src} alt="" />
+                  {/* Заменяем img на Image для иконки стрелки */}
+                  <Image 
+                    className={scss.right} 
+                    src={imgRight.src} 
+                    alt="Открыть"
+                    width={24}
+                    height={24}
+                  />
                 </Link>
               </div>
             ))}
@@ -84,7 +108,7 @@ const PlacesPopular = () => {
           {totalTabs > 1 && (
             <div className={scss.tabs}>
               {Array.from({ length: totalTabs }, (_, i) => i + 1).map(
-                (el, i) => (
+                (el) => (
                   <button
                     style={{
                       background: activeTab === el ? "#3C5F63" : "transparent",

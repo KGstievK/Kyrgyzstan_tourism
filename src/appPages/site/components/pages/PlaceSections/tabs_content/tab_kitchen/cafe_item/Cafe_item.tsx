@@ -1,24 +1,17 @@
 import scss from "./Cafe_item.module.scss";
-
 import { FC } from "react";
-import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { useGetKitchenIDQuery } from "@/redux/api/place";
 import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
 import Cafe_right from "./cafe_right/Cafe_right";
 import Cafe_middle from "./cafe_middle/Cafe_middle";
 import Cafe_left from "./cafe_left/Cafe_left";
-interface iImage {
-  id: number;
-  image: string;
-}
+
 interface propsType {
   isCurrent: number | null;
 }
-const Cafe_item: FC<propsType> = ({ isCurrent }) => {
-  const { t } = useTranslate();
-  const { data, isLoading, isError } = useGetKitchenIDQuery(isCurrent);
 
- 
+const Cafe_item: FC<propsType> = ({ isCurrent }) => {
+  const { data, isLoading, isError } = useGetKitchenIDQuery(isCurrent);
   const images = data?.kitchen_image ?? [];
 
   if (isLoading) {

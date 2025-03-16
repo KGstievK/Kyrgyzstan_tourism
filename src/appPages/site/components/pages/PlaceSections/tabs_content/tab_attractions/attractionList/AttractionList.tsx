@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./AttractionList.module.scss";
 import Stars from "@/appPages/site/ui/stars/Stars";
-import imgNone from "@/assets/images/universalImage/none.png";
 import { useGetAttractionsQuery } from "@/redux/api/home";
 import { ImageOff, MapPin, Loader } from "lucide-react";
 

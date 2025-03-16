@@ -48,7 +48,7 @@
   .main {
     padding-top: 60px;
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     gap: 30px;
     @media (max-width: 666px) {
       flex-direction: column;
@@ -67,7 +67,7 @@
       @media (max-width: 926px) {
         width: 450px;
       }
-      @media (max-width: 834px) {
+      @media (max-width: 835px) {
         width: 300px;
       }
       @media (max-width: 666px) {
@@ -106,7 +106,7 @@
           font-size: 14px;
           line-height: 18px;
         }
-        @media (max-width: 834px) {
+        @media (max-width: 835px) {
           font-size: 12px;
           line-height: 13px;
         }

@@ -1,16 +1,25 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+
+// Интерфейс для результатов поиска мест
+interface PlaceResult {
+  place_id: string;
+  name: string;
+  geometry: {
+    location: google.maps.LatLng;
+  };
+}
 
 const containerStyle = {
   width: "100%",
   height: "500px",
 };
 
-const center = { lat:  42.3135, lng: 72.2246 }; // Центр Кыргызстана
+const center = { lat: 42.3135, lng: 72.2246 }; // Центр Кыргызстана
 
 const Map = () => {
-  const [places, setPlaces] = useState<any[]>([]);
+  const [places, setPlaces] = useState<PlaceResult[]>([]);
   const mapRef = useRef<google.maps.Map | null>(null);
 
   // Функция поиска достопримечательностей
@@ -26,7 +35,7 @@ const Map = () => {
 
     service.nearbySearch(request, (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-        setPlaces(results);
+        setPlaces(results as PlaceResult[]);
       }
     });
   };

@@ -15,6 +15,7 @@ import {
 } from "@/redux/api/reviews";
 import { useGetMeQuery } from "@/redux/api/auth";
 import Rating from "./Rating/Rating";
+import { REVIEWS } from "@/redux/api/reviews/types";
 
 interface ReviewModalProps {
   onClose: () => void;
@@ -101,7 +102,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
       formData.append("comment", data.comment);
       if (rating) formData.append("rating", rating.toString());
 
-      uploadedFiles.forEach((file, index) => {
+      uploadedFiles.forEach((file) => {
         formData.append("images", file);
       });
 

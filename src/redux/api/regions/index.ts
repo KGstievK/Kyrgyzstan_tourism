@@ -1,5 +1,5 @@
 import { api as index } from "..";
-
+import {REGION_LIST} from "./types"
 const api = index.injectEndpoints({
   endpoints: (builder) => ({
     getRegionList: builder.query<

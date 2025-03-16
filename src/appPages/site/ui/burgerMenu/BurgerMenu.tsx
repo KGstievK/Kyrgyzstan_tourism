@@ -1,40 +1,34 @@
 "use client"
-import { FC, useState } from "react";
+import { useState } from "react";
 import scss from "./BurgerMenu.module.scss";
-import { Link } from "react-router-dom";
-import { IconLogout } from "@tabler/icons-react";
-import { Avatar } from "antd";
+import Link from "next/link"; // Изменили импорт на Next.js Link
 import { usePathname } from "next/navigation";
 
-
-
-const BurgerMenu = ()  => {
-
-	const [openMenu, setOpenMenu] = useState<boolean>(false);
-	const pathname = usePathname();
-	const links = [
-	  {
-		link: "/",
-		name: "Главная",
-	  },
-	  {
-		link: "/new",
-		name: "Новинки",
-	  },
-	  {
-		link: "/catalog",
-		name: "Категории",
-	  },
-	  {
-		link: "/about",
-		name: "О нас",
-	  },
-	  {
-		link: "/contacts",
-		name: "Контакты",
-	  },
-	];
-  
+const BurgerMenu = () => {
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const pathname = usePathname();
+  const links = [
+    {
+      link: "/",
+      name: "Главная",
+    },
+    {
+      link: "/new",
+      name: "Новинки",
+    },
+    {
+      link: "/catalog",
+      name: "Категории",
+    },
+    {
+      link: "/about",
+      name: "О нас",
+    },
+    {
+      link: "/contacts",
+      name: "Контакты",
+    },
+  ];
 
   return (
     <>

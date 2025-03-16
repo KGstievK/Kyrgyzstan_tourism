@@ -13,7 +13,7 @@ import { useState } from "react";
 const Attractions = () => {
   const { t } = useTranslate();
   const SLICES_DATA = 6;
-  const { data, isLoading, isError } = useGetAttractionsQuery();
+  const { data } = useGetAttractionsQuery(); // Удалены неиспользуемые переменные isLoading и isError
   const AttractionDataList = data?.slice(0, SLICES_DATA);
 
   const textSlice = (text: string) => text.slice(0, 266);

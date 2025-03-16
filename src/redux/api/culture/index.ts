@@ -1,6 +1,6 @@
 import { api as index } from "..";
-
-const api = index.injectEndpoints({
+import CULTURE from "./types";
+export const api = index.injectEndpoints({
   endpoints: (build) => ({
     getGames: build.query<CULTURE.GamesResponse, CULTURE.GamesRequest>({
       query: () => ({

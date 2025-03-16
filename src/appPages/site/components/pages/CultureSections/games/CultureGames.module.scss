@@ -96,7 +96,7 @@ $font-display: "Abril Fatface", cursive;
   display: flex;
   gap: 2rem;
 
-  @media (max-width: 834px) {
+  @media (max-width: 835px) {
     flex-direction: column;
   }
 
@@ -113,7 +113,7 @@ $font-display: "Abril Fatface", cursive;
     height: 392px;
     border-radius: 8px;
 
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       width: 100%;
       height: auto;
     }

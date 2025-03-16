@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import styles from "./SearchBar.module.scss";
 import { useRouter } from "next/navigation";
@@ -100,7 +100,9 @@ export default function SearchBar({
     if (!validateInputs()) return;
     
     onSearch();
-    setModalWindowTime && setModalWindowTime(true);
+    if (setModalWindowTime) {
+      setModalWindowTime(true);
+    }
   };
   
   // Создаем refs для хранения введенных пользователем значений

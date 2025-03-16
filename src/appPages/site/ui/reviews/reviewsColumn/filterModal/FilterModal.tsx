@@ -3,12 +3,12 @@ import { X, Circle } from "lucide-react";
 import styles from "./FilterModal.module.scss";
 import StatisticBlock from "../../statisticColumn/statisticBlock/StatisticBlock";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
+import { REVIEWS } from "@/redux/api/reviews/types";
 
 /**
  * Интерфейс для свойств компонента FilterModal
  */
 interface FilterModalProps {
-  isShow?: boolean;                                      // Флаг для отображения модального окна
   setIsShow?: (isShow: boolean) => void;                 // Функция управления видимостью модального окна
   reviewStatic?: REVIEWS.StaticReview;                   // Статистика по отзывам
   onApply?: (rating: string | undefined, month: string | undefined) => void; // Функция применения фильтров
@@ -38,7 +38,6 @@ const months = [
  * Компонент модального окна фильтрации отзывов
  */
 export const FilterModal: React.FC<FilterModalProps> = ({
-  isShow,
   setIsShow,
   reviewStatic,
   onApply

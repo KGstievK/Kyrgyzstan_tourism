@@ -1,5 +1,5 @@
 "use client";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search } from "lucide-react";
 import styles from "../Reviews.module.scss";
 import { FC, useEffect, useState } from "react";
 import Stars from "../../stars/Stars";
@@ -7,10 +7,10 @@ import { LikeOutlined, UserOutlined } from "@ant-design/icons";
 import { FilterModal } from "./filterModal/FilterModal";
 import { useGetReviewsQuery } from "@/redux/api/reviews";
 import { Avatar, Space } from "antd";
-import { useGetMeQuery } from "@/redux/api/auth";
 import Image from "next/image";
 import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
 import { ImageModal } from "../../imageModal/ImageModal";
+import { REVIEWS } from "@/redux/api/reviews/types";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -29,13 +29,14 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   const [dataReviews, setDataReviews] = useState<REVIEWS.Review[]>([]);
   const [ratingFilter, setRatingFilter] = useState<string | undefined>();
   const [monthFilter, setMonthFilter] = useState<string | undefined>();
+  const [searchFilter, setSearchFilter] = useState<string>("");
   const [selectedReviewIndex, setSelectedReviewIndex] = useState<number | null>(null);
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);  const [isLength, setIsLength] = useState(0);
-  const [userPreview, setUserPreview] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const { data: reviewsData } = useGetReviewsQuery({
     entityType,
     rating: ratingFilter,
     month: monthFilter,
+    search: searchFilter,
   });
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<
@@ -56,9 +57,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       }
     }
   };
+  
   useEffect(() => {
     if (reviewsData) {
-
       const filteredReviews = reviewsData.filter((review) => {
         return String(review.entityId) === String(isCurrent);
       });
@@ -75,7 +76,6 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     }
   }, [reviewsData, isCurrent, entityType]);
 
-
   const applyFilters = (rating?: string, month?: string) => {
     setRatingFilter(rating);
     setMonthFilter(month);
@@ -86,12 +86,20 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     setShowReplyModal(true);
   };
 
+  // Обработчик ошибок загрузки изображений
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
+    target.alt = "Image not available";
+  };
+
   return (
     <div className={styles.reviewsColumn}>
       <div className={`${styles.flex} ${styles.gap3} ${styles.mb6}`}>
         <div className={styles.searchContainer}>
           <Search className={styles.searchIcon} size={20} color="#5A5A5A" />
           <input
+            onChange={(e) => setSearchFilter(e.target.value)}
             type="text"
             placeholder="Search"
             className={styles.searchInput}
@@ -107,7 +115,6 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       {isShow && (
         <FilterModal
           reviewStatic={reviewStatic}
-          isShow={isShow}
           setIsShow={setIsShow}
           onApply={applyFilters}
         />
@@ -130,30 +137,19 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                       <Avatar
                         size={47}
                         icon={
-                          userPreview ? (
-                            <Image
-                              src={userPreview}
-                              alt="avatar"
-                              style={{
-                                objectFit: "cover",
-                                top: "0",
-                                right: "0",
-                                borderRadius: "50%",
-                              }}
-                            />
-                          ) : review.client.user_picture ? (
-                            <Image
-                              src={review.client.user_picture}
-                              alt="avatar"
-                              width={100}
-                              height={100}
-                              style={{
-                                objectFit: "cover",
-                                top: "0",
-                                right: "0",
-                                borderRadius: "50%",
-                              }}
-                            />
+                          review.client.user_picture ? (
+                            <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden' }}>
+                              <Image
+                                src={review.client.user_picture}
+                                alt="avatar"
+                                width={47}
+                                height={47}
+                                style={{
+                                  objectFit: "cover",
+                                }}
+                                unoptimized={true}
+                              />
+                            </div>
                           ) : (
                             <UserOutlined />
                           )
@@ -184,22 +180,26 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             {review.reviewImages.length > 0 && (
               <div className={styles.imageGrid}>
                 {review.reviewImages.map((image, index) => (
-                  <img
-                    onClick={() => {
-                      setSelectedReviewIndex(reviewIndex);
-                      setSelectedImage(
-                        review.reviewImages.findIndex(
-                          (el) => el.id === image.id
-                        )
-                      );
-                      setIsLength(review.reviewImages.length);
-                    }}
-                    key={image.id}
-                    loading="lazy"
-                    src={image.image}
-                    alt={`Review image ${index + 1}`}
-                    className={styles.reviewImage}
-                  />
+                  <div key={image.id} className={styles.reviewImageContainer}>
+                    <Image
+                      onClick={() => {
+                        setSelectedReviewIndex(reviewIndex);
+                        setSelectedImage(
+                          review.reviewImages.findIndex(
+                            (el) => el.id === image.id
+                          )
+                        );
+                      }}
+                      src={image.image}
+                      alt={`Review image ${index + 1}`}
+                      className={styles.reviewImage}
+                      width={150}
+                      height={150}
+                      style={{ objectFit: 'cover' }}
+                      onError={handleImageError}
+                      unoptimized={true}
+                    />
+                  </div>
                 ))}
               </div>
             )}
@@ -254,30 +254,19 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                               <Avatar
                                 size={47}
                                 icon={
-                                  userPreview ? (
-                                    <Image
-                                      src={userPreview}
-                                      alt="avatar"
-                                      style={{
-                                        objectFit: "cover",
-                                        top: "0",
-                                        right: "0",
-                                        borderRadius: "50%",
-                                      }}
-                                    />
-                                  ) : el.user.user_picture ? (
-                                    <Image
-                                      src={el.user.user_picture}
-                                      alt="avatar"
-                                      width={100}
-                                      height={100}
-                                      style={{
-                                        objectFit: "cover",
-                                        top: "0",
-                                        right: "0",
-                                        borderRadius: "50%",
-                                      }}
-                                    />
+                                  el.user.user_picture ? (
+                                    <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden' }}>
+                                      <Image
+                                        src={el.user.user_picture}
+                                        alt="avatar"
+                                        width={47}
+                                        height={47}
+                                        style={{
+                                          objectFit: "cover",
+                                        }}
+                                        unoptimized={true}
+                                      />
+                                    </div>
                                   ) : (
                                     <UserOutlined />
                                   )

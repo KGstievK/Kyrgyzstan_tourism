@@ -5,23 +5,25 @@ import {
   useGetCultureKitchenQuery,
 } from "@/redux/api/culture";
 import sanitizeHtml from "sanitize-html";
+import Image from "next/image";
+
+
 const Kitchen = () => {
   const { t } = useTranslate();
   const { data, isError, isLoading } = useGetCultureKitchenQuery();
 
   const { data: main } = useGetCultureKitchenMainQuery();
-  console.log("🚀 ~ Kitchen ~ main:", main);
 
   if (isLoading) {
-    return <div>Loading...</div>; // или ваш компонент загрузки
+    return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error loading data</div>; // или ваш компонент ошибки
+    return <div>Error loading data</div>;
   }
 
   if (!data || data.length === 0) {
-    return <div>No data available</div>; // или другое сообщение
+    return <div>No data available</div>;
   }
 
   return (
@@ -44,12 +46,56 @@ const Kitchen = () => {
         {main?.map((el) => (
           <div key={el.id} className={styles.block}>
             <div className={styles.Images}>
-              <img src={el.image_1} alt="" className={styles.img1} />
+              {el.image_1 && (
+                <Image 
+                  src={el.image_1} 
+                  alt="Traditional Kyrgyz food" 
+                  className={styles.img1}
+                  width={486}
+                  height={324}
+                  style={{
+                    objectFit: "cover",
+                  }}
+                />
+              )}
               <div className={styles.images2}>
-                <img src={el.image_2} alt="" className={styles.img2} />
-                <img src={el.image_3} alt="" className={styles.img2} />
+                {el.image_2 && (
+                  <Image 
+                    src={el.image_2} 
+                    alt="Traditional Kyrgyz food" 
+                    className={styles.img2}
+                    width={237}
+                    height={178}
+                    style={{
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
+                {el.image_3 && (
+                  <Image 
+                    src={el.image_3} 
+                    alt="Traditional Kyrgyz food" 
+                    className={styles.img2}
+                    width={237}
+                    height={178}
+                    style={{
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
               </div>
-              <img src={el.image_4} alt="" className={styles.img1} />
+              {el.image_4 && (
+                <Image 
+                  src={el.image_4} 
+                  alt="Traditional Kyrgyz food" 
+                  className={styles.img1}
+                  width={486}
+                  height={324}
+                  style={{
+                    objectFit: "cover",
+                  }}
+                />
+              )}
             </div>
             <div className={styles.text}>
               <h3>{el.title}</h3>
@@ -66,7 +112,20 @@ const Kitchen = () => {
         {data.map((el, idx) => (
           <div key={idx} className={styles.main}>
             {el.culture_kitchen_image.map((item) => (
-              <img key={item.id} src={item.image} alt="kitchen" />
+              item.image && (
+                <Image 
+                  key={item.id} 
+                  src={item.image} 
+                  alt={`${el.kitchen_name} dish`}
+                  width={486}
+                  height={324}
+                  style={{
+                    objectFit: "cover",
+                    maxWidth: "100%",
+                    height: "auto"
+                  }}
+                />
+              )
             ))}
             <div className={styles["main-text"]}>
               <h3 className={styles["main-heading"]}>{el.kitchen_name}</h3>

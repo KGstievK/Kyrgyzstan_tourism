@@ -3,7 +3,6 @@ import scss from "./Calendar.module.scss";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import RenderDays from "./renderDays/RenderDays";
 import HeaderCalendar from "./headerCalendar/HeaderCalendar";
-import { log } from "console";
 
 interface DatePickerProps {
   initialDate?: Date;

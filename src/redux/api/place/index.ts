@@ -1,6 +1,5 @@
-import { url } from "inspector";
 import { api as index } from "..";
-
+import {PLACE} from "./types"
 const api = index.injectEndpoints({
   endpoints: (builder) => ({
     getPlace: builder.query<PLACE.PlaceResponse, PLACE.PlaceRequest>({

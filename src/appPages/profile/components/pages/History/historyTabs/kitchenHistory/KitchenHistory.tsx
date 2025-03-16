@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { Coffee, ImageOff } from "lucide-react";
 
 import useTranslate from "@/appPages/site/hooks/translate/translate";
@@ -28,19 +27,15 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   };
 
 
-  // Функция для горизонтального скролла
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
     
-    // Если мы близко к концу скролла, можно добавить логику подгрузки
     if (scrollWidth - (scrollLeft + clientWidth) < 200) {
-      // Здесь можно добавить логику подгрузки если нужно
     }
   };
 
-  // Добавляем слушатель события скролла
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
@@ -49,7 +44,6 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
     }
   }, []);
 
-  // No cafes or error scenario
   if (error) {
     return (
       <div className={scss.cafes}>
@@ -61,7 +55,6 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
     );
   }
 
-  // Loading scenario
   if (isLoading) {
     return (
       <div className={scss.cafes}>
@@ -73,7 +66,6 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
     );
   }
 
-  // No cafes scenario
   if (!cafes.length) {
     return (
       <div className={scss.cafes}>

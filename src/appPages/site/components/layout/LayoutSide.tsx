@@ -1,4 +1,3 @@
-import { Outlet } from 'react-router-dom'
 import Footer from './Footer/Footer'
 import scss from './LayoutSite.module.scss'
 import { FC, ReactNode } from 'react'

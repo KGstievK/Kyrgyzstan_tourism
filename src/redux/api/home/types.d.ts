@@ -1,18 +1,18 @@
 namespace HOME {
-  type AttractionsResponse = {
+  export type AttractionsResponse = {
     id: number;
     attraction_name: string;
     region_category: string;
-    main_image: any;
+    main_image: string; // Заменил any на string, предполагая что это URL изображения
     description: string;
     avg_rating: number;
     rating_count: number;
     popular_places: number;
   }[];
 
-  type AttractionsRequest = void;
+  export type AttractionsRequest = void;
 
-  type CultureListResponse = {
+  export type CultureListResponse = {
     id: number;
     culture_name: string;
     culture: string;
@@ -20,5 +20,8 @@ namespace HOME {
     culture_image: string;
   }[];
 
-  type CultureListRequest = void;
+  export type CultureListRequest = void;
 }
+
+// Экспортируем пространство имен для использования в других файлах
+export { HOME };

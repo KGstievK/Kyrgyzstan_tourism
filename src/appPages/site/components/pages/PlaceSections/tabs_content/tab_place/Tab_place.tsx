@@ -21,7 +21,6 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   const id: number = Number(pathName.split("/")[2]);
   const { data } = useGetStaticReviewsQuery({ entityType: "popular_places" });
   const placeStaticInfo = data?.find((place) => place.id === id);
-  console.log(placeStaticInfo);
   
   const [pointA, setPointA] = useState("");
   const [pointB, setPointB] = useState("");
@@ -51,7 +50,7 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "WALKING" }
-      : ({} as any),
+      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "WALKING" },
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
@@ -62,7 +61,7 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "DRIVING" }
-      : ({} as any),
+      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "DRIVING" },
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
@@ -73,7 +72,7 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "TRAIN" }
-      : ({} as any),
+      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "TRAIN" },
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
@@ -105,7 +104,7 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
 
   return (
     <div className={scss.tab_place}>
-      <p>{t("", "", "Where to go")}</p>
+      <p>{t("Куда пойти", "إلى أين تذهب", "Where to go")}</p>
       <SearchBar
         pointA={pointA}
         pointB={pointB}

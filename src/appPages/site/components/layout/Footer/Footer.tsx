@@ -4,6 +4,7 @@ import vk from '@/assets/images/footerImages/vk.png';
 import fb from '@/assets/images/footerImages/fc.png';
 import mail from '@/assets/images/footerImages/mail.png';
 import Link from 'next/link';
+import Image from 'next/image'; // Импортируем компонент Image
 import useTranslate from '@/appPages/site/hooks/translate/translate';
 
 const Footer = () => {
@@ -14,10 +15,18 @@ const Footer = () => {
             <div className={scss.logo}>
                 <p>logo</p>
                 <div className={scss.links}>
-                    <a href="https://www.instagram.com/"><img src={inst.src} alt="inst" /></a>
-                    <a href="https://vk.com/"><img src={vk.src} alt="vk" /></a>
-                    <a href="https://www.facebook.com/"><img src={fb.src} alt="fb" /></a>
-                    <a href="mailto:"><img src={mail.src} alt="mail" /></a>
+                    <a href="https://www.instagram.com/">
+                        <Image src={inst.src} alt="inst" width={24} height={24} />
+                    </a>
+                    <a href="https://vk.com/">
+                        <Image src={vk.src} alt="vk" width={24} height={24} />
+                    </a>
+                    <a href="https://www.facebook.com/">
+                        <Image src={fb.src} alt="fb" width={24} height={24} />
+                    </a>
+                    <a href="mailto:">
+                        <Image src={mail.src} alt="mail" width={24} height={24} />
+                    </a>
                 </div>
             </div>
 

@@ -3,17 +3,15 @@ import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Places.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
 import Link from "next/link";
-import {
-  useGetFavoriteQuery,
-  useGetRegionListQuery,
-} from "@/redux/api/regions";
+import { useGetRegionListQuery } from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import LikePost from "./LikePost";
+import Image from "next/image";
 
 const Places = () => {
   const { t } = useTranslate();
-  const { data, isLoading, isError } = useGetRegionListQuery();
+  const { data } = useGetRegionListQuery();
   const pathName = usePathname();
   const routeName = pathName.split("/")[1];
 
@@ -31,7 +29,13 @@ const Places = () => {
           {popularPlacesInRegion?.popular_places?.map((place, i) => {
             return (
               <div key={i} className={scss.item}>
-                <img src={place.popular_image} alt="popular place" />
+                <Image 
+                  src={place.popular_image} 
+                  alt={place.popular_name || "Popular place"}
+                  width={400}
+                  height={300}
+                  style={{ objectFit: "cover" }}
+                />
                 <div className={scss.block}>
                   <h6>{place.popular_name}</h6>
                   <div>
@@ -46,7 +50,13 @@ const Places = () => {
                 </div>
                 <LikePost postId={place.id} />
                 <Link href={`/${routeName}/${place.id}`}>
-                  <img className={scss.right} src={imgRight.src} alt="" />
+                  <Image 
+                    className={scss.right} 
+                    src={imgRight.src} 
+                    alt={t("Подробнее", "المزيد", "More details")}
+                    width={24}
+                    height={24}
+                  />
                 </Link>
               </div>
             );

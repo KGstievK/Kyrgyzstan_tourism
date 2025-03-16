@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { X, Plus } from "lucide-react";
 import styles from "./PhotoUploadModal.module.scss";
+import Image from "next/image";
 
 interface PhotoUploadModalProps {
   onClose: () => void;
@@ -76,10 +77,14 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
             >
               {block.preview ? (
                 <div className={styles.previewContainer}>
-                  <img
+                  <Image
                     src={block.preview}
                     alt="Preview"
                     className={styles.preview}
+                    width={150}
+                    height={150}
+                    style={{ objectFit: "cover" }}
+                    unoptimized={true}
                   />
                 </div>
               ) : (

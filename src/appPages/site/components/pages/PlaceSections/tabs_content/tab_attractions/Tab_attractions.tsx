@@ -21,16 +21,6 @@ const Attractions: React.FC<AttractionsProps> = ({ isTab }) => {
   const attractionStaticInfo = data?.find(
     (attraction) => attraction.id === currentId
   );
-  console.log(attractionStaticInfo);
-  console.log(currentId);
-  console.log(data);
-  console.log("Data:", data);
-  if (!data) {
-    console.log("Данные еще не загружены...");
-  } else {
-    console.log("Данные загружены:", JSON.stringify(data, null, 2));
-  }
-
   // Сохраняем currentId в sessionStorage при его изменении
   useEffect(() => {
     if (currentId !== null) {

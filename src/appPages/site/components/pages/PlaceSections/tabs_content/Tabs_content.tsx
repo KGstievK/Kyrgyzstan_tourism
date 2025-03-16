@@ -11,6 +11,7 @@ import Tab_kitchen from "./tab_kitchen/Tab_kitchen";
 import Tab_event from "./tab_event/Tab_event";
 import Tab_attractions from "./tab_attractions/Tab_attractions";
 import Tab_hotel from "./tab_hotel/Tab_hotel";
+import Image from "next/image";
 
 const Tabs_content = () => {
   const tabsButton = [
@@ -44,7 +45,12 @@ const Tabs_content = () => {
               }}
               className={isTab === tab.id ? scss.active : ""}
             >
-              <img src={tab.img.src} alt="tabs" />
+              <Image 
+                src={tab.img.src} 
+                alt={`Иконка ${tab.name}`}
+                width={24}
+                height={24}
+              />
               {tab.name}
             </button>
           ))}

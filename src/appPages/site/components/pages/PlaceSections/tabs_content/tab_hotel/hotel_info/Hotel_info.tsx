@@ -5,21 +5,13 @@ import { useGetHotelIDQuery } from "@/redux/api/place";
 import { FC } from "react";
 import imgLike from "@/assets/images/placeImages/like.png";
 import imgShare from "@/assets/images/placeImages/share.png";
-import imgBed from "@/assets/images/placeImages/bed.png";
 import safety from "@/assets/images/placeImages/safety.png";
-import imgProper from "@/assets/images/placeImages/proper.png";
 import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Preloader from "@/appPages/site/ui/preLoader/Preloader";
-import {
-  BathIcon,
-  Bed,
-  CarFront,
-  CarFrontIcon,
-  CarTaxiFront,
-} from "lucide-react";
-import { MdOutlinePets, MdPets } from "react-icons/md";
+import { BathIcon, Bed, CarFront } from "lucide-react";
+import { MdOutlinePets } from "react-icons/md";
+import Image from "next/image";
 
 interface propsType {
   isCurrent: number | null;
@@ -27,7 +19,7 @@ interface propsType {
 
 const Hotel_info: FC<propsType> = ({ isCurrent }) => {
   const { t } = useTranslate();
-  const { data, isError, isLoading } = useGetHotelIDQuery(isCurrent);
+  const { data, isError } = useGetHotelIDQuery(isCurrent);
   const images = data?.hotel_image ?? [];
 
   const handleShare = async () => {
@@ -39,7 +31,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           url: window.location.href,
         });
         toast.success("Ссылка успешно отправлена!");
-      } catch (error) {
+      } catch {
         toast.error("Ошибка при попытке поделиться.");
       }
     } else {
@@ -47,36 +39,38 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <>
-        <Preloader />
-      </>
-    );
-  }
-
   if (isError) {
     return null;
   }
 
   return (
     <div className={scss.hotel_item}>
-      <h4>{t("", "", data?.name || "")}</h4>
+      <h4>{t(data?.name || "", data?.name || "", data?.name || "")}</h4>
       <GalleryImages images={images} />
 
       <div className={scss.info}>
         <div className={scss.left}>
           <div className={scss.titles}>
             <div className={scss.title}>
-              <h5>{t("", "", "Well Furnished Apartment")} </h5>
+              <h5>{t("Хорошо меблированная квартира", "شقة مؤثثة جيدًا", "Well Furnished Apartment")} </h5>
               <p>{data?.address}</p>
             </div>
             <div className={scss.links}>
               <button>
-                <img src={imgLike.src} alt="" />
+                <Image 
+                  src={imgLike.src} 
+                  alt={t("Нравится", "أعجبني", "Like")}
+                  width={24}
+                  height={24}
+                />
               </button>
               <button onClick={handleShare}>
-                <img src={imgShare.src} alt="" />
+                <Image 
+                  src={imgShare.src} 
+                  alt={t("Поделиться", "مشاركة", "Share")}
+                  width={24}
+                  height={24}
+                />
               </button>
             </div>
           </div>
@@ -118,27 +112,37 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
             </div>
           </div>
           <div className={scss.descr}>
-            <h6>{t("", "", "Apartment Description")}</h6>
+            <h6>{t("Описание апартаментов", "وصف الشقة", "Apartment Description")}</h6>
             <p>{data?.description}</p>
           </div>
           <div className={scss.amen}>
-            <h6>{t("", "", "Offered Amenities")}</h6>
+            <h6>{t("Предлагаемые удобства", "وسائل الراحة المقدمة", "Offered Amenities")}</h6>
             <div className={scss.amenities}>
-              {data?.amenities.map((item, index) => (
+              {data?.amenities.map((item) => (
                 <div key={item.id}>
-                  <img src={item.icon} alt="" />
+                  <Image 
+                    src={item.icon} 
+                    alt={item.amenity}
+                    width={24}
+                    height={24}
+                  />
                   <span>{item.amenity}</span>
                 </div>
               ))}
             </div>
-            {/* <button>{t("", "", "Show All 10 Amenities")}</button> */}
+            {/* <button>{t("Показать все 10 удобств", "عرض جميع وسائل الراحة 10", "Show All 10 Amenities")}</button> */}
           </div>
           <div className={scss.safe}>
-            <h6>{t("", "", "Safety and Hygiene")}</h6>
+            <h6>{t("Безопасность и гигиена", "السلامة والنظافة", "Safety and Hygiene")}</h6>
             <div className={scss.safe_list}>
-              {data?.safety_and_hygiene.map((item, index) => (
-                <div key={index}>
-                  <img src={safety.src} alt="safety" />
+              {data?.safety_and_hygiene.map((item) => (
+                <div key={item}>
+                  <Image 
+                    src={safety.src} 
+                    alt={t("Безопасность", "سلامة", "Safety")}
+                    width={24}
+                    height={24}
+                  />
                   <span>{item}</span>
                 </div>
               ))}
@@ -152,18 +156,18 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
             </div>
             <ul>
               <li>
-                {t("", "", "Short Period: $ ")} {data?.price_short_period}
+                {t("Короткий период: $ ", "فترة قصيرة: $ ", "Short Period: $ ")} {data?.price_short_period}
               </li>
               <li>
-                {t("", "", "Medium Period: $ ")}
+                {t("Средний период: $ ", "فترة متوسطة: $ ", "Medium Period: $ ")}
                 {data?.price_medium_period}
               </li>
               <li>
-                {t("", "", "Long Period: $ ")}
+                {t("Длительный период: $ ", "فترة طويلة: $ ", "Long Period: $ ")}
                 {data?.price_long_period}
               </li>
             </ul>
-            <button>{t("", "", "Call Now")}</button>
+            <button>{t("Позвонить сейчас", "اتصل الآن", "Call Now")}</button>
           </div>
         </div>
       </div>

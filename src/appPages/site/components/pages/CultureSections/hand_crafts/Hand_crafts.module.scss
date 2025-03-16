@@ -51,9 +51,9 @@
   .main {
     padding-top: 60px;
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     gap: 30px;
-    @media (max-width: 834px) {
+    @media (max-width: 835px) {
       flex-direction: column;
     }
     @media (max-width: 500px) {
@@ -78,7 +78,7 @@
       @media (max-width: 884px) {
         width: 400px;
       }
-      @media (max-width: 834px) {
+      @media (max-width: 835px) {
         width: 100%;
       }
     }
@@ -104,7 +104,7 @@
         @media (max-width: 1034px) {
           font-size: 15px;
         }
-        @media (max-width: 834px) {
+        @media (max-width: 835px) {
           max-width: 100%;
         }
       }

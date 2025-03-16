@@ -1,5 +1,5 @@
 import { api as index } from "..";
-
+import {REVIEWS} from "./types"
 const api = index.injectEndpoints({
   endpoints: (builder) => ({
     // Статистика
@@ -21,8 +21,8 @@ const api = index.injectEndpoints({
               { type: "StaticReviews", id: entityType },
             ]
           : [{ type: "StaticReviews", id: entityType }],
-      transformResponse: (response: any[]): REVIEWS.StaticReview[] => {
-        return response.map((item) => ({
+      transformResponse: (response: unknown[]): REVIEWS.StaticReview[] => {
+        return (response as any[]).map((item) => ({
           id: item.id,
           name:
             item.kitchen_name ||
@@ -42,12 +42,12 @@ const api = index.injectEndpoints({
 
     getReviews: builder.query<
       REVIEWS.Review[],
-      { entityType: string; rating?: string; month?: string }
+      { entityType: string; rating?: string; month?: string; search: string }
     >({
-      query: ({ entityType, rating, month }) => ({
+      query: ({ entityType, rating, month, search }) => ({
         url: `/${entityType}${entityType === "popular_places" ? "_review" : "_review_list"}`,
         method: "GET",
-        params: { rating, month },
+        params: { rating, month, search },
       }),
       providesTags: (result, error, { entityType }) =>
         result
@@ -59,8 +59,8 @@ const api = index.injectEndpoints({
               { type: "Reviews", id: entityType },
             ]
           : [{ type: "Reviews", id: entityType }],
-      transformResponse: (response: any[]): REVIEWS.Review[] => {
-        return response.map((item) => ({
+      transformResponse: (response: unknown[]): REVIEWS.Review[] => {
+        return (response as any[]).map((item) => ({
           id: item.id,
           entityId:
             item.hotel || item.kitchen || item.attractions || item.popular_place || "unknown",

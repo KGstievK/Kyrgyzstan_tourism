@@ -14,19 +14,42 @@ namespace REVIEWS {
     image: string;
   }
 
-  //! Rewiews
+  export interface AttractionReviewImage {
+    id: number;
+    image: string;
+  }
 
-  type RewiewHotelResponse = {
+  export interface KitchenReviewImage {
+    id: number;
+    image: string;
+  }
+
+  export interface ReplyAttractionReview {
+    id: number;
+    user: Client;
+    comment: string;
+    created_date: string;
+  }
+
+  export interface ReplyKitchenReview {
+    id: number;
+    user: Client;
+    comment: string;
+    created_date: string;
+  }
+
+  //! Rewiews
+  export type RewiewHotelResponse = {
     id: number;
     client: Client;
     hotel: number;
     comment: string;
-    hotel_review_image: any[];
+    hotel_review_image: ReviewImage[];
     count_like: number;
-    reply_hotel_reviews: any[];
+    reply_hotel_reviews: ReplyHotelReview[];
   };
 
-  type ReviewAttractionResponse = {
+  export type ReviewAttractionResponse = {
     id: number;
     client: Client;
     attractions: string;
@@ -36,7 +59,7 @@ namespace REVIEWS {
     reply_attraction_reviews: ReplyAttractionReview[];
   };
 
-  type ReviewKitchenResponse = {
+  export type ReviewKitchenResponse = {
     id: number;
     client: Client;
     kitchen_region: string;
@@ -48,16 +71,7 @@ namespace REVIEWS {
     reply_kitchen_reviews: ReplyKitchenReview[];
   };
 
-  type RewiewHotelResponse = {
-    id?: number;
-    client: Client;
-    hotel: string;
-    hotel_review_image: any[];
-    comment: string;
-    rating: number;
-    created_date: string;
-  };
-  type RewiewHotelRequest = {
+  export type RewiewHotelRequest = {
     client: number;
     comment: string;
     hotel: number | null;
@@ -65,20 +79,7 @@ namespace REVIEWS {
     images: string[];
   };
 
-  type ReviewKitchenResponse = {
-    id: number
-    kitchen: string
-    kitchen_review_image: any[]
-    comment: string
-    rating: number
-    nutrition_rating: number
-    service_rating: number
-    price_rating: number
-    atmosphere_rating: number
-    created_date: string
-    client: number
-  };
-  type ReviewKitchenRequest = {
+  export type ReviewKitchenRequest = {
     client: number;
     kitchen_region: number;
     comment: string;
@@ -90,91 +91,94 @@ namespace REVIEWS {
     images: string[];
   };
 
-  type ReviewAttractionResponse = {
-    id: number;
-    client: Client;
-    attractions: number;
-    attraction_review_image: any[];
-    comment: string;
-    rating: number;
-    created_date: string;
-  };
-  type ReviewAttractionRequest = {
+  export type ReviewAttractionRequest = {
     client: number;
     attractions: number;
     comment: string;
     rating: number;
     images: string[];
   };
-  type ReviewPlacesRequest = {
+
+  export type ReviewPlacesRequest = {
     client: number;
     popular: number;
     comment: string;
     rating: number;
     images: string[];
   };
-  type ReviewPlacesResponse = {
+
+  export type ReviewPlacesResponse = {
     id: number;
     client: Client;
     popular: string;
-    review_image: any[];
+    review_image: ReviewImage[];
     comment: string;
     rating: number;
     created_date: string;
   };
 
-
   //! Reply
+  export type ReplyAttractionResponse = {
+    review: number
+    comment: string
+    user: number
+    created_date: string
+  }
 
-  type ReplyAttractionResponse = {
-    review: number
-    comment: string
-    user: number
-    created_date: string
-  }
-  type ReplyAttractionRequest = {
-    review: number
-    comment: string
-    user: number
-  }
-  type ReplyHotelResponse = {
-    review: number
-    comment: string
-    user: number
-    created_date: string
-  }
-  type ReplyHotelRequest = {
-    review: number
-    comment: string
-    user: number
-  }
-  type ReplyKitchenResponse = {
-    review: number
-    comment: string
-    user: number
-    created_date: string
-  }
-  type ReplyKitchenRequest = {
-    review: number
-    comment: string
-    user: number
-  }
-  type ReplyPlaceResponse = {
-    review: number
-    comment: string
-    user: number
-    created_date: string
-  }
-  type ReplyPlaceRequest = {
+  export type ReplyAttractionRequest = {
     review: number
     comment: string
     user: number
   }
 
+  export type ReplyHotelResponse = {
+    review: number
+    comment: string
+    user: number
+    created_date: string
+  }
 
+  export type ReplyHotelRequest = {
+    review: number
+    comment: string
+    user: number
+  }
+
+  export type ReplyKitchenResponse = {
+    review: number
+    comment: string
+    user: number
+    created_date: string
+  }
+
+  export type ReplyKitchenRequest = {
+    review: number
+    comment: string
+    user: number
+  }
+
+  export type ReplyPlaceResponse = {
+    review: number
+    comment: string
+    user: number
+    created_date: string
+  }
+
+  export type ReplyPlaceRequest = {
+    review: number
+    comment: string
+    user: number
+  }
+
+  export interface ReplyHotelReview {
+    id: number
+    user: Client
+    comment: string
+    created_date: string
+  }
 
   export interface Review {
-    [x: string]: number;
+    [x: string]: any; // Для динамических свойств
     id: number;
     entityId: number | string; 
     client: Client;
@@ -196,11 +200,7 @@ namespace REVIEWS {
     bad: number;
     terribly: number;
   }
+}
 
-  export interface ReplyHotelReview {
-  id: number
-  user: Client
-  comment: string
-  created_date: string
-}
-}
+// Экспортируем namespace для использования в других файлах
+export { REVIEWS };

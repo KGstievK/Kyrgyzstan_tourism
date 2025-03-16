@@ -8,6 +8,9 @@ import icon4 from "@/assets/images/placeImages/Icon4.png";
 import icon5 from "@/assets/images/placeImages/Icon5.png";
 import { usePathname } from "next/navigation";
 import { useGetKitchensQuery } from "@/redux/api/place";
+import Image from "next/image";
+import { PLACE } from "@/redux/api/place/types";
+
 interface Props {
   data: PLACE.kitchenIdResponse | null;
 }
@@ -61,16 +64,21 @@ const Cafe_left: FC<Props> = ({ data }) => {
 
       <div className={scss.assess}>
         <p>
-          № 1 <span>{t("", "", `of ${kitchens?.length} Restaurants in `)}</span>
+          № 1 <span>{t("из", "من", `of ${kitchens?.length} Restaurants in `)}</span>
         </p>
-        <p> {t("", "", "ASSESSMENTS")}</p>
+        <p> {t("ОЦЕНКИ", "تقييمات", "ASSESSMENTS")}</p>
       </div>
 
       <ul>
         {dataStars.map((item, index) => (
           <li key={index}>
             <div>
-              <img src={item.icon} alt="" />
+              <Image 
+                src={item.icon} 
+                alt={t("", "", item.label)} 
+                width={18} 
+                height={18} 
+              />
               <span>{t("", "", item.label)}</span>
             </div>
             <div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import scss from "./Routes.module.scss";
 import Talas from "../../../../../assets/images/routesImages/Talas.png";
 import Chui from "../../../../../assets/images/routesImages/Chui.png";
@@ -14,9 +14,22 @@ import { useGetDirectionsQuery } from "@/redux/googleMapsApi";
 import SearchBar from "@/appPages/site/ui/searchBar/SearchBar";
 import RouteInfo from "@/appPages/site/ui/route/Route";
 import Map from "@/appPages/site/ui/map/Map";
-import NavMap from "../regionSections/navMap/NavMap";
 import { useSearchParams } from "next/navigation";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
+import Image from "next/image";
+
+// Определяем интерфейс для параметров направлений
+interface DirectionsParams {
+  origin: {
+    lat: number;
+    lng: number;
+  };
+  destination: {
+    lat: number;
+    lng: number;
+  };
+  mode: "WALKING" | "DRIVING" | "TRAIN";
+}
 
 const Routes = () => {
   const searchParams = useSearchParams();
@@ -43,6 +56,32 @@ const Routes = () => {
 
   const autocompleteA = useRef<google.maps.places.Autocomplete | null>(null);
   const autocompleteB = useRef<google.maps.places.Autocomplete | null>(null);
+
+  // Функция для поиска маршрута без вызова refetch (для первого рендера)
+  // Обернем функцию в useCallback для предотвращения лишних ререндеров
+  const handleSearchWithoutRefetch = useCallback(() => {
+    if (!pointACoords || !pointBCoords) return;
+
+    setIsSearched(true);
+
+    // Используем DirectionsService для получения маршрута
+    const directionsService = new google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: pointACoords,
+        destination: pointBCoords,
+        travelMode: google.maps.TravelMode.WALKING,
+        region: "KG",
+      },
+      (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK && result) {
+          setDirections(result);
+        } else {
+          console.error("Failed to fetch directions:", status);
+        }
+      }
+    );
+  }, [pointACoords, pointBCoords]); // Указываем зависимости
 
   // Инициализируем координаты из параметров URL
   useEffect(() => {
@@ -80,8 +119,8 @@ const Routes = () => {
     refetch: refetchWalk,
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
-      ? { origin: pointACoords, destination: pointBCoords, mode: "WALKING" }
-      : ({} as any),
+      ? { origin: pointACoords, destination: pointBCoords, mode: "WALKING" } as DirectionsParams
+      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "WALKING" } as DirectionsParams,
     {
       skip: !pointACoords || !pointBCoords,
       refetchOnMountOrArgChange: true,
@@ -94,8 +133,8 @@ const Routes = () => {
     refetch: refetchCar,
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
-      ? { origin: pointACoords, destination: pointBCoords, mode: "DRIVING" }
-      : ({} as any),
+      ? { origin: pointACoords, destination: pointBCoords, mode: "DRIVING" } as DirectionsParams
+      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "DRIVING" } as DirectionsParams,
     {
       skip: !pointACoords || !pointBCoords,
       refetchOnMountOrArgChange: true,
@@ -108,8 +147,8 @@ const Routes = () => {
     refetch: refetchTrain,
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
-      ? { origin: pointACoords, destination: pointBCoords, mode: "TRAIN" }
-      : ({} as any),
+      ? { origin: pointACoords, destination: pointBCoords, mode: "TRAIN" } as DirectionsParams
+      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "TRAIN" } as DirectionsParams,
     {
       skip: !pointACoords || !pointBCoords,
       refetchOnMountOrArgChange: true,
@@ -130,35 +169,10 @@ const Routes = () => {
         }
       }
     }
-  }, [pointACoords, pointBCoords]);
-
-  // Функция для поиска маршрута без вызова refetch (для первого рендера)
-  const handleSearchWithoutRefetch = () => {
-    if (!pointACoords || !pointBCoords) return;
-
-    setIsSearched(true);
-
-    // Используем DirectionsService для получения маршрута
-    const directionsService = new google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: pointACoords,
-        destination: pointBCoords,
-        travelMode: google.maps.TravelMode.WALKING,
-        region: "KG",
-      },
-      (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK && result) {
-          setDirections(result);
-        } else {
-          console.error("Failed to fetch directions:", status);
-        }
-      }
-    );
-  };
+  }, [pointACoords, pointBCoords, searchParams, handleSearchWithoutRefetch]);
 
   // Функция для поиска маршрута (вызывается при явном нажатии кнопки поиска)
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     if (!pointACoords || !pointBCoords) return;
 
     setIsSearched(true);
@@ -187,7 +201,7 @@ const Routes = () => {
         }
       }
     );
-  };
+  }, [pointACoords, pointBCoords, refetchWalk, refetchCar, refetchTrain]);
 
   return (
     <div className={scss.Routes}>
@@ -210,17 +224,19 @@ const Routes = () => {
           {!modalWindowTime && (
             <div className={scss.blockCitys}>
               <div className={scss.cityImgs}>
-                <img src={Talas.src} alt="talas" className={scss.imgTalas} />
-                <img src={Chui.src} alt="chui" className={scss.imgChui} />
-                <img src={Kyl.src} alt="kyl" className={scss.imgKyl} />
-                <img
+                <Image src={Talas.src} alt="talas" className={scss.imgTalas} width={100} height={100} />
+                <Image src={Chui.src} alt="chui" className={scss.imgChui} width={100} height={100} />
+                <Image src={Kyl.src} alt="kyl" className={scss.imgKyl} width={100} height={100} />
+                <Image
                   src={JalalAbad.src}
                   alt="JalalAbad"
                   className={scss.imgJalalAbad}
+                  width={100}
+                  height={100}
                 />
-                <img src={Naryn.src} alt="Naryn" className={scss.imgNaryn} />
-                <img src={Osh.src} alt="Osh" className={scss.imgOsh} />
-                <img src={Batken.src} alt="Batken" className={scss.imgBatken} />
+                <Image src={Naryn.src} alt="Naryn" className={scss.imgNaryn} width={100} height={100} />
+                <Image src={Osh.src} alt="Osh" className={scss.imgOsh} width={100} height={100} />
+                <Image src={Batken.src} alt="Batken" className={scss.imgBatken} width={100} height={100} />
               </div>
               <div className={scss.cityTitle}>
                 <h5>{t("Талас", "تالاس", "Talas")}</h5>

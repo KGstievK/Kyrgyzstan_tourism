@@ -1,5 +1,5 @@
 namespace CULTURE {
-  type GamesResponse = {
+  export type GamesResponse = {
     id: number;
     culture: {
       id: number;
@@ -9,9 +9,9 @@ namespace CULTURE {
     games_description: string;
     games_image: string;
   }[];
-  type GamesRequest = void;
+  export type GamesRequest = void;
 
-  type CultureKitchenResponse = {
+  export type CultureKitchenResponse = {
     id: number;
     culture: {
       id: number;
@@ -22,14 +22,14 @@ namespace CULTURE {
     culture_kitchen_image: CultureKitchenImage[];
   }[];
 
-  type CultureKitchenImage = {
+  export type CultureKitchenImage = {
     id: number;
     image: string;
   };
 
-  type CultureKitchenRequest = void;
+  export type CultureKitchenRequest = void;
 
-  type CultureKitchenMainResponse = {
+  export type CultureKitchenMainResponse = {
     id: number;
     culture: {
       id: number;
@@ -43,7 +43,7 @@ namespace CULTURE {
     image_4?: string;
   }[];
 
-  type CultureNationalClothesResponse = {
+  export type CultureNationalClothesResponse = {
     id: number;
     culture: number;
     clothes_name: string;
@@ -51,9 +51,9 @@ namespace CULTURE {
     clothes_image: string;
   }[];
 
-  type CultureNationalClothesRequest = void;
+  export type CultureNationalClothesRequest = void;
 
-  type CultureHand_craftsResponse = {
+  export type CultureHand_craftsResponse = {
     id: number;
     culture: {
       id: number;
@@ -64,9 +64,9 @@ namespace CULTURE {
     hand_image: string;
   }[];
 
-  type CultureHand_craftsRequest = void;
+  export type CultureHand_craftsRequest = void;
 
-  type CultureNationalInstrumentsResponse = {
+  export type CultureNationalInstrumentsResponse = {
     id: number;
     culture: {
       id: number;
@@ -77,9 +77,9 @@ namespace CULTURE {
     national_image: string;
   }[];
 
-  type CultureNationalInstrumentsRequest = void;
+  export type CultureNationalInstrumentsRequest = void;
 
-  type CurrencyResponse = {
+  export type CurrencyResponse = {
     id: number
     culture: Culture
     currency_name: string
@@ -87,7 +87,7 @@ namespace CULTURE {
     currency_image: CurrencyImage[]
   }[]
 
-  type CurrencyRequest = void;
+  export type CurrencyRequest = void;
 
   export interface Culture {
     id: number;
@@ -103,3 +103,6 @@ namespace CULTURE {
     back_image: string;
   }
 }
+
+// Экспортируем сам пространство имен
+export default CULTURE;

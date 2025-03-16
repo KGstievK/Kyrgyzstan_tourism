@@ -26,7 +26,6 @@ export default function RouteInfo({
   carData,
   carError,
   trainData,
-  trainError,
   isSearched,
   setModalWindow
 }: RouteInfoProps) {

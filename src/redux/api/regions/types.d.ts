@@ -1,14 +1,14 @@
 namespace REGION_LIST {
-  type WhatToTryItemResponse = {
+  export type WhatToTryItemResponse = {
     to_name: string;
     first_description: string;
     second_description: string;
     image: string;
   }[];
 
-  type WhatToTryItemRequest = void;
+  export type WhatToTryItemRequest = void;
 
-  type FavoriteResponse = {
+  export type FavoriteResponse = {
     id: number;
     attractions?: number;
     popular_place?: number;
@@ -18,7 +18,7 @@ namespace REGION_LIST {
     created_date: string;
   };
 
-  type FavoriteRequest = {
+  export type FavoriteRequest = {
     attractions?: number;
     popular_place?: number;
     kitchen?: number;
@@ -26,7 +26,7 @@ namespace REGION_LIST {
     like: boolean;
   };
 
-  type AttractionList = {
+  export type AttractionList = {
     id: number;
     attraction_name: string;
     region_category: string;
@@ -37,7 +37,7 @@ namespace REGION_LIST {
     rating_count?: number;
   };
 
-  type PopularPlacesList = {
+  export type PopularPlacesList = {
     id: number;
     popular_name: string;
     popular_image?: string;
@@ -47,7 +47,7 @@ namespace REGION_LIST {
     address?: string;
   };
 
-  type KitchenList = {
+  export type KitchenList = {
     id: number;
     kitchen_name: string;
     price: number;
@@ -59,7 +59,7 @@ namespace REGION_LIST {
     main_image?: string;
   };
 
-  type HotelsList = {
+  export type HotelsList = {
     id: number;
     name: string;
     main_image?: string;
@@ -71,7 +71,7 @@ namespace REGION_LIST {
     longitude?: number;
   };
 
-  type GetFavoriteResponse = {
+  export type GetFavoriteResponse = {
     id: number;
     user: number;
     attractions?: AttractionList[];
@@ -82,14 +82,14 @@ namespace REGION_LIST {
     created_date?: string;
   }[];
 
-  type GetFavoriteRequest = void;
+  export type GetFavoriteRequest = void;
 
-  type DeleteFavoriteResponse = void;
-  type DeleteteFavoriteRequest = {
+  export type DeleteFavoriteResponse = void;
+  export type DeleteteFavoriteRequest = {
     id: number;
   };
 
-  type PopularResponse = {
+  export type PopularResponse = {
     id: number;
     popular_name: string;
     popular_image: string;
@@ -97,9 +97,10 @@ namespace REGION_LIST {
     rating_count: number;
     region: string;
   }[];
-  type PopularRequest = void;
+  
+  export type PopularRequest = void;
 
-  type RegionResponse = {
+  export type RegionResponse = {
     id: number;
     region_name: string;
     region_image: string;
@@ -111,12 +112,15 @@ namespace REGION_LIST {
     longitude: string;
   };
 
-  type RegionRequest = void;
+  export type RegionRequest = void;
 
-  type PopularItem = {
+  export type PopularItem = {
     popular_name: string;
     popular_image: string;
     description: string;
-    popular_reviews: any[]; // Массив отзывов, если тип отзывов известен, можно заменить any на более точный тип
+    popular_reviews: unknown[]; // Заменил any на unknown
   };
 }
+
+// Экспортируем namespace для использования в других файлах
+export { REGION_LIST };

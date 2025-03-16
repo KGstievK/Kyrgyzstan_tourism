@@ -98,7 +98,7 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   }
 
   // Render individual cafe items
-  const renderCafeItem = cafesInPlace.map((el, i) => (
+  const renderCafeItem = cafesInPlace.map((el) => (
     <div onClick={() => setIsCurrent(el.id)} key={el.id} className={scss.item}>
       <Image
         src={el.main_image}
@@ -110,7 +110,7 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
           objectFit: "cover",
           backgroundColor: "#f0f0f0",
         }}
-        onError={(e) => handleImageError(e as any)}
+        onError={handleImageError}
       />
       <div className={scss.info}>
         <h6 className={scss.title}>{el.kitchen_name}</h6>

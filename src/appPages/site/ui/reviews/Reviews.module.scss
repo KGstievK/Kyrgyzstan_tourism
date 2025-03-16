@@ -17,8 +17,8 @@
 .flex {
   display: flex;
   justify-content: space-between;
-  
-  >button {
+
+  > button {
     font-family: Montserrat;
     font-weight: 500;
     font-size: 20px;
@@ -53,7 +53,7 @@
   @media (max-width: 1034px) {
     max-width: 300px;
   }
-  @media (max-width:834px) {
+  @media (max-width: 834px) {
     max-width: 100%;
     .flex {
       justify-content: left;
@@ -63,13 +63,12 @@
 }
 .block {
   width: 100%;
-  @media (max-width: 834px) {
+  @media (max-width: 835px) {
     display: none;
-    
   }
 }
 .column {
-  @media (max-width: 834px) {
+  @media (max-width: 835px) {
     flex-direction: column;
   }
 }
@@ -84,7 +83,6 @@
 
 .statsContainer {
   margin-top: 30px;
-
 }
 
 .ratingValue {
@@ -204,7 +202,7 @@
 }
 .reviewCard {
   background-color: white;
-  border-bottom: 1px solid #9C9C9C;
+  border-bottom: 1px solid #9c9c9c;
   padding-bottom: 20px;
   margin-bottom: 30px;
 }
@@ -281,7 +279,7 @@
 .reviewImage {
   width: 120px;
   height: 120px;
-  
+
   object-fit: cover;
   border-radius: 0.5rem;
 }
@@ -293,7 +291,7 @@
   font-size: 20px;
   line-height: 24.38px;
   letter-spacing: 0%;
-  color: #5A5A5A;
+  color: #5a5a5a;
   border: 0 !important;
   padding: 0 !important;
   &:hover {

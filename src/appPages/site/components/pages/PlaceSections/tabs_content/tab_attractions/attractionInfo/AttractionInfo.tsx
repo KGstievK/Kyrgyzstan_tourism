@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import styles from "./AttractionInfo.module.scss";
 import { useGetAttractionIDQuery } from "@/redux/api/place";
-import { useGetAttractionsQuery } from "@/redux/api/home";
-import { ImageOff, Loader, MapPin } from "lucide-react";
+import { ImageOff, Loader } from "lucide-react";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
+import Image from "next/image";
 
 interface AttractionInfoProps {
   isCurrent: number | null;
@@ -14,7 +14,6 @@ const AttractionInfo: FC<AttractionInfoProps> = ({ isCurrent }) => {
   const { data, isLoading, isError } = useGetAttractionIDQuery(isCurrent, {
     skip: isCurrent === null, // Пропускаем запрос, если isCurrent null
   });
-  const { data: list } = useGetAttractionsQuery();
   const [mainImage, setMainImage] = useState(0);
   const [imgErrors, setImgErrors] = useState<{ [key: number]: boolean }>({});
   const [mainImgError, setMainImgError] = useState(false);
@@ -75,10 +74,13 @@ const AttractionInfo: FC<AttractionInfoProps> = ({ isCurrent }) => {
               </p>
             </div>
           ) : (
-            <img
+            <Image
               src={data.image[mainImage].image}
               alt={data.attraction_name}
               className={styles.mainImage}
+              width={800}
+              height={600}
+              style={{ objectFit: "cover" }}
               onError={handleMainImageError}
             />
           )}
@@ -93,12 +95,15 @@ const AttractionInfo: FC<AttractionInfoProps> = ({ isCurrent }) => {
                       <ImageOff size={16} />
                     </div>
                   ) : (
-                    <img
+                    <Image
                       src={img.image}
                       alt={`${data.attraction_name} ${index + 1}`}
                       className={`${styles.thumbnail} ${
                         mainImage === index ? styles.activeThumbnail : ""
                       }`}
+                      width={120}
+                      height={80}
+                      style={{ objectFit: "cover" }}
                       onClick={() => setMainImage(index)}
                       onError={() => handleThumbnailError(index)}
                     />

@@ -1,13 +1,11 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import styles from "./Hand_crafts.module.scss";
 import { useGetHandCraftsQuery } from "@/redux/api/culture";
+import Image from "next/image"; // Добавляем импорт компонента Image
 
 const Hand_crafts = () => {
   const { t } = useTranslate();
-  const { data, isError } = useGetHandCraftsQuery();
-  console.log("🚀 ~ constHand_crafts= ~ data:", data);
-
-  // if (isError) return null;
+  const { data } = useGetHandCraftsQuery(); // Удалено неиспользуемое isError
 
   return (
     <section className={styles.section}>
@@ -27,7 +25,17 @@ const Hand_crafts = () => {
         </div>
         {data?.map((el, idx) => (
           <div key={idx} className={styles.main}>
-            <img src={el.hand_image} alt="" />
+            <Image 
+              src={el.hand_image} 
+              alt={el.hand_name || "Handcraft image"} 
+              width={486} 
+              height={324}
+              style={{
+                objectFit: "cover",
+                maxWidth: "100%",
+                height: "auto"
+              }}
+            />
             <div className={styles["main-text"]}>
               <h3 className={styles["main-heading"]}>{el.hand_name}</h3>
               <p className={styles["main-paragraph"]}>{el.hand_description}</p>

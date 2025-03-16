@@ -1,10 +1,10 @@
 :root {
   --background: #ffffff;
-  --active: #407EC7;
-  --main-color: #004A60;
+  --active: #407ec7;
+  --main-color: #004a60;
   --footer: ;
   --silver: #26262672;
-  --input: #E5E4E9;
+  --input: #e5e4e9;
   --font-frank: "Frank Ruhl Libre", serif;
   --font-inter: "Inter", sans-serif;
   --font-abril: "Abril Fatface", cursive;
@@ -60,7 +60,8 @@ table {
 button {
   background-color: var(--main-color);
   border-radius: 10px;
-  border: 2px solid var(--main-color);border-radius: 10px;
+  border: 2px solid var(--main-color);
+  border-radius: 10px;
   cursor: pointer;
   color: var(--background);
 }
@@ -79,7 +80,7 @@ button {
   }
 }
 
-@media (max-width: 834px) {
+@media (max-width: 835px) {
   .container {
     max-width: 700px;
   }

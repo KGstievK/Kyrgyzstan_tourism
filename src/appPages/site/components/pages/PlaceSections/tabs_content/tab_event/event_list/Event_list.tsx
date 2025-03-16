@@ -3,8 +3,9 @@ import scss from "./Event_list.module.scss";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { FC, useState } from "react";
 import React from "react";
-import { useGetEventListQuery } from "@/redux/api/place";
 import { Ticket, ImageOff, Calendar, Loader } from "lucide-react";
+import Image from "next/image";
+import { PLACE } from "@/redux/api/place/types";
 
 interface Props {
   data: PLACE.EventListResponse | null;
@@ -16,7 +17,7 @@ interface Props {
   setIsDate: (date: string) => void;
   ticket: string;
   isLoading?: boolean;
-  error?: any;
+  error?: unknown;
 }
 
 // Константа с категориями, которая будет использоваться для маппинга
@@ -35,7 +36,6 @@ const Event_list: FC<Props> = ({
   setCategory,
   setTicket,
   ticket,
-  category,
   setIsDate,
   isLoading,
   error
@@ -236,15 +236,23 @@ const Event_list: FC<Props> = ({
                     <p>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</p>
                   </div>
                 ) : (
-                  <img 
+                  <Image 
                     src={el.image} 
                     alt={el.title || ""} 
+                    width={400}
+                    height={300}
+                    style={{ objectFit: "cover" }}
                     onError={() => handleImageError(i)} 
                   />
                 )}
                 <div className={scss.eventTabs}>
                   <div className="">
-                    <img src={eventImg.src} alt="" />
+                    <Image 
+                      src={eventImg.src} 
+                      alt="Event icon" 
+                      width={24}
+                      height={24}
+                    />
                   </div>
                   {el.ticket && (
                     <div>

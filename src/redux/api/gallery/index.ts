@@ -1,5 +1,5 @@
 import {api as index} from ".."
-
+import { GALLERY } from "./type"
 
 const api = index.injectEndpoints({
     endpoints: (builder) => ({

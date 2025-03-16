@@ -1,10 +1,10 @@
 "use client";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Try.module.scss";
-import { useEffect, useState } from "react";
-import { useGetRegionListQuery } from "@/redux/api/regions";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import Image from "next/image";
+import { REGION_LIST } from "@/redux/api/regions/types";
 
 interface TryProps {
   region: REGION_LIST.RegionResponse;
@@ -27,16 +27,34 @@ const Try: React.FC<TryProps> = ({ region }) => {
             <p>{region?.What_to_try[currentContent]?.first_description}</p>
           </div>
           <div className={scss.imgs}>
-            <img src={region?.What_to_try[currentContent]?.image} alt="" />
+            <Image 
+              src={region?.What_to_try[currentContent]?.image} 
+              alt={region?.What_to_try[currentContent]?.to_name || "Dish image"} 
+              width={500}
+              height={350}
+              style={{ objectFit: "cover" }}
+            />
             <div>
               <div className={scss.bg}>
-                <img src={region?.What_to_try[currentContent]?.image} alt="" />
+                <Image 
+                  src={region?.What_to_try[currentContent]?.image} 
+                  alt={region?.What_to_try[currentContent]?.to_name || "Dish image"} 
+                  width={250}
+                  height={175}
+                  style={{ objectFit: "cover" }}
+                />
               </div>
               {region?.What_to_try.map((el, i) =>
                 i !== currentContent ? (
                   <div key={i} className={scss.bg}>
                     <div></div>
-                    <img src={el.image} alt="" />
+                    <Image 
+                      src={el.image} 
+                      alt={el.to_name || "Dish image"} 
+                      width={250}
+                      height={175}
+                      style={{ objectFit: "cover" }}
+                    />
                   </div>
                 ) : null
               )}
