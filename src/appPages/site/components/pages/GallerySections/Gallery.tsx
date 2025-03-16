@@ -1,17 +1,15 @@
 "use client";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Gallery.module.scss";
-import imgHeart from "@/assets/images/regions/Vector.png";
 import imgMetka from "@/assets/images/galleryImages/metka.png";
 import { useGetPopularPlacesQuery, useGetFavoriteQuery } from "@/redux/api/regions";
 import Stars from "@/appPages/site/ui/stars/Stars";
+import LikePost from "../regionSections/places/LikePost";
 import Image from "next/image";
 
 const Gallery = () => {
   const { t } = useTranslate();
   const { data: popular } = useGetPopularPlacesQuery();
-  const { data: favorite } = useGetFavoriteQuery();
-  console.log("🚀 ~ Gallery ~ favorite:", favorite);
 
   return (
     <section id={scss.Gallery}>
@@ -50,9 +48,7 @@ const Gallery = () => {
                   <span>{el.region}</span>
                 </span>
               </div>
-              {/* Для иконки сердца тоже используем обычный img, так как у него сложное позиционирование */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className={scss.heart} src={imgHeart.src} alt="favorite" />
+              <LikePost postId={el.id} />
             </div>
           ))}
         </div>

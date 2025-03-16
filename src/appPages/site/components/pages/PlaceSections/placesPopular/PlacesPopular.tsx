@@ -1,7 +1,6 @@
 "use client";
 import scss from "./Places.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
-import imgHeart from "@/assets/images/regions/Vector.png";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -9,6 +8,7 @@ import { useMemo, useState } from "react";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import Stars from "@/appPages/site/ui/stars/Stars";
+import LikePost from "../../regionSections/places/LikePost";
 import { REGION_LIST } from "@/redux/api/regions/types";
 
 type TabsDataType = Record<number, REGION_LIST.PopularResponse>;
@@ -83,14 +83,7 @@ const PlacesPopular = () => {
                     </span>
                   </div>
                 </div>
-                {/* Заменяем img на Image для иконки сердца */}
-                <Image 
-                  className={scss.heart} 
-                  src={imgHeart.src} 
-                  alt="Избранное"
-                  width={24}
-                  height={24}
-                />
+                <LikePost postId={item.id} />
                 <Link href={`/${routeName}/${item.id}`}>
                   {/* Заменяем img на Image для иконки стрелки */}
                   <Image 

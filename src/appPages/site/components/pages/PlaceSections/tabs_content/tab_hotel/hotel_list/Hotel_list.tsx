@@ -8,6 +8,7 @@ import scss from "./Hotel_list.module.scss";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Hotel_map from "../hotel_map/Hotel_map";
+import LikeHotel from "./LikeHotel";
 import { ImageOff, Hotel, Loader } from "lucide-react";
 
 interface HotelListProps {
@@ -147,18 +148,7 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
           </span>
         </div>
       </div>
-      {imageError[`heart-${hotel.id}`] ? (
-        <div className={scss.heartFallback}>♡</div>
-      ) : (
-        <Image
-          className={scss.heart}
-          src={imgHeart.src}
-          alt={t("Избранное", "المفضلة", "Favorite")}
-          width={24}
-          height={24}
-          onError={() => handleImageError(`heart-${hotel.id}`)}
-        />
-      )}
+      <LikeHotel postId={hotel.id} />
       <button onClick={() => setIsCurrent(hotel.id)}>
         {imageError[`right-${hotel.id}`] ? (
           <div className={scss.rightFallback}>→</div>

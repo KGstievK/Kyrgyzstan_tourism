@@ -1,83 +1,200 @@
-import { useState, useRef, useEffect } from "react";
+// appPages/profile/components/pages/History/historyTabs/placeHistory/PlaceHistory.tsx
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import scss from "./PlaceHistory.module.scss";
-import { useGetPopularPlacesQuery } from "@/redux/api/regions";
-import Link from "next/link";
+import Image from "next/image";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import imgHeart from "@/assets/images/placeImages/Vector.png";
-import imgRight from "@/assets/images/placeImages/Arrow_alt_lright.png";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
+import { BiLike } from "react-icons/bi";
+import { MY_REVIEWS } from "@/redux/api/profileHistory/types";
+import { useGetMeReviewsQuery } from "@/redux/api/profileHistory";
 
 const PlaceHistory = () => {
   const [imageError, setImageError] = useState<Record<string, boolean>>({});
-  const { data } = useGetPopularPlacesQuery();
+  const { data: reviewsResponse, isLoading, error } = useGetMeReviewsQuery();
+  
   const { t } = useTranslate();
-  const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // Route name for the link - you might need to adjust this based on your routing setup
-  const routeName = "places"; 
+  // Состояние для хранения ID выбранного места
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
   
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = "/default-image.jpg"; // Replace with your fallback image
-  };
+  // Фильтруем только отзывы о популярных местах
+  const placeReviews = useMemo(() => {
+    // Проверяем, что ответ API содержит поле data и это массив
+    if (!reviewsResponse?.data || !Array.isArray(reviewsResponse.data)) {
+      return [];
+    }
+    
+    // Фильтруем массив, оставляя только отзывы о местах
+    return reviewsResponse.data.filter(review => 
+      review && typeof review === 'object' && 'popular_place' in review
+    ) as MY_REVIEWS.PopularPlaceReview[];
+  }, [reviewsResponse]);
+  
+  // Фильтруем отзывы для выбранного места
+  const filteredReviews = useMemo(() => {
+    if (!selectedPlaceId) return placeReviews;
+    
+    return placeReviews.filter(review => review.popular_place.id === selectedPlaceId);
+  }, [placeReviews, selectedPlaceId]);
+  
+  // Получаем список уникальных мест из отзывов
+  const uniquePlaces = useMemo(() => {
+    if (!placeReviews.length) return [];
+    
+    // Создаем Map для хранения уникальных мест по ID
+    const placesMap = new Map<number, MY_REVIEWS.PopularPlace>();
+    
+    // Добавляем каждое место в Map, что автоматически исключит дубликаты
+    placeReviews.forEach(review => {
+      if (!placesMap.has(review.popular_place.id)) {
+        placesMap.set(review.popular_place.id, review.popular_place);
+      }
+    });
+    
+    // Преобразуем Map обратно в массив
+    return Array.from(placesMap.values());
+  }, [placeReviews]);
+  
+  // При первой загрузке выбираем первое место
+  useEffect(() => {
+    if (uniquePlaces.length > 0 && !selectedPlaceId) {
+      setSelectedPlaceId(uniquePlaces[0].id);
+    }
+  }, [uniquePlaces, selectedPlaceId]);
+  
+  // Обработчики событий
+  const handleImageError = useCallback((id: string) => {
+    setImageError(prev => ({ ...prev, [id]: true }));
+  }, []);
 
-  // Function to handle scroll and load more places when reaching end
-  const handleScroll = () => {
+  const loadMorePlaces = useCallback(() => {
+    setLoadingMore(true);
+    setTimeout(() => setLoadingMore(false), 800);
+  }, []);
+
+  const handleScroll = useCallback(() => {
     if (!scrollContainerRef.current) return;
     
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
     
-    // If we're near the end of the scroll (within 200px), load more
     if (scrollWidth - (scrollLeft + clientWidth) < 200 && !loadingMore) {
       loadMorePlaces();
     }
-  };
+  }, [loadingMore, loadMorePlaces]);
 
-  // Simulate loading more places (in a real app, this would fetch the next page)
-  const loadMorePlaces = () => {
-    setLoadingMore(true);
-    // In a real app, you'd fetch more data here with the next page parameter
-    // For this example, we'll just increment the page state to simulate that
-    setTimeout(() => {
-      setPage(prevPage => prevPage + 1);
-      setLoadingMore(false);
-    }, 800);
-  };
-
-  // Add scroll event listener
+  // Добавляем слушатель события скролла
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
       scrollContainer.addEventListener('scroll', handleScroll);
       return () => scrollContainer.removeEventListener('scroll', handleScroll);
     }
-  }, []);
+  }, [handleScroll]);
 
-  // Loading state
-  if (!data) {
+  // Рендер элемента места
+  const renderPlaceItem = useCallback((place: MY_REVIEWS.PopularPlace) => {
+    const isSelected = selectedPlaceId === place.id;
+    
     return (
-      <div className={scss.placeHistory}>
-        <div className={scss.loadingState}>
-          <div className={scss.loadingSpinner}>
-            <span className={scss.spinnerIcon}>⟳</span>
+      <div 
+        key={place.id} 
+        className={`${scss.item} ${isSelected ? scss.selectedItem : ''}`}
+        onClick={() => setSelectedPlaceId(place.id)}
+      >
+        {imageError[`place-${place.id}`] ? (
+          <div className={scss.imageFallback}>
+            <span>
+              {t(
+                "Изображение не найдено",
+                "الصورة غير موجودة",
+                "Image not found"
+              )}
+            </span>
           </div>
-          <p>{t("Загрузка...", "جار التحميل...", "Loading...")}</p>
+        ) : (
+          <Image
+            src={place.popular_image}
+            alt={place.popular_name}
+            width={341}
+            height={270}
+            onError={() => handleImageError(`place-${place.id}`)}
+            style={{ 
+              width: '100%', 
+              height: 'auto', 
+              objectFit: 'cover',
+              aspectRatio: '341/270'
+            }}
+          />
+        )}
+        <div className={scss.block}>
+          <h6>{place.popular_name}</h6>
+          <div>
+            <Stars rating={place.avg_rating} width={21} height={21} />
+            <span className={scss.review}>
+              {place.rating_count} {t("отзывов", "تقييمات", "reviews")}
+            </span>
+          </div>
         </div>
+        {imageError[`heart-${place.id}`] ? (
+          <div className={scss.heartFallback}>♡</div>
+        ) : (
+          <Image
+            className={scss.heart}
+            src={imgHeart.src}
+            alt="favorite"
+            width={24}
+            height={24}
+            onError={() => handleImageError(`heart-${place.id}`)}
+          />
+        )}
       </div>
     );
-  }
+  }, [imageError, selectedPlaceId, t, handleImageError]);
 
-  // Empty state
-  if (data.length === 0) {
-    return (
-      <div className={scss.placeHistory}>
-        <div className={scss.emptyState}>
-          <p>{t("Нет доступных мест", "لا توجد أماكن متاحة", "No places available")}</p>
+  // Рендер отзыва
+  const renderReview = useCallback((review: MY_REVIEWS.PopularPlaceReview) => (
+    <div key={review.id} className={scss.person}>
+      <div className={scss.person_image}>
+        <Image
+          src={review.client.user_picture || "/default-user.png"}
+          alt="User"
+          width={42}
+          height={42}
+          className={scss.person_imagess}
+        />
+        <div className={scss.person_text}>
+          <h3>{`${review.client.first_name} ${review.client.last_name}`}</h3>
+          <p>{review.client.from_user || ""}</p>
+        </div>
+        <div className={scss.likes}>
+          <BiLike /> {review.rating || 0}
         </div>
       </div>
-    );
-  }
+
+      <div className={scss.text}>
+        <p>{new Date(review.created_date).toLocaleDateString()}</p>
+        <h5>{review.popular_place.popular_name}</h5>
+        <span>{review.comment}</span>
+        {review.review_image.length > 0 && (
+          <div className={scss.imagess_2}>
+            {review.review_image.map((img, index) => (
+              <Image
+                key={index}
+                src={img.image.startsWith('http') ? img.image : `${process.env.NEXT_PUBLIC_API_URL || ''}${img.image}`}
+                alt={`review-image-${index}`}
+                width={100}
+                height={100}
+                className={scss.images_1}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  ), []);
 
   return (
     <div className={scss.placeHistory}>
@@ -85,38 +202,35 @@ const PlaceHistory = () => {
         className={scss.list} 
         ref={scrollContainerRef}
       >
-        {data.map((place, i) => (
-          <div key={i} className={scss.item}>
-            <img 
-              src={place.popular_image} 
-              alt="popular place" 
-              onError={handleImageError}
-            />
-            <div className={scss.block}>
-              <h6>{place.popular_name}</h6>
-              <div>
-                <span className={scss.grade}>{place.avg_rating}</span>
-                <div className={scss.stars}>
-                  <Stars rating={place.avg_rating} width={9} height={9} />
-                </div>
-                <span className={scss.review}>
-                  {place.rating_count} {t("Отзывы", "مراجعات", "reviews")}
-                </span>
-              </div>
-            </div>
-            <img 
-              className={scss.heart} 
-              src={imgHeart.src} 
-              alt="like" 
-              onError={handleImageError}
-            />
-          </div>
-        ))}
+        {isLoading ? (
+          <div className={scss.loading}>Loading places...</div>
+        ) : error ? (
+          <div className={scss.error}>Error loading places</div>
+        ) : uniquePlaces.length === 0 ? (
+          <div className={scss.empty}>You haven&apos;t reviewed any places yet</div>
+        ) : (
+          uniquePlaces.map(place => renderPlaceItem(place))
+        )}
         {loadingMore && (
           <div className={scss.loadingItem}>
             <div className={scss.loadingSpinner}>
               <span className={scss.spinnerIcon}>⟳</span>
             </div>
+          </div>
+        )}
+      </div>
+
+      {/* Comments Section */}
+      <div className={scss.comentary}>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error loading comments</div>
+        ) : !filteredReviews || filteredReviews.length === 0 ? (
+          <div>No comments available for this place</div>
+        ) : (
+          <div className={scss.people}>
+            {filteredReviews.map(review => renderReview(review))}
           </div>
         )}
       </div>

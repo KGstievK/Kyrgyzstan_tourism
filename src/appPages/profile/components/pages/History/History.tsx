@@ -5,7 +5,6 @@ import {
   MdHotel,
   MdPlace,
 } from "react-icons/md";
-import { useGetUserCommentsQuery } from "@/redux/api/auth";
 import HotelHistory from "./historyTabs/hotelHistory/HotelHistory";
 import { IconToolsKitchen } from "@tabler/icons-react";
 import PlaceHistory from "./historyTabs/placeHistory/PlaceHistory";
@@ -14,7 +13,6 @@ import AttractioHistory from "./historyTabs/attractionHistory/AttractionHistory"
 
 const History: FC = () => {
 
-  const { data: userComments, isLoading, error } = useGetUserCommentsQuery();
   const tabsButton = [
     { id: 0, name: "place", img: <MdPlace size={18} /> },
     { id: 1, name: "Hotel", img: <MdHotel size={18} /> },
@@ -29,10 +27,6 @@ const History: FC = () => {
 
   return (
     <section id={scss.Tabs_content}>
-      {/* <div className={scss.headerUser}>
-        <SearchProfile />
-        <User />
-      </div> */}
       <div className={scss.tabs}>
         {tabsButton.map((tab) => (
           <button
