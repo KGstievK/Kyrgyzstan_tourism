@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import scss from "./LikePost.module.scss";
+import scss from "./LikeKitchen.module.scss";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import {
   useDeleteFavoriteMutation,
@@ -11,7 +11,7 @@ interface LikePostProps {
   postId: number;
 }
 
-const LikePost: FC<LikePostProps> = ({ postId }) => {
+const LikeKitchen: FC<LikePostProps> = ({ postId }) => {
   const [postFavorite] = usePostFavoriteMutation();
   const [deleteFavorite] = useDeleteFavoriteMutation();
   const { data, refetch } = useGetFavoriteQuery();
@@ -19,7 +19,7 @@ const LikePost: FC<LikePostProps> = ({ postId }) => {
 
   useEffect(() => {
     if (data && Array.isArray(data)) {
-      setIsLiked(data.some((el) => el.popular_place?.id === postId));
+      setIsLiked(data.some((el) => el.kitchen?.id === postId));
     }
   }, [data, postId]);
 
@@ -27,13 +27,13 @@ const LikePost: FC<LikePostProps> = ({ postId }) => {
     try {
       if (!data || !Array.isArray(data)) return;
 
-      const favoriteItem = data.find((el) => el.popular_place?.id === postId);
+      const favoriteItem = data.find((el) => el.kitchen?.id === postId);
 
       if (isLiked && favoriteItem) {
         await deleteFavorite({ id: favoriteItem.id }).unwrap();
       } else {
         await postFavorite({
-          popular_place: postId,
+          kitchen: postId,
           like: true,
         }).unwrap();
       }
@@ -54,4 +54,4 @@ const LikePost: FC<LikePostProps> = ({ postId }) => {
   );
 };
 
-export default LikePost;
+export default LikeKitchen;

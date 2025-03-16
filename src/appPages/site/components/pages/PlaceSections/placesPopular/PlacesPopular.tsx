@@ -1,13 +1,13 @@
 "use client";
 import scss from "./Places.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
-import imgHeart from "@/assets/images/regions/Vector.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import Stars from "@/appPages/site/ui/stars/Stars";
+import LikePost from "../../regionSections/places/LikePost";
 
 type TabsDataType = Record<number, REGION_LIST.PopularResponse>;
 
@@ -62,7 +62,11 @@ const PlacesPopular = () => {
           <div className={scss.list}>
             {tabsData[activeTab]?.map((item, i) => (
               <div key={i} className={scss.item}>
-                <img src={item.popular_image} onError={handleImageError} alt="" />
+                <img
+                  src={item.popular_image}
+                  onError={handleImageError}
+                  alt=""
+                />
                 <div className={scss.block}>
                   <h6>{item.popular_name}</h6>
                   <div>
@@ -73,7 +77,7 @@ const PlacesPopular = () => {
                     </span>
                   </div>
                 </div>
-                <img className={scss.heart} src={imgHeart.src} alt="" />
+                <LikePost postId={item.id} />
                 <Link href={`/${routeName}/${item.id}`}>
                   <img className={scss.right} src={imgRight.src} alt="" />
                 </Link>

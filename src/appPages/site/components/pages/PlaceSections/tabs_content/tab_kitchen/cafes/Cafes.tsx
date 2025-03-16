@@ -7,6 +7,7 @@ import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Cafes.module.scss";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import { useGetKitchensQuery } from "@/redux/api/place";
+import LikeKitchen from "./LikeKitchen";
 
 interface CafeProps {
   isCurrent: number | null;
@@ -23,7 +24,9 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   const routeID: number = Number(pathName.split("/")[2]);
 
   // Функция для обработки ошибок загрузки изображений
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
     const target = e.target as HTMLImageElement;
     target.src = "https://placehold.co/600x400/e0e0e0/969696?text=No+Image";
     target.alt = "Image not available";
@@ -61,7 +64,13 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
         </div>
         <div className={scss.noCafesContainer}>
           <ImageOff size={48} />
-          <p>{t("Ошибка загрузки данных", "خطأ في تحميل البيانات", "Error loading data")}</p>
+          <p>
+            {t(
+              "Ошибка загрузки данных",
+              "خطأ في تحميل البيانات",
+              "Error loading data"
+            )}
+          </p>
         </div>
       </div>
     );
@@ -91,7 +100,13 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
         </div>
         <div className={scss.noCafesContainer}>
           <Coffee size={48} />
-          <p>{t("В этом месте пока нет ресторанов", "لا توجد مطاعم في هذا المكان حتى الآن", "No restaurants in this place yet")}</p>
+          <p>
+            {t(
+              "В этом месте пока нет ресторанов",
+              "لا توجد مطاعم في هذا المكان حتى الآن",
+              "No restaurants in this place yet"
+            )}
+          </p>
         </div>
       </div>
     );
@@ -118,6 +133,7 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
           <Stars rating={el.average_rating} width={16} height={16} />
           <p>Reviews: {el.rating_count}</p>
         </div>
+        <LikeKitchen postId={el.id} />
         <div className={scss.prices}>
           {`$${el.price} - $${el.price}, ${el.type_of_cafe.join(", ")}`}
         </div>
@@ -132,7 +148,13 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   return (
     <div className={scss.cafes}>
       <div className={scss.cafes_title}>
-        <h4>{t("Лучшие рестораны с разумными ценами", "أفضل المطاعم بأسعار معقولة", "The best restaurants with reasonable prices")}</h4>
+        <h4>
+          {t(
+            "Лучшие рестораны с разумными ценами",
+            "أفضل المطاعم بأسعار معقولة",
+            "The best restaurants with reasonable prices"
+          )}
+        </h4>
         {cafes.length > ITEMS_PER_PAGE && !isAllItemsShown && (
           <p onClick={() => setIsLimit(dividedArray.length)}>
             {t("Показать все", "عرض الكل", "Show all")}
