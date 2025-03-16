@@ -1,26 +1,56 @@
 .History {
-  width: 100%;
-  background: #fff;
-  border: 1px solid rgb(219, 219, 219);
-  border-radius: 8px;
-  width: 100%;
-  height: 100vh;
-  gap: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 20px 83px 0 63px;
-
-  .headerUser {
-    width: 100%;
-    display: flex;
+  .headerMobile {
+    display: none;
     align-items: center;
+    width: 100%;
+    height: 56px;
     justify-content: flex-end;
-    gap: 90px;
+    background: url("../../../../../assets/images/footerImages/footer.jpg");
+    padding: 5px clamp(30px, 5vw, 83px) 5px clamp(30px, 5vw, 63px);
+    gap: 10px;
+    .logo {
+      margin-right: auto;
+    }
+    .avatar {
+      justify-self: flex-end;
+      width: clamp(40px, 6vw, 120px);
+      height: clamp(40px, 6vw, 120px);
+    }
+    @media (max-width: 768px) {
+      display: flex;
+    }
+    .burgerMenu {
+      display: none;
+      @media (max-width: 768px) {
+        display: block;
+      justify-self: flex-end;
+
+      }
+    }
   }
 
-  .history_content {
-    margin-top: 40px;
+  .content {
+    width: 100%;
+    height: 100vh;
+    overflow-y: hidden;
+    background: #fff;
+    border-radius: 0 0 8px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px clamp(30px, 5vw, 83px) 0 clamp(30px, 5vw, 63px);
+    .headerUser {
+      width: 100%;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 90px;
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
     .text {
       display: flex;
       align-items: center;
@@ -580,9 +610,6 @@
 
 @media (max-width: 900px) {
   .History {
-    background: rgb(245, 245, 245);
-    width: 400px;
-    height: auto;
     .history_content {
       .text {
         h1 {
@@ -785,7 +812,27 @@
     background: transparent;
     transition: background 0.3s ease, color 0.3s ease;
     cursor: pointer;
+    flex-shrink: 0;
+    min-width: 100px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24.38px;
+    color: #242424;
+    border: 2px solid #242424;
+    border-radius: 8px;
+    text-align: center;
+    background: transparent;
+    transition: background 0.3s ease, color 0.3s ease;
+    cursor: pointer;
 
+    img {
+      max-width: 50%;
+    }
     img {
       max-width: 50%;
     }

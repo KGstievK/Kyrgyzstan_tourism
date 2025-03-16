@@ -8,8 +8,8 @@ import { useGetMeQuery, usePatchMeMutation } from "@/redux/api/auth";
 import { useForm } from "react-hook-form";
 
 const VisionProfile = () => {
-  const [coverPreview, setCoverPreview] = useState<string | null>(null); 
-  const [userPreview, setUserPreview] = useState<string | null>(null); 
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const [userPreview, setUserPreview] = useState<string | null>(null);
   const { data: user } = useGetMeQuery();
   const [PatchMeRequest] = usePatchMeMutation();
 
@@ -20,25 +20,27 @@ const VisionProfile = () => {
 
   useEffect(() => {
     if (coverPhotoFile && coverPhotoFile[0]) {
-      const file = coverPhotoFile[0] as unknown as File; 
+      const file = coverPhotoFile[0] as unknown as File;
 
       if (file instanceof File) {
-        const previewUrl = URL.createObjectURL(file); 
-        setCoverPreview(previewUrl); 
+        const previewUrl = URL.createObjectURL(file);
+        setCoverPreview(previewUrl);
 
         const formData = new FormData();
         formData.append("cover_photo", file);
 
         const sendFileToServer = async () => {
           try {
-            const response = await PatchMeRequest(formData as unknown as AUTH.PatchMeRequest);
+            const response = await PatchMeRequest(
+              formData as unknown as AUTH.PatchMeRequest
+            );
             if (response.data) {
               console.log("Фото фона успешно загружено!");
-              // setCoverPreview(response.data.cover_photo); 
+              // setCoverPreview(response.data.cover_photo);
             }
           } catch (e) {
             console.error("Ошибка при загрузке фото фона:", e);
-            setCoverPreview(null); 
+            setCoverPreview(null);
           }
         };
 
@@ -49,24 +51,25 @@ const VisionProfile = () => {
     }
   }, [coverPhotoFile, PatchMeRequest]);
 
-
   useEffect(() => {
     if (userPhotoFile && userPhotoFile[0]) {
       const file = userPhotoFile[0] as unknown as File;
 
       if (file instanceof File) {
         const previewUrl = URL.createObjectURL(file);
-        setUserPreview(previewUrl); 
+        setUserPreview(previewUrl);
 
         const formData = new FormData();
-        formData.append("user_picture", file); 
+        formData.append("user_picture", file);
 
         const sendFileToServer = async () => {
           try {
-            const response = await PatchMeRequest(formData as unknown as AUTH.PatchMeRequest);
+            const response = await PatchMeRequest(
+              formData as unknown as AUTH.PatchMeRequest
+            );
             if (response.data) {
               console.log("Аватарка успешно загружена!");
-              // setUserPreview(response.data.user_picture); 
+              // setUserPreview(response.data.user_picture);
             }
           } catch (e) {
             console.error("Ошибка при загрузке аватарки:", e);
@@ -113,13 +116,12 @@ const VisionProfile = () => {
               <Space wrap size={16}>
                 <label>
                   <Avatar
-                    size={121}
+                    className={scss.avatar}
                     icon={
                       userPreview ? (
                         <img src={userPreview} alt="avatar" />
                       ) : el.user_picture ? (
-                        <img src={el.user_picture} alt="avatar" width={120} height={200} />
-
+                        <img src={el.user_picture} alt="avatar" />
                       ) : (
                         <UserOutlined />
                       )

@@ -21,13 +21,15 @@ const HeaderProfile: FC = () => {
   };
 
   const tabs = [
+    { label: "Главгая", path: "/" },
     { label: "Профиль", path: "/profile" },
     { label: "Комментарии", path: "/profile/history" },
     { label: "Избранные", path: "/profile/favorite" },
     { label: "Выйти", path: "" },
   ];
   const tabsMobile = [
-    { label: "Личный Кабинет", path: "/profile/my_office" },
+    { label: "Главгая", path: "/" },
+    { label: "Профиль", path: "/profile" },
     { label: "Комментарии", path: "/profile/history" },
     { label: "Избранные", path: "/profile/favorite" },
     { label: "Выйти", path: "/profile/logout" },

@@ -1,4 +1,5 @@
 .LoginPage {
+  width: 718px;
   padding: 45px 40px;
   background: #fff;
   border: 1px solid rgb(219, 219, 219);
@@ -7,17 +8,24 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: clamp(16px, 2vw, 20px);
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+  }
   h1.authTitle {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 25px;
-    font-size: 48px;
+    font-size: clamp(32px, 3vw, 48px);
     font-weight: 700;
     line-height: 42px;
     text-align: center;
     color: var(--main-color);
+    @media (max-width: 768px) {
+      margin-bottom: 0;
+    }
   }
   h2 {
     font-family: "inter", sans-serif;
@@ -25,6 +33,9 @@
     margin-bottom: 15px;
     text-align: start;
     align-self: flex-start;
+    @media (max-width: 768px) {
+      margin-bottom: 0;
+    }
   }
   form {
     width: 636px;
@@ -33,11 +44,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    @media (max-width: 768px) {
+      width: 100%;
+    }
     input {
       width: 100%;
       font-family: "inter", sans-serif;
-      font-size: 20px;
+      font-size: clamp(12px, 2vw, 20px);
       font-weight: 500;
       line-height: 26px;
     }
@@ -47,6 +60,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+
       .Remember {
         display: flex;
         align-items: center;
@@ -55,7 +69,7 @@
         color: var(--silver);
         text-decoration: none;
         font-family: "inter", sans-serif;
-        font-size: 20px;
+        font-size: clamp(12px, 2vw, 20px);
         font-weight: 500;
         .customCheckbox {
           display: flex;
@@ -71,7 +85,7 @@
         color: var(--silver);
         text-decoration: none;
         font-family: "inter", sans-serif;
-        font-size: 20px;
+        font-size: clamp(12px, 2vw, 20px);
         font-weight: 500;
         &:hover {
           text-decoration: underline;
@@ -83,7 +97,7 @@
       width: 100%;
       height: 54px;
       font-family: "inter", sans-serif;
-      font-size: 20px;
+      font-size: clamp(12px, 2vw, 20px);
       font-weight: 500;
       line-height: 26px;
       color: var(--background);
@@ -95,15 +109,15 @@
     justify-content: center;
     gap: 10px;
     p {
-      font-size: 20px;
-      font-family: 'inter', sans-serif;
+      font-size: clamp(12px, 2vw, 20px);
+      font-family: "inter", sans-serif;
       font-weight: 500;
     }
     a.link {
       color: var(--silver);
       text-decoration: none;
       font-family: "inter", sans-serif;
-      font-size: 20px;
+      font-size: clamp(12px, 2vw, 20px);
       font-weight: 500;
 
       &:hover {
@@ -123,7 +137,7 @@
       border-bottom: 2px solid #95959599;
     }
     p {
-      font-size: 14px;
+      font-size: clamp(8px, 3vw, 20px);
       color: var(--silver);
     }
   }
@@ -142,7 +156,7 @@
       }
     }
   }
-  
+
   .modalOverlay {
     position: fixed;
     top: 0;
@@ -155,20 +169,20 @@
     justify-content: center;
     z-index: 1000;
   }
-  
+
   .modalContent {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
-  
+
     p {
       margin-bottom: 20px;
       font-size: 16px;
       color: #333;
     }
-  
+
     button {
       padding: 10px 20px;
       background-color: #004d5f;
@@ -177,7 +191,7 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 14px;
-  
+
       &:hover {
         background-color: #003847;
       }
@@ -188,6 +202,5 @@
     font-size: 12px;
     margin-top: 4px;
     display: block;
-    
   }
 }

@@ -22,11 +22,11 @@ const ResetPasswordPage = () => {
     try {
       const response = await postResetPassword({
         email: data.email,
-        reset_code: data.reset_code, // Исправлено
-        new_password: data.new_password, // Исправлено
-      }).unwrap(); // Получаем данные ответа напрямую
+        reset_code: data.reset_code, 
+        new_password: data.new_password, 
+      }).unwrap();
       alert(response.message);
-      router.push("/");
+      router.push("/auth/sign-in");
     } catch (error: any) {
       console.error("Ошибка:", error);
       alert(error?.data?.message || "Ошибка при сбросе пароля.");
