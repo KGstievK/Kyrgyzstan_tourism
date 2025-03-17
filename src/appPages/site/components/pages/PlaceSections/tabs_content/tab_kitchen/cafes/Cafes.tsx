@@ -115,25 +115,27 @@ const Cafes: FC<CafeProps> = ({ setIsCurrent, isCurrent }) => {
   // Render individual cafe items
   const renderCafeItem = cafesInPlace.map((el) => (
     <div onClick={() => setIsCurrent(el.id)} key={el.id} className={scss.item}>
-      <Image
-        src={el.main_image}
-        alt={el.kitchen_name}
-        width={486}
-        height={543}
-        unoptimized
-        style={{
-          objectFit: "cover",
-          backgroundColor: "#f0f0f0",
-        }}
-        onError={handleImageError}
-      />
+      <div className={scss.imgLike}>
+        <Image
+          src={el.main_image}
+          alt={el.kitchen_name}
+          width={486}
+          height={543}
+          unoptimized
+          style={{
+            objectFit: "cover",
+            backgroundColor: "#f0f0f0",
+          }}
+          onError={handleImageError}
+        />
+        <LikeKitchen postId={el.id} />
+      </div>
       <div className={scss.info}>
         <h6 className={scss.title}>{el.kitchen_name}</h6>
         <div className={scss.stars_review}>
           <Stars rating={el.average_rating} width={16} height={16} />
           <p>Reviews: {el.rating_count}</p>
         </div>
-        <LikeKitchen postId={el.id} />
         <div className={scss.prices}>
           {`$${el.price} - $${el.price}, ${el.type_of_cafe.join(", ")}`}
         </div>
