@@ -5,6 +5,7 @@ import Try from "./try/Try";
 import Places from "./places/Places";
 import { useGetRegionListQuery } from "@/redux/api/regions";
 import { usePathname } from "next/navigation";
+import { REGION_LIST } from "@/redux/api/regions/types";
 
 const Regions = () => {
   const { data, isLoading, isError } = useGetRegionListQuery();

@@ -12,7 +12,6 @@ import { MY_REVIEWS } from "@/redux/api/profileHistory/types";
 const HotelHistory = () => {
   const [imageError, setImageError] = useState<Record<string, boolean>>({});
   const { data: reviewsResponse, isLoading, error } = useGetMeReviewsQuery();
-  console.log(reviewsResponse);
   
   const { t } = useTranslate();
   const [loadingMore, setLoadingMore] = useState(false);
@@ -111,8 +110,6 @@ const HotelHistory = () => {
     const hotelImageId = `hotel-${hotel.id}`;
     const hotelImageUrl = getImageUrl(hotel.main_image);
     
-    // Для отладки
-    console.log(`Отель #${hotel.id} URL изображения:`, hotelImageUrl);
     
     return (
       <div 

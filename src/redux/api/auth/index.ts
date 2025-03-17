@@ -85,14 +85,7 @@ const api = index.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["favorite"],
-    }),
-    getUserComments: build.query<AUTH.UserComment[], void>({
-      query: () => ({
-        url: "/user_comments/",
-        method: "GET",
-      }),
-      providesTags: ["comments"],
-    }),
+    })
   }),
 });
 export const {
@@ -105,5 +98,4 @@ export const {
   usePostResetPasswordMutation,
   usePostForgotPasswordMutation,
   useGetFavoriteItemsQuery,
-  useGetUserCommentsQuery,
 } = api;

@@ -1,4 +1,5 @@
 import PlaceInfo from "@/appPages/site/ui/placeInfo/PlaceInfo";
+import { REGION_LIST } from "@/redux/api/regions/types";
 
 interface CommonData {
   name: string;
@@ -17,7 +18,7 @@ const Region: React.FC<RegionProps> = ({ region }) => {
     description: region.region_description,
   };
 
-  return <PlaceInfo data={commonData} />;
+  return <PlaceInfo lat={region.latitude} lon={region.longitude} data={commonData} />;
 };
 
 export default Region;

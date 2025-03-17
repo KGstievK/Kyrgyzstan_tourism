@@ -11,8 +11,6 @@ import { useGetMeReviewsQuery } from "@/redux/api/profileHistory";
 const PlaceHistory = () => {
   const [imageError, setImageError] = useState<Record<string, boolean>>({});
   const { data: reviewsResponse, isLoading, error } = useGetMeReviewsQuery();
-  console.log(reviewsResponse);
-
   const { t } = useTranslate();
   const [loadingMore, setLoadingMore] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -114,8 +112,6 @@ const PlaceHistory = () => {
       const placeImageId = `place-${place.id}`;
       const placeImageUrl = getImageUrl(place.popular_image);
       
-      // Для отладки
-      console.log(`Место #${place.id} URL изображения:`, placeImageUrl);
 
       return (
         <div

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useGetMeQuery } from "@/redux/api/auth";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Favorites.module.scss";
@@ -15,15 +15,14 @@ import User from "../User/User";
 import { Avatar, Space } from "antd";
 import BurgerMenu from "@/appPages/site/ui/BurgerMenu/BurgerMenu";
 import { UserOutlined } from "@ant-design/icons";
+import Image from "next/image";
 
 const Favorites = () => {
   const { t } = useTranslate();
   const { data } = useGetFavoriteQuery();
   const { data: user } = useGetMeQuery();
-  const [userPreview, setUserPreview] = useState<string | null>(null);
   const [deleteFavorite] = useDeleteFavoriteMutation();
-  console.log(data);
-  
+
   const handleDeleteFavorite = async (placeId: number) => {
     try {
       await deleteFavorite({ id: placeId });
@@ -31,6 +30,7 @@ const Favorites = () => {
       console.error("Error:", error);
     }
   };
+
   // Функция для обработки ошибок загрузки изображений
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
@@ -39,6 +39,13 @@ const Favorites = () => {
     target.src =
       "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
     target.alt = "Image not available";
+  };
+
+  // Функция для безопасного отображения изображений
+  const getImageUrl = (src: string | undefined): string => {
+    return (
+      src || "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found"
+    );
   };
 
   return (
@@ -51,10 +58,24 @@ const Favorites = () => {
               <Avatar
                 className={scss.avatar}
                 icon={
-                  userPreview ? (
-                    <img src={userPreview} alt="avatar" />
-                  ) : el.user_picture ? (
-                    <img src={el.user_picture} alt="avatar" />
+                  el.user_picture ? (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Image
+                        src={getImageUrl(el.user_picture)}
+                        alt="avatar"
+                        width={120}
+                        height={120}
+                        style={{ objectFit: "cover" }}
+                        onError={handleImageError}
+                      />
+                    </div>
                   ) : (
                     <UserOutlined />
                   )
@@ -79,11 +100,21 @@ const Favorites = () => {
               <React.Fragment key={i}>
                 {item.popular_place && (
                   <div className={scss.item}>
-                    <img
-                      src={item.popular_place.popular_image}
-                      alt="gallery place"
-                      onError={handleImageError}
-                    />
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "200px",
+                      }}
+                    >
+                      <Image
+                        src={getImageUrl(item.popular_place.popular_image)}
+                        alt="gallery place"
+                        fill
+                        style={{ objectFit: "cover" }}
+                        onError={handleImageError}
+                      />
+                    </div>
                     <div className={scss.block}>
                       <h6>{item.popular_place.popular_name}</h6>
                       <div>
@@ -115,11 +146,22 @@ const Favorites = () => {
                 )}
                 {item.hotels && (
                   <div className={scss.item}>
-                    <img
-                      src={item.hotels.main_image}
-                      alt="gallery place"
-                      onError={handleImageError}
-                    />
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "200px",
+                        borderRadius: "8px 8px 0 0",
+                      }}
+                    >
+                      <Image
+                        src={getImageUrl(item.hotels.main_image)}
+                        alt="gallery place"
+                        fill
+                        style={{ objectFit: "cover" }}
+                        onError={handleImageError}
+                      />
+                    </div>
                     <div className={scss.block}>
                       <h6>{item.hotels.name}</h6>
                       <div>
@@ -151,11 +193,21 @@ const Favorites = () => {
                 )}
                 {item.kitchen && (
                   <div className={scss.kitchen}>
-                    <img
-                      src={item.kitchen.main_image}
-                      alt="gallery place"
-                      onError={handleImageError}
-                    />
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "200px",
+                      }}
+                    >
+                      <Image
+                        src={getImageUrl(item.kitchen.main_image)}
+                        alt="gallery place"
+                        fill
+                        style={{ objectFit: "cover" }}
+                        onError={handleImageError}
+                      />
+                    </div>
                     <div className={scss.block}>
                       <h6>{item.kitchen.kitchen_name}</h6>
                       <div>
@@ -187,11 +239,21 @@ const Favorites = () => {
                 )}
                 {item.attractions && (
                   <div className={scss.kitchen}>
-                    <img
-                      src={item.attractions.main_image}
-                      alt="gallery place"
-                      onError={handleImageError}
-                    />
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "200px",
+                      }}
+                    >
+                      <Image
+                        src={getImageUrl(item.attractions.main_image)}
+                        alt="gallery place"
+                        fill
+                        style={{ objectFit: "cover" }}
+                        onError={handleImageError}
+                      />
+                    </div>
                     <div className={scss.block}>
                       <h6>{item.attractions.attraction_name}</h6>
                       <div>

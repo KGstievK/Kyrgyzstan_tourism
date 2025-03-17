@@ -162,8 +162,6 @@ const KitchenHistory = () => {
           {uniqueKitchens.map((kitchen) => {
             const kitchenImageUrl = getImageUrl(kitchen.main_image);
             
-            // Для отладки
-            console.log(`Ресторан #${kitchen.id} URL изображения:`, kitchenImageUrl);
             
             return (
               <div

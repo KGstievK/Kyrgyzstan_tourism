@@ -67,7 +67,7 @@ export default function RouteInfo({
       </div>
       <div onClick={() => setModalWindow && setModalWindow(true)} className={styles.routeItem}>
         <GiAirplaneDeparture className={styles.icon} />
-        <p>{t("5 билетов", "5 تذاكر", "5 tickets")}</p>
+        <p>{t("авиакомпании", "شركات الطيران", "airlines")}</p>
       </div>
     </div>
   );

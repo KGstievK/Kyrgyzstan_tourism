@@ -27,7 +27,6 @@ const RenderDays: React.FC<RenderDaysProps> = ({
     days.push(
       <div
         onClick={() => {
-          console.log(formattedDate);
           setIsDate(formattedDate === isDate ? "" : formattedDate);
         }}
         key={i}

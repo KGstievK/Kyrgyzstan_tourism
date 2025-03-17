@@ -35,11 +35,6 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
   const [isSearched, setIsSearched] = useState(false);
-
-  useEffect(() => {
-    console.log("Tab_place mounted");
-  }, []);
-
   const autocompleteA = useRef<google.maps.places.Autocomplete | null>(null);
   const autocompleteB = useRef<google.maps.places.Autocomplete | null>(null);
 

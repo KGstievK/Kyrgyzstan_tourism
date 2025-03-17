@@ -20,13 +20,12 @@ const center = {
   lng: 74.5698,
 };
 
-// Опции карты
 const mapOptions = {
-  disableDefaultUI: false,
-  zoomControl: true,
-  streetViewControl: true,
-  mapTypeControl: true,
-  fullscreenControl: true,
+  disableDefaultUI: true, // Отключаем все стандартные элементы управления
+  zoomControl: true, // Включаем только контроллер масштабирования
+  streetViewControl: false,
+  mapTypeControl: false,
+  fullscreenControl: false,
   scrollwheel: true,
   language: "ru" // Установка русского языка для элементов карты
 };

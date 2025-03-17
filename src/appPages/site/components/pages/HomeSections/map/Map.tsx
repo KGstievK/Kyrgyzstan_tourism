@@ -28,7 +28,7 @@ const Map = () => {
   // Эта функция не будет использоваться напрямую, так как мы передаем флаги в SearchBar
   const handleSearch = useCallback(() => {
     // SearchBar будет самостоятельно обрабатывать переход на страницу маршрутов
-    console.log("Search triggered");
+    // console.log("Search triggered");
   }, []);
 
   return (

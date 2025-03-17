@@ -12,8 +12,6 @@ const Culture: React.FC = () => {
   const [imgError, setImgError] = useState(false);
   const { t } = useTranslate();
   const { data: slides = [], isError, isLoading } = useGetCultureListQuery();
-  console.log(slides);
-  
   const handleNext = () => {
     if (slides.length > 0) {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);

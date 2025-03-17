@@ -14,6 +14,7 @@ interface SocialIcon {
   src: string;
   alt: string;
   className: string;
+  shareUrl: string;
 }
 
 export const Hero: FC = () => {
@@ -24,12 +25,64 @@ export const Hero: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Функция для получения текущего URL сайта
+  const getCurrentUrl = () => {
+    if (typeof window !== 'undefined') {
+      return encodeURIComponent(window.location.href);
+    }
+    return '';
+  };
+
+  // Функция для получения заголовка сайта
+  const getShareTitle = () => {
+    return encodeURIComponent(t(
+      "Добро пожаловать в удивительный Кыргызстан!",
+      "مرحبًا بكم في قيرغيزستان المذهلة!",
+      "Welcome to the amazing Kyrgyzstan!"
+    ));
+  };
+
+  // Определяем иконки социальных сетей с URL для шеринга
   const socialIcons: SocialIcon[] = [
-    { src: imgInst.src, alt: "Instagram", className: scss.ins },
-    { src: imgFC.src, alt: "Facebook", className: scss.facebook },
-    { src: imgVk.src, alt: "VKontakte", className: scss.vk },
-    { src: imgMail.src, alt: "Mail", className: scss.mail },
+    { 
+      src: imgInst.src, 
+      alt: "Instagram", 
+      className: scss.ins,
+      // Instagram не имеет прямого API для шеринга, обычно открывают приложение
+      shareUrl: "https://www.instagram.com/" 
+    },
+    { 
+      src: imgFC.src, 
+      alt: "Facebook", 
+      className: scss.facebook,
+      shareUrl: `https://www.facebook.com/sharer/sharer.php?u=${getCurrentUrl()}`
+    },
+    { 
+      src: imgVk.src, 
+      alt: "VKontakte", 
+      className: scss.vk,
+      shareUrl: `https://vk.com/share.php?url=${getCurrentUrl()}&title=${getShareTitle()}`
+    },
+    { 
+      src: imgMail.src, 
+      alt: "Mail", 
+      className: scss.mail,
+      shareUrl: `mailto:?subject=${getShareTitle()}&body=${getCurrentUrl()}`
+    },
   ];
+
+  // Функция для обработки клика по иконке социальной сети
+  const handleSocialShare = (url: string, alt: string) => {
+    // Для Instagram показываем alert, так как прямого шеринга нет
+    if (alt === "Instagram") {
+      alert("Для Instagram: скопируйте ссылку и поделитесь ею в Instagram");
+      navigator.clipboard.writeText(window.location.href);
+      return;
+    }
+    
+    // Открываем окно шеринга для остальных социальных сетей
+    window.open(url, '_blank', 'width=600,height=400');
+  };
 
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsFilter(e.target.value);
@@ -69,15 +122,18 @@ export const Hero: FC = () => {
 
             <div className={scss.icons1}>
               {socialIcons.map((icon, index) => (
-                <Image
-                  key={index}
-                  className={icon.className}
-                  src={icon.src}
-                  alt={icon.alt}
-                  width={24}
-                  height={24}
-                  aria-label={icon.alt}
-                />
+                <div key={index} 
+                     onClick={() => handleSocialShare(icon.shareUrl, icon.alt)} 
+                     style={{ cursor: 'pointer' }}>
+                  <Image
+                    className={icon.className}
+                    src={icon.src}
+                    alt={icon.alt}
+                    width={24}
+                    height={24}
+                    aria-label={icon.alt}
+                  />
+                </div>
               ))}
             </div>
           </div>

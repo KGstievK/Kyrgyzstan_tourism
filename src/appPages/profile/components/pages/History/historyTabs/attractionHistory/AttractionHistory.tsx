@@ -141,9 +141,6 @@ const AttractionHistory = () => {
           {uniqueAttractions.map((attraction) => {
             const attractionImageUrl = getImageUrl(attraction.main_image);
             
-            // Для отладки
-            console.log(`Достопримечательность #${attraction.id} URL изображения:`, attractionImageUrl);
-            
             return (
               <div 
                 key={attraction.id} 

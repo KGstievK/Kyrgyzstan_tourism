@@ -12,8 +12,8 @@ interface CommonData {
 
 interface RegionProps {
   data: CommonData | null;
-  lat: string;
-  lon: string;
+  lat?: string;
+  lon?: string;
 }
 
 const PlaceInfo: React.FC<RegionProps> = ({ 

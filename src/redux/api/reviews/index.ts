@@ -108,37 +108,6 @@ const api = index.injectEndpoints({
         }));
       },
     }),
-
-    // GET-запрос для отзывов отелей по ID
-    getHotelReviewById: builder.query<REVIEWS.RewiewHotelResponse, number>({
-      query: (id) => ({
-        url: `/hotels_review_list/${id}/`,
-        method: "GET",
-      }),
-      providesTags: (result, error, id) => [{ type: "Reviews", id }],
-    }),
-
-    // GET-запрос для отзывов достопримечательностей по ID
-    getAttractionReviewById: builder.query<
-      REVIEWS.ReviewAttractionResponse,
-      number
-    >({
-      query: (id) => ({
-        url: `/attraction_review_list/${id}/`,
-        method: "GET",
-      }),
-      providesTags: (result, error, id) => [{ type: "Reviews", id }],
-    }),
-
-    // GET-запрос для отзывов кухонь по ID
-    getKitchenReviewById: builder.query<REVIEWS.ReviewKitchenResponse, number>({
-      query: (id) => ({
-        url: `/kitchen_review_list/${id}/`,
-        method: "GET",
-      }),
-      providesTags: (result, error, id) => [{ type: "Reviews", id }],
-    }),
-
     postRewiewHotel: builder.mutation<REVIEWS.RewiewHotelResponse, FormData>({
       query: (formData) => ({
         url: "/hotels_review_create/",
@@ -218,9 +187,6 @@ const api = index.injectEndpoints({
 export const {
   useGetStaticReviewsQuery,
   useGetReviewsQuery,
-  useGetHotelReviewByIdQuery,
-  useGetAttractionReviewByIdQuery,
-  useGetKitchenReviewByIdQuery,
   usePostRewiewHotelMutation,
   usePostRewiewKitchenMutation,
   usePostRewiewAttractionMutation,
