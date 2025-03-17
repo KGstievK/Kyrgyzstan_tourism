@@ -2,7 +2,7 @@
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Gallery.module.scss";
 import imgMetka from "@/assets/images/galleryImages/metka.png";
-import { useGetPopularPlacesQuery, useGetFavoriteQuery } from "@/redux/api/regions";
+import { useGetPopularPlacesQuery } from "@/redux/api/regions";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import LikePost from "../regionSections/places/LikePost";
 import Image from "next/image";

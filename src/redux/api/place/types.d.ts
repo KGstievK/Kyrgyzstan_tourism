@@ -6,8 +6,8 @@ namespace PLACE {
     popular_image: string;
     description: string;
     popular_reviews: unknown[]; // заменил any на unknown
-    latitude: string,
-    longitude: string
+    latitude: string;
+    longitude: string;
   };
 
   export type PlaceRequest = number;
@@ -35,7 +35,7 @@ namespace PLACE {
     phone_number: string;
     kitchen: string;
     latitude: number;
-    longitude: number
+    longitude: number;
   };
 
   export type KitchenLocation = {
@@ -46,9 +46,9 @@ namespace PLACE {
     phone_number: string;
     kitchen: string;
     latitude: number;
-    longitude: number
+    longitude: number;
   };
-  
+
   export type kitchenIdResponse = {
     id: number;
     kitchen_name: string;
@@ -74,13 +74,13 @@ namespace PLACE {
   // ----------------------------------------------------------------------------------------------
   // ts types for hotel
   export type HotelsResponse = {
-    id: number
-    name: string
-    main_image: string
-    avg_rating: number
-    rating_count: number
-    region: string
-    popular_places: number
+    id: number;
+    name: string;
+    main_image: string;
+    avg_rating: number;
+    rating_count: number;
+    region: string;
+    popular_places: number;
   }[];
 
   export type HotelsRequest = void;
@@ -113,7 +113,7 @@ namespace PLACE {
     name: string | undefined;
     hotel_image: {
       id: number;
-      image: string
+      image: string;
     }[];
     address: string;
     description: string;
@@ -123,12 +123,15 @@ namespace PLACE {
     bikes: number;
     pets: number;
     amenities: Array<{
-      id: string
-      amenity: string
-      title: string
-      icon: string
-    }>
-    safety_and_hygiene: string[];
+      id: string;
+      amenity: string;
+      title: string;
+      icon: string;
+    }>;
+    safety_and_hygiene: {
+      id: number;
+      name: string;
+    }[];
     price_short_period: number;
     price_medium_period: number;
     price_long_period: number;
@@ -138,45 +141,45 @@ namespace PLACE {
   export type HotelIDRequest = number | null;
 
   export type Image = {
-    id: number
-    image: string
-  }
+    id: number;
+    image: string;
+  };
 
   export type AttractionIDResponse = {
-    id: number
-    attraction_name: string
-    main_image: string | null
-    popular_places: number
-    image: Image[] 
-    description: string
-    rating_count: number
-    rank: string,
-    type_attraction: string
-  }
+    id: number;
+    attraction_name: string;
+    main_image: string | null;
+    popular_places: number;
+    image: Image[];
+    description: string;
+    rating_count: number;
+    rank: string;
+    type_attraction: string;
+  };
 
-  export type AttractionIDRequest = number | null
+  export type AttractionIDRequest = number | null;
 
   export type EventListResponse = {
-    id: number
-    title: string
-    image: string // заменил any на string, предполагая что это URL изображения
+    id: number;
+    title: string;
+    image: string; // заменил any на string, предполагая что это URL изображения
     category: {
-      id: number
-      category: string
-    }
-    date: string
-    time: string
-    address: string
-    price: number
-    ticket: string
-  }[]
+      id: number;
+      category: string;
+    };
+    date: string;
+    time: string;
+    address: string;
+    price: number;
+    ticket: string;
+  }[];
 
   export type EventListRequest = {
-    category: string,
-    search: string,
-    date: string,
-    ticket: string
-  }
+    category: string;
+    search: string;
+    date: string;
+    ticket: string;
+  };
 }
 
 // Экспортируем пространство имен для использования в других файлах

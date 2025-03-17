@@ -1,4 +1,4 @@
-// Обновленный код для HotelHistory.tsx
+"use client";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import scss from "./HotelHistory.module.scss";
 import Image from "next/image";
@@ -6,13 +6,13 @@ import Stars from "@/appPages/site/ui/stars/Stars";
 import imgHeart from "@/assets/images/placeImages/Vector.png";
 import imgRight from "@/assets/images/placeImages/Arrow_alt_lright.png";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import { BiLike } from "react-icons/bi";
 import { useGetMeReviewsQuery } from "@/redux/api/profileHistory";
 import { MY_REVIEWS } from "@/redux/api/profileHistory/types";
 
 const HotelHistory = () => {
   const [imageError, setImageError] = useState<Record<string, boolean>>({});
   const { data: reviewsResponse, isLoading, error } = useGetMeReviewsQuery();
+  console.log(reviewsResponse);
   
   const { t } = useTranslate();
   const [loadingMore, setLoadingMore] = useState(false);
@@ -20,6 +20,15 @@ const HotelHistory = () => {
   
   // Состояние для хранения ID выбранного отеля
   const [selectedHotelId, setSelectedHotelId] = useState<number | null>(null);
+  
+  // Функция для формирования правильного URL изображения
+  const getImageUrl = useCallback((url: string) => {
+    if (!url) return "/default-image.png"; // Запасное изображение по умолчанию
+    
+    return url.startsWith('http') 
+      ? url 
+      : `${process.env.NEXT_PUBLIC_API_URL || ''}${url.startsWith('/') ? url : `/${url}`}`;
+  }, []);
   
   // Фильтруем только отзывы об отелях
   const hotelReviews = useMemo(() => {
@@ -68,6 +77,7 @@ const HotelHistory = () => {
   
   // Обработчики событий
   const handleImageError = useCallback((id: string) => {
+    console.error(`Ошибка загрузки изображения с ID: ${id}`);
     setImageError(prev => ({ ...prev, [id]: true }));
   }, []);
 
@@ -98,6 +108,11 @@ const HotelHistory = () => {
   // Рендер элемента отеля
   const renderHotelItem = useCallback((hotel: MY_REVIEWS.Hotel) => {
     const isSelected = selectedHotelId === hotel.id;
+    const hotelImageId = `hotel-${hotel.id}`;
+    const hotelImageUrl = getImageUrl(hotel.main_image);
+    
+    // Для отладки
+    console.log(`Отель #${hotel.id} URL изображения:`, hotelImageUrl);
     
     return (
       <div 
@@ -105,7 +120,7 @@ const HotelHistory = () => {
         className={`${scss.item} ${isSelected ? scss.selectedItem : ''}`}
         onClick={() => setSelectedHotelId(hotel.id)}
       >
-        {imageError[`hotel-${hotel.id}`] ? (
+        {imageError[hotelImageId] ? (
           <div className={scss.imageFallback}>
             <span>
               {t(
@@ -117,11 +132,11 @@ const HotelHistory = () => {
           </div>
         ) : (
           <Image
-            src={hotel.main_image}
+            src={hotelImageUrl}
             alt={hotel.name}
             width={341}
             height={270}
-            onError={() => handleImageError(`hotel-${hotel.id}`)}
+            onError={() => handleImageError(hotelImageId)}
             style={{ 
               width: '100%', 
               height: 'auto', 
@@ -167,49 +182,55 @@ const HotelHistory = () => {
         </button>
       </div>
     );
-  }, [imageError, selectedHotelId, t, handleImageError]);
+  }, [imageError, selectedHotelId, t, handleImageError, getImageUrl]);
 
   // Рендер отзыва
-  const renderReview = useCallback((review: MY_REVIEWS.HotelReview) => (
-    <div key={review.id} className={scss.person}>
-      <div className={scss.person_image}>
-        <Image
-          src={review.client.user_picture || "/default-user.png"}
-          alt="User"
-          width={42}
-          height={42}
-          className={scss.person_imagess}
-        />
-        <div className={scss.person_text}>
-          <h3>{`${review.client.first_name} ${review.client.last_name}`}</h3>
-          <p>{review.client.from_user || ""}</p>
-        </div>
-        <div className={scss.likes}>
-          <BiLike /> {review.rating || 0}
-        </div>
-      </div>
-
-      <div className={scss.text}>
-        <p>{new Date(review.created_date).toLocaleDateString()}</p>
-        <h5>{review.hotel.name}</h5>
-        <span>{review.comment}</span>
-        {review.hotel_review_image.length > 0 && (
-          <div className={scss.imagess_2}>
-            {review.hotel_review_image.map((img, index) => (
-              <Image
-                key={index}
-                src={img.image.startsWith('http') ? img.image : `${process.env.NEXT_PUBLIC_API_URL || ''}${img.image}`}
-                alt={`review-image-${index}`}
-                width={100}
-                height={100}
-                className={scss.images_1}
-              />
-            ))}
+  const renderReview = useCallback((review: MY_REVIEWS.HotelReview) => {
+    const userPictureUrl = getImageUrl(review.client.user_picture) || "/default-user.png";
+    
+    return (
+      <div key={review.id} className={scss.person}>
+        <div className={scss.person_image}>
+          <Image
+            src={userPictureUrl}
+            alt="User"
+            width={42}
+            height={42}
+            className={scss.person_imagess}
+            onError={() => console.error(`Ошибка загрузки аватара пользователя: ${userPictureUrl}`)}
+          />
+          <div className={scss.person_text}>
+            <h3>{`${review.client.first_name} ${review.client.last_name}`}</h3>
+            <p>{review.client.from_user || ""}</p>
           </div>
-        )}
+        </div>
+
+        <div className={scss.text}>
+          <p>{new Date(review.created_date).toLocaleDateString()}</p>
+          <h5>{review.hotel.name}</h5>
+          <span>{review.comment}</span>
+          {review.hotel_review_image && review.hotel_review_image.length > 0 && (
+            <div className={scss.imagess_2}>
+              {review.hotel_review_image.map((img, index) => {
+                const reviewImageUrl = getImageUrl(img.image);
+                return (
+                  <Image
+                    key={index}
+                    src={reviewImageUrl}
+                    alt={`review-image-${index}`}
+                    width={100}
+                    height={100}
+                    className={scss.images_1}
+                    onError={() => console.error(`Ошибка загрузки изображения отзыва #${index}: ${reviewImageUrl}`)}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  ), []);
+    );
+  }, [getImageUrl]);
 
   return (
     <div className={scss.hotelHistory}>

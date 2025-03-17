@@ -45,7 +45,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
 
   return (
     <div className={scss.hotel_item}>
-      <h4>{t(data?.name || "", data?.name || "", data?.name || "")}</h4>
+      <h4>{data?.name ? t(data.name, data.name, data.name) : ""}</h4>
       <GalleryImages images={images} />
 
       <div className={scss.info}>
@@ -118,7 +118,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           <div className={scss.amen}>
             <h6>{t("Предлагаемые удобства", "وسائل الراحة المقدمة", "Offered Amenities")}</h6>
             <div className={scss.amenities}>
-              {data?.amenities.map((item) => (
+              {data?.amenities && data.amenities.map((item) => (
                 <div key={item.id}>
                   <Image 
                     src={item.icon} 
@@ -126,7 +126,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
                     width={24}
                     height={24}
                   />
-                  <span>{item.amenity}</span>
+                  <span>{typeof item.amenity === 'string' ? item.amenity : JSON.stringify(item.amenity)}</span>
                 </div>
               ))}
             </div>
@@ -135,15 +135,15 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
           <div className={scss.safe}>
             <h6>{t("Безопасность и гигиена", "السلامة والنظافة", "Safety and Hygiene")}</h6>
             <div className={scss.safe_list}>
-              {data?.safety_and_hygiene.map((item) => (
-                <div key={item}>
+              {data?.safety_and_hygiene && data.safety_and_hygiene.map((item) => (
+                <div key={item.id}>
                   <Image 
                     src={safety.src} 
                     alt={t("Безопасность", "سلامة", "Safety")}
                     width={24}
                     height={24}
                   />
-                  <span>{item}</span>
+                  <span>{item.name}</span>
                 </div>
               ))}
             </div>

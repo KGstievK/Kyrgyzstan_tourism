@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Pencil } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import scss from "./ReviewModal.module.scss";
@@ -63,6 +63,31 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   const [nutritionRating, setNutritionRating] = useState(0);
   const [priceRating, setPriceRating] = useState(0);
   const [atmosphereRating, setAtmosphereRating] = useState(0);
+  
+  // Состояние для отслеживания размера экрана
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Обработчик изменения размера окна
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+    
+    // Проверяем при монтировании
+    checkIfMobile();
+    
+    // Добавляем слушатель событий
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Блокируем прокрутку страницы при открытии модального окна
+    document.body.style.overflow = 'hidden';
+    
+    // Удаляем слушатель и разблокируем прокрутку при размонтировании
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   const onSubmitForm: SubmitHandler<
     | REVIEWS.RewiewHotelRequest
@@ -139,7 +164,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     <div className={scss.modalOverlay}>
       <div className={scss.modalContent}>
         <button className={scss.closeButton} onClick={onClose}>
-          <X size={24} />
+          <X size={isMobile ? 20 : 24} />
         </button>
 
         {isTab === 2 && !isReply ? (
@@ -189,7 +214,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 
         <form onSubmit={handleSubmit(onSubmitForm)}>
           <div className={scss.reviewInputContainer}>
-            <Pencil className={scss.pencilIcon} size={20} />
+            <Pencil className={scss.pencilIcon} size={isMobile ? 16 : 20} />
             <textarea
               className={scss.reviewInput}
               placeholder={
@@ -204,7 +229,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             <button type="submit" className={scss.sendButton}>
               Send
             </button>
-            <button className={scss.sendButton} onClick={onClose}>
+            <button type="button" className={scss.sendButton} onClick={onClose}>
               cancel
             </button>
           </div>

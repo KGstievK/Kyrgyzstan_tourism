@@ -17,20 +17,9 @@ interface ImageErrorEvent extends React.SyntheticEvent<HTMLImageElement, Event> 
 }
 
 const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
-  const largeImages = images.slice(0, 2);
-  const smallImages = images.slice(2);
+  // Все хуки объявляем в самом начале компонента
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
-  
-  // Проверка наличия изображений
-  const hasImages = images && images.length > 0;
-  
-  // Функция для обработки ошибок загрузки изображений
-  const handleImageError = (e: ImageErrorEvent) => {
-    const target = e.currentTarget;
-    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
-    target.alt = "Image not available";
-  };
-  
+
   // Используем useCallback для обработчика клавиш
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (selectedImage === null) return;
@@ -57,6 +46,18 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
+  
+  // Проверка наличия изображений
+  const hasImages = images && images.length > 0;
+  const largeImages = images.slice(0, 2);
+  const smallImages = images.slice(2);
+  
+  // Функция для обработки ошибок загрузки изображений
+  const handleImageError = (e: ImageErrorEvent) => {
+    const target = e.currentTarget;
+    target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
+    target.alt = "Image not available";
+  };
 
   const handlePrevious = () => {
     if (selectedImage !== null && selectedImage > 0) {
@@ -91,7 +92,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
           {/* Крупные изображения */}
           {selectedImage !== null && (
             <ImageModal
-              images={images || []}
+              images={images}
               selectedImage={selectedImage}
               onClose={() => setSelectedImage(null)}
               onPrevious={handlePrevious}

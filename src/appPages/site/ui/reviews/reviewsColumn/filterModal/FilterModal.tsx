@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Circle } from "lucide-react";
 import styles from "./FilterModal.module.scss";
 import StatisticBlock from "../../statisticColumn/statisticBlock/StatisticBlock";
@@ -48,6 +48,27 @@ export const FilterModal: React.FC<FilterModalProps> = ({
   // Состояния для выбранных фильтров
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [selectedMonthValue, setSelectedMonthValue] = useState<number | null>(null);
+  
+  // Состояние для отслеживания мобильной версии
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Добавляем прослушиватель изменения размера окна
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+    
+    // Проверяем при монтировании
+    checkIfMobile();
+    
+    // Добавляем слушатель событий
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Удаляем слушатель при размонтировании
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
   
   // Варианты оценок с количеством заполненных кружков
   const evaluationOptions = [
@@ -108,6 +129,19 @@ export const FilterModal: React.FC<FilterModalProps> = ({
     setSelectedMonthValue(selectedMonthValue === value ? null : value);
   };
   
+  // Блокировка прокрутки основного контента при открытии модального окна
+  useEffect(() => {
+    // Запоминаем текущее состояние прокрутки
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    // Блокируем прокрутку
+    document.body.style.overflow = 'hidden';
+    
+    // Возвращаем оригинальное состояние при размонтировании
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+  
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -116,7 +150,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
           className={styles.closeButton}
           onClick={() => setIsShow && setIsShow(false)}
         >
-          <X size={24} />
+          <X size={isMobile ? 20 : 24} />
         </button>
         
         {/* Заголовок модального окна */}
@@ -141,7 +175,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                   {option.circles.map((filled, i) => (
                     <Circle
                       key={i}
-                      size={16}
+                      size={isMobile ? 12 : 16}
                       style={{
                         color: "#3C5F63",
                         fill: filled ? "#3C5F63" : "none",

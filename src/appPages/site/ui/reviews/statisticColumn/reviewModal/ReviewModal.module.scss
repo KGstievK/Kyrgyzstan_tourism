@@ -10,6 +10,17 @@
   justify-content: center;
   z-index: 1000;
   padding: 16px;
+  
+  @media (max-height: 832px) {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 }
 
 .modalContent {
@@ -19,7 +30,8 @@
   position: relative;
   width: 100%;
   max-width: 1200px;
-  height: 832px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
@@ -44,6 +56,11 @@
       top: 12px;
       right: 12px;
     }
+    
+    @media (max-width: 480px) {
+      top: 8px;
+      right: 8px;
+    }
   }
 
   .header {
@@ -53,6 +70,10 @@
     @media (max-width: 768px) {
       margin-bottom: 24px;
     }
+    
+    @media (max-width: 480px) {
+      margin-bottom: 16px;
+    }
   }
 
   .ratingContainer {
@@ -60,31 +81,59 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start; // Исправлено
+    align-items: flex-start;
     margin-bottom: 20px;
     gap: 14px;
+    
     .KitchenRewiew {
       width: 100%;
       display: grid;
       grid-template-columns: 38% 38%;
       justify-content: flex-start;
-      align-items: flex-start; // Исправлено
+      align-items: flex-start;
       margin-bottom: 20px;
       gap: 14px;
+      
+      p {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+        
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+        
+        @media (max-width: 480px) {
+          font-size: 12px;
+        }
+      }
+
+      @media (max-width: 992px) {
+        grid-template-columns: 45% 45%;
+        gap: 10px;
+      }
 
       @media (max-width: 768px) {
         gap: 12px;
         margin-bottom: 24px;
         display: grid;
         grid-template-columns: 100%;
-        flex-direction: column;
+      }
+      
+      @media (max-width: 480px) {
+        gap: 8px;
+        margin-bottom: 16px;
       }
     }
 
     @media (max-width: 768px) {
       gap: 12px;
       margin-bottom: 24px;
-      display: grid;
+    }
+    
+    @media (max-width: 480px) {
+      gap: 8px;
+      margin-bottom: 16px;
     }
   }
 
@@ -92,7 +141,7 @@
     position: relative;
     width: 100%;
     height: auto;
-    flex-grow: 1; // Форма занимает оставшееся пространство
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -102,6 +151,16 @@
       align-items: flex-end;
       justify-content: space-between;
       gap: 25px;
+      
+      @media (max-width: 768px) {
+        gap: 15px;
+      }
+      
+      @media (max-width: 480px) {
+        flex-direction: column-reverse;
+        gap: 10px;
+      }
+      
       .sendButton {
         display: block;
         max-width: 400px;
@@ -120,6 +179,7 @@
         &:hover {
           background-color: #003847;
         }
+        
         &:nth-child(2) {
           width: 100px;
           padding: 6px 24px;
@@ -128,8 +188,16 @@
           border: none;
           border-radius: 0;
           border-bottom: 2px solid #ccc;
+          
           &:hover:not(:disabled) {
             background-color: transparent;
+          }
+          
+          @media (max-width: 480px) {
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 5px;
           }
         }
 
@@ -137,6 +205,11 @@
           max-width: 100%;
           padding: 14px;
           font-size: 16px;
+        }
+        
+        @media (max-width: 480px) {
+          padding: 12px;
+          font-size: 14px;
         }
       }
     }
@@ -147,6 +220,7 @@
       height: 100%;
       margin-bottom: 40px;
       flex-grow: 1;
+      position: relative;
 
       .reviewInput {
         width: 100%;
@@ -159,6 +233,7 @@
         color: #333;
         resize: none;
         transition: border-color 0.2s ease;
+        min-height: 150px;
 
         &:focus {
           outline: none;
@@ -172,25 +247,43 @@
         @media (max-width: 768px) {
           min-height: 120px;
           font-size: 14px;
+          padding: 12px 12px 12px 40px;
+        }
+        
+        @media (max-width: 480px) {
+          min-height: 100px;
+          font-size: 12px;
+          padding: 10px 10px 10px 32px;
         }
       }
 
       @media (max-width: 768px) {
         margin-bottom: 24px;
       }
+      
+      @media (max-width: 480px) {
+        margin-bottom: 16px;
+      }
     }
   }
 
   @media (max-width: 1280px) {
     max-width: 90%;
-    height: auto;
-    min-height: 500px;
+    padding: 30px 80px;
+  }
+  
+  @media (max-width: 992px) {
+    padding: 28px 60px;
   }
 
   @media (max-width: 768px) {
     max-width: 100%;
-    padding: 24px;
-    min-height: 400px;
+    padding: 24px 30px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 20px 15px;
+    border-radius: 8px;
   }
 }
 
@@ -204,6 +297,11 @@
     font-size: 24px;
     margin-bottom: 8px;
   }
+  
+  @media (max-width: 480px) {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
 }
 
 .subtitle {
@@ -212,6 +310,10 @@
 
   @media (max-width: 768px) {
     font-size: 14px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 12px;
   }
 }
 
@@ -249,6 +351,12 @@
     height: 40px;
     font-size: 16px;
   }
+  
+  @media (max-width: 480px) {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
 }
 
 .pencilIcon {
@@ -256,4 +364,16 @@
   top: 16px;
   left: 16px;
   color: #666;
+  
+  @media (max-width: 768px) {
+    top: 14px;
+    left: 14px;
+  }
+  
+  @media (max-width: 480px) {
+    top: 10px;
+    left: 10px;
+    width: 16px;
+    height: 16px;
+  }
 }

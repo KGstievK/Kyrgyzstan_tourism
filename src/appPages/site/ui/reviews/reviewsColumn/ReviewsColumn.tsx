@@ -3,7 +3,7 @@ import { Search } from "lucide-react";
 import styles from "../Reviews.module.scss";
 import { FC, useEffect, useState } from "react";
 import Stars from "../../stars/Stars";
-import { LikeOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { FilterModal } from "./filterModal/FilterModal";
 import { useGetReviewsQuery } from "@/redux/api/reviews";
 import { Avatar, Space } from "antd";
@@ -42,6 +42,26 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   const [selectedReviewId, setSelectedReviewId] = useState<
     number | undefined
   >();
+  // Добавляем состояние для отслеживания мобильной версии
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Добавляем прослушиватель изменения размера окна
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+    
+    // Проверяем при монтировании
+    checkIfMobile();
+    
+    // Добавляем слушатель событий
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Удаляем слушатель при размонтировании
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
 
   const handlePrevious = () => {
     if (selectedImage !== null && selectedImage > 0) {
@@ -97,7 +117,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     <div className={styles.reviewsColumn}>
       <div className={`${styles.flex} ${styles.gap3} ${styles.mb6}`}>
         <div className={styles.searchContainer}>
-          <Search className={styles.searchIcon} size={20} color="#5A5A5A" />
+          <Search className={styles.searchIcon} size={isMobile ? 16 : 20} color="#5A5A5A" />
           <input
             onChange={(e) => setSearchFilter(e.target.value)}
             type="text"
@@ -132,18 +152,18 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             <div className={`${styles.itemsCenter} ${styles.gap3}`}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatarBlock}>
-                  <Space direction="vertical" size={20}>
-                    <Space wrap size={20}>
+                  <Space direction="vertical" size={isMobile ? 15 : 20}>
+                    <Space wrap size={isMobile ? 15 : 20}>
                       <Avatar
-                        size={47}
+                        size={isMobile ? 40 : 47}
                         icon={
                           review.client.user_picture ? (
                             <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden' }}>
                               <Image
                                 src={review.client.user_picture}
                                 alt="avatar"
-                                width={47}
-                                height={47}
+                                width={isMobile ? 40 : 47}
+                                height={isMobile ? 40 : 47}
                                 style={{
                                   objectFit: "cover",
                                 }}
@@ -166,13 +186,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                     </div>
                   </div>
                 </div>
-                <div className={styles.likes}>
-                  <LikeOutlined className={styles.likeIcon} />
-                  <span className={styles.likeCount}>{review.count_like}</span>
-                </div>
               </div>
               <div className={`${styles.gap4}`}>
-                <Stars width={16} height={16} rating={review.rating} />
+                <Stars width={isMobile ? 14 : 16} height={isMobile ? 14 : 16} rating={review.rating} />
                 <span className={styles.reviewDate}>{review.createdAt}</span>
               </div>
             </div>
@@ -193,8 +209,8 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                       src={image.image}
                       alt={`Review image ${index + 1}`}
                       className={styles.reviewImage}
-                      width={150}
-                      height={150}
+                      width={isMobile ? 150 : 150}
+                      height={120}
                       style={{ objectFit: 'cover' }}
                       onError={handleImageError}
                       unoptimized={true}
@@ -229,7 +245,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
               <div
                 className={styles.spaceY6}
                 style={{
-                  padding: "20px 0 0 0",
+                  padding: isMobile ? "15px 0 0 0" : "20px 0 0 0",
                 }}
               >
                 {review.replyReviews.map((el) => (
@@ -237,8 +253,8 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                     key={el.id}
                     className={styles.reviewCard}
                     style={{
-                      padding: "0 0 10px 50px",
-                      margin: "0 0 10px 0",
+                      padding: isMobile ? "0 0 10px 20px" : "0 0 10px 50px",
+                      margin: isMobile ? "0 0 5px 0" : "0 0 10px 0",
                     }}
                   >
                     <div className={`${styles.itemsCenter} ${styles.gap3}`}>
@@ -249,18 +265,18 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                         }}
                       >
                         <div className={styles.avatarBlock}>
-                          <Space direction="vertical" size={20}>
-                            <Space wrap size={20}>
+                          <Space direction="vertical" size={isMobile ? 15 : 20}>
+                            <Space wrap size={isMobile ? 15 : 20}>
                               <Avatar
-                                size={47}
+                                size={isMobile ? 40 : 47}
                                 icon={
                                   el.user.user_picture ? (
                                     <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden' }}>
                                       <Image
                                         src={el.user.user_picture}
                                         alt="avatar"
-                                        width={47}
-                                        height={47}
+                                        width={isMobile ? 40 : 47}
+                                        height={isMobile ? 40 : 47}
                                         style={{
                                           objectFit: "cover",
                                         }}
@@ -291,7 +307,9 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                     <p
                       className={styles.reviewText}
                       style={{
-                        margin: "0",
+                        margin: isMobile ? "8px 0 0 0" : "0",
+                        fontSize: isMobile ? "14px" : "inherit",
+                        lineHeight: isMobile ? "20px" : "inherit"
                       }}
                     >
                       {el.comment}

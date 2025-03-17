@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import { useGetHotelsQuery } from "@/redux/api/place";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import imgHeart from "@/assets/images/placeImages/Vector.png";
 import imgRight from "@/assets/images/placeImages/Arrow_alt_lright.png";
 import scss from "./Hotel_list.module.scss";
 import { usePathname } from "next/navigation";

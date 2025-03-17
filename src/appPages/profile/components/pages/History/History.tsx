@@ -5,6 +5,7 @@ import {
   MdHotel,
   MdPlace,
 } from "react-icons/md";
+import Image from "next/image";
 import SearchProfile from "../SearchProfile/SearchProfile";
 import User from "../User/User";
 import { useGetMeQuery } from "@/redux/api/auth";
@@ -43,9 +44,25 @@ const History: FC = () => {
                 className={scss.avatar}
                 icon={
                   userPreview ? (
-                    <img src={userPreview} alt="avatar" />
+                    <div className={scss.avatarImageWrapper}>
+                      <Image 
+                        src={userPreview} 
+                        alt="avatar" 
+                        fill
+                        sizes="100%"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                   ) : el.user_picture ? (
-                    <img src={el.user_picture} alt="avatar" />
+                    <div className={scss.avatarImageWrapper}>
+                      <Image 
+                        src={el.user_picture} 
+                        alt="avatar" 
+                        fill
+                        sizes="100%"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                   ) : (
                     <UserOutlined />
                   )

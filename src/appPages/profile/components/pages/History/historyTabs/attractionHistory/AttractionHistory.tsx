@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from "react"
 import Image from "next/image";
 import scss from './AttractionHistory.module.scss';
 import { ImageOff, MapPin, Loader } from "lucide-react";
-import { BiLike } from "react-icons/bi";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { useGetMeReviewsQuery } from "@/redux/api/profileHistory";
 import { MY_REVIEWS } from "@/redux/api/profileHistory/types";
+
 const AttractionHistory = () => {
   const { t } = useTranslate();
   const { data: reviewsResponse, isLoading, error } = useGetMeReviewsQuery();
@@ -15,6 +15,15 @@ const AttractionHistory = () => {
   
   // Состояние для хранения ID выбранной достопримечательности
   const [selectedAttractionId, setSelectedAttractionId] = useState<number | null>(null);
+  
+  // Функция для формирования правильного URL изображения
+  const getImageUrl = useCallback((url: string | null | undefined) => {
+    if (!url) return "/default-image.png"; // Запасное изображение по умолчанию
+    
+    return url.startsWith('http') 
+      ? url 
+      : `${process.env.NEXT_PUBLIC_API_URL || ''}${url.startsWith('/') ? url : `/${url}`}`;
+  }, []);
   
   // Фильтруем только отзывы о достопримечательностях
   const attractionReviews = useMemo(() => {
@@ -63,6 +72,7 @@ const AttractionHistory = () => {
 
   // Обработка ошибок загрузки изображений
   const handleImageError = useCallback((id: number) => {
+    console.error(`Ошибка загрузки изображения для достопримечательности ${id}`);
     setImgErrors(prev => ({...prev, [id]: true}));
   }, []);
 
@@ -128,45 +138,52 @@ const AttractionHistory = () => {
       {/* Список достопримечательностей */}
       <div className={scss.attractions}>
         <div className={scss.list} ref={scrollContainerRef}>
-          {uniqueAttractions.map((attraction) => (
-            <div 
-              key={attraction.id} 
-              className={`${scss.item} ${selectedAttractionId === attraction.id ? scss.selectedItem : ''}`}
-              onClick={() => setSelectedAttractionId(attraction.id)}
-            >
-              <div className={scss.imageContainer}>
-                {imgErrors[attraction.id] || !attraction.main_image ? (
-                  <div className={scss.imgNotFound}>
-                    <ImageOff size={32} />
-                    <p>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</p>
+          {uniqueAttractions.map((attraction) => {
+            const attractionImageUrl = getImageUrl(attraction.main_image);
+            
+            // Для отладки
+            console.log(`Достопримечательность #${attraction.id} URL изображения:`, attractionImageUrl);
+            
+            return (
+              <div 
+                key={attraction.id} 
+                className={`${scss.item} ${selectedAttractionId === attraction.id ? scss.selectedItem : ''}`}
+                onClick={() => setSelectedAttractionId(attraction.id)}
+              >
+                <div className={scss.imageContainer}>
+                  {imgErrors[attraction.id] || !attraction.main_image ? (
+                    <div className={scss.imgNotFound}>
+                      <ImageOff size={32} />
+                      <p>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</p>
+                    </div>
+                  ) : (
+                    <Image
+                      src={attractionImageUrl}
+                      alt={attraction.attraction_name}
+                      width={281}
+                      height={152}
+                      unoptimized
+                      style={{
+                        objectFit: "cover",
+                        backgroundColor: "#f0f0f0",
+                      }}
+                      onError={() => handleImageError(attraction.id)}
+                    />
+                  )}
+                </div>
+                <div className={scss.info}>
+                  <h6 className={scss.title}>{attraction.attraction_name}</h6>
+                  <div className={scss.stars_review}>
+                    <Stars rating={attraction.avg_rating} width={16} height={16} />
+                    <p>Reviews: {attraction.rating_count}</p>
                   </div>
-                ) : (
-                  <Image
-                    src={attraction.main_image || ''}
-                    alt={attraction.attraction_name}
-                    width={281}
-                    height={152}
-                    unoptimized
-                    style={{
-                      objectFit: "cover",
-                      backgroundColor: "#f0f0f0",
-                    }}
-                    onError={() => handleImageError(attraction.id)}
-                  />
-                )}
-              </div>
-              <div className={scss.info}>
-                <h6 className={scss.title}>{attraction.attraction_name}</h6>
-                <div className={scss.stars_review}>
-                  <Stars rating={attraction.avg_rating} width={16} height={16} />
-                  <p>Reviews: {attraction.rating_count}</p>
-                </div>
-                <div className={scss.prices}>
-                  {attraction.region_category || "Local Sights"}
+                  <div className={scss.prices}>
+                    {attraction.region_category || "Local Sights"}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -178,48 +195,54 @@ const AttractionHistory = () => {
           </div>
         ) : (
           <div className={scss.people}>
-            {filteredReviews.map(review => (
-              <div key={review.id} className={scss.person}>
-                <div className={scss.person_image}>
-                  <Image
-                    src={review.client.user_picture || "/default-user.png"}
-                    alt="User"
-                    width={42}
-                    height={42}
-                    className={scss.person_imagess}
-                  />
-                  <div className={scss.person_text}>
-                    <h3>{`${review.client.first_name} ${review.client.last_name}`}</h3>
-                    <p>{review.client.from_user || ""}</p>
-                  </div>
-                  <div className={scss.likes}>
-                    <BiLike /> {review.rating || 0}
-                  </div>
-                </div>
-
-                <div className={scss.text}>
-                  <p>{new Date(review.created_date).toLocaleDateString()}</p>
-                  <h5>{review.attractions.attraction_name}</h5>
-                  <span>{review.comment}</span>
-                  
-                  {/* Изображения в отзыве */}
-                  {review.attraction_review_image.length > 0 && (
-                    <div className={scss.imagess_2}>
-                      {review.attraction_review_image.map((img, index) => (
-                        <Image
-                          key={index}
-                          src={img.image.startsWith('http') ? img.image : `${process.env.NEXT_PUBLIC_API_URL || ''}${img.image}`}
-                          alt={`review-image-${index}`}
-                          width={100}
-                          height={100}
-                          className={scss.images_1}
-                        />
-                      ))}
+            {filteredReviews.map(review => {
+              const userPictureUrl = getImageUrl(review.client.user_picture);
+              
+              return (
+                <div key={review.id} className={scss.person}>
+                  <div className={scss.person_image}>
+                    <Image
+                      src={userPictureUrl}
+                      alt="User"
+                      width={42}
+                      height={42}
+                      className={scss.person_imagess}
+                      onError={() => console.error(`Ошибка загрузки аватара пользователя: ${userPictureUrl}`)}
+                    />
+                    <div className={scss.person_text}>
+                      <h3>{`${review.client.first_name} ${review.client.last_name}`}</h3>
+                      <p>{review.client.from_user || ""}</p>
                     </div>
-                  )}
+                  </div>
+
+                  <div className={scss.text}>
+                    <p>{new Date(review.created_date).toLocaleDateString()}</p>
+                    <h5>{review.attractions.attraction_name}</h5>
+                    <span>{review.comment}</span>
+                    
+                    {/* Изображения в отзыве */}
+                    {review.attraction_review_image && review.attraction_review_image.length > 0 && (
+                      <div className={scss.imagess_2}>
+                        {review.attraction_review_image.map((img, index) => {
+                          const reviewImageUrl = getImageUrl(img.image);
+                          return (
+                            <Image
+                              key={index}
+                              src={reviewImageUrl}
+                              alt={`review-image-${index}`}
+                              width={100}
+                              height={100}
+                              className={scss.images_1}
+                              onError={() => console.error(`Ошибка загрузки изображения отзыва #${index}: ${reviewImageUrl}`)}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

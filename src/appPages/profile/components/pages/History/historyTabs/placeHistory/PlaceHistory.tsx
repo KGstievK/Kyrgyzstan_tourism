@@ -5,69 +5,82 @@ import Image from "next/image";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import imgHeart from "@/assets/images/placeImages/Vector.png";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import { BiLike } from "react-icons/bi";
 import { MY_REVIEWS } from "@/redux/api/profileHistory/types";
 import { useGetMeReviewsQuery } from "@/redux/api/profileHistory";
 
 const PlaceHistory = () => {
   const [imageError, setImageError] = useState<Record<string, boolean>>({});
   const { data: reviewsResponse, isLoading, error } = useGetMeReviewsQuery();
-  
+  console.log(reviewsResponse);
+
   const { t } = useTranslate();
   const [loadingMore, setLoadingMore] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  
+
   // Состояние для хранения ID выбранного места
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
   
+  // Функция для формирования правильного URL изображения
+  const getImageUrl = useCallback((url: string) => {
+    if (!url) return "/default-image.png"; // Запасное изображение по умолчанию
+    
+    return url.startsWith('http') 
+      ? url 
+      : `${process.env.NEXT_PUBLIC_API_URL || ''}${url.startsWith('/') ? url : `/${url}`}`;
+  }, []);
+
   // Фильтруем только отзывы о популярных местах
   const placeReviews = useMemo(() => {
     // Проверяем, что ответ API содержит поле data и это массив
     if (!reviewsResponse?.data || !Array.isArray(reviewsResponse.data)) {
       return [];
     }
-    
+
     // Фильтруем массив, оставляя только отзывы о местах
-    return reviewsResponse.data.filter(review => 
-      review && typeof review === 'object' && 'popular_place' in review
+    return reviewsResponse.data.filter(
+      (review) =>
+        review && typeof review === "object" && "popular_place" in review
     ) as MY_REVIEWS.PopularPlaceReview[];
   }, [reviewsResponse]);
-  
+
   // Фильтруем отзывы для выбранного места
   const filteredReviews = useMemo(() => {
     if (!selectedPlaceId) return placeReviews;
-    
-    return placeReviews.filter(review => review.popular_place.id === selectedPlaceId);
+
+    return placeReviews.filter(
+      (review) => review.popular_place.id === selectedPlaceId
+    );
   }, [placeReviews, selectedPlaceId]);
-  
+
   // Получаем список уникальных мест из отзывов
   const uniquePlaces = useMemo(() => {
     if (!placeReviews.length) return [];
-    
+
     // Создаем Map для хранения уникальных мест по ID
     const placesMap = new Map<number, MY_REVIEWS.PopularPlace>();
-    
+
     // Добавляем каждое место в Map, что автоматически исключит дубликаты
-    placeReviews.forEach(review => {
+    placeReviews.forEach((review) => {
       if (!placesMap.has(review.popular_place.id)) {
         placesMap.set(review.popular_place.id, review.popular_place);
       }
     });
-    
+
     // Преобразуем Map обратно в массив
     return Array.from(placesMap.values());
   }, [placeReviews]);
-  
+
   // При первой загрузке выбираем первое место
   useEffect(() => {
     if (uniquePlaces.length > 0 && !selectedPlaceId) {
       setSelectedPlaceId(uniquePlaces[0].id);
     }
   }, [uniquePlaces, selectedPlaceId]);
-  
+
   // Обработчики событий
   const handleImageError = useCallback((id: string) => {
-    setImageError(prev => ({ ...prev, [id]: true }));
+    console.error(`Ошибка загрузки изображения с ID: ${id}`);
+    setImageError((prev) => ({ ...prev, [id]: true }));
   }, []);
 
   const loadMorePlaces = useCallback(() => {
@@ -77,9 +90,9 @@ const PlaceHistory = () => {
 
   const handleScroll = useCallback(() => {
     if (!scrollContainerRef.current) return;
-    
+
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-    
+
     if (scrollWidth - (scrollLeft + clientWidth) < 200 && !loadingMore) {
       loadMorePlaces();
     }
@@ -89,127 +102,143 @@ const PlaceHistory = () => {
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', handleScroll);
-      return () => scrollContainer.removeEventListener('scroll', handleScroll);
+      scrollContainer.addEventListener("scroll", handleScroll);
+      return () => scrollContainer.removeEventListener("scroll", handleScroll);
     }
   }, [handleScroll]);
 
   // Рендер элемента места
-  const renderPlaceItem = useCallback((place: MY_REVIEWS.PopularPlace) => {
-    const isSelected = selectedPlaceId === place.id;
-    
-    return (
-      <div 
-        key={place.id} 
-        className={`${scss.item} ${isSelected ? scss.selectedItem : ''}`}
-        onClick={() => setSelectedPlaceId(place.id)}
-      >
-        {imageError[`place-${place.id}`] ? (
-          <div className={scss.imageFallback}>
-            <span>
-              {t(
-                "Изображение не найдено",
-                "الصورة غير موجودة",
-                "Image not found"
-              )}
-            </span>
+  const renderPlaceItem = useCallback(
+    (place: MY_REVIEWS.PopularPlace) => {
+      const isSelected = selectedPlaceId === place.id;
+      const placeImageId = `place-${place.id}`;
+      const placeImageUrl = getImageUrl(place.popular_image);
+      
+      // Для отладки
+      console.log(`Место #${place.id} URL изображения:`, placeImageUrl);
+
+      return (
+        <div
+          key={place.id}
+          className={`${scss.item} ${isSelected ? scss.selectedItem : ""}`}
+          onClick={() => setSelectedPlaceId(place.id)}
+        >
+          {imageError[placeImageId] ? (
+            <div className={scss.imageFallback}>
+              <span>
+                {t(
+                  "Изображение не найдено",
+                  "الصورة غير موجودة",
+                  "Image not found"
+                )}
+              </span>
+            </div>
+          ) : (
+            <Image
+              src={placeImageUrl}
+              alt={place.popular_name}
+              width={341}
+              height={270}
+              onError={() => handleImageError(placeImageId)}
+              style={{
+                width: "100%",
+                height: "auto",
+                objectFit: "cover",
+                aspectRatio: "341/270",
+              }}
+            />
+          )}
+          <div className={scss.block}>
+            <h6>{place.popular_name}</h6>
+            <div>
+              <Stars rating={place.avg_rating} width={21} height={21} />
+              <span className={scss.review}>
+                {place.rating_count} {t("отзывов", "تقييمات", "reviews")}
+              </span>
+            </div>
           </div>
-        ) : (
-          <Image
-            src={place.popular_image}
-            alt={place.popular_name}
-            width={341}
-            height={270}
-            onError={() => handleImageError(`place-${place.id}`)}
-            style={{ 
-              width: '100%', 
-              height: 'auto', 
-              objectFit: 'cover',
-              aspectRatio: '341/270'
-            }}
-          />
-        )}
-        <div className={scss.block}>
-          <h6>{place.popular_name}</h6>
-          <div>
-            <Stars rating={place.avg_rating} width={21} height={21} />
-            <span className={scss.review}>
-              {place.rating_count} {t("отзывов", "تقييمات", "reviews")}
-            </span>
-          </div>
+          {imageError[`heart-${place.id}`] ? (
+            <div className={scss.heartFallback}>♡</div>
+          ) : (
+            <Image
+              className={scss.heart}
+              src={imgHeart.src}
+              alt="favorite"
+              width={24}
+              height={24}
+              onError={() => handleImageError(`heart-${place.id}`)}
+            />
+          )}
         </div>
-        {imageError[`heart-${place.id}`] ? (
-          <div className={scss.heartFallback}>♡</div>
-        ) : (
-          <Image
-            className={scss.heart}
-            src={imgHeart.src}
-            alt="favorite"
-            width={24}
-            height={24}
-            onError={() => handleImageError(`heart-${place.id}`)}
-          />
-        )}
-      </div>
-    );
-  }, [imageError, selectedPlaceId, t, handleImageError]);
+      );
+    },
+    [imageError, selectedPlaceId, t, handleImageError, getImageUrl]
+  );
 
   // Рендер отзыва
-  const renderReview = useCallback((review: MY_REVIEWS.PopularPlaceReview) => (
-    <div key={review.id} className={scss.person}>
-      <div className={scss.person_image}>
-        <Image
-          src={review.client.user_picture || "/default-user.png"}
-          alt="User"
-          width={42}
-          height={42}
-          className={scss.person_imagess}
-        />
-        <div className={scss.person_text}>
-          <h3>{`${review.client.first_name} ${review.client.last_name}`}</h3>
-          <p>{review.client.from_user || ""}</p>
-        </div>
-        <div className={scss.likes}>
-          <BiLike /> {review.rating || 0}
-        </div>
-      </div>
-
-      <div className={scss.text}>
-        <p>{new Date(review.created_date).toLocaleDateString()}</p>
-        <h5>{review.popular_place.popular_name}</h5>
-        <span>{review.comment}</span>
-        {review.review_image.length > 0 && (
-          <div className={scss.imagess_2}>
-            {review.review_image.map((img, index) => (
-              <Image
-                key={index}
-                src={img.image.startsWith('http') ? img.image : `${process.env.NEXT_PUBLIC_API_URL || ''}${img.image}`}
-                alt={`review-image-${index}`}
-                width={100}
-                height={100}
-                className={scss.images_1}
-              />
-            ))}
+  const renderReview = useCallback(
+    (review: MY_REVIEWS.PopularPlaceReview) => {
+      const userPictureUrl = getImageUrl(review.client.user_picture) || "/default-user.png";
+      
+      return (
+        <div key={review.id} className={scss.person}>
+          <div className={scss.person_image}>
+            <Image
+              src={userPictureUrl}
+              alt="User"
+              width={42}
+              height={42}
+              className={scss.person_imagess}
+              onError={() => console.error(`Ошибка загрузки аватара пользователя: ${userPictureUrl}`)}
+            />
+            <div className={scss.person_text}>
+              <h3>{`${review.client.first_name} ${review.client.last_name}`}</h3>
+              <p>{review.client.from_user || ""}</p>
+            </div>
           </div>
-        )}
-      </div>
-    </div>
-  ), []);
+
+          <div className={scss.text}>
+            <p>{new Date(review.created_date).toLocaleDateString()}</p>
+            <h5>{review.popular_place.popular_name}</h5>
+            <span>{review.comment}</span>
+            {review.review_image && review.review_image.length > 0 && (
+              <div className={scss.imagess_2}>
+                {review.review_image.map((img, index) => {
+                  const reviewImageUrl = getImageUrl(img.image);
+                  return (
+                    <Image
+                      key={index}
+                      src={reviewImageUrl}
+                      alt={`review-image-${index}`}
+                      width={100}
+                      height={100}
+                      className={scss.images_1}
+                      onError={() => console.error(`Ошибка загрузки изображения отзыва #${index}: ${reviewImageUrl}`)}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    },
+    [getImageUrl]
+  );
 
   return (
     <div className={scss.placeHistory}>
-      <div 
-        className={scss.list} 
-        ref={scrollContainerRef}
-      >
+      <div className={scss.list} ref={scrollContainerRef}>
         {isLoading ? (
           <div className={scss.loading}>Loading places...</div>
         ) : error ? (
           <div className={scss.error}>Error loading places</div>
         ) : uniquePlaces.length === 0 ? (
-          <div className={scss.empty}>You haven&apos;t reviewed any places yet</div>
+          <div className={scss.empty}>
+            You haven&apos;t reviewed any places yet
+          </div>
         ) : (
-          uniquePlaces.map(place => renderPlaceItem(place))
+          uniquePlaces.map((place) => renderPlaceItem(place))
         )}
         {loadingMore && (
           <div className={scss.loadingItem}>
@@ -230,7 +259,7 @@ const PlaceHistory = () => {
           <div>No comments available for this place</div>
         ) : (
           <div className={scss.people}>
-            {filteredReviews.map(review => renderReview(review))}
+            {filteredReviews.map((review) => renderReview(review))}
           </div>
         )}
       </div>
