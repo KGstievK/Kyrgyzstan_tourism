@@ -35,10 +35,14 @@
       align-items: flex-end;
       gap: 10px;
       .avatar {
-        width: clamp(42px, 10vw, 120px);
-        height: clamp(42px, 10vw, 120px);
+        width: clamp(42px, 8vw, 120px);
+        height: clamp(42px, 8vw, 120px);
+        object-fit: cover;
         box-shadow: 4px 4px 2px 2px #0000004d;
         cursor: pointer;
+        img {
+          height: 100%;
+        }
       }
       .userName {
         display: flex;

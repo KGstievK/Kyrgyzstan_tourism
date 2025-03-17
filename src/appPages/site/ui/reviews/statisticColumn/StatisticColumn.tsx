@@ -6,6 +6,7 @@ import PhotoUploadModal from "./photoUploadModal/PhotoUploadModal";
 import StatisticBlock from "./statisticBlock/StatisticBlock";
 import { useGetMeQuery } from "@/redux/api/auth";
 import { useRouter } from "next/navigation";
+import { REVIEWS } from "@/redux/api/reviews/types";
 
 interface StatisticColumnProps {
   reviewStatic?: REVIEWS.StaticReview;

@@ -11,6 +11,8 @@ import Image from "next/image";
 import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
 import { ImageModal } from "../../imageModal/ImageModal";
 import { REVIEWS } from "@/redux/api/reviews/types";
+import { useGetMeQuery } from "@/redux/api/auth";
+import { useRouter } from "next/navigation";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -38,6 +40,8 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     month: monthFilter,
     search: searchFilter,
   });
+  const {status} = useGetMeQuery()
+  const router = useRouter()
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<
     number | undefined
@@ -102,8 +106,12 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   };
 
   const handleReplyClick = (reviewId: number) => {
+    if (status === "rejected") {
+      router.push('/auth/sign-in')
+    } else if (status === "fulfilled") {
     setSelectedReviewId(reviewId);
     setShowReplyModal(true);
+    }
   };
 
   // Обработчик ошибок загрузки изображений
