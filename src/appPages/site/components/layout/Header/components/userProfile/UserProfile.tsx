@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Avatar, Badge, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import scss from "../../Header.module.scss";
+import scss from "./avatar.module.scss";
 import Image from "next/image";
 
 // Импортируем тип из Header
@@ -14,7 +14,10 @@ interface UserProfileProps {
   status: string;
 }
 
-export const UserProfile: React.FC<UserProfileProps> = ({ userData, status }) => {
+export const UserProfile: React.FC<UserProfileProps> = ({
+  userData,
+  status,
+}) => {
   if (status !== "fulfilled") {
     return (
       <Link href="/auth/sign-in" className={scss.signInButton}>
@@ -25,7 +28,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ userData, status }) =>
 
   // Проверяем, является ли userData массивом и обрабатываем соответственно
   return (
-    <Link href="/profile">
+    <Link className={scss.link} href="/profile">
       <Space direction="vertical" size={10}>
         <Badge count={1}>
           {Array.isArray(userData) ? (
@@ -36,22 +39,27 @@ export const UserProfile: React.FC<UserProfileProps> = ({ userData, status }) =>
                 size={50}
                 icon={
                   user.user_picture ? (
-                    <span style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      borderRadius: '50%', 
-                      overflow: 'hidden', 
-                      display: 'flex', 
-                      justifyContent: 'center', 
-                      alignItems: 'center' 
-                    }}>
+                    <span
+                      className={scss.user}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
                       <Image
+                        className={scss.user}
                         src={user.user_picture}
                         alt="аватар"
-                        width={50}
-                        height={50}
+                        width={100}
+                        height={100}
                         style={{
                           objectFit: "cover",
+                          height: "100%"
                         }}
                         unoptimized={true} // Добавляем для внешних URL
                       />
@@ -68,20 +76,23 @@ export const UserProfile: React.FC<UserProfileProps> = ({ userData, status }) =>
               size={50}
               icon={
                 userData?.user_picture ? (
-                  <span style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    borderRadius: '50%', 
-                    overflow: 'hidden', 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center' 
-                  }}>
+                  <span
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     <Image
                       src={userData.user_picture}
+                      className={scss.user}
                       alt="аватар"
-                      width={50}
-                      height={50}
+                      width={100}
+                      height={100}
                       style={{
                         objectFit: "cover",
                       }}
