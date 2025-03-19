@@ -35,7 +35,7 @@ const Routes = () => {
   const searchParams = useSearchParams();
   const [modalWindowTime, setModalWindowTime] = useState<boolean>(false);
   const [modalWindow, setModalWindow] = useState<boolean>(false);
-  const {t} = useTranslate()
+  const { t } = useTranslate();
   // Инициализируем состояние с параметрами из URL, если они есть
   const [pointA, setPointA] = useState(searchParams?.get("pointA") || "");
   const [pointB, setPointB] = useState(searchParams?.get("pointB") || "");
@@ -119,8 +119,16 @@ const Routes = () => {
     refetch: refetchWalk,
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
-      ? { origin: pointACoords, destination: pointBCoords, mode: "WALKING" } as DirectionsParams
-      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "WALKING" } as DirectionsParams,
+      ? ({
+          origin: pointACoords,
+          destination: pointBCoords,
+          mode: "WALKING",
+        } as DirectionsParams)
+      : ({
+          origin: { lat: 0, lng: 0 },
+          destination: { lat: 0, lng: 0 },
+          mode: "WALKING",
+        } as DirectionsParams),
     {
       skip: !pointACoords || !pointBCoords,
       refetchOnMountOrArgChange: true,
@@ -133,8 +141,16 @@ const Routes = () => {
     refetch: refetchCar,
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
-      ? { origin: pointACoords, destination: pointBCoords, mode: "DRIVING" } as DirectionsParams
-      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "DRIVING" } as DirectionsParams,
+      ? ({
+          origin: pointACoords,
+          destination: pointBCoords,
+          mode: "DRIVING",
+        } as DirectionsParams)
+      : ({
+          origin: { lat: 0, lng: 0 },
+          destination: { lat: 0, lng: 0 },
+          mode: "DRIVING",
+        } as DirectionsParams),
     {
       skip: !pointACoords || !pointBCoords,
       refetchOnMountOrArgChange: true,
@@ -147,8 +163,16 @@ const Routes = () => {
     refetch: refetchTrain,
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
-      ? { origin: pointACoords, destination: pointBCoords, mode: "TRAIN" } as DirectionsParams
-      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "TRAIN" } as DirectionsParams,
+      ? ({
+          origin: pointACoords,
+          destination: pointBCoords,
+          mode: "TRAIN",
+        } as DirectionsParams)
+      : ({
+          origin: { lat: 0, lng: 0 },
+          destination: { lat: 0, lng: 0 },
+          mode: "TRAIN",
+        } as DirectionsParams),
     {
       skip: !pointACoords || !pointBCoords,
       refetchOnMountOrArgChange: true,
@@ -207,45 +231,87 @@ const Routes = () => {
     <div className={scss.Routes}>
       <div className={scss.block1}>
         <div className={scss.blockInputs}>
-          <SearchBar
-            pointA={pointA}
-            pointB={pointB}
-            setPointA={setPointA}
-            setPointB={setPointB}
-            pointACoords={pointACoords}
-            pointBCoords={pointBCoords}
-            setPointACoords={setPointACoords}
-            setPointBCoords={setPointBCoords}
-            onSearch={handleSearch}
-            autocompleteA={autocompleteA}
-            autocompleteB={autocompleteB}
-            setModalWindowTime={setModalWindowTime}
-          />
+          <div className={`${scss.container} container`}>
+            <div className={scss.SearchBar}>
+              <SearchBar
+                pointA={pointA}
+                pointB={pointB}
+                setPointA={setPointA}
+                setPointB={setPointB}
+                pointACoords={pointACoords}
+                pointBCoords={pointBCoords}
+                setPointACoords={setPointACoords}
+                setPointBCoords={setPointBCoords}
+                onSearch={handleSearch}
+                autocompleteA={autocompleteA}
+                autocompleteB={autocompleteB}
+                setModalWindowTime={setModalWindowTime}
+              />
+            </div>
+          </div>
           {!modalWindowTime && (
-            <div className={scss.blockCitys}>
-              <div className={scss.cityImgs}>
-                <Image src={Talas.src} alt="talas" className={scss.imgTalas} width={100} height={100} />
-                <Image src={Chui.src} alt="chui" className={scss.imgChui} width={100} height={100} />
-                <Image src={Kyl.src} alt="kyl" className={scss.imgKyl} width={100} height={100} />
-                <Image
-                  src={JalalAbad.src}
-                  alt="JalalAbad"
-                  className={scss.imgJalalAbad}
-                  width={100}
-                  height={100}
-                />
-                <Image src={Naryn.src} alt="Naryn" className={scss.imgNaryn} width={100} height={100} />
-                <Image src={Osh.src} alt="Osh" className={scss.imgOsh} width={100} height={100} />
-                <Image src={Batken.src} alt="Batken" className={scss.imgBatken} width={100} height={100} />
-              </div>
-              <div className={scss.cityTitle}>
-                <h5>{t("Талас", "تالاس", "Talas")}</h5>
-                <h5>{t("Чуй", "تشوي", "Chui")}</h5>
-                <h5>{t("Иссык-Куль", "إيسيك كول", "Issyk-Kul")}</h5>
-                <h5>{t("Джалал-Абад", "جلال أباد", "Jalal-Abad")}</h5>
-                <h5>{t("Нарын", "نارين", "Naryn")}</h5>
-                <h5>{t("Ош", "أوش", "Osh")}</h5>
-                <h5>{t("Баткен", "باتكين", "Batken")}</h5>
+            <div className="container">
+              <div className={scss.blockCitys}>
+                <div className={scss.cityImgs}>
+                  <Image
+                    src={Talas.src}
+                    alt="talas"
+                    className={scss.imgTalas}
+                    width={100}
+                    height={100}
+                  />
+                  <Image
+                    src={Chui.src}
+                    alt="chui"
+                    className={scss.imgChui}
+                    width={100}
+                    height={100}
+                  />
+                  <Image
+                    src={Kyl.src}
+                    alt="kyl"
+                    className={scss.imgKyl}
+                    width={100}
+                    height={100}
+                  />
+                  <Image
+                    src={JalalAbad.src}
+                    alt="JalalAbad"
+                    className={scss.imgJalalAbad}
+                    width={100}
+                    height={100}
+                  />
+                  <Image
+                    src={Naryn.src}
+                    alt="Naryn"
+                    className={scss.imgNaryn}
+                    width={100}
+                    height={100}
+                  />
+                  <Image
+                    src={Osh.src}
+                    alt="Osh"
+                    className={scss.imgOsh}
+                    width={100}
+                    height={100}
+                  />
+                  <Image
+                    src={Batken.src}
+                    alt="Batken"
+                    className={scss.imgBatken}
+                    width={100}
+                    height={100}
+                  />
+                </div>
+                <div className={scss.cityTitle}>
+                  <h5>{t("Талас", "تالاس", "Talas")}</h5>
+                  <h5>{t("Чуй", "تشوي", "Chui")}</h5>
+                  <h5>{t("Иссык-Куль", "إيسيك كول", "Issyk-Kul")}</h5>
+                  <h5>{t("Джалал-Абад", "جلال أباد", "Jalal-Abad")}</h5>
+                  <h5>{t("Нарын", "نارين", "Naryn")}</h5>
+                  <h5>{t("Ош", "أوش", "Osh")}</h5>
+                  <h5>{t("Баткен", "باتكين", "Batken")}</h5>
+                </div>
               </div>
             </div>
           )}
