@@ -45,7 +45,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<number | undefined>();
   const [isMobile, setIsMobile] = useState(false);
-  const [visibleReviews, setVisibleReviews] = useState(3); // Состояние для отслеживания количества отображаемых отзывов
+  const [visibleReviews, setVisibleReviews] = useState(4); 
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -111,9 +111,8 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     target.alt = "Image not available";
   };
 
-  // Функция для загрузки дополнительных отзывов
   const loadMoreReviews = () => {
-    setVisibleReviews((prev) => prev + 3);
+    setVisibleReviews((prev) => prev + 2);
   };
 
   return (

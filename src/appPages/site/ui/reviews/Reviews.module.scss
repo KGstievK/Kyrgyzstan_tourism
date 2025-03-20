@@ -55,7 +55,9 @@
     border: none;
     border-radius: 0;
     border-bottom: 2px solid var(--silver);
+    margin-top: 50px;
   }
+
   > button {
     font-family: Montserrat;
     font-weight: 500;
@@ -406,7 +408,6 @@
 
 .spaceY6 {
   padding: 30px 0;
-  
   @media (max-width: 768px) {
     padding: 20px 0;
   }
