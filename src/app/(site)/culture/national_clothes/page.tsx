@@ -1,6 +1,6 @@
 "use client"
-import National_clothes from "@/appPages/site/components/pages/CultureSections/NationalCllothes/NationalClothes";
+import NationalClothes from "@/appPages/site/components/pages/CultureSections/NationalCllothes/NationalClothes";
 
-const page = () => <National_clothes />;
+const page = () => <NationalClothes />;
 
 export default page;
