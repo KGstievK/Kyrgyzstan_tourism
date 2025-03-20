@@ -12,16 +12,12 @@ import { UserOutlined } from "@ant-design/icons";
 import BurgerMenu from "@/appPages/site/ui/BurgerMenu/BurgerMenu";
 const Profile: FC = () => {
   const [tab, setTab] = useState(false);
-  const [userPreview, setUserPreview] = useState<string | null>(null);
 
   const [PatchMeRequest] = usePatchMeMutation();
   const { data: user } = useGetMeQuery();
-  console.log(
-    "🚀 ~ user:",
-    user?.map((el) => el.id)
-  );
+ 
 
-  const { register, watch, handleSubmit } = useForm<AUTH.PatchMeRequest>();
+  const { register, handleSubmit } = useForm<AUTH.PatchMeRequest>();
 
   const onSubmit: SubmitHandler<AUTH.PatchMeRequest> = async (userData) => {
     const userDataRest = {
@@ -52,9 +48,7 @@ const Profile: FC = () => {
               <Avatar
                 className={scss.avatar}
                 icon={
-                  userPreview ? (
-                    <img src={userPreview} alt="avatar" />
-                  ) : el.user_picture ? (
+                   el.user_picture ? (
                     <img src={el.user_picture} alt="avatar" />
                   ) : (
                     <UserOutlined />

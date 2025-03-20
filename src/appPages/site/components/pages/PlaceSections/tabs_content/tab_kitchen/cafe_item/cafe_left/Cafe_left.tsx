@@ -22,22 +22,22 @@ const Cafe_left: FC<Props> = ({ data }) => {
   const dataStars = [
     {
       icon: icon.src,
-      label: "Nutrition",
+      label: t("Питание", "التغذية", "Nutrition"),
       rating: data?.nutrition_rating,
     },
     {
       icon: icon2.src,
-      label: "Service",
+      label: t("Обслуживание", "الخدمة", "Service"),
       rating: data?.service_rating,
     },
     {
       icon: icon4.src,
-      label: "Price quality",
+      label: t("Соотношение цены и качества", "جودة السعر", "Price quality"),
       rating: data?.price_rating,
     },
     {
       icon: icon5.src,
-      label: "Atmosphere",
+      label: t("Атмосфера", "الأجواء", "Atmosphere"),
       rating: data?.atmosphere_rating,
     },
   ];
@@ -58,13 +58,13 @@ const Cafe_left: FC<Props> = ({ data }) => {
           {<Stars rating={data?.average_rating ?? 0} width={16} height={16} />}
         </div>
         <p>
-          {data?.rating_count ?? 0} {t("отзывы", "مراجعات", "reviews")}
+          {data?.rating_count ?? 0} {t("отзывов", "مراجعة", "reviews")}
         </p>
       </div>
 
       <div className={scss.assess}>
         <p>
-          № 1 <span>{t("из", "من", `of ${kitchens?.length} Restaurants in `)}</span>
+          № {data?.rank} <span>{t(`из ${kitchens?.length} ресторанов в`, `من ${kitchens?.length} مطعم في`, `of ${kitchens?.length} Restaurants in`)}</span>
         </p>
         <p> {t("ОЦЕНКИ", "تقييمات", "ASSESSMENTS")}</p>
       </div>
@@ -75,11 +75,11 @@ const Cafe_left: FC<Props> = ({ data }) => {
             <div>
               <Image 
                 src={item.icon} 
-                alt={t("", "", item.label)} 
+                alt={item.label} 
                 width={18} 
                 height={18} 
               />
-              <span>{t("", "", item.label)}</span>
+              <span>{item.label}</span>
             </div>
             <div>
               <Stars rating={item.rating} width={12} height={12} />

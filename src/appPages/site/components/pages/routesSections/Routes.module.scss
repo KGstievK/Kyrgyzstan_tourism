@@ -1,23 +1,23 @@
 .Routes {
   .block1 {
+    padding-bottom: 100px;
     position: relative;
     background: url("../../../../../assets/images/routesImages/image 1042.png");
     background-size: cover;
     background-position: center;
     width: 100%;
-    min-height: 100vh;
+    min-height: 70vh;
     padding-top: clamp(50px, 5vw, 150px);
-    @media (max-width: 428px) {
-      min-height: 900px;
+    @media (max-width: 835px) {
+      min-height: 60vh;
+
     }
-    @media (max-width: 414px) {
-      min-height: 800px;
+    @media (max-width: 535px) {
+      min-height: 50vh;
+
     }
-    @media (max-width: 361px) {
-      min-height: 700px;
-    }
-    @media (max-width: 320px) {
-      min-height: 500px;
+    @media (max-width: 420px) {
+      min-height: 40vh;
     }
 
     .blockInputs {
@@ -77,7 +77,8 @@
           display: flex;
           align-items: center;
           gap: 20px;
-
+          width: 100%;
+          justify-content: space-between;
           @media (max-width: 1280px) {
             gap: 15px;
           }
@@ -616,8 +617,21 @@
   }
 
   .map {
-    margin-top: 300px;
-
+    margin-top: clamp(100px,3vw,300px);
+    
 
   }
+}
+
+.SearchBar {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.container {
+  z-index: 3;
+
 }

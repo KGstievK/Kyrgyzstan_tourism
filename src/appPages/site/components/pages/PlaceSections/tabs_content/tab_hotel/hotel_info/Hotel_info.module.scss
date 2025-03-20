@@ -56,7 +56,7 @@
           display: flex;
           align-items: center;
           gap: clamp(8px, 1.5vw, 15px);
-
+          position: relative;
           @media (max-width: 576px) {
             align-self: flex-end;
             margin-top: 5px;
@@ -73,7 +73,9 @@
             cursor: pointer;
             padding: clamp(3px, 0.5vw, 5px);
           }
-
+          .like {
+            position: relative;
+          }
           img {
             &:first-child {
               width: clamp(24px, 4vw, 37px);

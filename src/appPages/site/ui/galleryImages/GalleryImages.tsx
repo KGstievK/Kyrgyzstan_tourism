@@ -3,6 +3,7 @@ import styles from './GalleryImages.module.scss';
 import { ImageModal } from '../imageModal/ImageModal';
 import { MdPhotoCamera } from 'react-icons/md';
 import Image from 'next/image';
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface ImageGridProps {
   images: {
@@ -17,6 +18,7 @@ interface ImageErrorEvent extends React.SyntheticEvent<HTMLImageElement, Event> 
 }
 
 const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
+  const { t } = useTranslate();
   // Все хуки объявляем в самом начале компонента
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
@@ -56,7 +58,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
   const handleImageError = (e: ImageErrorEvent) => {
     const target = e.currentTarget;
     target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
-    target.alt = "Image not available";
+    target.alt = t("Изображение недоступно", "الصورة غير متوفرة", "Image not available");
   };
 
   const handlePrevious = () => {
@@ -83,8 +85,8 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
         <div className={styles.noImagesContainer || ""}>
           <div className={styles.noImagesContent || ""}>
             <MdPhotoCamera size={50} color="#888" />
-            <h3>Изображения отсутствуют</h3>
-            <p>В данном разделе пока нет загруженных изображений</p>
+            <h3>{t("Изображения отсутствуют", "لا توجد صور", "No images available")}</h3>
+            <p>{t("В данном разделе пока нет загруженных изображений", "لا توجد صور محملة في هذا القسم حتى الآن", "There are no uploaded images in this section yet")}</p>
           </div>
         </div>
       ) : (
@@ -104,7 +106,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
             <div key={img.id} className={`${styles.imageWrapper} ${styles.large}`}>
               <Image
                 src={img.image}
-                alt={`Image ${img.id}`}
+                alt={t(`Изображение ${img.id}`, `صورة ${img.id}`, `Image ${img.id}`)}
                 className={styles.image}
                 width={600}
                 height={400}
@@ -118,7 +120,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
           ))}
           {images.length > 0 && (
             <button onClick={() => setSelectedImage(0)} className={styles.showImages}>
-              <MdPhotoCamera color='#fff' /> Show all ({images.length})
+              <MdPhotoCamera color='#fff' /> {t("Показать все", "عرض الكل", "Show all")} ({images.length})
             </button>
           )}
           {/* Группы по 4 маленьких изображения */}
@@ -128,7 +130,7 @@ const GalleryImages: React.FC<ImageGridProps> = ({ images }) => {
                 <div key={img.id} className={styles.smallImageWrapper}>
                   <Image
                     src={img.image}
-                    alt={`Image ${img.id}`}
+                    alt={t(`Изображение ${img.id}`, `صورة ${img.id}`, `Image ${img.id}`)}
                     className={styles.image}
                     width={300}
                     height={200}

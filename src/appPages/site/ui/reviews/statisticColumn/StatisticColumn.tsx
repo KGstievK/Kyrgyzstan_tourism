@@ -6,6 +6,8 @@ import PhotoUploadModal from "./photoUploadModal/PhotoUploadModal";
 import StatisticBlock from "./statisticBlock/StatisticBlock";
 import { useGetMeQuery } from "@/redux/api/auth";
 import { useRouter } from "next/navigation";
+import { REVIEWS } from "@/redux/api/reviews/types";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface StatisticColumnProps {
   reviewStatic?: REVIEWS.StaticReview;
@@ -19,7 +21,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const { status } = useGetMeQuery();
   const router = useRouter();
-
+  const {t} = useTranslate()
   const handlePhotoUpload = (files: File[]) => {
     setUploadedFiles(files);
     setShowPhotoModal(false);
@@ -37,7 +39,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
             onClick={() => setShowPhotoModal(true)}
             className={styles.buttonSecondary}
           >
-            Write Review
+            {t("Написать отзыв", "كتابة تقييم", "Write Review")}
           </button>
           {showReviewModal && (
             <ReviewModal
@@ -72,7 +74,7 @@ const StatisticColumn: FC<StatisticColumnProps> = ({ isCurrent, reviewStatic, is
             onClick={() => router.push('/auth/sign-in')}
             className={styles.buttonPrimary}
           >
-            Sign In
+            {t("Войти", "تسجيل الدخول", "Sign In")}
           </button>
         </div>
         <div className={styles.block}>

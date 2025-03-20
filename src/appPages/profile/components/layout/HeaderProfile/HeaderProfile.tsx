@@ -10,7 +10,6 @@ import { FC } from "react";
 
 const HeaderProfile: FC = () => {
   const pathname = usePathname();
-  console.log(pathname);
   const [logoutMutation] = usePostLogoutMutation();
 
   const logout = async () => {

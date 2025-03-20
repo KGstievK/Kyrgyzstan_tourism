@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./CultureGames.module.scss";
-import Image from "next/image"; // Импортируем компонент Image из next/image
+import Image from "next/image";
 import { useGetGamesQuery } from "@/redux/api/culture";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 

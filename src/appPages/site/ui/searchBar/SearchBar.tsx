@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { Autocomplete } from "@react-google-maps/api";
+import React, { useState, useRef } from "react";
 import styles from "./SearchBar.module.scss";
 import { useRouter } from "next/navigation";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
@@ -16,11 +15,11 @@ interface SearchBarProps {
   setPointACoords: (coords: { lat: number; lng: number } | null) => void;
   setPointBCoords: (coords: { lat: number; lng: number } | null) => void;
   onSearch: () => void;
-  autocompleteA: React.MutableRefObject<google.maps.places.Autocomplete | null>;
-  autocompleteB: React.MutableRefObject<google.maps.places.Autocomplete | null>;
+
   setModalWindowTime?: (boolean: boolean) => void;
-  fromMap?: boolean; // Флаг, указывающий, что компонент рендерится из Map компонента
-  navigateToRoutes?: boolean; // Флаг для навигации на /routes при поиске
+  fromMap?: boolean;
+  navigateToRoutes?: boolean;
+  
 }
 
 const kyrgyzstanBounds = {
@@ -40,26 +39,28 @@ export default function SearchBar({
   setPointACoords,
   setPointBCoords,
   onSearch,
-  autocompleteA,
-  autocompleteB,
+
   setModalWindowTime,
   fromMap = false,
   navigateToRoutes = false,
 }: SearchBarProps) {
   const router = useRouter();
   const { t } = useTranslate();
-  
-  // Состояния для хранения ошибок
+
   const [pointAError, setPointAError] = useState<string | null>(null);
   const [pointBError, setPointBError] = useState<string | null>(null);
-  
-  // Функция для навигации на страницу /routes с параметрами
+  const [suggestionsA, setSuggestionsA] = useState<string[]>([]);
+  const [suggestionsB, setSuggestionsB] = useState<string[]>([]);
+  const [showSuggestionsA, setShowSuggestionsA] = useState(false);
+  const [showSuggestionsB, setShowSuggestionsB] = useState(false);
+
+  const autocompleteService = useRef<google.maps.places.AutocompleteService | null>(null);
+  const placesService = useRef<google.maps.places.PlacesService | null>(null);
+
   const navigateToRoutesPage = () => {
     if (!validateInputs()) return;
-    
     if (!pointACoords || !pointBCoords) return;
-    
-    // Создаем URL с параметрами поиска
+
     const queryParams = new URLSearchParams({
       pointA: pointA,
       pointB: pointB,
@@ -68,133 +69,186 @@ export default function SearchBar({
       pointBLat: pointBCoords.lat.toString(),
       pointBLng: pointBCoords.lng.toString(),
     }).toString();
-    
+
     router.push(`/routes?${queryParams}`);
   };
-  
-  // Функция для валидации полей ввода
+
   const validateInputs = () => {
     let isValid = true;
-    
-    // Сбрасываем предыдущие ошибки
     setPointAError(null);
     setPointBError(null);
-    
-    // Проверяем первое поле
+
     if (!pointA.trim()) {
       setPointAError(t("Укажите пункт отправления", "الرجاء تحديد نقطة المغادرة", "Please specify departure point"));
       isValid = false;
     }
-    
-    // Проверяем второе поле
+
     if (!pointB.trim()) {
       setPointBError(t("Укажите пункт назначения", "الرجاء تحديد الوجهة", "Please specify destination"));
       isValid = false;
     }
-    
+
     return isValid;
   };
-  
-  // Функция-обертка для onSearch с валидацией
+
   const handleSearch = () => {
     if (!validateInputs()) return;
-    
     onSearch();
     if (setModalWindowTime) {
       setModalWindowTime(true);
     }
   };
-  
-  // Создаем refs для хранения введенных пользователем значений
-  const inputARef = React.useRef<HTMLInputElement>(null);
-  const inputBRef = React.useRef<HTMLInputElement>(null);
 
-  const onLoadA = (autocomplete: google.maps.places.Autocomplete) => {
-    autocompleteA.current = autocomplete;
-    autocomplete.setBounds(kyrgyzstanBounds);
-    autocomplete.setComponentRestrictions({ country: "kg" });
+  const inputARef = useRef<HTMLInputElement>(null);
+  const inputBRef = useRef<HTMLInputElement>(null);
+
+  // Инициализация сервисов Google Maps
+  if (typeof window !== "undefined" && !autocompleteService.current) {
+    autocompleteService.current = new google.maps.places.AutocompleteService();
+    placesService.current = new google.maps.places.PlacesService(document.createElement("div"));
+  }
+
+  // Функция для удаления "Кыргызстан" или "Kyrgyzstan" из строки
+  const removeCountry = (text: string): string => {
+    return text
+      .replace(/,\s*Кыргызстан/gi, "")
+      .replace(/,\s*Kyrgyzstan/gi, "")
+      .trim();
   };
 
-  const onLoadB = (autocomplete: google.maps.places.Autocomplete) => {
-    autocompleteB.current = autocomplete;
-    autocomplete.setBounds(kyrgyzstanBounds);
-    autocomplete.setComponentRestrictions({ country: "kg" });
-  };
-
-  const onPlaceChangedA = () => {
-    if (!autocompleteA.current) {
-      console.error("Autocomplete A is not initialized");
+  // Получение подсказок для Point A
+  const fetchSuggestionsA = (value: string) => {
+    if (!autocompleteService.current || !value) {
+      setSuggestionsA([]);
+      setShowSuggestionsA(false);
       return;
     }
 
-    const place = autocompleteA.current.getPlace();
-    if (!place) {
-      console.error("No place selected for Point A");
-      setPointACoords(null);
-      return;
-    }
-
-    if (place.geometry && place.geometry.location) {
-      // Используем введенное пользователем значение
-      const inputValue = inputARef.current?.value || pointA;
-      
-      setPointA(inputValue);
-      setPointACoords({
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-      });
-      
-      // Сбрасываем ошибку, если она была
-      setPointAError(null);
-    } else {
-      console.error("No geometry available for Point A:", place);
-      setPointACoords(null);
-    }
+    autocompleteService.current.getPlacePredictions(
+      {
+        input: value,
+        bounds: new google.maps.LatLngBounds(
+          new google.maps.LatLng(kyrgyzstanBounds.south, kyrgyzstanBounds.west),
+          new google.maps.LatLng(kyrgyzstanBounds.north, kyrgyzstanBounds.east)
+        ),
+        componentRestrictions: { country: "kg" },
+        types: ["establishment", "geocode"],
+      },
+      (predictions, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+          const cleanedSuggestions = predictions.map((prediction) =>
+            removeCountry(prediction.description)
+          );
+          setSuggestionsA(cleanedSuggestions);
+          setShowSuggestionsA(true);
+        } else {
+          setSuggestionsA([]);
+          setShowSuggestionsA(false);
+        }
+      }
+    );
   };
 
-  const onPlaceChangedB = () => {
-    if (!autocompleteB.current) {
-      console.error("Autocomplete B is not initialized");
+  // Получение подсказок для Point B
+  const fetchSuggestionsB = (value: string) => {
+    if (!autocompleteService.current || !value) {
+      setSuggestionsB([]);
+      setShowSuggestionsB(false);
       return;
     }
 
-    const place = autocompleteB.current.getPlace();
-    if (!place) {
-      console.error("No place selected for Point B");
-      setPointBCoords(null);
-      return;
-    }
-    
-    if (place.geometry && place.geometry.location) {
-      // Используем значение, введенное пользователем
-      const inputValue = inputBRef.current?.value || pointB;
-      
-      setPointB(inputValue);
-      setPointBCoords({
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-      });
-      
-      // Сбрасываем ошибку, если она была
-      setPointBError(null);
-    } else {
-      console.error("No geometry available for Point B:", place);
-      setPointBCoords(null);
-    }
+    autocompleteService.current.getPlacePredictions(
+      {
+        input: value,
+        bounds: new google.maps.LatLngBounds(
+          new google.maps.LatLng(kyrgyzstanBounds.south, kyrgyzstanBounds.west),
+          new google.maps.LatLng(kyrgyzstanBounds.north, kyrgyzstanBounds.east)
+        ),
+        componentRestrictions: { country: "kg" },
+        types: ["establishment", "geocode"],
+      },
+      (predictions, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+          const cleanedSuggestions = predictions.map((prediction) =>
+            removeCountry(prediction.description)
+          );
+          setSuggestionsB(cleanedSuggestions);
+          setShowSuggestionsB(true);
+        } else {
+          setSuggestionsB([]);
+          setShowSuggestionsB(false);
+        }
+      }
+    );
   };
 
-  // Обработчики для очистки ошибок при вводе
+  // Выбор подсказки для Point A
+  const handleSelectA = (suggestion: string) => {
+    setPointA(suggestion);
+    setShowSuggestionsA(false);
+    if (placesService.current) {
+      placesService.current.textSearch(
+        { query: suggestion, bounds: kyrgyzstanBounds },
+        (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK && results && results[0]) {
+            const location = results[0].geometry?.location;
+            if (location) {
+              setPointACoords({
+                lat: location.lat(),
+                lng: location.lng(),
+              });
+            }
+          }
+        }
+      );
+    }
+    setPointAError(null);
+  };
+
+  // Выбор подсказки для Point B
+  const handleSelectB = (suggestion: string) => {
+    setPointB(suggestion);
+    setShowSuggestionsB(false);
+    if (placesService.current) {
+      placesService.current.textSearch(
+        { query: suggestion, bounds: kyrgyzstanBounds },
+        (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK && results && results[0]) {
+            const location = results[0].geometry?.location;
+            if (location) {
+              setPointBCoords({
+                lat: location.lat(),
+                lng: location.lng(),
+              });
+            }
+          }
+        }
+      );
+    }
+    setPointBError(null);
+  };
+
   const handlePointAChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPointA(e.target.value);
-    if (e.target.value.trim()) {
+    const value = e.target.value;
+    setPointA(value);
+    if (value.trim()) {
       setPointAError(null);
+      fetchSuggestionsA(value);
+    } else {
+      setSuggestionsA([]);
+      setShowSuggestionsA(false);
     }
   };
 
   const handlePointBChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPointB(e.target.value);
-    if (e.target.value.trim()) {
+    const value = e.target.value;
+    setPointB(value);
+    if (value.trim()) {
       setPointBError(null);
+      fetchSuggestionsB(value);
+    } else {
+      setSuggestionsB([]);
+      setShowSuggestionsB(false);
     }
   };
 
@@ -202,40 +256,64 @@ export default function SearchBar({
     <div className={styles.searchBar}>
       <div className={styles.searchContainer}>
         <div className={styles.inputWrapper}>
-          <Autocomplete onLoad={onLoadA} onPlaceChanged={onPlaceChangedA}>
-            <input
-              ref={inputARef}
-              type="text"
-              value={pointA}
-              onChange={handlePointAChange}
-              placeholder={t("Откуда?", "من أين؟", "From where?")}
-              className={`${styles.input} ${pointA ? styles.inputFocused : ""} ${pointAError ? styles.inputError : ""}`}
-            />
-          </Autocomplete>
+          <input
+            ref={inputARef}
+            type="text"
+            value={pointA}
+            onChange={handlePointAChange}
+            placeholder={t("Откуда?", "من أين؟", "From where?")}
+            className={`${styles.input} ${pointA ? styles.inputFocused : ""} ${pointAError ? styles.inputError : ""}`}
+            onBlur={() => setTimeout(() => setShowSuggestionsA(false), 200)}
+            onFocus={() => pointA && fetchSuggestionsA(pointA)}
+          />
+          {showSuggestionsA && suggestionsA.length > 0 && (
+            <ul className={styles.suggestions}>
+              {suggestionsA.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSelectA(suggestion)}
+                  className={styles.suggestionItem}
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
           {pointAError && <div className={styles.errorMessage}>{pointAError}</div>}
         </div>
-        
+
         <div className={styles.inputWrapper}>
-          <Autocomplete onLoad={onLoadB} onPlaceChanged={onPlaceChangedB}>
-            <input
-              ref={inputBRef}
-              type="text"
-              value={pointB}
-              onChange={handlePointBChange}
-              placeholder={t("Куда?", "إلى أين؟", "Where to?")}
-              className={`${styles.input} ${pointBError ? styles.inputError : ""}`}
-            />
-          </Autocomplete>
+          <input
+            ref={inputBRef}
+            type="text"
+            value={pointB}
+            onChange={handlePointBChange}
+            placeholder={t("Куда?", "إلى أين؟", "Where to?")}
+            className={`${styles.input} ${pointBError ? styles.inputError : ""}`}
+            onBlur={() => setTimeout(() => setShowSuggestionsB(false), 200)}
+            onFocus={() => pointB && fetchSuggestionsB(pointB)}
+          />
+          {showSuggestionsB && suggestionsB.length > 0 && (
+            <ul className={styles.suggestions}>
+              {suggestionsB.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSelectB(suggestion)}
+                  className={styles.suggestionItem}
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
           {pointBError && <div className={styles.errorMessage}>{pointBError}</div>}
         </div>
-        
+
         <button
           onClick={() => {
             if (fromMap && navigateToRoutes) {
-              // Если компонент отображается на странице карты, и нужно перейти на страницу маршрутов
               navigateToRoutesPage();
             } else {
-              // Если компонент уже находится на странице маршрутов
               handleSearch();
             }
           }}

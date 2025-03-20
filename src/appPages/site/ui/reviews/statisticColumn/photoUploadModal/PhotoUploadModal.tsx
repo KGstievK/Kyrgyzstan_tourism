@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { X, Plus } from "lucide-react";
 import styles from "./PhotoUploadModal.module.scss";
 import Image from "next/image";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface PhotoUploadModalProps {
   onClose: () => void;
@@ -26,7 +27,8 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
     { id: 2, size: "15x20", file: null, preview: null },
   ]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const { t } = useTranslate();
+  
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
@@ -64,7 +66,9 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
           <X size={24} />
         </button>
 
-        <h2 className={styles.title}>Here you can upload a photo</h2>
+        <h2 className={styles.title}>
+          {t("Здесь вы можете загрузить фото", "هنا يمكنك تحميل صورة", "Here you can upload a photo")}
+        </h2>
 
         <div className={styles.uploadContainer}>
           {uploadBlocks.map((block) => (
@@ -79,7 +83,7 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
                 <div className={styles.previewContainer}>
                   <Image
                     src={block.preview}
-                    alt="Preview"
+                    alt={t("Предпросмотр", "معاينة", "Preview")}
                     className={styles.preview}
                     width={150}
                     height={150}
@@ -90,7 +94,9 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
               ) : (
                 <>
                   <Plus className={styles.uploadIcon} size={32} />
-                  <span className={styles.uploadText}>Upload photo</span>
+                  <span className={styles.uploadText}>
+                    {t("Загрузить фото", "تحميل صورة", "Upload photo")}
+                  </span>
                   <span className={styles.sizeText}>{block.size}</span>
                 </>
               )}
@@ -108,13 +114,13 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
 
         <div className={styles.btn}>
           <button className={styles.sendButton} onClick={onClose}>
-            cancel
+            {t("Отмена", "إلغاء", "Cancel")}
           </button>
           <button
             className={styles.sendButton}
             onClick={handleSendClick}
           >
-            Next
+            {t("Далее", "التالي", "Next")}
           </button>
         </div>
       </div>

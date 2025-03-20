@@ -3,6 +3,7 @@ import scss from "../Cafe_item.module.scss";
 import MapWithMarker from "./MapWithMarker";
 import { Laptop2, Mail, MapPin, PhoneIcon } from "lucide-react";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
+import { PLACE } from "@/redux/api/place/types";
 
 interface Cafe_rightProps {
   cafeLocation?: PLACE.KitchenLocationResponse[]; // Опциональный параметр
@@ -96,7 +97,7 @@ const Cafe_right: FC<Cafe_rightProps> = ({ cafeLocation }) => {
                 <span>
                   <Mail />
                 </span>{" "}
-                {t("Электронная почта", "البريد الإلكتروني", "Email")} ↗ 
+                 {t("Электронная почта", "البريد الإلكتروني", "Email")} ↗ 
               </a>
             )}
           </div>

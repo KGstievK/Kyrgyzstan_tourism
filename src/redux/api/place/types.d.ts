@@ -68,6 +68,8 @@ namespace PLACE {
     price_rating: number;
     atmosphere_rating: number;
     kitchen: KitchenLocation[];
+    rank: number
+
   };
 
   export type kitchenIdRequest = number | null;
@@ -81,6 +83,8 @@ namespace PLACE {
     rating_count: number;
     region: string;
     popular_places: number;
+    latitude: number | null,
+    longitude: number | null
   }[];
 
   export type HotelsRequest = void;

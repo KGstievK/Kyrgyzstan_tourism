@@ -68,7 +68,7 @@ export const SessionProvider: FC<SessionProviderProps> = ({ children }) => {
       case "/auth/reset-password":
       case "/auth/forgot":
         if (status === "fulfilled") {
-          router.back();
+          router.push("/profile");
         }
         break;
       case "/chats":

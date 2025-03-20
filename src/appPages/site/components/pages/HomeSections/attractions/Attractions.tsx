@@ -1,6 +1,6 @@
 "use client";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import scss from "./Attractions.module.scss";
+import scss from "./attractions.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
 import imgNone from "@/assets/images/universalImage/none.png";
 import Link from "next/link";

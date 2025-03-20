@@ -36,21 +36,23 @@ const Map = () => {
       <div className="container">
         <div className={scss.map}>
           <p>{t("Куда поедем?", "إلى أين نذهب؟", "Where to go?")}</p>{" "}
-          <SearchBar
-            pointA={pointA}
-            pointB={pointB}
-            setPointA={setPointA}
-            setPointB={setPointB}
-            pointACoords={pointACoords}
-            pointBCoords={pointBCoords}
-            setPointACoords={setPointACoords}
-            setPointBCoords={setPointBCoords}
-            onSearch={handleSearch}
-            autocompleteA={autocompleteA}
-            autocompleteB={autocompleteB}
-            fromMap={true}
-            navigateToRoutes={true}
-          />
+          <div className={scss.SearchBar}>
+            <SearchBar
+              pointA={pointA}
+              pointB={pointB}
+              setPointA={setPointA}
+              setPointB={setPointB}
+              pointACoords={pointACoords}
+              pointBCoords={pointBCoords}
+              setPointACoords={setPointACoords}
+              setPointBCoords={setPointBCoords}
+              onSearch={handleSearch}
+              autocompleteA={autocompleteA}
+              autocompleteB={autocompleteB}
+              fromMap={true}
+              navigateToRoutes={true}
+            />
+          </div>
           <div className={scss.block}>
             <Link href="/batken">
               <div className={`${scss.batken} ${scss.batken2}`}>
