@@ -7,7 +7,6 @@ import {
 import sanitizeHtml from "sanitize-html";
 import Image from "next/image";
 
-
 const Kitchen = () => {
   const { t } = useTranslate();
   const { data, isError, isLoading } = useGetCultureKitchenQuery();
@@ -47,9 +46,9 @@ const Kitchen = () => {
           <div key={el.id} className={styles.block}>
             <div className={styles.Images}>
               {el.image_1 && (
-                <Image 
-                  src={el.image_1} 
-                  alt="Traditional Kyrgyz food" 
+                <Image
+                  src={el.image_1}
+                  alt="Traditional Kyrgyz food"
                   className={styles.img1}
                   width={486}
                   height={324}
@@ -60,9 +59,9 @@ const Kitchen = () => {
               )}
               <div className={styles.images2}>
                 {el.image_2 && (
-                  <Image 
-                    src={el.image_2} 
-                    alt="Traditional Kyrgyz food" 
+                  <Image
+                    src={el.image_2}
+                    alt="Traditional Kyrgyz food"
                     className={styles.img2}
                     width={237}
                     height={178}
@@ -72,9 +71,9 @@ const Kitchen = () => {
                   />
                 )}
                 {el.image_3 && (
-                  <Image 
-                    src={el.image_3} 
-                    alt="Traditional Kyrgyz food" 
+                  <Image
+                    src={el.image_3}
+                    alt="Traditional Kyrgyz food"
                     className={styles.img2}
                     width={237}
                     height={178}
@@ -85,9 +84,9 @@ const Kitchen = () => {
                 )}
               </div>
               {el.image_4 && (
-                <Image 
-                  src={el.image_4} 
-                  alt="Traditional Kyrgyz food" 
+                <Image
+                  src={el.image_4}
+                  alt="Traditional Kyrgyz food"
                   className={styles.img1}
                   width={486}
                   height={324}
@@ -111,22 +110,23 @@ const Kitchen = () => {
 
         {data.map((el, idx) => (
           <div key={idx} className={styles.main}>
-            {el.culture_kitchen_image.map((item) => (
-              item.image && (
-                <Image 
-                  key={item.id} 
-                  src={item.image} 
-                  alt={`${el.kitchen_name} dish`}
-                  width={486}
-                  height={324}
-                  style={{
-                    objectFit: "cover",
-                    maxWidth: "100%",
-                    height: "auto"
-                  }}
-                />
-              )
-            ))}
+            {el.culture_kitchen_image.map(
+              (item) =>
+                item.image && (
+                  <Image
+                    key={item.id}
+                    src={item.image}
+                    alt={`${el.kitchen_name} dish`}
+                    width={486}
+                    height={324}
+                    style={{
+                      objectFit: "cover",
+                      maxWidth: "100%",
+                      height: "auto",
+                    }}
+                  />
+                )
+            )}
             <div className={styles["main-text"]}>
               <h3 className={styles["main-heading"]}>{el.kitchen_name}</h3>
               <p className={styles["main-paragraph"]}>
