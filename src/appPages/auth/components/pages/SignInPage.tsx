@@ -59,9 +59,9 @@ const SignInPage: FC = () => {
           <span className={scss.error}>{errors.email.message}</span>
         )}
         <input
-          type="text"
+          type="email"
           placeholder="Email"
-          {...register("email", { required: "Email обязателен" })}
+          {...register("email", { required: "Введите Email" })}
         />
           {errors.password && (
             <span className={scss.error}>{errors.password.message}</span>
@@ -69,7 +69,7 @@ const SignInPage: FC = () => {
         <input
           type="password"
           placeholder="Password"
-          {...register("password", { required: "Пароль обязателен" })}
+          {...register("password", { required: "Введите пароль" })}
         />
         <div className={scss.links}>
           <div className={scss.Remember}>

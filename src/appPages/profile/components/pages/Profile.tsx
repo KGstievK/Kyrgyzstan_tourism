@@ -52,9 +52,7 @@ const Profile: FC = () => {
               <Avatar
                 className={scss.avatar}
                 icon={
-                  userPreview ? (
-                    <img src={userPreview} alt="avatar" />
-                  ) : el.user_picture ? (
+                   el.user_picture ? (
                     <img src={el.user_picture} alt="avatar" />
                   ) : (
                     <UserOutlined />

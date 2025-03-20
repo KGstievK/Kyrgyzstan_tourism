@@ -48,6 +48,14 @@
     gap: 10px;
   }
 
+  .showMoreButton {
+    background-color: transparent;
+    font-size: 18px;
+    color: var(--silver);
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid var(--silver);
+  }
   > button {
     font-family: Montserrat;
     font-weight: 500;
