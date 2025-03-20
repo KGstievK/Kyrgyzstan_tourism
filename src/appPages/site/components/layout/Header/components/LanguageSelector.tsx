@@ -1,9 +1,8 @@
 // components/LanguageSelector.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import scss from "../Header.module.scss";
 import { ChevronDown } from "lucide-react";
 
-// Пропсы для выбора языка
 interface LanguageSelectorProps {
   lang: string;
   isRotate: boolean;
@@ -15,8 +14,10 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   isRotate,
   setIsRotate,
 }) => {
-  const [isOpen, setIsOpen] = useState(false); // Состояние открытия/закрытия выпадающего списка
-  const languages = ["ru", "ar", "en"]; // Доступные языки
+  const [isOpen, setIsOpen] = useState(false);
+  const languages = ["ru", "ar", "en"];
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const langSelectRef = useRef<HTMLDivElement>(null); // Новый реф для селектора
 
   const handleLanguageChange = (value: string) => {
     localStorage.setItem("lang", value);
@@ -30,19 +31,47 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
     }
   }, [lang]);
 
+  // Обработчик клика вне дропдауна
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target) &&
+        langSelectRef.current &&
+        !langSelectRef.current.contains(target) // Исключаем селектор
+      ) {
+        setIsOpen(false);
+        setIsRotate(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [setIsOpen, setIsRotate]);
+
+  // Обработчик клика на селектор языка
+  const handleToggleDropdown = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      setIsRotate(false);
+    } else {
+      setIsOpen(true);
+      setIsRotate(true);
+    }
+  };
+
   return (
     <div className={scss.languageSelector}>
       <div
+        ref={langSelectRef} // Привязываем реф к селектору
         style={
           isOpen
             ? { background: "#FFFFFF99", backdropFilter: "blur(4px)", borderBottom: 0 }
             : { background: "transparent" }
         }
-        className={`${scss.langSelect} ${isOpen ? scss.open : ""}`} // Добавляем класс при открытии
-        onClick={() => {
-          setIsOpen(!isOpen);
-          setIsRotate(!isRotate);
-        }}
+        className={`${scss.langSelect} ${isOpen ? scss.open : ""}`}
+        onClick={handleToggleDropdown}
       >
         <span>{lang.toUpperCase()}</span>
         <ChevronDown
@@ -50,13 +79,13 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           style={{
             transform: `rotate(${isRotate ? 180 : 0}deg)`,
             transition: "transform 0.1s ease-in-out",
-            marginLeft: "5px", // Отступ между текстом и стрелкой
+            marginLeft: "5px",
           }}
         />
       </div>
 
       {isOpen && (
-        <div className={scss.languageDropdown}>
+        <div className={scss.languageDropdown} ref={dropdownRef}>
           {languages.map((value) => (
             <div
               key={value}
@@ -67,7 +96,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                 setIsRotate(false);
               }}
             >
-              <span>{value.toUpperCase()}</span> {/* Текст внутри span */}
+              <span>{value.toUpperCase()}</span>
             </div>
           ))}
         </div>

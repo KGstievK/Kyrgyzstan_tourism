@@ -21,6 +21,10 @@ interface Hotel {
   main_image: string;
   avg_rating: number;
   rating_count: number;
+  latitude: number | null;
+  longitude: number | null;
+  popular_places: number;
+  region?: string;
 }
 
 const ITEMS_PER_PAGE = 6;
@@ -175,9 +179,17 @@ const HotelList: FC<HotelListProps> = ({ setIsCurrent, isCurrent }) => {
   }, []);
   const isAllItemsShown = isLimit >= hotelGroups.length;
 
+  // Находим текущий отель по id
+  const currentHotel = isCurrent !== null 
+    ? hotelsInPlace.find(hotel => hotel.id === isCurrent) 
+    : null;
+
   return (
     <div className={scss.hotelContainer}>
-      <Hotel_map />
+      <Hotel_map 
+        lat={currentHotel?.latitude || 0} 
+        lon={currentHotel?.longitude || 0} 
+      />
 
       <div className={scss.head}>
         <h4>

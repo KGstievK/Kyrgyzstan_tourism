@@ -3,7 +3,6 @@ import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Hotel_info.module.scss";
 import { useGetHotelIDQuery } from "@/redux/api/place";
 import { FC } from "react";
-import imgLike from "@/assets/images/placeImages/like.png";
 import imgShare from "@/assets/images/placeImages/share.png";
 import safety from "@/assets/images/placeImages/safety.png";
 import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
@@ -12,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BathIcon, Bed, CarFront } from "lucide-react";
 import { MdOutlinePets } from "react-icons/md";
 import Image from "next/image";
+import LikeHotel from "../hotel_list/LikeHotel";
 
 interface propsType {
   isCurrent: number | null;
@@ -52,21 +52,20 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
         <div className={scss.left}>
           <div className={scss.titles}>
             <div className={scss.title}>
-              <h5>{t("Хорошо меблированная квартира", "شقة مؤثثة جيدًا", "Well Furnished Apartment")} </h5>
+              {/* <h5>
+                {t(
+                  "Хорошо меблированная квартира",
+                  "شقة مؤثثة جيدًا",
+                  "Well Furnished Apartment"
+                )}{" "}
+              </h5> */}
               <p>{data?.address}</p>
             </div>
             <div className={scss.links}>
-              <button>
-                <Image 
-                  src={imgLike.src} 
-                  alt={t("Нравится", "أعجبني", "Like")}
-                  width={24}
-                  height={24}
-                />
-              </button>
+                {data?.id !== undefined && <LikeHotel postId={data?.id} hotel={true} />}{" "}
               <button onClick={handleShare}>
-                <Image 
-                  src={imgShare.src} 
+                <Image
+                  src={imgShare.src}
                   alt={t("Поделиться", "مشاركة", "Share")}
                   width={24}
                   height={24}
@@ -112,40 +111,60 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
             </div>
           </div>
           <div className={scss.descr}>
-            <h6>{t("Описание апартаментов", "وصف الشقة", "Apartment Description")}</h6>
+            <h6>
+              {t("Описание апартаментов", "وصف الشقة", "Apartment Description")}
+            </h6>
             <p>{data?.description}</p>
           </div>
           <div className={scss.amen}>
-            <h6>{t("Предлагаемые удобства", "وسائل الراحة المقدمة", "Offered Amenities")}</h6>
+            <h6>
+              {t(
+                "Предлагаемые удобства",
+                "وسائل الراحة المقدمة",
+                "Offered Amenities"
+              )}
+            </h6>
             <div className={scss.amenities}>
-              {data?.amenities && data.amenities.map((item) => (
-                <div key={item.id}>
-                  <Image 
-                    src={item.icon} 
-                    alt={item.amenity}
-                    width={24}
-                    height={24}
-                  />
-                  <span>{typeof item.amenity === 'string' ? item.amenity : JSON.stringify(item.amenity)}</span>
-                </div>
-              ))}
+              {data?.amenities &&
+                data.amenities.map((item) => (
+                  <div key={item.id}>
+                    <Image
+                      src={item.icon}
+                      alt={item.amenity}
+                      width={24}
+                      height={24}
+                    />
+                    <span>
+                      {typeof item.amenity === "string"
+                        ? item.amenity
+                        : JSON.stringify(item.amenity)}
+                    </span>
+                  </div>
+                ))}
             </div>
             {/* <button>{t("Показать все 10 удобств", "عرض جميع وسائل الراحة 10", "Show All 10 Amenities")}</button> */}
           </div>
           <div className={scss.safe}>
-            <h6>{t("Безопасность и гигиена", "السلامة والنظافة", "Safety and Hygiene")}</h6>
+            <h6>
+              {t(
+                "Безопасность и гигиена",
+                "السلامة والنظافة",
+                "Safety and Hygiene"
+              )}
+            </h6>
             <div className={scss.safe_list}>
-              {data?.safety_and_hygiene && data.safety_and_hygiene.map((item) => (
-                <div key={item.id}>
-                  <Image 
-                    src={safety.src} 
-                    alt={t("Безопасность", "سلامة", "Safety")}
-                    width={24}
-                    height={24}
-                  />
-                  <span>{item.name}</span>
-                </div>
-              ))}
+              {data?.safety_and_hygiene &&
+                data.safety_and_hygiene.map((item) => (
+                  <div key={item.id}>
+                    <Image
+                      src={safety.src}
+                      alt={t("Безопасность", "سلامة", "Safety")}
+                      width={24}
+                      height={24}
+                    />
+                    <span>{item.name}</span>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -156,14 +175,23 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
             </div>
             <ul>
               <li>
-                {t("Короткий период: $ ", "فترة قصيرة: $ ", "Short Period: $ ")} {data?.price_short_period}
+                {t("Короткий период: $ ", "فترة قصيرة: $ ", "Short Period: $ ")}{" "}
+                {data?.price_short_period}
               </li>
               <li>
-                {t("Средний период: $ ", "فترة متوسطة: $ ", "Medium Period: $ ")}
+                {t(
+                  "Средний период: $ ",
+                  "فترة متوسطة: $ ",
+                  "Medium Period: $ "
+                )}
                 {data?.price_medium_period}
               </li>
               <li>
-                {t("Длительный период: $ ", "فترة طويلة: $ ", "Long Period: $ ")}
+                {t(
+                  "Длительный период: $ ",
+                  "فترة طويلة: $ ",
+                  "Long Period: $ "
+                )}
                 {data?.price_long_period}
               </li>
             </ul>

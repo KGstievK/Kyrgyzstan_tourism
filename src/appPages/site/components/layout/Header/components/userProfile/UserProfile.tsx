@@ -7,6 +7,7 @@ import Image from "next/image";
 
 // Импортируем тип из Header
 import { UserDataType } from "../../Header";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 // Пропсы для профиля пользователя
 interface UserProfileProps {
@@ -18,10 +19,11 @@ export const UserProfile: React.FC<UserProfileProps> = ({
   userData,
   status,
 }) => {
+  const {t} = useTranslate()
   if (status !== "fulfilled") {
     return (
       <Link href="/auth/sign-in" className={scss.signInButton}>
-        Войти
+        {t("Войти", "تسجيل الدخول", "Sign In")}
       </Link>
     );
   }
