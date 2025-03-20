@@ -1,5 +1,5 @@
 "use client"
-import National_clothes from "@/appPages/site/components/pages/CultureSections/national_clothes/National_clothes";
+import National_clothes from "@/appPages/site/components/pages/CultureSections/NationalCllothes/NationalClothes";
 
 const page = () => <National_clothes />;
 
