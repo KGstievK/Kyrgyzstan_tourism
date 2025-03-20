@@ -3,7 +3,7 @@ import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./Hotel_info.module.scss";
 import { useGetHotelIDQuery } from "@/redux/api/place";
 import { FC } from "react";
-import imgShare from "@/assets/images/placeImages/share.png";
+import { LuShare2 } from "react-icons/lu";
 import safety from "@/assets/images/placeImages/safety.png";
 import GalleryImages from "@/appPages/site/ui/galleryImages/GalleryImages";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BathIcon, Bed, CarFront } from "lucide-react";
 import { MdOutlinePets } from "react-icons/md";
 import Image from "next/image";
-import LikeHotel from "../hotel_list/LikeHotel";
+import { FaRegHeart } from "react-icons/fa";
 
 interface propsType {
   isCurrent: number | null;
@@ -21,6 +21,7 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
   const { t } = useTranslate();
   const { data, isError } = useGetHotelIDQuery(isCurrent);
   const images = data?.hotel_image ?? [];
+  console.log("🚀 ~ data:", data);
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -52,25 +53,18 @@ const Hotel_info: FC<propsType> = ({ isCurrent }) => {
         <div className={scss.left}>
           <div className={scss.titles}>
             <div className={scss.title}>
-              {/* <h5>
+              <h5>
                 {t(
                   "Хорошо меблированная квартира",
                   "شقة مؤثثة جيدًا",
                   "Well Furnished Apartment"
                 )}{" "}
-              </h5> */}
+              </h5>
               <p>{data?.address}</p>
             </div>
             <div className={scss.links}>
-                {data?.id !== undefined && <LikeHotel postId={data?.id} hotel={true} />}{" "}
-              <button onClick={handleShare}>
-                <Image
-                  src={imgShare.src}
-                  alt={t("Поделиться", "مشاركة", "Share")}
-                  width={24}
-                  height={24}
-                />
-              </button>
+              <FaRegHeart className={scss.iconHeart} />
+              <LuShare2 onClick={handleShare} className={scss.iconShare} />
             </div>
           </div>
           <div className={scss.list}>

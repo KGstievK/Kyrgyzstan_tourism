@@ -6,10 +6,12 @@ import { useGetPopularPlacesQuery } from "@/redux/api/regions";
 import Stars from "@/appPages/site/ui/stars/Stars";
 import LikePost from "../regionSections/places/LikePost";
 import Image from "next/image";
+import { useGetMeQuery } from "@/redux/api/auth";
 
 const Gallery = () => {
   const { t } = useTranslate();
   const { data: popular } = useGetPopularPlacesQuery();
+  const { data: user } = useGetMeQuery();
 
   return (
     <section id={scss.Gallery}>
@@ -18,16 +20,24 @@ const Gallery = () => {
           {popular?.map((el, i) => (
             <div key={i} className={scss.item}>
               {/* Используем div-обертку для сохранения стилей */}
-              <div style={{ position: 'relative', width: '100%', height: '271px', borderRadius: '8px 8px 0 0', overflow: 'hidden' }}>
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "271px",
+                  borderRadius: "8px 8px 0 0",
+                  overflow: "hidden",
+                }}
+              >
                 {el.popular_image && (
-                  <Image 
-                    src={el.popular_image} 
-                    alt="popular place" 
+                  <Image
+                    src={el.popular_image}
+                    alt="popular place"
                     fill
                     sizes="(max-width: 390px) 286px, (max-width: 490px) 180px, 271px"
                     style={{
                       objectFit: "cover",
-                      borderRadius: "8px 8px 0 0"
+                      borderRadius: "8px 8px 0 0",
                     }}
                   />
                 )}
