@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import { usePathname } from "next/navigation";
 import { useGetStaticReviewsQuery } from "@/redux/api/reviews";
@@ -10,6 +10,7 @@ import RouteInfo from "@/appPages/site/ui/route/Route";
 import Map from "@/appPages/site/ui/map/Map";
 import Reviews from "@/appPages/site/ui/reviews/Reviews";
 import scss from "./Tab_place.module.scss";
+import AirlineModal from "../../../routesSections/airLineModal/AirLineModal";
 
 interface TabPlaceProps {
   isTab: number;
@@ -21,7 +22,8 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   const id: number = Number(pathName.split("/")[2]);
   const { data } = useGetStaticReviewsQuery({ entityType: "popular_places" });
   const placeStaticInfo = data?.find((place) => place.id === id);
-  
+  const [modalWindow, setModalWindow] = useState<boolean>(false);
+
   const [pointA, setPointA] = useState("");
   const [pointB, setPointB] = useState("");
   const [pointACoords, setPointACoords] = useState<{
@@ -45,7 +47,11 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "WALKING" }
-      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "WALKING" },
+      : {
+          origin: { lat: 0, lng: 0 },
+          destination: { lat: 0, lng: 0 },
+          mode: "WALKING",
+        },
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
@@ -56,7 +62,11 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "DRIVING" }
-      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "DRIVING" },
+      : {
+          origin: { lat: 0, lng: 0 },
+          destination: { lat: 0, lng: 0 },
+          mode: "DRIVING",
+        },
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
@@ -67,7 +77,11 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   } = useGetDirectionsQuery(
     pointACoords && pointBCoords
       ? { origin: pointACoords, destination: pointBCoords, mode: "TRAIN" }
-      : { origin: { lat: 0, lng: 0 }, destination: { lat: 0, lng: 0 }, mode: "TRAIN" },
+      : {
+          origin: { lat: 0, lng: 0 },
+          destination: { lat: 0, lng: 0 },
+          mode: "TRAIN",
+        },
     { skip: !pointACoords || !pointBCoords, refetchOnMountOrArgChange: true }
   );
 
@@ -100,19 +114,21 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
   return (
     <div className={scss.tab_place}>
       <p>{t("Куда пойти", "إلى أين تذهب", "Where to go")}</p>
-      <SearchBar
-        pointA={pointA}
-        pointB={pointB}
-        setPointA={setPointA}
-        setPointB={setPointB}
-        pointACoords={pointACoords}
-        pointBCoords={pointBCoords}
-        setPointACoords={setPointACoords}
-        setPointBCoords={setPointBCoords}
-        onSearch={handleSearch}
-        autocompleteA={autocompleteA}
-        autocompleteB={autocompleteB}
-      />
+      <div className={scss.SearchBar}>
+        <SearchBar
+          pointA={pointA}
+          pointB={pointB}
+          setPointA={setPointA}
+          setPointB={setPointB}
+          pointACoords={pointACoords}
+          pointBCoords={pointBCoords}
+          setPointACoords={setPointACoords}
+          setPointBCoords={setPointBCoords}
+          onSearch={handleSearch}
+          autocompleteA={autocompleteA}
+          autocompleteB={autocompleteB}
+        />
+      </div>
       <div className={scss.block}>
         <RouteInfo
           walkData={walkData}
@@ -122,12 +138,14 @@ const Tab_place: React.FC<TabPlaceProps> = ({ isTab }) => {
           trainData={trainData}
           trainError={trainError}
           isSearched={isSearched}
+          setModalWindow={setModalWindow}
         />
       </div>
       <div className={scss.map}>
         <Map directions={directions} />
       </div>
       <Reviews isTab={isTab} isCurrent={id} reviewStatic={placeStaticInfo} />
+      {modalWindow && <AirlineModal setModalWindow={setModalWindow} />}
     </div>
   );
 };

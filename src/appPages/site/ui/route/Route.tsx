@@ -65,7 +65,7 @@ export default function RouteInfo({
           {isSearched ? trainData?.duration || t("Нет маршрута", "لا يوجد طريق", "No route") : "-"}
         </p>
       </div>
-      <div onClick={() => setModalWindow && setModalWindow(true)} className={styles.routeItem}>
+      <div style={{cursor: "pointer"}} onClick={() => setModalWindow && setModalWindow(true)} className={styles.routeItem}>
         <GiAirplaneDeparture className={styles.icon} />
         <p>{t("авиакомпании", "شركات الطيران", "airlines")}</p>
       </div>
