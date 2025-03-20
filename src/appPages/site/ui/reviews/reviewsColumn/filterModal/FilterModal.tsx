@@ -9,8 +9,8 @@ import { REVIEWS } from "@/redux/api/reviews/types";
  * Интерфейс для свойств компонента FilterModal
  */
 interface FilterModalProps {
-  setIsShow?: (isShow: boolean) => void;                 // Функция управления видимостью модального окна
-  reviewStatic?: REVIEWS.StaticReview;                   // Статистика по отзывам
+  setIsShow?: (isShow: boolean) => void; // Функция управления видимостью модального окна
+  reviewStatic?: REVIEWS.StaticReview; // Статистика по отзывам
   onApply?: (rating: string | undefined, month: string | undefined) => void; // Функция применения фильтров
 }
 
@@ -40,36 +40,38 @@ const months = [
 export const FilterModal: React.FC<FilterModalProps> = ({
   setIsShow,
   reviewStatic,
-  onApply
+  onApply,
 }) => {
   // Хук для перевода текста (русский, арабский, английский)
   const { t } = useTranslate();
-  
+
   // Состояния для выбранных фильтров
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
-  const [selectedMonthValue, setSelectedMonthValue] = useState<number | null>(null);
-  
+  const [selectedMonthValue, setSelectedMonthValue] = useState<number | null>(
+    null
+  );
+
   // Состояние для отслеживания мобильной версии
   const [isMobile, setIsMobile] = useState(false);
-  
+
   // Добавляем прослушиватель изменения размера окна
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 480);
     };
-    
+
     // Проверяем при монтировании
     checkIfMobile();
-    
+
     // Добавляем слушатель событий
-    window.addEventListener('resize', checkIfMobile);
-    
+    window.addEventListener("resize", checkIfMobile);
+
     // Удаляем слушатель при размонтировании
     return () => {
-      window.removeEventListener('resize', checkIfMobile);
+      window.removeEventListener("resize", checkIfMobile);
     };
   }, []);
-  
+
   // Варианты оценок с количеством заполненных кружков
   const evaluationOptions = [
     { rating: 1, count: reviewStatic?.terribly, circles: [1, 0, 0, 0, 0] },
@@ -78,7 +80,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
     { rating: 4, count: reviewStatic?.good, circles: [1, 1, 1, 1, 0] },
     { rating: 5, count: reviewStatic?.excellent, circles: [1, 1, 1, 1, 1] },
   ];
-  
+
   /**
    * Обработчик кнопки "Применить"
    * Преобразует числовые значения в строки и передает их в родительский компонент
@@ -87,17 +89,19 @@ export const FilterModal: React.FC<FilterModalProps> = ({
     if (onApply) {
       // Преобразуем числовые значения в строки для API
       const ratingStr = selectedRating ? selectedRating.toString() : undefined;
-      const monthStr = selectedMonthValue ? selectedMonthValue.toString() : undefined;
-      
+      const monthStr = selectedMonthValue
+        ? selectedMonthValue.toString()
+        : undefined;
+
       onApply(ratingStr, monthStr);
     }
-    
+
     // Закрываем модальное окно
     if (setIsShow) {
       setIsShow(false);
     }
   };
-  
+
   /**
    * Обработчик кнопки "Сбросить"
    * Сбрасывает все выбранные фильтры
@@ -106,13 +110,13 @@ export const FilterModal: React.FC<FilterModalProps> = ({
     // Сбрасываем локальные состояния
     setSelectedRating(null);
     setSelectedMonthValue(null);
-    
+
     // Передаем сброшенные значения в родительский компонент
     if (onApply) {
       onApply(undefined, undefined);
     }
   };
-  
+
   /**
    * Обработчик выбора оценки
    * При повторном нажатии на ту же оценку, выбор сбрасывается
@@ -128,20 +132,20 @@ export const FilterModal: React.FC<FilterModalProps> = ({
   const handleMonthSelect = (value: number) => {
     setSelectedMonthValue(selectedMonthValue === value ? null : value);
   };
-  
+
   // Блокировка прокрутки основного контента при открытии модального окна
   useEffect(() => {
     // Запоминаем текущее состояние прокрутки
     const originalStyle = window.getComputedStyle(document.body).overflow;
     // Блокируем прокрутку
-    document.body.style.overflow = 'hidden';
-    
+    document.body.style.overflow = "hidden";
+
     // Возвращаем оригинальное состояние при размонтировании
     return () => {
       document.body.style.overflow = originalStyle;
     };
   }, []);
-  
+
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
@@ -152,10 +156,12 @@ export const FilterModal: React.FC<FilterModalProps> = ({
         >
           <X size={isMobile ? 20 : 24} />
         </button>
-        
+
         {/* Заголовок модального окна */}
-        <h2 className={styles.title}>{t("Фильтр отзывов", "تصفية المراجعات", "Filter reviews")}</h2>
-        
+        <h2 className={styles.title}>
+          {t("Фильтр отзывов", "تصفية المراجعات", "Filter reviews")}
+        </h2>
+
         {/* Раздел с оценками */}
         <div className={styles.section}>
           <div className={styles.block}>
@@ -188,7 +194,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
             ))}
           </div>
         </div>
-        
+
         {/* Раздел с месяцами */}
         <div className={styles.section}>
           <h3>{t("Период", "فترة", "Period")}</h3>
@@ -207,11 +213,11 @@ export const FilterModal: React.FC<FilterModalProps> = ({
             ))}
           </div>
         </div>
-        
+
         {/* Кнопки действий */}
         <div className={styles.actions}>
           <button className={styles.resetButton} onClick={handleReset}>
-            {t("Сбросить", "إعادة تعيين", "Reset")}
+            {t("Сбросить", "إزالة", "Throw off")}
           </button>
           <button className={styles.applyButton} onClick={handleApply}>
             {t("Применить", "تطبيق", "Apply")}
@@ -220,4 +226,4 @@ export const FilterModal: React.FC<FilterModalProps> = ({
       </div>
     </div>
   );
-}
+};

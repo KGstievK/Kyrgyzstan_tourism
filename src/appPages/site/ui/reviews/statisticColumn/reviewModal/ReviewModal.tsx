@@ -16,6 +16,7 @@ import {
 import { useGetMeQuery } from "@/redux/api/auth";
 import Rating from "./Rating/Rating";
 import { REVIEWS } from "@/redux/api/reviews/types";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface ReviewModalProps {
   onClose: () => void;
@@ -46,7 +47,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
     | REVIEWS.ReplyAttractionRequest
     | REVIEWS.ReplyPlaceRequest
   >();
-
+  const {t} = useTranslate()
   const [postRewiewPlaces] = usePostRewiewPlacesMutation();
   const [postRewiewHotel] = usePostRewiewHotelMutation();
   const [postRewiewKitchen] = usePostRewiewKitchenMutation();
@@ -170,21 +171,21 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
         {isTab === 2 && !isReply ? (
           <>
             <div className={scss.header}>
-              <h2 className={scss.title}>What do you think?</h2>
-              <p className={scss.subtitle}>Please give your rating</p>
+              <h2 className={scss.title}>{t("Что вы думаете?", "ما رأيك؟", "What do you think?")              }</h2>
+              <p className={scss.subtitle}>{t("Пожалуйста, поставьте вашу оценку", "يرجى تقديم تقييمك", "Please give your rating")}</p>
             </div>
 
             <div className={scss.ratingContainer}>
               <div className={scss.KitchenRewiew}>
-                <p>overall assessment:</p>
+                <p>{t("общая оценка:", "التقييم العام:", "overall assessment:")}</p>
                 <Rating value={rating} onChange={setRating} />
-                <p>evaluation of the service</p>
+                <p>{t("оценка обслуживания", "تقييم الخدمة", "evaluation of the service")}</p>
                 <Rating value={serviceRating} onChange={setServiceRating} />
-                <p>nutrition assessment</p>
+                <p>{t("оценка питания", "تقييم التغذية", "nutrition assessment")}</p>
                 <Rating value={nutritionRating} onChange={setNutritionRating} />
-                <p>price estimation</p>
+                <p>{t("оценка цены", "تقييم السعر", "price estimation")}</p>
                 <Rating value={priceRating} onChange={setPriceRating} />
-                <p>assessment of the atmosphere</p>
+                <p>{t("оценка атмосферы", "تقييم الأجواء", "assessment of the atmosphere")}</p>
                 <Rating
                   value={atmosphereRating}
                   onChange={setAtmosphereRating}
@@ -201,7 +202,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                   : "What do you think ?"}
               </h2>
               {!isReply && (
-                <p className={scss.subtitle}>Please give your rating</p>
+                <p className={scss.subtitle}>{t("Пожалуйста, поставьте вашу оценку", "يرجى تقديم تقييمك", "Please give your rating")}</p>
               )}
             </div>
             {!isReply && (
@@ -219,18 +220,18 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
               className={scss.reviewInput}
               placeholder={
                 isReply
-                  ? "Write your response..."
-                  : "Tell us about your experience"
+                  ? t("Напишите ваш ответ...", "اكتب ردك...", "Write your response...")
+                  : t("Расскажите о вашем опыте", "أخبرنا عن تجربتك", "Tell us about your experience")
               }
               {...register("comment")}
             />
           </div>
           <div className={scss.btn}>
             <button type="submit" className={scss.sendButton}>
-              Send
+              {t("Отправить", "إرسال", "Send")}
             </button>
             <button type="button" className={scss.sendButton} onClick={onClose}>
-              cancel
+              {t("Отмена", "إلغاء", "Cancel")}
             </button>
           </div>
         </form>

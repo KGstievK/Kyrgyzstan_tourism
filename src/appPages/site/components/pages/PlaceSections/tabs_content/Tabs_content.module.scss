@@ -4,10 +4,10 @@
   align-items: center;
   gap: 30px;
   margin-bottom: 30px;
+  overflow-x: auto;
   @media (max-width: 835px) {
     width: 100%;
     max-width: 670px;
-    overflow-x: auto;
     white-space: nowrap;
   }
 

@@ -11,6 +11,7 @@ import Image from "next/image";
 import ReviewModal from "../statisticColumn/reviewModal/ReviewModal";
 import { ImageModal } from "../../imageModal/ImageModal";
 import { REVIEWS } from "@/redux/api/reviews/types";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface ReviewsColumnProps {
   entityType: string;
@@ -25,6 +26,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
   reviewStatic,
   isTab,
 }) => {
+  const {t} = useTranslate()
   const [isShow, setIsShow] = useState(false);
   const [dataReviews, setDataReviews] = useState<REVIEWS.Review[]>([]);
   const [ratingFilter, setRatingFilter] = useState<string | undefined>();
@@ -121,7 +123,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
           <input
             onChange={(e) => setSearchFilter(e.target.value)}
             type="text"
-            placeholder="Search"
+            placeholder={t("Поиск", "بحث", "Search")}
             className={styles.searchInput}
           />
         </div>
@@ -129,7 +131,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
           onClick={() => setIsShow(!isShow)}
           className={styles.buttonSecondary}
         >
-          Filters
+          {t("Фильтры", "تصفية", "Filters")}
         </button>
       </div>
       {isShow && (
@@ -166,6 +168,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                                 height={isMobile ? 40 : 47}
                                 style={{
                                   objectFit: "cover",
+                                  height: "100%"
                                 }}
                                 unoptimized={true}
                               />
@@ -238,20 +241,20 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
               className={styles.replyButton}
               onClick={() => handleReplyClick(review.id)}
             >
-              Reply
+              {t("Ответить", "الرد", "Reply")}
             </button>
 
             {review.replyReviews && review.replyReviews.length > 0 && (
               <div
                 className={styles.spaceY6}
                 style={{
-                  padding: isMobile ? "15px 0 0 0" : "20px 0 0 0",
+                  padding: isMobile ? "0px 0 0 0" : "0px 0 0 0",
                 }}
               >
                 {review.replyReviews.map((el) => (
                   <div
                     key={el.id}
-                    className={styles.reviewCard}
+                    className={styles.reviewCard }
                     style={{
                       padding: isMobile ? "0 0 10px 20px" : "0 0 10px 50px",
                       margin: isMobile ? "0 0 5px 0" : "0 0 10px 0",
@@ -279,6 +282,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                                         height={isMobile ? 40 : 47}
                                         style={{
                                           objectFit: "cover",
+                                          height: "100%"
                                         }}
                                         unoptimized={true}
                                       />

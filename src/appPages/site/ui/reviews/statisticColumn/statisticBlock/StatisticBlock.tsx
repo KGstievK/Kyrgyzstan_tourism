@@ -1,6 +1,8 @@
 import { FC } from "react";
 import styles from "../../Reviews.module.scss";
 import Stars from "../../../stars/Stars";
+import { REVIEWS } from "@/redux/api/reviews/types";
+import useTranslate from "@/appPages/site/hooks/translate/translate";
 
 interface StatisticBlockProps {
   reviewStatic?: REVIEWS.StaticReview;
@@ -8,13 +10,13 @@ interface StatisticBlockProps {
 
 const StatisticBlock: FC<StatisticBlockProps> = ({ reviewStatic }) => {
   const totalCount = reviewStatic?.ratingCount || 0;
-
+  const {t} = useTranslate()
   const ratingStats = [
-    { label: "Excellent", count: reviewStatic?.excellent || 0 },
-    { label: "Good", count: reviewStatic?.good || 0 },
-    { label: "Not Bad", count: reviewStatic?.notBad || 0 },
-    { label: "Bad", count: reviewStatic?.bad || 0 },
-    { label: "Terribly", count: reviewStatic?.terribly || 0 },
+    { label: t("Отлично", "ممتاز", "Excellent"), count: reviewStatic?.excellent || 0 },
+    { label: t("Хорошо", "جيد", "Good"), count: reviewStatic?.good || 0 },
+    { label: t("Неплохо", "ليس سيئاً", "Not Bad"), count: reviewStatic?.notBad || 0 },
+    { label: t("Плохо", "سيء", "Bad"), count: reviewStatic?.bad || 0 },
+    { label: t("Ужасно", "سيء للغاية", "Terribly"), count: reviewStatic?.terribly || 0 },
   ];
   const ratingStatsWithPercentage = ratingStats.map((stat) => ({
     ...stat,
@@ -27,7 +29,7 @@ const StatisticBlock: FC<StatisticBlockProps> = ({ reviewStatic }) => {
           {reviewStatic?.avgRating || 0}
         </span>
         <Stars rating={reviewStatic?.avgRating || 0} width={16} height={16} />
-        <div className={styles.ratingCount}>{totalCount} reviews</div>
+        <div className={styles.ratingCount}>{totalCount} {t("Отзывы", "التقييمات", "Reviews")}</div>
       </div>
 
       <div className={styles.ratingBarContainer}>

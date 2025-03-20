@@ -6,12 +6,14 @@ import {
   useGetFavoriteQuery,
   usePostFavoriteMutation,
 } from "@/redux/api/regions";
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 
 interface LikePostProps {
   postId: number;
+  hotel?: boolean;
 }
 
-const LikeHotel: FC<LikePostProps> = ({ postId }) => {
+const LikeHotel: FC<LikePostProps> = ({ postId, hotel = false }) => {
   const [postFavorite] = usePostFavoriteMutation();
   const [deleteFavorite] = useDeleteFavoriteMutation();
   const { data, refetch } = useGetFavoriteQuery();
@@ -40,6 +42,12 @@ const LikeHotel: FC<LikePostProps> = ({ postId }) => {
       console.error("❌ Ошибка при изменении избранного:", error);
     }
   };
+  if (hotel) {
+    return <>
+      {isLiked ? <HeartFilled onClick={toggleLike} style={{ color: "red", fontSize: "clamp(20px,3vw,35px)"}}   /> : <HeartOutlined onClick={toggleLike} style={{ fontSize: "clamp(20px,3vw,35px)"}} />}
+      
+    </>;
+  }
 
   return (
     <div className={scss.heart} onClick={toggleLike}>

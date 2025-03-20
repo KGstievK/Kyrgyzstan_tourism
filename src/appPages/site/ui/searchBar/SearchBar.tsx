@@ -15,8 +15,7 @@ interface SearchBarProps {
   setPointACoords: (coords: { lat: number; lng: number } | null) => void;
   setPointBCoords: (coords: { lat: number; lng: number } | null) => void;
   onSearch: () => void;
-  autocompleteA: React.MutableRefObject<google.maps.places.Autocomplete | null>;
-  autocompleteB: React.MutableRefObject<google.maps.places.Autocomplete | null>;
+
   setModalWindowTime?: (boolean: boolean) => void;
   fromMap?: boolean;
   navigateToRoutes?: boolean;
@@ -40,8 +39,7 @@ export default function SearchBar({
   setPointACoords,
   setPointBCoords,
   onSearch,
-  autocompleteA,
-  autocompleteB,
+
   setModalWindowTime,
   fromMap = false,
   navigateToRoutes = false,

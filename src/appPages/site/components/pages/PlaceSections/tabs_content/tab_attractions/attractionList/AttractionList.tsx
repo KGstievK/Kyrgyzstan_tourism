@@ -1,45 +1,32 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
 import scss from "./AttractionList.module.scss";
 import Stars from "@/appPages/site/ui/stars/Stars";
-import { useGetAttractionsQuery } from "@/redux/api/home";
-import { ImageOff, MapPin, Loader } from "lucide-react";
+import { ImageOff } from "lucide-react";
 import LikeAttraction from "./LikeAttraction";
+import { HOME } from "@/redux/api/home/types";
 
 interface AttractionsProps {
   isCurrent: number | null;
   setIsCurrent: (id: number | null) => void;
+  attractionsInPlace: HOME.AttractionsResponse
 }
 
 const ITEMS_PER_PAGE = 4;
 
-const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
+const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent, attractionsInPlace }) => {
   const { t } = useTranslate();
   const [isLimit, setIsLimit] = useState<number>(1);
   const [imgErrors, setImgErrors] = useState<{ [key: number]: boolean }>({});
-  const { data: attractions = [], isLoading, error } = useGetAttractionsQuery();
-  const pathName = usePathname();
-  const routeID: number = Number(pathName.split("/")[2]);
+
 
   // Handle image error for specific attraction
   const handleImageError = (id: number) => {
     setImgErrors((prev) => ({ ...prev, [id]: true }));
   };
 
-  // Фильтруем достопримечательности по текущему месту
-  const attractionsInPlace = attractions.filter(
-    (el) => el.popular_places === routeID
-  );
 
-  // Устанавливаем первый элемент при загрузке, если currentId еще не задан
-  useEffect(() => {
-    if (attractionsInPlace.length > 0 && isCurrent === null) {
-      const firstAttractionId = attractionsInPlace[0].id;
-      setIsCurrent(firstAttractionId);
-    }
-  }, [attractionsInPlace, isCurrent, setIsCurrent]);
 
   // Пагинация
   const paginateArray = <T,>(arr: T[], pageSize: number): T[][] => {
@@ -52,76 +39,7 @@ const AttractionList: FC<AttractionsProps> = ({ setIsCurrent, isCurrent }) => {
     );
   };
 
-  // Loading scenario
-  if (isLoading) {
-    return (
-      <div className={scss.attractions}>
-        <div className={scss.attractions_title}>
-          <h4>
-            {t(
-              "Лучшие достопримечательности поблизости",
-              "أفضل المعالم القريبة",
-              "The best attractions nearby"
-            )}
-          </h4>
-        </div>
-        <div className={scss.noAttractionsContainer}>
-          <Loader size={48} className={scss.loadingSpinner} />
-          <p>{t("Загрузка...", "جار التحميل...", "Loading...")}</p>
-        </div>
-      </div>
-    );
-  }
 
-  // Error scenario
-  if (error) {
-    return (
-      <div className={scss.attractions}>
-        <div className={scss.attractions_title}>
-          <h4>
-            {t(
-              "Лучшие достопримечательности поблизости",
-              "أفضل المعالم القريبة",
-              "The best attractions nearby"
-            )}
-          </h4>
-        </div>
-        <div className={scss.noAttractionsContainer}>
-          <ImageOff size={48} />
-          <p>
-            {t(
-              "Ошибка загрузки данных",
-              "خطأ في تحميل البيانات",
-              "Error loading data"
-            )}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Если нет достопримечательностей
-  if (attractionsInPlace.length === 0) {
-    return (
-      <div className={scss.attractions}>
-        <div className={scss.attractions_title}>
-          <h4>
-            {t(
-              "Лучшие достопримечательности поблизости",
-              "أفضل المعالم القريبة",
-              "The best attractions nearby"
-            )}
-          </h4>
-        </div>
-        <div className={scss.noAttractionsContainer}>
-          <MapPin size={48} />
-          <p>
-            {t("Нет достопримечательностей", "لا توجد معالم", "No attractions")}
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   // Рендерим элементы списка
   const renderAttractionItem = attractionsInPlace.map((el, i) => (

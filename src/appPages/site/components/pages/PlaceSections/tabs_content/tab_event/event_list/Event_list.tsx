@@ -1,8 +1,7 @@
 import eventImg from "@/assets/images/placeImages/eventicon.png";
 import scss from "./Event_list.module.scss";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import { FC, useState } from "react";
-import React from "react";
+import { FC, useState, useRef, useEffect } from "react";
 import { Ticket, ImageOff, Calendar, Loader } from "lucide-react";
 import Image from "next/image";
 import { PLACE } from "@/redux/api/place/types";
@@ -20,7 +19,6 @@ interface Props {
   error?: unknown;
 }
 
-// Константа с категориями, которая будет использоваться для маппинга
 const CATEGORIES = [
   { ru: "Концерт", ar: "حفلة موسيقية", en: "Concert" },
   { ru: "Кино", ar: "سينما", en: "Cinema" },
@@ -38,38 +36,53 @@ const Event_list: FC<Props> = ({
   ticket,
   setIsDate,
   isLoading,
-  error
+  error,
 }) => {
   const { t } = useTranslate();
   const [isDropDown, setIsDropDown] = useState(false);
-  const [imgErrors, setImgErrors] = useState<{[key: number]: boolean}>({});
-  
-  // Отслеживаем выбранную категорию на английском для API
+  const [imgErrors, setImgErrors] = useState<{ [key: number]: boolean }>({});
   const [selectedCategoryEn, setSelectedCategoryEn] = useState<string>("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const categoryItemRef = useRef<HTMLDivElement>(null); // Реф для "Категории"
+
+  // Обработчик клика вне дропдауна
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target) &&
+        categoryItemRef.current &&
+        !categoryItemRef.current.contains(target) // Исключаем "Категории"
+      ) {
+        console.log("Click outside detected, closing dropdown");
+        setIsDropDown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownRef, categoryItemRef]); // Добавили categoryItemRef в зависимости
 
   const handleImageError = (index: number) => {
-    setImgErrors(prev => ({...prev, [index]: true}));
+    setImgErrors((prev) => ({ ...prev, [index]: true }));
   };
 
-  // Функция для установки категории
-  // Всегда сохраняет английское название категории для API, но отображает на текущем языке
   const handleCategorySelect = (categoryObject: typeof CATEGORIES[0]) => {
-    // Если категория уже выбрана, сбрасываем её
     if (selectedCategoryEn === categoryObject.en) {
       setSelectedCategoryEn("");
-      setCategory(""); // Сбрасываем категорию в API
+      setCategory("");
     } else {
       setSelectedCategoryEn(categoryObject.en);
-      setCategory(categoryObject.en); // Отправляем английское название в API
+      setCategory(categoryObject.en);
     }
+    setIsDropDown(false);
   };
-  
-  // Функция для проверки, выбрана ли категория
+
   const isCategorySelected = (categoryObject: typeof CATEGORIES[0]) => {
     return selectedCategoryEn === categoryObject.en;
   };
 
-  // Функция сброса всех фильтров
   const resetFilters = () => {
     setSelectedCategoryEn("");
     setCategory("");
@@ -77,7 +90,17 @@ const Event_list: FC<Props> = ({
     setIsDate("");
   };
 
-  // Error scenario
+  // Обработчик клика на "Категории"
+  const handleToggleDropdown = () => {
+    console.log("Before toggle: isDropDown =", isDropDown);
+    if (isDropDown) {
+      setIsDropDown(false);
+    } else {
+      setIsDropDown(true);
+    }
+    console.log("After toggle: isDropDown =", !isDropDown);
+  };
+
   if (error) {
     return (
       <>
@@ -93,7 +116,6 @@ const Event_list: FC<Props> = ({
           >
             {t("Все", "الكل", "All")}
           </div>
-          {/* Остальные фильтры */}
         </div>
         <div className={scss.noEventsContainer}>
           <ImageOff size={48} />
@@ -103,7 +125,6 @@ const Event_list: FC<Props> = ({
     );
   }
 
-  // Loading scenario
   if (isLoading) {
     return (
       <>
@@ -119,10 +140,9 @@ const Event_list: FC<Props> = ({
           >
             {t("Все", "الكل", "All")}
           </div>
-          {/* Остальные фильтры */}
         </div>
         <div className={scss.noEventsContainer}>
-          <Loader size={48} className={scss.loadingSpinner}/>
+          <Loader size={48} className={scss.loadingSpinner} />
           <p>{t("Загрузка...", "جار التحميل...", "Loading...")}</p>
         </div>
       </>
@@ -144,7 +164,11 @@ const Event_list: FC<Props> = ({
           {t("Все", "الكل", "All")}
         </div>
 
-        <div className={scss.item} onClick={() => setIsDropDown(!isDropDown)}>
+        <div
+          ref={categoryItemRef}
+          className={scss.item}
+          onClick={handleToggleDropdown}
+        >
           {t("Категории", "فئات", "Categories")}
           <span
             style={{
@@ -158,9 +182,8 @@ const Event_list: FC<Props> = ({
 
           <div
             className={scss.dropDown}
-            style={
-              isDropDown ? undefined : { opacity: 0, pointerEvents: "none" }
-            }
+            style={isDropDown ? undefined : { opacity: 0, pointerEvents: "none" }}
+            ref={dropdownRef}
           >
             <svg
               className={scss.close}
@@ -218,8 +241,7 @@ const Event_list: FC<Props> = ({
           {t("Только билеты", "تذاكر فقط", "Only tickets")}
         </div>
       </div>
-      
-      {/* Empty data scenario */}
+
       {(!data || data.length === 0) ? (
         <div className={scss.noEventsContainer}>
           <Calendar size={48} />
@@ -236,33 +258,26 @@ const Event_list: FC<Props> = ({
                     <p>{t("Изображение не найдено", "الصورة غير موجودة", "Image not found")}</p>
                   </div>
                 ) : (
-                  <Image 
-                    src={el.image} 
-                    alt={el.title || ""} 
+                  <Image
+                    src={el.image}
+                    alt={el.title || ""}
                     width={400}
                     height={300}
                     style={{ objectFit: "cover" }}
-                    onError={() => handleImageError(i)} 
+                    onError={() => handleImageError(i)}
                   />
                 )}
                 <div className={scss.eventTabs}>
-                  <div className="">
-                    <Image 
-                      src={eventImg.src} 
-                      alt="Event icon" 
-                      width={24}
-                      height={24}
-                    />
+                  <div>
+                    <Image src={eventImg.src} alt="Event icon" width={24} height={24} />
                   </div>
                   {el.ticket && (
                     <div>
                       <Ticket />
-                      {t("билеты","تذاكر ","Tickets")}
+                      {t("билеты", "تذاكر ", "Tickets")}
                     </div>
                   )}
-                  <div key={el.category.id} className="">
-                    {el.category.category}
-                  </div>
+                  <div key={el.category.id}>{el.category.category}</div>
                 </div>
               </div>
               <div className={scss.info}>

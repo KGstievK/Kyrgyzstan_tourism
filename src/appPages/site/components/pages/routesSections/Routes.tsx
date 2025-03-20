@@ -54,8 +54,6 @@ const Routes = () => {
   // Флаг для отслеживания первого рендера
   const isFirstRender = useRef(true);
 
-  const autocompleteA = useRef<google.maps.places.Autocomplete | null>(null);
-  const autocompleteB = useRef<google.maps.places.Autocomplete | null>(null);
 
   // Функция для поиска маршрута без вызова refetch (для первого рендера)
   // Обернем функцию в useCallback для предотвращения лишних ререндеров
@@ -243,8 +241,6 @@ const Routes = () => {
                 setPointACoords={setPointACoords}
                 setPointBCoords={setPointBCoords}
                 onSearch={handleSearch}
-                autocompleteA={autocompleteA}
-                autocompleteB={autocompleteB}
                 setModalWindowTime={setModalWindowTime}
               />
             </div>
