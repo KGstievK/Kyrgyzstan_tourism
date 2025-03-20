@@ -78,7 +78,7 @@ const SignUpPage: FC = () => {
       <h2>Создать аккаунт</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          type="text"
+          type="email"
           {...register("email", { required: "Email обязателен" })}
           placeholder="Email"
         />

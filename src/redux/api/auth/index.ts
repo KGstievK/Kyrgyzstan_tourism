@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { api as index } from "..";
 
 const api = index.injectEndpoints({

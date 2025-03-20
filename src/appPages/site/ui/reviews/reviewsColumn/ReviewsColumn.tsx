@@ -40,30 +40,21 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
     month: monthFilter,
     search: searchFilter,
   });
-  const {status} = useGetMeQuery()
-  const router = useRouter()
+  const { status } = useGetMeQuery();
+  const router = useRouter();
   const [showReplyModal, setShowReplyModal] = useState(false);
-  const [selectedReviewId, setSelectedReviewId] = useState<
-    number | undefined
-  >();
-  // Добавляем состояние для отслеживания мобильной версии
+  const [selectedReviewId, setSelectedReviewId] = useState<number | undefined>();
   const [isMobile, setIsMobile] = useState(false);
+  const [visibleReviews, setVisibleReviews] = useState(3); // Состояние для отслеживания количества отображаемых отзывов
 
-  // Добавляем прослушиватель изменения размера окна
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 480);
     };
-    
-    // Проверяем при монтировании
     checkIfMobile();
-    
-    // Добавляем слушатель событий
-    window.addEventListener('resize', checkIfMobile);
-    
-    // Удаляем слушатель при размонтировании
+    window.addEventListener("resize", checkIfMobile);
     return () => {
-      window.removeEventListener('resize', checkIfMobile);
+      window.removeEventListener("resize", checkIfMobile);
     };
   }, []);
 
@@ -72,7 +63,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       setSelectedImage(selectedImage - 1);
     }
   };
-  
+
   const handleNext = () => {
     if (selectedImage !== null && selectedReviewIndex !== null) {
       const maxIndex = dataReviews[selectedReviewIndex]?.reviewImages.length - 1 || 0;
@@ -81,13 +72,13 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       }
     }
   };
-  
+
   useEffect(() => {
     if (reviewsData) {
       const filteredReviews = reviewsData.filter((review) => {
         return String(review.entityId) === String(isCurrent);
       });
- 
+
       const sortedReviews = filteredReviews.sort((a, b) => {
         const dateA = new Date(a.createdAt).getTime();
         const dateB = new Date(b.createdAt).getTime();
@@ -107,18 +98,22 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
 
   const handleReplyClick = (reviewId: number) => {
     if (status === "rejected") {
-      router.push('/auth/sign-in')
+      router.push("/auth/sign-in");
     } else if (status === "fulfilled") {
-    setSelectedReviewId(reviewId);
-    setShowReplyModal(true);
+      setSelectedReviewId(reviewId);
+      setShowReplyModal(true);
     }
   };
 
-  // Обработчик ошибок загрузки изображений
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
     target.src = "https://placehold.co/600x400/e0e0e0/969696?text=Image+Not+Found";
     target.alt = "Image not available";
+  };
+
+  // Функция для загрузки дополнительных отзывов
+  const loadMoreReviews = () => {
+    setVisibleReviews((prev) => prev + 3);
   };
 
   return (
@@ -133,10 +128,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
             className={styles.searchInput}
           />
         </div>
-        <button
-          onClick={() => setIsShow(!isShow)}
-          className={styles.buttonSecondary}
-        >
+        <button onClick={() => setIsShow(!isShow)} className={styles.buttonSecondary}>
           Filters
         </button>
       </div>
@@ -149,14 +141,8 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
       )}
 
       <div className={styles.spaceY6}>
-        {dataReviews.map((review, reviewIndex) => (
-          <div
-            key={review.id}
-            className={styles.reviewCard}
-            style={{
-              padding: "0",
-            }}
-          >
+        {dataReviews.slice(0, visibleReviews).map((review, reviewIndex) => (
+          <div key={review.id} className={styles.reviewCard} style={{ padding: "0" }}>
             <div className={`${styles.itemsCenter} ${styles.gap3}`}>
               <div className={styles.avatarContainer}>
                 <div className={styles.avatarBlock}>
@@ -166,15 +152,13 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                         size={isMobile ? 40 : 47}
                         icon={
                           review.client.user_picture ? (
-                            <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden' }}>
+                            <div style={{ width: "100%", height: "100%", borderRadius: "50%", overflow: "hidden" }}>
                               <Image
                                 src={review.client.user_picture}
                                 alt="avatar"
                                 width={isMobile ? 40 : 47}
                                 height={isMobile ? 40 : 47}
-                                style={{
-                                  objectFit: "cover",
-                                }}
+                                style={{ objectFit: "cover" }}
                                 unoptimized={true}
                               />
                             </div>
@@ -208,18 +192,14 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                     <Image
                       onClick={() => {
                         setSelectedReviewIndex(reviewIndex);
-                        setSelectedImage(
-                          review.reviewImages.findIndex(
-                            (el) => el.id === image.id
-                          )
-                        );
+                        setSelectedImage(review.reviewImages.findIndex((el) => el.id === image.id));
                       }}
                       src={image.image}
                       alt={`Review image ${index + 1}`}
                       className={styles.reviewImage}
                       width={isMobile ? 150 : 150}
                       height={120}
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: "cover" }}
                       onError={handleImageError}
                       unoptimized={true}
                     />
@@ -242,20 +222,12 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
               />
             )}
 
-            <button
-              className={styles.replyButton}
-              onClick={() => handleReplyClick(review.id)}
-            >
+            <button className={styles.replyButton} onClick={() => handleReplyClick(review.id)}>
               Reply
             </button>
 
             {review.replyReviews && review.replyReviews.length > 0 && (
-              <div
-                className={styles.spaceY6}
-                style={{
-                  padding: isMobile ? "15px 0 0 0" : "20px 0 0 0",
-                }}
-              >
+              <div className={styles.spaceY6} style={{ padding: isMobile ? "15px 0 0 0" : "20px 0 0 0" }}>
                 {review.replyReviews.map((el) => (
                   <div
                     key={el.id}
@@ -266,12 +238,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                     }}
                   >
                     <div className={`${styles.itemsCenter} ${styles.gap3}`}>
-                      <div
-                        className={styles.avatarContainer}
-                        style={{
-                          margin: "0",
-                        }}
-                      >
+                      <div className={styles.avatarContainer} style={{ margin: "0" }}>
                         <div className={styles.avatarBlock}>
                           <Space direction="vertical" size={isMobile ? 15 : 20}>
                             <Space wrap size={isMobile ? 15 : 20}>
@@ -279,15 +246,13 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                                 size={isMobile ? 40 : 47}
                                 icon={
                                   el.user.user_picture ? (
-                                    <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden' }}>
+                                    <div style={{ width: "100%", height: "100%", borderRadius: "50%", overflow: "hidden" }}>
                                       <Image
                                         src={el.user.user_picture}
                                         alt="avatar"
                                         width={isMobile ? 40 : 47}
                                         height={isMobile ? 40 : 47}
-                                        style={{
-                                          objectFit: "cover",
-                                        }}
+                                        style={{ objectFit: "cover" }}
                                         unoptimized={true}
                                       />
                                     </div>
@@ -317,7 +282,7 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
                       style={{
                         margin: isMobile ? "8px 0 0 0" : "0",
                         fontSize: isMobile ? "14px" : "inherit",
-                        lineHeight: isMobile ? "20px" : "inherit"
+                        lineHeight: isMobile ? "20px" : "inherit",
                       }}
                     >
                       {el.comment}
@@ -329,6 +294,12 @@ const ReviewsColumn: FC<ReviewsColumnProps> = ({
           </div>
         ))}
       </div>
+
+      {visibleReviews < dataReviews.length && (
+        <button onClick={loadMoreReviews} className={styles.showMoreButton}>
+          Show More 
+        </button>
+      )}
 
       {showReplyModal && (
         <ReviewModal
