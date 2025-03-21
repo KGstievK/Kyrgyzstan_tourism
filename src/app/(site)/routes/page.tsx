@@ -1,3 +1,4 @@
+"use client"
 import Routes from '@/appPages/site/components/pages/routesSections/Routes';
 import React from 'react';
 

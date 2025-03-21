@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import scss from "./Routes.module.scss";
 import Talas from "../../../../../assets/images/routesImages/Talas.png";
@@ -54,31 +53,34 @@ const Routes = () => {
   // Флаг для отслеживания первого рендера
   const isFirstRender = useRef(true);
 
-
-  // Функция для поиска маршрута без вызова refetch (для первого рендера)
-  // Обернем функцию в useCallback для предотвращения лишних ререндеров
   const handleSearchWithoutRefetch = useCallback(() => {
     if (!pointACoords || !pointBCoords) return;
 
     setIsSearched(true);
 
-    // Используем DirectionsService для получения маршрута
-    const directionsService = new google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: pointACoords,
-        destination: pointBCoords,
-        travelMode: google.maps.TravelMode.WALKING,
-        region: "KG",
-      },
-      (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK && result) {
-          setDirections(result);
-        } else {
-          console.error("Failed to fetch directions:", status);
-        }
+    // Проверяем, что мы на клиенте и Google Maps API доступен
+    if (typeof window !== 'undefined' && window.google) {
+      try {
+        const directionsService = new google.maps.DirectionsService();
+        directionsService.route(
+          {
+            origin: pointACoords,
+            destination: pointBCoords,
+            travelMode: google.maps.TravelMode.WALKING,
+            region: "KG",
+          },
+          (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK && result) {
+              setDirections(result);
+            } else {
+              console.error("Failed to fetch directions:", status);
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Error using Google Maps API:", error);
       }
-    );
+    }
   }, [pointACoords, pointBCoords]); // Указываем зависимости
 
   // Инициализируем координаты из параметров URL
@@ -187,7 +189,10 @@ const Routes = () => {
 
         // Если у нас есть координаты из URL, запускаем поиск маршрута
         if (searchParams?.has("pointALat")) {
-          handleSearchWithoutRefetch();
+          // Откладываем выполнение, чтобы убедиться, что Google Maps API загружен
+          setTimeout(() => {
+            handleSearchWithoutRefetch();
+          }, 100);
         }
       }
     }
@@ -206,23 +211,29 @@ const Routes = () => {
       refetchTrain();
     }
 
-    // Используем DirectionsService для получения маршрута
-    const directionsService = new google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: pointACoords,
-        destination: pointBCoords,
-        travelMode: google.maps.TravelMode.WALKING,
-        region: "KG",
-      },
-      (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK && result) {
-          setDirections(result);
-        } else {
-          console.error("Failed to fetch directions:", status);
-        }
+    // Проверяем, что мы на клиенте и Google Maps API доступен
+    if (typeof window !== 'undefined' && window.google) {
+      try {
+        const directionsService = new google.maps.DirectionsService();
+        directionsService.route(
+          {
+            origin: pointACoords,
+            destination: pointBCoords,
+            travelMode: google.maps.TravelMode.WALKING,
+            region: "KG",
+          },
+          (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK && result) {
+              setDirections(result);
+            } else {
+              console.error("Failed to fetch directions:", status);
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Error using Google Maps API:", error);
       }
-    );
+    }
   }, [pointACoords, pointBCoords, refetchWalk, refetchCar, refetchTrain]);
 
   return (

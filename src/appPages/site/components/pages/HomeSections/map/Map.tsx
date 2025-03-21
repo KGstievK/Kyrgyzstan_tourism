@@ -21,10 +21,6 @@ const Map = () => {
     lng: number;
   } | null>(null);
 
-  // Refs для автозаполнения
-  const autocompleteA = useRef(null);
-  const autocompleteB = useRef(null);
-
   // Эта функция не будет использоваться напрямую, так как мы передаем флаги в SearchBar
   const handleSearch = useCallback(() => {
     // SearchBar будет самостоятельно обрабатывать переход на страницу маршрутов
@@ -47,8 +43,6 @@ const Map = () => {
               setPointACoords={setPointACoords}
               setPointBCoords={setPointBCoords}
               onSearch={handleSearch}
-              autocompleteA={autocompleteA}
-              autocompleteB={autocompleteB}
               fromMap={true}
               navigateToRoutes={true}
             />
