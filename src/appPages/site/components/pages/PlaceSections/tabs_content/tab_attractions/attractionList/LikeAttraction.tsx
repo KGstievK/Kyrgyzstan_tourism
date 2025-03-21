@@ -6,6 +6,9 @@ import {
   useGetFavoriteQuery,
   usePostFavoriteMutation,
 } from "@/redux/api/regions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useGetMeQuery } from "@/redux/api/auth";
 
 interface LikePostProps {
   postId: number;
@@ -16,6 +19,7 @@ const LikeAttraction: FC<LikePostProps> = ({ postId }) => {
   const [deleteFavorite] = useDeleteFavoriteMutation();
   const { data, refetch } = useGetFavoriteQuery();
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const { data: user } = useGetMeQuery();
 
   useEffect(() => {
     if (data && Array.isArray(data)) {
@@ -24,6 +28,12 @@ const LikeAttraction: FC<LikePostProps> = ({ postId }) => {
   }, [data, postId]);
 
   const toggleLike = async () => {
+    if (!user) {
+      toast.warn("📌 Register or log in to add to favorites!", {
+        className: scss["warning-toast"],
+      });
+      return;
+    }
     try {
       if (!data || !Array.isArray(data)) return;
 
@@ -45,6 +55,16 @@ const LikeAttraction: FC<LikePostProps> = ({ postId }) => {
 
   return (
     <div className={scss.heart} onClick={toggleLike}>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+        toastStyle={{ borderRadius: "8px", padding: "10px" }}
+      />
       {isLiked ? (
         <FaHeart className={scss.heartIconRed} />
       ) : (

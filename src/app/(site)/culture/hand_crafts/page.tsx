@@ -1,8 +1,8 @@
 "use client";
-import Hand_crafts from "@/appPages/site/components/pages/CultureSections/Hand_crafts/Hand_crafts";
-// import Hand_crafts from "@/appPages/site/components/pages/CultureSections/hand_crafts/Hand_crafts";
+
+import HandCrafts from "@/appPages/site/components/pages/CultureSections/HandCrafts/HandCrafts";
 import React from "react";
 
-const page = () => <Hand_crafts />;
+const page = () => <HandCrafts />;
 
 export default page;

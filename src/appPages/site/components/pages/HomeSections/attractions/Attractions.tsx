@@ -1,6 +1,6 @@
 "use client";
 import useTranslate from "@/appPages/site/hooks/translate/translate";
-import scss from "./Attractions.module.scss";
+import scss from "./attractions.module.scss";
 import imgRight from "@/assets/images/regions/Arrow_alt_lright.png";
 import imgNone from "@/assets/images/universalImage/none.png";
 import Link from "next/link";
@@ -9,11 +9,12 @@ import { useGetAttractionsQuery } from "@/redux/api/home";
 import Image from "next/image";
 import { useState } from "react";
 import LikePost from "../../regionSections/places/LikePost";
+import LikeAttraction from "../../PlaceSections/tabs_content/tab_attractions/attractionList/LikeAttraction";
 
 const Attractions = () => {
   const { t } = useTranslate();
   const SLICES_DATA = 6;
-  const { data } = useGetAttractionsQuery(); // Удалены неиспользуемые переменные isLoading и isError
+  const { data } = useGetAttractionsQuery();
   const AttractionDataList = data?.slice(0, SLICES_DATA);
 
   const textSlice = (text: string) => text.slice(0, 266);
@@ -53,8 +54,7 @@ const Attractions = () => {
                   </div>
                   <p className={scss.descr}>{textSlice(place.description)}</p>
                 </div>
-                <LikePost postId={place.id} />
-
+                <LikeAttraction postId={place.id} />
                 <Link
                   onClick={() => {
                     sessionStorage.setItem("tab", "4");
