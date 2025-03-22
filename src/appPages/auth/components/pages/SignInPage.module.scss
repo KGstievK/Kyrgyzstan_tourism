@@ -54,6 +54,42 @@
       font-weight: 500;
       line-height: 26px;
     }
+    .castomInput {
+      width: 100%;
+      padding: 14px 15px;
+      background-color: transparent;
+      border-radius: 10px;
+      border: 2px solid var(--input);
+      font-family: "Inter", sans-serif;
+      font-size: clamp(14px, 2vw, 20px);
+      font-weight: 500;
+      line-height: 26px;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: var(--input);
+      }
+      &:hover {
+        outline: none;
+        box-shadow: none;
+        border-color: var(--input);
+      }
+
+      .ant-input-number {
+        width: 100%;
+        border: none;
+        background-color: transparent;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      .ant-input-number-input {
+        padding: 0;
+      }
+    }
     .links {
       width: 100%;
       display: flex;

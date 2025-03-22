@@ -1,7 +1,7 @@
 "use client";
 import scss from "./SignInPage.module.scss";
 import { usePostLoginMutation } from "@/redux/api/auth";
-import { ConfigProvider, Switch } from "antd";
+import { ConfigProvider, Input, Switch } from "antd";
 import Link from "next/link";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -66,10 +66,10 @@ const SignInPage: FC = () => {
           {errors.password && (
             <span className={scss.error}>{errors.password.message}</span>
           )}
-        <input
-          type="password"
-          placeholder="Password"
-          {...register("password", { required: "Введите пароль" })}
+         <Input.Password
+          className={scss.castomInput}
+          {...register("password", { required: "Пароль обязателен" })}
+          placeholder="Пароль"
         />
         <div className={scss.links}>
           <div className={scss.Remember}>
