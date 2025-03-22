@@ -1,12 +1,9 @@
-// import Image from "next/image";
 import scss from "./ForgotPage.module.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePostForgotPasswordMutation } from "@/redux/api/auth";
-// import { useState } from "react";
-// import logo from "@/assets/icons/logo.svg";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-// import { useRouter } from "next/router";
 
 const ForgotPage = () => {
   const {

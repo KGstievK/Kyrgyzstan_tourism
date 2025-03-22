@@ -41,7 +41,6 @@ const SignUpPage: FC = () => {
       return;
     }
 
-    // Объединяем код страны и номер телефона
     const fullPhoneNumber = `${countryCode}${userData.phone_number}`;
 
     const dataRegistr = {
@@ -155,15 +154,15 @@ const SignUpPage: FC = () => {
                     Select: {
                       colorPrimary: "#407EC7",
                       colorBorder: "#transparent",
-                      controlOutline: "none", // Убираем outline
-                      controlItemBgHover: "transparent", // Убираем фон при наведении
-                      controlItemBgActive: "transparent", // Убираем фон при активации
+                      controlOutline: "none",
+                      controlItemBgHover: "transparent",
+                      controlItemBgActive: "transparent", 
                     },
                   },
                 }}
               >
                 <Select
-                  className={scss.castomSelect} // Применяем кастомные стили
+                  className={scss.castomSelect} 
                   defaultValue="+996"
                   options={options}
                   onChange={handleCountryCodeChange}
@@ -186,7 +185,7 @@ const SignUpPage: FC = () => {
                     placeholder="XXX XXX XXX"
                     {...field}
                     onChange={(e) => {
-                      field.onChange(e.target.value); // Передаем значение в react-hook-form
+                      field.onChange(e.target.value); 
                     }}
                   />
                 )}

@@ -13,8 +13,8 @@ interface signInProps {
 
 const SignInPage: FC = () => {
   const [postLoginMutation] = usePostLoginMutation();
-  const [showModal, setShowModal] = useState(false); // Состояние для модалки
-  const [modalMessage, setModalMessage] = useState(""); // Сообщение модалки
+  const [showModal, setShowModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(""); 
   const {
     register,
     handleSubmit,
@@ -76,8 +76,8 @@ const SignInPage: FC = () => {
             <ConfigProvider
               theme={{
                 token: {
-                  colorPrimary: "407EC7", // Основной цвет
-                  colorBorder: "#000", // Цвет границы
+                  colorPrimary: "407EC7", 
+                  colorBorder: "#000",
                 },
               }}
             >
