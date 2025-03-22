@@ -46,13 +46,85 @@
     @media (max-width: 768px) {
       width: 100%;
     }
-    input {
-      width: 100%;
-      font-family: "inter", sans-serif;
+    .castomSelect {
+      height: clamp(58px, 10vw, 60px);
+      width: 100px;
+      background-color: transparent;
+      border: none;
+      border-top: 2px solid var(--input);
+      border-left: 2px solid var(--input);
+      border-bottom: 2px solid var(--input);
+      border-radius: 10px 0 0 10px;
+      font-family: "Inter", sans-serif;
       font-size: clamp(14px, 2vw, 20px);
       font-weight: 500;
       line-height: 26px;
+      // Убираем выделение при фокусе
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: var(--input); // Оставляем цвет рамки без изменений
+      }
+
+      // Убираем рамку при наведении
+      &:hover {
+        border-color: var(--input);
+      }
+
+      // Убираем рамку при активации
+      &:active {
+        border-color: var(--input);
+      }
+
+      // Убираем рамку при открытии выпадающего списка
+      &.ant-select-focused {
+        border-color: var(--input);
+        box-shadow: none;
+      }
+
+      // Переопределяем стили для ant-select-selector
+      .ant-select-selector {
+        border-color: var(--input) !important;
+        box-shadow: none !important;
+      }
     }
+    .castomInput {
+      width: 100%;
+      padding: 14px 15px;
+      background-color: transparent;
+      border-radius: 10px;
+      border: 2px solid var(--input);
+      font-family: "Inter", sans-serif;
+      font-size: clamp(14px, 2vw, 20px);
+      font-weight: 500;
+      line-height: 26px;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: var(--input);
+      }
+      &:hover {
+        outline: none;
+        box-shadow: none;
+        border-color: var(--input);
+      }
+
+      .ant-input-number {
+        width: 100%;
+        border: none;
+        background-color: transparent;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      .ant-input-number-input {
+        padding: 0;
+      }
+    }
+   
     .customCheckbox {
       display: flex;
       align-items: center;
@@ -212,4 +284,4 @@
     margin-top: 4px;
     display: block;
   }
-} 
+}

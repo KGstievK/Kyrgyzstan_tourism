@@ -2,6 +2,10 @@ import scss from "./ResetPasswordPage.module.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePostResetPasswordMutation } from "@/redux/api/auth";
 import { useRouter } from "next/navigation";
+import { Input } from "antd";
+// import { useState } from "react";
+// import logo from "@/assets/icons/logo.svg";
+// import Link from "next/link";
 
 const ResetPasswordPage = () => {
   const {
@@ -34,10 +38,10 @@ const ResetPasswordPage = () => {
       {/* <Image src={logo} alt="LOGO" /> */}
       <h1>Новый пароль</h1>
       <form onSubmit={handleSubmit(onSubmit)} className={scss.form}>
-        <input
-          type="text"
-          placeholder="Введите новый пароль"
-          {...register("new_password", { required: "Поле обязательно" })}
+        <Input.Password
+          className={scss.castomInput}
+          {...register("new_password", { required: "Пароль обязателен" })}
+          placeholder="Пароль"
         />
         {errors.new_password && (
           <p className={scss.error}>{errors.new_password.message}</p>
