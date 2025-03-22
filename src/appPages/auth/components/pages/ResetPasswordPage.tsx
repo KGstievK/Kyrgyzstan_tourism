@@ -1,11 +1,7 @@
 import scss from "./ResetPasswordPage.module.scss";
-import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePostResetPasswordMutation } from "@/redux/api/auth";
 import { useRouter } from "next/navigation";
-// import { useState } from "react";
-// import logo from "@/assets/icons/logo.svg";
-// import Link from "next/link";
 
 const ResetPasswordPage = () => {
   const {
